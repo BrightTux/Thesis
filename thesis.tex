@@ -1,0 +1,129 @@
+\documentclass{mmuthesis}
+%\newsubfloat{figure}
+
+\usepackage{lipsum}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{subcaption}
+\usepackage{enumitem}
+\usepackage[table,xcdraw]{xcolor}
+\usepackage{algorithm,algorithmic}
+
+
+
+\usepackage[x11names,dvipsnames,svgnames]{xcolor}
+%\usepackage[os=win]{menukeys}
+\usepackage{listings}
+\lstset{language=[LaTeX]TeX,columns=fullflexible,
+basicstyle=\ttfamily,texcsstyle=*\bfseries\color{NavyBlue},
+commentstyle=\itshape\color{PaleVioletRed4},
+frame=single,framesep=6pt,
+framexleftmargin=6pt,framexrightmargin=6pt,
+xleftmargin=12pt,xrightmargin=12pt,
+breaklines=true,breakatwhitespace=true}
+
+
+
+% -------------------------------------------------------------------
+% user annotations
+% -------------------------------------------------------------------
+
+% \begin{comment}
+\newcommand{\ian}[1]{\textcolor{red}{#1}}
+\newcommand{\lk}[1]{\textcolor{blue}{#1}}
+\newcommand{\js}[1]{\textcolor{magenta}{#1}}
+\newcommand{\cc}[1]{\textcolor{teal}{#1}}
+\newcommand{\rl}[1]{\textcolor{green}{#1}}
+% \end{comment}
+
+\begin{comment}
+\newcommand{\ian}[1]{}   % turn off
+\newcommand{\lk}[1]{}   % turn off
+\newcommand{\js}[1]{}   % turn off
+\newcommand{\cc}[1]{}   % turn off
+\newcommand{\rl}[1]{}   % turn off
+\end{comment}
+
+
+
+\newcommand{\versionOne}{LSH-Inspired Semantic Extraction and Retrieval Engine (Version 1) }
+\newcommand{\versionTwo}{Chamfer Distance based Semantic Extraction and Retrieval Engine (Version 2) }
+
+
+\author{Clarence Cheong Weihan}
+\title{Large Scale Extraction and Retrieval of Video Semantics for Carpark Surveillance Videos}
+\submissionyear{2018}
+\submissionmonth{August}
+\faculty{Faculty of Computing and Informatics}
+\degree{Master~of~Science (Information~Technology)}
+\qualification{B.Eng.~(Hons), Multimedia University, Malaysia\\%
+}
+
+\providecommand{\keywords}[1]{\textbf{\textit{Keywords --}} #1}
+
+% load acronym definitions from separate file
+\loadglsentries{myacronyms}
+
+\begin{document}
+
+\frontmatter
+\makecoverandtitlepage
+\copyrightpage
+\declarationpage
+
+\acknowledgements{
+Firstly, I would like to thank my wife, Jocelyn for encouraging me to take on this seemingly "less traveled road". Her unceasing support and understanding throughout this journey is precious and much appreciated. 
+
+Undeniably, this journey would not be possible without the advices, ideas and guidance provided by my supervisors, Dr. John See as well as Dr. Wong Lai Kuan. Their input certainly has sparked ideas which has been materialized in this work. Thanks you, I owe you many.
+
+Not forgetting my family and friends who supported me on this journey. My fellow church members who were encouraging me throughout my masters. Thanks a lot! 
+
+Last and not least, I would like to applaud myself and give myself some credit for putting myself out there, not being afraid to chase after goals and take on challenges that I would have never thought of. 
+}
+\dedication{To my parents, my wife, and my family.}
+
+\abstractfromfile{abstract}
+
+{\clearpage\SingleSpacing
+\tableofcontents\clearpage
+\listoftables\clearpage
+\listoffigures\clearpage}
+
+\prefacefromfile{preface}
+
+\mainmatter
+
+
+\include{1introduction}
+\include{2literature-review}
+\include{3framework-overview}
+\include{4vehicle-semantics-extraction}
+\include{5retrieval-module}
+%\include{6conclusion}
+
+
+\include{howtouse}
+\include{sample-chap-intro}
+\include{sample-chap-dummy}
+
+\appendix
+\include{sample-appen-manual}
+\include{sample-appen-try}
+
+\backmatter
+\bibliography{llt}
+
+
+
+\printglossaries
+\theendnotes
+{\SingleSpacing\printindex}
+
+\ownpubs
+\nociteconf{cheong2018vehicle,lim2017}
+%\nocitejour{Lim:Ranaivo:Tang:Polibits:2011,Lim:Ranaivo:Tang:Procedia:2011}
+%\bibliographyjour{llt}
+\bibliographyconf{llt}
+
+\end{document}

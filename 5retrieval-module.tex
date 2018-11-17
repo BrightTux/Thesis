@@ -1,0 +1,49 @@
+%!TEX ROOT = thesis.tex
+\chapter{Semantics Retrieval Engine}
+\label{section:retrievalengine}
+\section{Introduction}
+
+Traditionally, the process of finding a particular video from a huge collection is done manually. This process involves an inquirer who is looking for a particular scene or shot, and an person-in-charge who manages the CCTV video collection. In a carpark scenario, the inquirer would typically need to provide information such as time, date, color of the vehicle, vehicle registration number, and place of which an incident occurred. 
+
+Next, the person-in-charge would have to sift through hours and hours of video in order to find a distinct video shot. This process is undeniably time consuming, laborious, monotonous and tedious. While the task is potentially simpler and straightforward when there is only one video shot with clear-cut definitive time and date given, this process takes an enormous effort when the time and date is not given, or even in cases when all the video shots with similar properties are desired. 
+
+Evidently, there exist a gap which can be addressed using a well designed retrieval engine. This chapter aims to engage upon this subject in detail. Now that the vehicle-specific features such as the vehicle trajectory, time-stamp information, and color information has been extracted via the extraction module introduce in Chapter \ref{section:semanticsextraction}, a retrieval module was designed to evaluate the performance of the extraction module. 
+
+
+In this chapter, two retrieval module with relatively different concepts and underlying framework will be discussed. The first module was designed with a classic document retrieval system in mind, while the second module was developed in order to address the shortcomings of the first. This is then followed by the methods used to measure the difference between the user-described trajectory as well as the methods used to classify the vehicle color, scoring system as well as the results based on multiple user's review of the proposed method. Along with that, the speed of the retrieval engine is also measured for the second retrieval model.
+
+\cc{cc-please measure the VISER retrieval speed and attach the results}
+
+
+\section{Locality Sensitive Hashing (LSH) inspired Retrieval Engine}
+
+We also note that the achromatic algorithm is an essential step because the 8 Values bins are insufficient to accurately represent vehicles with borderline dominant color as the brightness values may be widely distributed. 
+% js: don't quite understand this
+%However, should the initial test against the $T_{pivot}$ fails, the proposed method is able to fall back on the HSV histogram results.
+
+
+\subsection{Introduction}
+
+
+
+\subsection{Framework}
+By taking advantage of the spatio-temporal atom cubes structure introduced in Chapter \ref{section:semanticsextraction} \cc{remember to change it back to the correct sub chapter}, each atom were treated as unique documents. By doing so, each document which contains similar contents was placed in the same SQL table as a mode of clustering documents.   
+
+
+
+
+
+
+\section{Chamfer Distance inspired Retrieval Engine}
+
+
+
+\section{Vehicle Trajectory}
+
+
+\section{Vehicle Color \& Color Mode}
+
+
+\section{Vehicle Semantic Retrieval (ViSeR) Engine }
+\subsection{Scoring System}
+
