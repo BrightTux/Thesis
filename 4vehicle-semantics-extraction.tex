@@ -523,20 +523,59 @@ As the entire process was done repeatedly over every single frame in the video, 
 \subsection{Motion Semantic Extraction}
 
 
-In order to extract motion information of vehicles, the initial step of obtaining the foreground objects from the background subtraction method still stands. Upon identifying these foreground objects, the locations of each vehicles are obtained using the centroids using Equation \ref{eq:centroid}. The motions were extracted by naive position displacement inference methods. The centroids of the vehicles are stored in list    
+In order to extract motion information of vehicles, the initial step of obtaining the foreground objects from the background subtraction method still stands. Upon identifying these foreground objects, the locations of each vehicles are obtained using the centroids using Equation \ref{eq:centroid}. The motions were extracted by naive position displacement inference methods. Next, the centroids of the vehicles from each frame ($P_N$) are stored in a list, \H{L}. 
 
-In this work, the motion of a vehicle is quantized into 8 directional bins (in the form of four cardinal directional and four intermediate directional bins) along with another bin which denotes minuscule and negligible motion information. Figure \ref{fig:cardinalbins} illustrates this property, this setup allows complex motion information to be captured.
+As two subsequent frames is likely to have too little difference, the algorithm was set to wait until the list has at least 10 records of the previous position before extracting the motion information. Algorithm \ref{algo:motion} provides details of this semantic extraction process in pseudo-code. In this work, the motion of a vehicle is quantized into 8 directional bins (in the form of four cardinal directional and four intermediate directional bins) along with another bin which denotes minuscule and negligible motion information. These quantized directions can be categorized into: UP, DOWN, LEFT, RIGHT, LEFT-UP, LEFT-DOWN, RIGHT-UP, RIGHT-DOWN, MOTIONLESS. 
 
-s
+Figure \ref{fig:cardinalbins} illustrates this property. Each of this directions are determined using handcrafted parameters which were selected empirically, the displacement values, $X_{displacement}$ \& $Y_{displacement}$ were set to 5 pixels each. If the difference between the current position of the blob and the position 10 frames ago is larger than either $X_{displacement}$ or $Y_{displacement}$, the motion of the vehicle is updated accordingly. The extracted motion semantic is then saved into the database for each frame. 
 
+
+ \begin{algorithm}[!h]
+	\caption{Motion Semantic Extraction}
+	\label{algo:motion}
+	\begin{algorithmic}[1]
+		\For{Each blob}
+		\State Save current centroid position$P_N$ in $List_{motion}$, \H{L} 
+		\If{\H{L}.length > 10} 
+		\State Calculate $Difference_x$ and $Difference_y$ using:
+		\State $Difference_{centroid} = P_N -P_{(N-10)}$
+		\If {Absolute ($Difference_{x}$) > $X_{displacement}$ }
+		\If {$Difference_{x}$ > 0 }
+		\State Set \textit{Direction(X)} to "LEFT"
+		\Else 
+		\State Set \textit{Direction(X)} to "RIGHT"
+		\EndIf
+		\EndIf
+		\If {Absolute ($Difference_{y}$) > $Y_{displacement}$ }
+		\If {$Difference_{y}$ > 0 }
+		\State Set \textit{Direction(Y)} to "UP"
+		\Else 
+		\State Set \textit{Direction(Y)} to "DOWN"
+		\EndIf
+		\EndIf
+
+		\If {\textit{Direction(Y)} != NULL AND \textit{Direction(X)} != NULL }
+		\State Set blob's motion = \textit{Direction(X)} + \textit{Direction(Y)}
+		\Else 
+		\If {\textit{Direction(X)} != NULL }
+		\State Set blob's motion = \textit{Direction(X) }
+		\ElsIf  {\textit{Direction(Y)} != NULL }
+		\State Set blob's motion = \textit{Direction(Y)}
+		\Else 
+		\State Set blob's motion = "Motionless"
+		\EndIf
+		\EndIf
+		\EndIf
+		\State Save blob's current motion into database
+		\EndFor
+	\end{algorithmic}
+\end{algorithm}
 
 \begin{figure}[hbt!]\centering
 \includegraphics[width=.5\textwidth]{image/motion.PNG}
 \caption{Directional bins setup}
 \label{fig:cardinalbins}
 \end{figure}
-
-\cc{write more to fill up with motion semantic extraction}
 
 
 
