@@ -260,19 +260,17 @@ In the case of a carpark scene, the trajectory information from each vehicle is 
 In this subsection, the extraction process of the other low level semantics are discussed briefly. As mentioned earlier, several other semantics were extracted for this work, namely, the time and date information, object type as well as object size. As the extractions of these semantics were simple and/or played little-to-no roles in the both the extraction module and retrieval engine, the process will be described here.
 
 \subsubsection{Date \& Time}
-During course of the dataset collection, the camera was set to name the recorded files according to the time and date. As described in  \ref{section:dataset_used}, the camera was set to record video clips from 8:30am to 6:30pm in the evening with each clip being 6 minutes long. As the filename contains both the time and date information, the date information can be easily extracted while the time information can be deduced when a vehicle is observed in the carpark scene. 
+During course of the dataset collection, the camera was set to name the recorded files according to the time and date. As described in Section \ref{section:dataset_used}, the camera was set to record video clips from 8:30am to 6:30pm in the evening with each clip being 6 minutes long. As the filename contains both the time and date information, the date information can be easily extracted while the time information can be deduced when a vehicle is observed in the carpark scene. 
 
 \begin{align}
-	Video Frame Time = Video Duration \times \frac{Current Frame}{Total Frames} + Time_{filename} 
+	Current Frame Time = (Video Duration [6 mins] \times \frac{Current Frame}{Total Frames}) + Time_{filename} 
 \end{align}
 
 
 Upon extracting these information, simple formating is done to ensure these information conform to the typical SQL database requirements.
 
 \subsubsection{Object Type \& Size}
-Since the object of interest in this work is the vehicles in the carpark scene, YOLOv2 was used to assist the validation of the foreground object detected by the background subtraction method as described in \ref{subsection:fundamental}. With that in place, the color and motion of all these objects were assumed to fall under the "vehicle" class. 
-
-Along with that, the size of the foreground objects' bounding box are saved in the database as the object size.
+Since the object of interest in this work are the vehicles in the carpark scene, YOLOv2 was used to assist the validation of the foreground object detected by the background subtraction method as described in Section \ref{subsection:fundamental}. With that in place, all the objects which were detected were assumed to fall under the "vehicle" class. As for the object size, the foreground objects' bounding box's size were saved in the database as the object size.
 
 
 
@@ -525,9 +523,9 @@ As the entire process was done repeatedly over every single frame in the video, 
 \subsection{Motion Semantic Extraction}
 
 
+In order to extract motion information of vehicles, the initial step of obtaining the foreground objects from the background subtraction method still stands. Upon identifying these foreground objects, the locations of each vehicles are obtained using the centroids using Equation \ref{eq:centroid}. The motions were extracted by naive position displacement inference methods. The centroids of the vehicles are stored in list    
 
-
-In this work, the motion of a vehicle is quantized into 8 directional bins (in the form of four cardinal directional and four intermediate directional bins) along with another bin which denotes minuscule and negligible motion informations. Figure \ref{fig:cardinalbins} illustrates this property, this setup allows complex motion information to be captured.
+In this work, the motion of a vehicle is quantized into 8 directional bins (in the form of four cardinal directional and four intermediate directional bins) along with another bin which denotes minuscule and negligible motion information. Figure \ref{fig:cardinalbins} illustrates this property, this setup allows complex motion information to be captured.
 
 s
 
