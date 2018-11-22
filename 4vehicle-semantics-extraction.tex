@@ -73,7 +73,7 @@ With that in place, each of the blobs which were identified as a vehicle were tr
 
 
 \section{Atom-based Quantization}
-\label{section:dbschema}
+\label{section:atoms}
 
 As the utilization of video data is the central focus in this work, there was a need for coming up with a way to easily manipulate and represent the video information. As video data can be commonly represented using the 3 dimensional space (X-axis, Y-axis, \& time-axis), there was an opportunity to convert the continuous data into discrete data blocks.     
 
@@ -263,6 +263,7 @@ In this subsection, the extraction process of the other low level semantics are 
 During course of the dataset collection, the camera was set to name the recorded files according to the time and date. As described in Section \ref{section:dataset_used}, the camera was set to record video clips from 8:30am to 6:30pm in the evening with each clip being 6 minutes long. As the filename contains both the time and date information, the date information can be easily extracted while the time information can be deduced when a vehicle is observed in the carpark scene. 
 
 \begin{align}
+\label{eq:file_timing}
 	Current Frame Time = (Video Duration [6 mins] \times \frac{Current Frame}{Total Frames}) + Time_{filename} 
 \end{align}
 
@@ -515,8 +516,7 @@ As previously mention, this work chose to primarily work on the HSV color space,
 This setup ends up with a total of 960 bins where each of these bins are assigned a single color term based on the closest euclidean distance between this bin's color and the highest scoring ground truth color term using the HSV color space. Using this setup, the color term which corresponds to the bin(h,s,v) which contains the highest number of hits for a given image is assigned. The examples in Table \ref{tab:hsvExample} shows samples of bins and their corresponding similarity score. However, since the vehicles are moving in the outdoor setting, the ambient and directional lighting (from sun and other light sources) contribute to slight variation of colors. To accommodate the varying lighting condition, the dominant color of each tracked vehicle from each frame was averaged out throughout its trajectory as illustrated in \ref{fig:ADC}. 
 
 
-As the entire process was done repeatedly over every single frame in the video, the color term of a particular vehicle is updated and saved into the database while it is tracked. As such, a single vehicle could be classified as a variety of colors depending on the location on where the vehicle was tracked. Algorithm \ref{algo:colorExtract} summarizes the strategy used for color semantic extraction process for the \versionOne. 
-
+As the entire process was done repeatedly over every single frame in the video, the color term of a particular vehicle is saved into the database while it is tracked. As such, a single vehicle could be classified as a variety of colors depending on the location on where the vehicle was tracked. Algorithm \ref{algo:colorExtract} summarizes the strategy used for color semantic extraction process for the \versionOne. 
 
 
 
@@ -870,7 +870,7 @@ As a vehicle in the carpark scene generally does not move in an irregular motion
 
 
 \begin{figure}[hbt!]\centering
-\includegraphics[width=.9\textwidth]{image/general/trajectorysample.png}
+\includegraphics[width=.9\textwidth]{image/general/trajectorysample2.png}
 \caption{Collection of a vehicle's centroids to represent the vehicle's motion}
 \label{fig:motionExample}
 \end{figure}

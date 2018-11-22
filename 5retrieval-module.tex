@@ -3,47 +3,83 @@
 \label{section:retrievalengine}
 \section{Introduction}
 
-Traditionally, the process of finding a particular video from a huge collection is done manually. This process involves an inquirer who is looking for a particular scene or shot, and an person-in-charge who manages the CCTV video collection. In a carpark scenario, the inquirer would typically need to provide information such as time, date, color of the vehicle, vehicle registration number, and place of which an incident occurred. 
-
-Next, the person-in-charge would have to sift through hours and hours of video in order to find a distinct video shot. This process is undeniably time consuming, laborious, monotonous and tedious. While the task is potentially simpler and straightforward when there is only one video shot with clear-cut definitive time and date given, this process takes an enormous effort when the time and date is not given, or even in cases when all the video shots with similar properties are desired. 
-
-Evidently, there exist a gap which can be addressed using a well designed retrieval engine. This chapter aims to engage upon this subject in detail. Now that the vehicle-specific features such as the vehicle trajectory, time-stamp information, and color information has been extracted via the extraction module introduce in Chapter \ref{section:semanticsextraction}, a retrieval module was designed to evaluate the performance of the extraction module. 
+As described in Section \ref{section:introduction}, there's an evident gap between the process of obtaining user described events and the retrieval of the intended video shots. Traditional approach of collecting text-based description of events alone are insufficient for effective retrieval process.  With the vehicle-specific features such as the vehicle trajectory, time-stamp information, and color information extracted via the extraction module introduced in Chapter \ref{section:semanticsextraction}, retrieval modules were designed to retrieve video shots that resembles user described queries. This chapter aims to engage the topic of semantic retrieval engines in detail and evaluate their performances along with analysis of the end results. 
 
 
-In this chapter, two retrieval module with relatively different concepts and underlying framework will be discussed. The first module was designed with a classic document retrieval system in mind, while the second module was developed in order to address the shortcomings of the first. This is then followed by the methods used to measure the difference between the user-described trajectory as well as the methods used to classify the vehicle color, scoring system as well as the results based on multiple user's review of the proposed method. Along with that, the speed of the retrieval engine is also measured for the second retrieval model.
+In this chapter, two retrieval module with relatively different concepts and underlying framework are discussed. The first module was designed with a classic document retrieval system in mind, while the second module was developed in order to address the shortcomings of the first. This is then followed by the methods used to measure the difference between the user-described trajectory, methods used to classify the vehicle color, scoring system along with the results based on multiple user's review of the proposed method. This chapter also includes the speed measurement of the second retrieval engine.
 
 \cc{cc-please measure the VISER retrieval speed and attach the results}
 
 
-\section{Locality Sensitive Hashing (LSH) inspired Retrieval Engine}
+\section{\versionOne}
+This section uncovers the techniques used behind the LSH-inspired retrieval engine along with the results.
 
+\cc{write some overview-ish things about this retrieval engine?}
+
+\subsection{Concept}
+By taking advantage of the spatio-temporal atom cubes structure introduced in Chapter \ref{section:atoms}, each atom were treated as an unique document. In this setup, each document that contains similar contents were placed in the same SQL table as a mode of clustering documents. An example is given in Table \ref{table:dbSample} to provide a better visualization of the proposed method. These sequence of events is also visualized in Figure \ref{fig:motionExample} with the trajectory marked with \textcircled{2}. 
+
+In the example, a red vehicle was detected frame 180 to 184 of a video file on the 19th of March 2016 at 8:51:00am until 8:51:05am, from atom location (3,15) to (5,17) but was detected as a pink vehicle at frame 181. Using Equation \ref{eq:file_timing}, the event's current frame time can be calculated. Given that the current frame is 181, the current frame time would equate to  $(6_{minutes} \times \frac{181}{360}) + 08:48:00am = 8:51:01am$.
+
+As each cataloged event is treated as a unique document (a single record in the database) in this framework, the retrieval process begins by filtering out tables which are irrelevant to the query. Falling back on the example given in Table \ref{table:dbSample}, the system is able to effectively skip through 9 color tables and 5 motion tables, hence speeding up the process to locate documents of interest while reducing the overhead cost involved when going through an entire database. Upon filtering out irrelevant tables, the retrieval engine proceeds to extract and group all the relevant records according to the filenames. 
+
+Next, the retrieved results are validated to see if they belong to the same vehicle by cross-checking the obj\_id, along with that, the retrieval engine also performs validation to check if the results belong to a similar time-frame by comparing the t-coordinate. This step is essential to ensure that the results belong to the same vehicle trajectory group as the initial tracker may re-assign a obj\_id to another vehicle during the background subtraction process.    
+
+
+% Please add the following required packages to your document preamble:
+% \usepackage[normalem]{ulem}
+% \useunder{\uline}{\ul}{}
+\begin{table}[!hbt]
+\caption{Database structure for a vehicle identified as red and pink color with object id "1" of the \versionOne }
+\label{table:dbSample}
+\begin{tabular}{llllll}
+\multicolumn{6}{l}{{\ul color\_red}} \\ \hline
+\multicolumn{1}{|l|}{\textbf{row\_id}} & \multicolumn{1}{l|}{\textbf{filename}}    & \multicolumn{1}{l|}{\textbf{obj\_id}} & \multicolumn{1}{l|}{\textbf{atom\_x}} & \multicolumn{1}{l|}{\textbf{atom\_y}} & \multicolumn{1}{l|}{\textbf{atom\_t}} \\ \hline
+\multicolumn{1}{|l|}{n}                & \multicolumn{1}{l|}{20160319\_084800.mp4} & \multicolumn{1}{l|}{1}                & \multicolumn{1}{l|}{3}                & \multicolumn{1}{l|}{15}               & \multicolumn{1}{l|}{180}              \\ \hline
+\multicolumn{1}{|l|}{n+1}              & \multicolumn{1}{l|}{20160319\_084800.mp4} & \multicolumn{1}{l|}{1}                & \multicolumn{1}{l|}{3}                & \multicolumn{1}{l|}{16}               & \multicolumn{1}{l|}{182}              \\ \hline
+\multicolumn{1}{|l|}{n+2}              & \multicolumn{1}{l|}{20160319\_084800.mp4} & \multicolumn{1}{l|}{1}                & \multicolumn{1}{l|}{4}                & \multicolumn{1}{l|}{16}               & \multicolumn{1}{l|}{183}              \\ \hline
+\multicolumn{1}{|l|}{n+3}              & \multicolumn{1}{l|}{20160319\_084800.mp4} & \multicolumn{1}{l|}{1}                & \multicolumn{1}{l|}{5}                & \multicolumn{1}{l|}{17}               & \multicolumn{1}{l|}{184}              \\ \hline
+                                       &                                           &                                       &                                       &                                       &                                       \\
+\multicolumn{6}{l}{{\ul color\_pink}}                                                                                                                                                                                                              \\ \hline
+\multicolumn{1}{|l|}{\textbf{row\_id}} & \multicolumn{1}{l|}{\textbf{filename}}    & \multicolumn{1}{l|}{\textbf{obj\_id}} & \multicolumn{1}{l|}{\textbf{atom\_x}} & \multicolumn{1}{l|}{\textbf{atom\_y}} & \multicolumn{1}{l|}{\textbf{atom\_t}} \\ \hline
+\multicolumn{1}{|l|}{m}                & \multicolumn{1}{l|}{20160319\_084800.mp4} & \multicolumn{1}{l|}{1}                & \multicolumn{1}{l|}{3}                & \multicolumn{1}{l|}{16}               & \multicolumn{1}{l|}{181}              \\ \hline
+                                       &                                           &                                       &                                       &                                       &                                       \\
+\multicolumn{6}{l}{{\ul direction\_down}}                                                                                                                                                                                                          \\ \hline
+\multicolumn{1}{|l|}{\textbf{row\_id}} & \multicolumn{1}{l|}{\textbf{filename}}    & \multicolumn{1}{l|}{\textbf{obj\_id}} & \multicolumn{1}{l|}{\textbf{atom\_x}} & \multicolumn{1}{l|}{\textbf{atom\_y}} & \multicolumn{1}{l|}{\textbf{atom\_t}} \\ \hline
+\multicolumn{1}{|l|}{h}                & \multicolumn{1}{l|}{20160319\_084800.mp4} & \multicolumn{1}{l|}{1}                & \multicolumn{1}{l|}{3}                & \multicolumn{1}{l|}{15}               & \multicolumn{1}{l|}{181}              \\ \hline
+                                       &                                           &                                       &                                       &                                       &                                       \\
+\multicolumn{6}{l}{{\ul direction\_motionless}}                                                                                                                                                                                                    \\ \hline
+\multicolumn{1}{|l|}{\textbf{row\_id}} & \multicolumn{1}{l|}{\textbf{filename}}    & \multicolumn{1}{l|}{\textbf{obj\_id}} & \multicolumn{1}{l|}{\textbf{atom\_x}} & \multicolumn{1}{l|}{\textbf{atom\_y}} & \multicolumn{1}{l|}{\textbf{atom\_t}} \\ \hline
+\multicolumn{1}{|l|}{j}                & \multicolumn{1}{l|}{20160319\_084800.mp4} & \multicolumn{1}{l|}{1}                & \multicolumn{1}{l|}{3}                & \multicolumn{1}{l|}{16}               & \multicolumn{1}{l|}{182}              \\ \hline
+                                       &                                           &                                       &                                       &                                       &                                       \\
+\multicolumn{6}{l}{{\ul direction\_right}}                                                                                                                                                                                                         \\ \hline
+\multicolumn{1}{|l|}{\textbf{row\_id}} & \multicolumn{1}{l|}{\textbf{filename}}    & \multicolumn{1}{l|}{\textbf{obj\_id}} & \multicolumn{1}{l|}{\textbf{atom\_x}} & \multicolumn{1}{l|}{\textbf{atom\_y}} & \multicolumn{1}{l|}{\textbf{atom\_t}} \\ \hline
+\multicolumn{1}{|l|}{k}                & \multicolumn{1}{l|}{20160319\_084800.mp4} & \multicolumn{1}{l|}{1}                & \multicolumn{1}{l|}{3}                & \multicolumn{1}{l|}{16}               & \multicolumn{1}{l|}{183}              \\ \hline
+                                       &                                           &                                       &                                       &                                       &                                       \\
+\multicolumn{6}{l}{{\ul direction\_right\_down}}                                                                                                                                                                                                   \\ \hline
+\multicolumn{1}{|l|}{\textbf{row\_id}} & \multicolumn{1}{l|}{\textbf{filename}}    & \multicolumn{1}{l|}{\textbf{obj\_id}} & \multicolumn{1}{l|}{\textbf{atom\_x}} & \multicolumn{1}{l|}{\textbf{atom\_y}} & \multicolumn{1}{l|}{\textbf{atom\_t}} \\ \hline
+\multicolumn{1}{|l|}{l}                & \multicolumn{1}{l|}{20160319\_084800.mp4} & \multicolumn{1}{l|}{1}                & \multicolumn{1}{l|}{3}                & \multicolumn{1}{l|}{16}               & \multicolumn{1}{l|}{184}              \\ \hline
+\end{tabular}
+\end{table}
+
+
+
+\subsection{Vehicle Trajectory}
+\subsection{Vehicle Color \& Color Mode}
+
+\subsection{Results}
+
+
+
+\section{\versionTwo}
+
+\subsection{Concept}
+\subsection{Scoring System}
+\subsection{Vehicle Trajectory}
+\subsection{Vehicle Color \& Color Mode}
+\subsection{Results}
+
+\section{Result Analysis}
 We also note that the achromatic algorithm is an essential step because the 8 Values bins are insufficient to accurately represent vehicles with borderline dominant color as the brightness values may be widely distributed. 
 % js: don't quite understand this
 %However, should the initial test against the $T_{pivot}$ fails, the proposed method is able to fall back on the HSV histogram results.
-
-
-\subsection{Introduction}
-
-
-
-\subsection{Framework}
-By taking advantage of the spatio-temporal atom cubes structure introduced in Chapter \ref{section:semanticsextraction} \cc{remember to change it back to the correct sub chapter}, each atom were treated as unique documents. By doing so, each document which contains similar contents was placed in the same SQL table as a mode of clustering documents.   
-
-
-
-
-
-
-\section{Chamfer Distance inspired Retrieval Engine}
-
-
-
-\section{Vehicle Trajectory}
-
-
-\section{Vehicle Color \& Color Mode}
-
-
-\section{Vehicle Semantic Retrieval (ViSeR) Engine }
-\subsection{Scoring System}
-
