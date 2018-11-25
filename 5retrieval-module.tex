@@ -1,35 +1,50 @@
 %!TEX ROOT = thesis.tex
+
 \chapter{Semantics Retrieval Engine}
+
 \label{section:retrievalengine}
 \section{Introduction}
 
-As described in Section \ref{section:introduction}, there's an evident gap between the process of obtaining user described events and the retrieval of the intended video shots. Traditional approach of collecting text-based description of events alone are insufficient for effective retrieval process.  With the vehicle-specific features such as the vehicle trajectory, time-stamp information, and color information extracted via the extraction module introduced in Chapter \ref{section:semanticsextraction}, retrieval modules were designed to retrieve video shots that resembles user described queries. This chapter aims to engage the topic of semantic retrieval engines in detail and evaluate their performances along with analysis of the end results. 
+As described in Section \ref{section:introduction}, there's an evident gap between the process of obtaining user described events and the retrieval of the intended video shots. Traditional approach of collecting text-based description of events alone are insufficient for effective retrieval process.  With the vehicle-specific features such as the vehicle trajectory, time-stamp information, and color information extracted via the extraction module introduced in Chapter \ref{section:semanticsextraction}, retrieval modules were designed to retrieve video shots that resembles user described queries. This chapter aims to engage the topic of semantic retrieval engines in detail and evaluate their performances along with analysis of the end results.
 
 
 In this chapter, two retrieval module with relatively different concepts and underlying framework are discussed. The first module was designed with a classic document retrieval system in mind, while the second module was developed in order to address the shortcomings of the first. This is then followed by the methods used to measure the difference between the user-described trajectory, methods used to classify the vehicle color, scoring system along with the results based on multiple user's review of the proposed method. This chapter also includes the speed measurement of the second retrieval engine.
 
-\cc{cc-please measure the VISER retrieval speed and attach the results}
+
+\cc{please measure the VISER retrieval speed and attach the results.}
 
 
 \section{\versionOne}
 This section uncovers the techniques used behind this retrieval engine's framework along with the results. As previously introduced, as this retrieval engine was inspired by Locality Sensitive Hashing (LSH), documents are hashed into similar locations depending on the similarity. With that in mind, first, the concept of this retrieval engine is discussed. Next, the scoring system is discussed, the evaluation of the system is performed and recorded in the following subsections.
 
 
+
+
 \subsection{Concept}
-By taking advantage of the spatio-temporal atom cubes structure introduced in Chapter \ref{section:atoms}, each atom were treated as an unique document. In this setup, each document that contains similar contents were placed in the same SQL table as a mode of clustering documents. An example is given in Table \ref{table:dbSample} to provide a better visualization of the proposed method. These sequence of events is also visualized in Figure \ref{fig:motionExample} with the trajectory marked with \textcircled{2}. 
+By taking advantage of the spatio-temporal atom cubes structure introduced in Chapter \ref{section:atoms}, each atom were treated as an unique document. The underlying atom-based structure allows queries to be formed in a way which emulates the semantics extraction process, eliminating the need for query parsing which in turn reduces the need of preprocessing and post-processing any of the query. 
 
-In the example, a red vehicle was detected frame 180 to 184 of a video file on the 19th of March 2016 at 8:51:00am until 8:51:05am, from atom location (3,15) to (5,17) but was detected as a pink vehicle at frame 181. Using Equation \ref{eq:file_timing}, the event's current frame time can be calculated. Given that the current frame is 181, the current frame time would equate to  $(6_{minutes} \times \frac{181}{360}) + 08:48:00am = 8:51:01am$.
+In this setup, each document that contains similar contents were placed in the same SQL table as a mode of clustering documents. An example is given in Table \ref{table:dbSample} to provide a better visualization of the proposed method. These sequence of events is also visualized in Figure \ref{fig:motionExample} with the trajectory marked with \textcircled{2}. sIn the example, a red vehicle was detected frame 180 to 184 of a video file on the 19th of March 2016 at 8:51:00am until 8:51:05am, from atom location (3,15) to (5,17) but was detected as a pink vehicle at frame 181. Using Equation \ref{eq:file_timing}, the event's current frame time can be calculated. Given that the current frame is 181, the current frame time would equate to  $(6_{minutes} \times \frac{181}{360}) + 08:48:00am = 8:51:01am$.
 
-As each cataloged event is treated as a unique document (a single record in the database) in this framework, the retrieval process begins by filtering out tables which are irrelevant to the query. Falling back on the example given in Table \ref{table:dbSample}, the system is able to effectively skip through 9 color tables and 5 motion tables, hence speeding up the process to locate documents of interest while reducing the overhead cost involved when going through an entire database. Upon filtering out irrelevant tables, the retrieval engine proceeds to extract and group all the relevant records according to the filenames. 
+As each cataloged event is treated as a unique document (a single record in the database) in this framework, the retrieval process begins by filtering out tables which are irrelevant to the query. Falling back on the example given in Table \ref{table:dbSample}, the system is able to effectively skip through 9 color tables and 5 motion tables, hence speeding up the process to locate documents of interest while reducing the overhead cost involved when going through an entire database. Upon filtering out irrelevant tables, the retrieval engine proceeds to extract and group all the relevant records according to the filenames.
 
-Next, the retrieved results are validated to see if they belong to the same vehicle by cross-checking the obj\_id, along with that, the retrieval engine also performs validation to check if the results belong to a similar time-frame by comparing the t-coordinate. This step is essential to ensure that the results belong to the same vehicle trajectory group as the initial tracker may re-assign a obj\_id to another vehicle during the background subtraction process. Upon validating the sanctity of the results, a command was sent to FFmpeg to extract the video shots based on the given filename along with the start and end frame number. Finally, the users are presented with the output from the retrieval engine where they are able to view the results.
+Next, the retrieved results are validated to see if they belong to the same vehicle by cross-checking the obj\_id, along with that, the retrieval engine also performs validation to check if the results belong to a similar time-frame by comparing the t-coordinate. This step is essential to ensure that the results belong to the same vehicle trajectory group as the initial tracker may re-assign a obj\_id to another vehicle during the background subtraction process. While the results returned at this point were accurate, one major problem that occurs using the current process is the low recall rate. The recall rate in a retrieval engine can be thought as the percentage of relevant documents which were retrieved over the total amount of relevant documents; while a low recall rate is preferable in an environment where the accuracy of the retrieved result is regarded with high importance and false negatives are welcomed over false positive such as the medical industry, this was not the case in the proposed method.
 
-\cc{talk about the confidence score}
+In order to overcome the limitation of the low recall rate, a Confidence Value (CV) score parameter was introduced. The CV parameter was used to adjust the sensitivity level of accepting a video shot as part of the final retrieved results. In the proposed method, a lower CV would return a larger set of results at the expense of an increase of retrieved shots which may or may not improve the overall accuracy of the retrieval engine. Each retrieved shot, $\mathbb{S}_i$, will be accepted as the final retrieved results if it fulfills the condition in Equation \ref{eq:CVscore}. The use of the CV score parameter provides a margin of error when performing the query which acts as a trade-off function.
+
+\begin{equation}
+\label{eq:CVscore}
+CV < \frac{\text{length}(\mathbb{S}_i)}{\text{length}(\mathbb{Q})} \times 100\%
+\end{equation}
+
+
+
+Upon validating the sanctity of the results, commands were sent to FFmpeg to extract the video shots based on the given filename along with the start and end frame number. Finally, the users are presented with the output from the retrieval engine where they are able to view the results.
 
 
 % Please add the following required packages to your document preamble:
 % \usepackage[normalem]{ulem}
 \begin{table}[hbt]
+	\centering 
 \caption{Database structure for a vehicle identified as red and pink color with object id "1" of the \versionOne }
 \label{table:dbSample}
 \begin{tabular}{llllll}
@@ -62,15 +77,33 @@ Next, the retrieved results are validated to see if they belong to the same vehi
 \end{tabular}
 \end{table}
 
+\subsection{Search Interface}
+
+The proposed retrieval engine was realized in a form of a graphical user search interface, where users were able to construct queries by drawing the trajectory on the interface and providing complementary query information such as the vehicle color. With these user-described query information, the user can then perform the query and obtain the results within seconds. Figure \ref{fig:versionOneInterface} shows the proposed interface with the green lines indicating the user-described trajectory.  
 
 
 
+\begin{figure}[htb!]
+	\centering
+	\begin{tabular}{c}
+		\includegraphics[width=0.7\linewidth]{image/retrievalOne/test1-8inputs.PNG} \\  
+		(a) Motion Test Case 1 (TQ1) \\
+		\includegraphics[width=0.7\linewidth]{image/retrievalOne/test2-6input.PNG}\\
+		(b) Motion Test Case 2 (TQ2)
+	\end{tabular}
+	\caption{Search interface for \versionOne} 
+	\label{fig:versionOneInterface}
+\end{figure}
 
-\subsection{Vehicle Trajectory}
-\subsection{Vehicle Color \& Color Mode}
+
 
 \subsection{Results}
+\subsubsection{Vehicle Trajectory}
+\subsubsection{Vehicle Color \& Color Mode}
+% However, the current implementation of the proposed method search interface has yet to include time slicing query options. 
 
+% js: don't quite understand this
+%However, should the initial test against the $T_{pivot}$ fails, the proposed method is able to fall back on the HSV histogram results.
 
 
 \section{\versionTwo}
@@ -82,9 +115,8 @@ Next, the retrieved results are validated to see if they belong to the same vehi
 \subsection{Results}
 
 \section{Result Analysis}
-We also note that the achromatic algorithm is an essential step because the 8 Values bins are insufficient to accurately represent vehicles with borderline dominant color as the brightness values may be widely distributed. 
-% js: don't quite understand this
-%However, should the initial test against the $T_{pivot}$ fails, the proposed method is able to fall back on the HSV histogram results.
+We also note that the achromatic algorithm is an essential step because the 8 Values bins are insufficient to accurately represent vehicles with borderline dominant color as the brightness values may be widely distributed.
+
 
 
 \cc{for the analysis, include a "heatmap" of the versionone vs versiontwo for the evaluation of results}
