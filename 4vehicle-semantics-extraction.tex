@@ -5,7 +5,9 @@
 
 \section{Introduction}
 
-In this chapter, the implementation of the vehicle semantic extraction module is discussed in detail. First, the process to separate the background and the objects of interest is discussed briefly in Section \ref{subsection:fundamental}. Next, the atom-based quantization and database schema is introduced for both the \versionOne and \versionTwo based framework in Section \ref{section:dbschema}. With that in place, the vehicle semantic extraction module can then be thoroughly described in Section \ref{section:semantic_lsh} and Section \ref{section:semantic_chamfer}.
+In this chapter, the implementation of the vehicle semantic extraction module is discussed in detail. First, the process to separate the background and the objects of interest is discussed briefly in Section \ref{subsection:fundamental}. 
+%Next, the atom-based quantization and database schema is introduced for both the \versionOne and \versionTwo based framework in Section \ref{section:dbschema}. 
+Next, both the vehicle semantic extraction modules can then be thoroughly described in Section \ref{section:semantic_lsh} and Section \ref{section:semantic_chamfer}.
 
 
 %While the implementation and adoption of the work proposed in \cite{lim2017} enabled the identification of moving objects from the background image, these information were not saved anywhere. First, a database schema was drawn out to determine the types of information that could be extracted from these foreground objects. Next, 
@@ -109,10 +111,12 @@ The use of these atom-based spatial-temporal cube is paramount in this work. By 
 \end{figure}
 
 
-
+\begin{comment}
 \section{Database Schema}
 
 \cc{do i need a database schema section?}
+
+\end{comment}
 
 
 \section{Semantic Extraction} 
