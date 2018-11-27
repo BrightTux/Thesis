@@ -103,7 +103,9 @@ The proposed retrieval engine was realized in a form of a graphical user search 
 
 
 \subsection{Results}
-The following subsections describes the evaluation process of the proposed method in Section \ref{section:semantic_lsh} which includes both the vehicle trajectory as well as the vehicle color.    \cc{etc}
+The following subsections describes the evaluation process of the proposed method in Section \ref{section:semantic_lsh} which includes both the vehicle trajectory as well as the vehicle color. 
+
+As previously mentioned in Section \ref{sec:expmethodology}, only two days of data were fully annotated with the number of vehicles with their corresponding color as well as the total number of vehicles that performed both $TQ1$ and $TQ2$. With the annotated values, the Precision and Recall rate can be calculated as the total number of occurrence as well as the number of True Positive values were recorded; hence, the $F_1$ score can also be computed. The $F_1$ score is used as a counter balance between both Precision and Recall values which are desirable in a retrieval engine.    \cc{etc}
 
 
 \subsubsection{Vehicle Trajectory}
@@ -134,7 +136,6 @@ Brown      & 7         & 0.84   \\
 
 
 Table \ref{table:colorMatrix} reports the confusion matrix of the color retrieval task. 
-%While most of the color terms were extracted correctly \ian{this is not true, e.g. Black retrieved as Gray is 48 ... btw, is the word "predicted color" the correct term?  "deduced"?}, 
 The overall precision stands at 54\%, with a recall of 36\% and $F_1$ score of 39\%. The cells in Table \ref{table:colorMatrix} marked in green indicate the highest count of correctly predicted colors, while the cells marked in red indicate the highest count of incorrect predictions for each color. Our method is able to predict correctly a majority of cases for seven out of eleven colors.
 
 Based on the obtained results, we learn that the $T_{pivot}$ needs to be adjusted as too many chromatic vehicles were classified as achromatic vehicles which in turned affected the overall performance of the proposed method. We hypothesize that better results can be obtained by careful adjustment of $T_{pivot}$ or attempt to learn a suitable color model as in \cite{hu2015vehicle,rachmadi2015vehicle} for this particular scene. We observe that vehicles with lighter and darker shades were particularly difficult as they do not contain enough chromatic hues to arrive at a correct prediction.  
