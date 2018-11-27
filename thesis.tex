@@ -5,13 +5,14 @@
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage{graphicx}
-\usepackage{subcaption}
 \usepackage{enumitem}
+% -------------------------------------------------------------------
+% own package
+\usepackage[table,xcdraw]{xcolor}
+% -------------------------------------------------------------------
 
-
-
-
-%\usepackage[os=win]{menukeys}
+\usepackage[x11names,dvipsnames,svgnames]{xcolor}
+\usepackage[os=win]{menukeys}
 \usepackage{listings}
 \lstset{language=[LaTeX]TeX,columns=fullflexible,
 basicstyle=\ttfamily,texcsstyle=*\bfseries\color{NavyBlue},
@@ -21,13 +22,6 @@ framexleftmargin=6pt,framexrightmargin=6pt,
 xleftmargin=12pt,xrightmargin=12pt,
 breaklines=true,breakatwhitespace=true}
 
-\usepackage[table,xcdraw]{xcolor}
-\usepackage{algorithm,algorithmic}
-
-
-\usepackage{amssymb}
-\usepackage{multirow}
-\usepackage[x11names,dvipsnames,svgnames]{xcolor}
 
 % -------------------------------------------------------------------
 % user annotations
@@ -49,10 +43,16 @@ breaklines=true,breakatwhitespace=true}
 \newcommand{\rl}[1]{}   % turn off
 \end{comment}
 
-
-
 \newcommand{\versionOne}{LSH-Inspired Semantic Extraction and Retrieval Engine (Version 1) }
 \newcommand{\versionTwo}{Chamfer Distance based Semantic Extraction and Retrieval Engine (Version 2) }
+
+
+% -------------------------------------------------------------------
+% own packages
+% -------------------------------------------------------------------
+\usepackage{amssymb}
+\usepackage{multirow}
+
 
 
 \author{Clarence Cheong Weihan}
@@ -63,8 +63,6 @@ breaklines=true,breakatwhitespace=true}
 \degree{Master~of~Science (Information~Technology)}
 \qualification{B.Eng.~(Hons), Multimedia University, Malaysia\\%
 }
-
-\providecommand{\keywords}[1]{\textbf{\textit{Keywords --}} #1}
 
 % load acronym definitions from separate file
 \loadglsentries{myacronyms}
@@ -98,7 +96,6 @@ Last and not least, I would like to applaud myself and give myself some credit f
 
 \mainmatter
 
-
 \include{1introduction}
 \include{2literature-review}
 \include{3framework-overview}
@@ -106,20 +103,12 @@ Last and not least, I would like to applaud myself and give myself some credit f
 \include{5retrieval-module}
 %\include{6conclusion}
 
-
-%\include{howtouse}
-%\include{sample-chap-intro}
-%\include{sample-chap-dummy}
-
 \appendix
 \include{sample-appen-manual}
 \include{sample-appen-try}
 
 \backmatter
 \bibliography{llt}
-
-
-
 \printglossaries
 \theendnotes
 {\SingleSpacing\printindex}
