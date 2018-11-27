@@ -105,7 +105,22 @@ The proposed retrieval engine was realized in a form of a graphical user search 
 \subsection{Results}
 The following subsections describes the evaluation process of the proposed method in Section \ref{section:semantic_lsh} which includes both the vehicle trajectory as well as the vehicle color. 
 
-As previously mentioned in Section \ref{sec:expmethodology}, only two days of data were fully annotated with the number of vehicles with their corresponding color as well as the total number of vehicles that performed both $TQ1$ and $TQ2$. With the annotated values, the Precision and Recall rate can be calculated as the total number of occurrence as well as the number of True Positive values were recorded; hence, the $F_1$ score can also be computed. The $F_1$ score is used as a counter balance between both Precision and Recall values which are desirable in a retrieval engine.    \cc{etc}
+As previously mentioned in Section \ref{sec:expmethodology}, only two days of data were fully annotated with the number of vehicles with their corresponding color (see Table \ref{table:colorDist}) as well as the total number of vehicles that performed both $TQ1$ and $TQ2$. With the annotated values, the Precision and Recall (Equation \ref{eq:precisionrecall}) metrics can be calculated as the total number of event occurrence were recorded; hence, the $F_1$ score can also be computed (Equation \ref{eq:f1score}). 
+
+The precision of a retrieval engine can be thought as the ratio between number of accurate results over the total number of retrieved results. The recall, on the hand, indicates the ratio of relevant results which were retrieved over the total retrieved results. Finally, the $F_1$ score is used as a harmonic mean between both Precision and Recall values which are both desirable in a retrieval engine.
+
+
+
+
+\begin{align}
+\label{eq:precisionrecall}
+    \text{Precision} = \frac{tp}{tp + fp}   \hspace{1em} \text{ ; }  \hspace{1em} \text{Recall}  = \frac{tp}{tp + fn}
+\end{align}
+\begin{align}
+\label{eq:f1score}
+\text{F1-score}  = 2\cdot\frac{\text{Precision} \cdot \text{Recall}}{\text{Precision} + \text{Recall}}
+\end{align}
+\cc{etc}
 
 
 \subsubsection{Vehicle Trajectory}
@@ -117,7 +132,7 @@ As previously mentioned in Section \ref{sec:expmethodology}, only two days of da
 \label{table:colorDist}
 \begin{tabular}{ccc}
 \toprule
-Color Term & No. of Occurrence & Percentage (\%)   \\
+Color Term & \# of Occurrence & Percentage (\%)   \\
 \midrule
 Gray       & 365       & 43.61  \\
 Black      & 182       & 21.74  \\
@@ -135,12 +150,14 @@ Brown      & 7         & 0.84   \\
 \end{table}
 
 
-Table \ref{table:colorMatrix} reports the confusion matrix of the color retrieval task. 
-The overall precision stands at 54\%, with a recall of 36\% and $F_1$ score of 39\%. The cells in Table \ref{table:colorMatrix} marked in green indicate the highest count of correctly predicted colors, while the cells marked in red indicate the highest count of incorrect predictions for each color. Our method is able to predict correctly a majority of cases for seven out of eleven colors.
 
-Based on the obtained results, we learn that the $T_{pivot}$ needs to be adjusted as too many chromatic vehicles were classified as achromatic vehicles which in turned affected the overall performance of the proposed method. We hypothesize that better results can be obtained by careful adjustment of $T_{pivot}$ or attempt to learn a suitable color model as in \cite{hu2015vehicle,rachmadi2015vehicle} for this particular scene. We observe that vehicles with lighter and darker shades were particularly difficult as they do not contain enough chromatic hues to arrive at a correct prediction.  
 
-While the classification of achromatic versus chromatic vehicles faced considerable difficulties, the black \& white filters provide a considerably good result when determining the different categories of achromatic vehicles which may be useful for processing in grayscale. Based on our observation, most errors usually occur when the vehicles are in locations where the intensity of shadows overpowered the lighter-shade vehicles in terms of coverage area. 
+The results of the proposed color term extraction algorithm (\ref{algo:colorExtract}) is tabulated in Table \ref{table:colorMatrix} in a form of a confusion matrix. The cells which are marked in green refers to vehicles which were correctly predicted with the highest count, while cells which are marked in red refers to the highest count of incorrect predictions. The overall performance in terms of precision is around 54\% while the recall is reported at around 36\% with the $F_1$ score of 39\%. The tabulated results shows that approximately 12\% of vehicles were wrongly classified as achromatic vehicles which were affected by the proposed $T_{pivot}$ value. However, when setting aside the performance of the algorithm to differentiate between chromatic and achromatic vehicles, the proposed method was able to predict the color classes for seven out of eleven color classes. 
+
+The performance of the proposed Algorithm \ref{algo:achromatic} using white and black filters as a mean to differentiate between all three achromatic colors performed relatively well with an average accuracy of 68\%. The results shows that the proposed algorithm did not have much trouble differentiating between black and white vehicles, however, the algorithm tend to have trouble classifying between gray-black and gray-white vehicles as they tend to be ambiguous depending on the lighting condition in the video data. As mentioned above, the $T_{pivot}$'s performance was not up to par. The pivoting process between chromatic and achromatic vehicles proves to be inefficient in harsh lighting condition where shadows and rain would drastically affect the outcome as vehicles may suffer from the lack of chromatic hues which is used to assist in the accurate prediction.
+
+While better results could potentially be obtained by carefully and systematically tweaking the $T_{pivot}$ to perform better at distinguishing between chromatic and achromatic vehicles, the hand crafted parameter may not work well in other scenarios belonging to other dataset, hence, making it undesirable as it is not easily extensible. Another disadvantage of the proposed method used in this framework is that each color had only one final predicted color term. As an example, the predicted results for Red color in Table \ref{table:colorMatrix} illustrates this issue where the color term of three vehicles were assigned Pink instead of Red even though Red and Pink color both belongs to the similar hues. 
+
 
 \begin{table}[]
 \centering
