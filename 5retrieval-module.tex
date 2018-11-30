@@ -24,6 +24,7 @@ This section uncovers the techniques used behind this retrieval engine's framewo
 
 
 \subsection{Concept}
+\label{versionOneConcept}
 By taking advantage of the spatio-temporal atom cubes structure introduced in Chapter \ref{section:atoms}, each cataloged event in an atom were treated as an unique document. The underlying atom-based structure allows queries to be formed in a way which emulates the semantics extraction process, hence, eliminating the need for query parsing which in turn reduces the need of both pre- and post-processing of the given queries. 
 
 In this setup, each document that contains similar contents were placed in the same SQL table as a mode of clustering documents. An example is given in Table \ref{table:dbSample} to provide a better visualization of the proposed method. These sequence of events is also visualized in Figure \ref{fig:motionExample} with the trajectory marked with \textcircled{2}. In the example, a red vehicle was detected frame 180 to 184 of a video file on the 19th of March 2016 at 8:51:00am until 8:51:05am, from atom location (3,15) to (5,17) but was detected as a pink vehicle at frame 181. Using Equation \ref{eq:file_timing}, the event's current frame time can be calculated. Given that the current frame is 181, the current frame time would equate to  $(6_{minutes} \times \frac{181}{360}) + 08:48:00am = 8:51:01am$.
@@ -142,10 +143,12 @@ TQ2      & Complex Motion       & 40 & 13.7\%  \\
 
 Based on the results tabulated in Table \ref{table:motionResults}, the average precision of both TQ1 and TQ2 using CV at 70\% is 67.64\%. The increase of CV to 70\% to 90\% shows an increase in terms of average precision. For TQ1, the average precision increased from 89.50\% to 89.51\% and finally 90.49\% when CV was set at 90\% with a total increase of approximately 1\% for the precision metrics. Likewise, for TQ2, the average precision showed a total increase of 7.44\% when then CV parameter was tweaked. The average precision increased from 45.79\% to 52.61\% and reaching 53.23\% when CV was set to 90\%. 
 
-However, the recall metrics showed a different side of the story when the average recall rate fell from 39.67\% to 18.01\% for TQ1 and 
-68.15\% to 51.85\% for TQ2. This drastic drop in for recall metrics shows direct co-relation to the requirement to fulfill Equation \ref{eq:CVscore} for each retrieved shots. As a whole, the $F_1$ score metric was used to evaluate the performance of the proposed method as it provides a balance between both of these desirable metrics. Based on the results, queries with the lowest CV and lower number of inputs tend to perform better than the other parameter settings. The proposed method was able to achieve an $F_1$ score of 74.32\% and 68.08\% for both TQ1 and TQ2. 
+However, the recall metrics showed a different side of the story when the average recall rate fell from 39.67\% to 18.01\% for TQ1 and 68.15\% to 51.85\% for TQ2. This drastic drop in for recall metrics shows direct co-relation with the requirement of fulfilling Equation \ref{eq:CVscore} for each retrieved shots. The results shows consistency throughout the various experimental settings and true towards the concept which was introduced in \ref{versionOneConcept}.  
 
-\begin{table}[b!]
+As a whole, the $F_1$ score metric was used to evaluate the overall performance of the proposed method as it provides a balance between both of the desirable metrics discussed above. Based on the results, queries with the lowest CV and lower number of inputs tend to perform better than the other parameter settings. The proposed method was able to achieve an $F_1$ score of 74.32\% and 68.08\% for both TQ1 and TQ2. 
+
+
+\begin{table}[tb!]
 \centering
 \caption{Results of motion retrieval task with varying CV and number of atom inputs}
 \label{table:motionResults}
@@ -242,9 +245,29 @@ While better results could potentially be obtained by carefully and systematical
 
 \section{\versionTwo}
 
+This section expounds on the techniques used behind this retrieval engine's framework along with the results. The proposed interface in \versionTwo also focuses on extensibility as well as ease of access of the retrieval engine while improving on the overall results. The JavaScript (JS) language was selected as a means to this end as it is commonly used in web browsers. The focus of this work sees a shift from indexing methods to results-sorting optimization by measuring the difference between the query and the retrieved results. The concept and scoring systems used in this retrieval engine will be discussed further in the following subsections along with the evaluation. 
+
 \subsection{Concept}
 
-Contrary to the proposed interface in \versionOne which is written in C++, this interface here is written in javascript which can be easily extendable to web interfaces.
+Instead of treating each spatio-temporal atom cubes as an unique document, in this framework, the unique identifiers ($atom_x$, $atom_y$, $atom_t$) of each atom will be used for the retrieval process. As mentioned above, the focus of this framework is veered towards the use of distance measures (see Section \ref{section:distancemeasures}) in order to retrieve results that are relevant.
+
+In the same manner, the input query, $\mathbb{Q}$, also takes on the properties of the atom cubes' unique identifiers with the exception of the $atom_t$. As a substitute of the $atom_t$ identifier, the order of the input, $o_{i}$, is taken into consideration as it is used to mimic the motion of the target vehicle shot. However, to do so, first, the graphical query input needs to be converted into a set, $\mathbb{Q}$ by removing duplicate identifiers which was introduced by the mouse stroke. This will thus result with unique identifiers remaining in the set. 
+
+Next, as the use of time and date semantics were extracted, these metadata can be used to filter and further narrow down the search scope.  
+
+
+
+\begin{equation}
+    \mathbb{Q} = \{ (x_i, y_i, o_i), (x_{i+1}, y_{i+1}, o_{i+1}), (x_{i+2}, y_{i+2}, o_{i+2}), \dotsb,(x_{i+n}, y_{i+n}, o_{i+n})\}
+\end{equation}
+
+
+
+Along with that, in order to maximize the difference between the input and the video shots available in the database, the length of the query ($query_{length}$) is measured against the length of the individual records ($record[i]_{length}$) in the database,  
+
+
+
+
 
 \subsection{Scoring System}
 \subsection{Vehicle Trajectory}
