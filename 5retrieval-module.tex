@@ -239,7 +239,6 @@ While better results could potentially be obtained by carefully and systematical
 
 % However, the current implementation of the proposed method search interface has yet to include time slicing query options. 
 
-% js: don't quite understand this
 %However, should the initial test against the $T_{pivot}$ fails, the proposed method is able to fall back on the HSV histogram results.
 
 
@@ -249,21 +248,19 @@ This section expounds on the techniques used behind this retrieval engine's fram
 
 \subsection{Concept}
 
-Instead of treating each spatio-temporal atom cubes as an unique document, in this framework, the unique identifiers ($atom_x$, $atom_y$, $atom_t$) of each atom will be used for the retrieval process. As mentioned above, the focus of this framework is veered towards the use of distance measures (see Section \ref{section:distancemeasures}) in order to retrieve results that are relevant.
+Instead of treating each spatio-temporal atom cubes as an unique document, in this framework, the unique identifiers ($atom_x$, $atom_y$, $atom_t$) of each atom was used for the retrieval process. As mentioned above, the focus of this framework veered towards the use of distance measures (see Section \ref{section:distancemeasures}) and its applications in order to retrieve results that are relevant.
 
-In the same manner, the input query, $\mathbb{Q}$, also takes on the properties of the atom cubes' unique identifiers with the exception of the $atom_t$. As a substitute of the $atom_t$ identifier, the order of the input, $o_{i}$, is taken into consideration as it is used to mimic the motion of the target vehicle shot. However, to do so, first, the graphical query input needs to be converted into a set, $\mathbb{Q}$ by removing duplicate identifiers which was introduced by the mouse stroke. This will thus result with unique identifiers remaining in the set. 
+In the same manner, the graphical input query was designed in such a way that it takes on the properties of the atom cubes' unique identifiers with the exception of the $atom_t$. As a substitute of the identifier, the order of the input, $o_{i}$, was used as a replacement. This was possible as the order was used to mimic the motion of the target vehicle shot. However, to do so, first, the graphical query input needs to be converted into a set, $\mathbb{Q}$, by removing duplicate identifiers which was introduced by the mouse stroke. This will thus result with unique identifiers remaining in the set. 
 
-Next, as the use of time and date semantics were extracted, these metadata can be used to filter and further narrow down the search scope.  
+As the retrieval engine is dealing with a huge set of data, the next step is to find a way to optimize the search scope. In this framework, a simplistic approach was taken. In order to further narrow down the search scope, the time and date semantics were ultilized. As these metadata were extracted during the semantic extraction phase, these useful information was used to assist the filter process. With the output from the filtering process, these data can now be compared against the input query $\mathbb{Q}$. This step begins by comparing the length of the query ($query_{length}$) against the length of the individual records ($record[i]_{length}$) in the database. This step is an essential ingredient for the next phase of measuring the dissimilarity using Chamfer Distance.
 
-
+\cc{include an equation for the date and time filtering to formalize it?}
 
 \begin{equation}
     \mathbb{Q} = \{ (x_i, y_i, o_i), (x_{i+1}, y_{i+1}, o_{i+1}), (x_{i+2}, y_{i+2}, o_{i+2}), \dotsb,(x_{i+n}, y_{i+n}, o_{i+n})\}
 \end{equation}
 
-
-
-Along with that, in order to maximize the difference between the input and the video shots available in the database, the length of the query ($query_{length}$) is measured against the length of the individual records ($record[i]_{length}$) in the database,  
+Chamfer Distance, $D_{chamfer}$, is one of the many distance measure metrics available. $D_{chamfer}$ can be formalized using Equation \ref{eq:chamferDistance} \cc{please fill in the chamfer distance formular}, in this framework, this distance metrics is use to measure the dissimilarity between the input query $\mathbb{Q} and each record which fulfils the Equation \cc{date and time equation}. In order to maximize the dissimilarity, the lengths ($query_{length}$, $record[i]_{length}$) are taken into consideration. Based on Equation \ref{eq:chamferDistance}, while all the elements within both the sets will be compared against each other,     
 
 
 
