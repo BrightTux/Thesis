@@ -122,7 +122,7 @@ With the annotated values, the Precision and Recall (Equation \ref{eq:precisionr
 
 \subsubsection{Vehicle Trajectory}
 
-In order to evaluate the performance of the retrieval engine in regards to vehicle trajectories, as the manual annotation of these video data is laborous and time consuming, only two specific motion paths were designated as trajectory queries (TQ). The first query, TQ1 refers to vehicles heading southward (see Figure \ref{fig:versionOneInterface} (a)) while TQ2 represents vehicles turning into a junction (see Figure \ref{fig:versionOneInterface} (b)). 
+In order to evaluate the performance of the retrieval engine in regards to vehicle trajectories, the ground truth of the data has to be first obtained. As the manual annotation of these video data is laborious and time consuming, only two specific motion paths were designated as trajectory queries (TQ). The first query, TQ1 refers to vehicles heading southward (see Figure \ref{fig:versionOneInterface} (a)) while TQ2 represents vehicles turning into a junction (see Figure \ref{fig:versionOneInterface} (b)). 
 
 These predefined trajectory queries (TQ) were selected to represent two types of motion which exist in a carpark scene, (i) \textit{simple motion} - motions that are simple in nature, moving straight \& (ii) \textit{complex motion} - motions which contains multiple elements such as turning into a junction. The distribution of these TQ are tabulated in Table \ref{table:motiondist}. In each TQ experiment, the number of atom input query used to represent each TQ were varied to understand the co-relating effects between the number of inputs and the performance of the retrieval engine. In addition to that, the effects of using varying confidence values (CV) in regards to the performance is also evaluated. These experiments were tested on three CV values which were set at 70\%, 80\%, and 90\%.
 
@@ -243,19 +243,23 @@ While better results could potentially be obtained by carefully and systematical
 
 
 \section{\versionTwo}
+\label{section:versionTwo}
 
 This section expounds on the techniques used behind this retrieval engine's framework along with the results. The proposed interface in \versionTwo also focuses on extensibility as well as ease of access of the retrieval engine while improving on the overall results. The JavaScript (JS) language was selected as a means to this end as it is commonly used in web browsers. The focus of this work sees a shift from indexing methods to results-sorting optimization by measuring the difference between the query and the retrieved results. The concept and scoring systems used in this retrieval engine will be discussed further in the following subsections along with the evaluation. 
 
 \subsection{Concept}
 
-Instead of treating each spatio-temporal atom cubes as an unique document, in this framework, the unique identifiers ($atom_x$, $atom_y$, $atom_t$) of each atom was used for the retrieval process. As mentioned above, the focus of this framework veered towards the use of distance measures (see Section \ref{section:distancemeasures}) and its applications in order to retrieve results that are relevant.
+Instead of treating each spatio-temporal atom cubes as an unique document, in this framework, the unique identifiers ($atom_x$, $atom_y$, $atom_t$) of each atom was used in the retrieval process. As mentioned above, the focus of this framework veered towards the use of distance measures (see Section \ref{section:distancemeasures}) and its applications in order to retrieve results that are relevant.
 
-In the same manner, the graphical input query was designed in such a way that it takes on the properties of the atom cubes' unique identifiers with the exception of the $atom_t$. As a substitute of the identifier, the order of the input, $o_{i}$, was used as a replacement. This was possible as the order was used to mimic the motion of the target vehicle shot. However, to do so, first, the graphical query input needs to be converted into a set, $\mathbb{Q}$, by removing duplicate identifiers which was introduced by the mouse stroke. This will thus result with unique identifiers remaining in the set. 
+In the same manner as the semantic extraction process, the graphical input query was designed in such a way that it takes on the properties of the atom cubes' unique identifiers with the exception of the $atom_t$. As a substitute of the identifier, the order of the input, $o_{i}$, was used as a replacement. This was possible as the order was used to mimic the motion of the target vehicle shot. However, to do so, first, the graphical query input needs to be converted into a set, $\mathbb{Q}$, by removing duplicate identifiers which was introduced by the mouse input strokes. This will thus result with unique identifiers remaining in the set. 
 
-As the retrieval engine deals with a huge set of data, the next logical step was to find ways to optimize and minimize the search scope. In this framework, a simplistic approach was taken to further narrow down the search scope. 
+\begin{equation}
+    \mathbb{Q} = \{ (x_i, y_i, o_i), (x_{i+1}, y_{i+1}, o_{i+1}), (x_{i+2}, y_{i+2}, o_{i+2}), \dotsb,(x_{i+n}, y_{i+n}, o_{i+n})\}
+\end{equation}
+
+As the retrieval engine deals with a huge set of data, the next logical approach was to find ways to optimize and minimize the search area. In this framework, a simplistic approach was taken to further narrow down the search scope. 
 The time and date semantics were utilized as these useful metadata which were extracted during the semantic extraction phase were suitable candidates in assisting the filtering process. 
-Equation \ref{eq:timedatefilter} was used to filter out records from the database which does not fulfill the input query's requirements and include records $\mathbb{R}$ which made it into set $\mathbb{P}$. 
-
+Records $\mathbb{R}$ which fulfilled the input query's requirements were kept and included into a set $\mathbb{P}$, while records which failed was filtered out from this phase using Equation \ref{eq:timedatefilter}.
 
 
 \begin{gather} 
@@ -264,33 +268,122 @@ Equation \ref{eq:timedatefilter} was used to filter out records from the databas
 \end{gather}   
 
 
-\cc{rewrite the following part... so messy!}
+Now, with the output $\mathbb{P}$ from the filtering process, these records can now be compared against the input query $\mathbb{Q}$. In order to do so, this step begins by first comparing the length of the query ($\mathbb{Q}_{length}$) against the length of the individual records ($\mathbb{R}[i]_{length}$) in $\mathbb{P}$. This comparison is essential for the next phase of measuring the dissimilarity between using Chamfer Distance (see Equation \ref{eq:chamferDistance}).
+
+Chamfer Distance, $D_{chamfer}$, is one of the many distance measure metrics available. In this framework, this distance metrics was selected to measure the dissimilarity between the input query $\mathbb{Q}$ and each record in $\mathbb{P}$ that fulfills the Equation \ref{eq:timedatefilter}. In order to minimize the dissimilarity between $\mathbb{P}$ \& $\mathbb{Q}$, the number of records (length) within both $\mathbb{P}$ \& $\mathbb{Q}$ are taken into consideration. In the proposed method, $\mathbb{P}$ will be assigned to $P$ if $\mathbb{P}$'s length is greater $\mathbb{Q}$ and vice versa.
+
+
+\begin{table}[]
+    \centering
+    \begin{tabular}{ccc}
+         \begin{equation*}
+         \begin{aligned}
+P =\begin{cases}
+\mathbb{P} & ,\mathbb{P}_{length} > \mathbb{Q}_{length} \\
+\mathbb{Q} & ,\mathbb{Q}_{length} > \mathbb{P}_{length}
+\end{cases}\end{aligned}\end{equation*} & ; &
+\begin{equation*}
+\begin{aligned}
+Q =\begin{cases}
+\mathbb{Q} & ,\mathbb{P}_{length} > \mathbb{Q}_{length} \\
+\mathbb{P} & ,\mathbb{Q}_{length} > \mathbb{P}_{length}
+\end{cases}
+\end{aligned}
+\end{equation*} 
+    \end{tabular}
+    % \caption{Caption}
+    % \label{tab:my_label}
+\end{table}
 
 
 
-\begin{equation}
-    \mathbb{Q} = \{ (x_i, y_i, o_i), (x_{i+1}, y_{i+1}, o_{i+1}), (x_{i+2}, y_{i+2}, o_{i+2}), \dotsb,(x_{i+n}, y_{i+n}, o_{i+n})\}
-\end{equation}
+% \begin{align}
+% P =\begin{cases}
+% \mathbb{P} & ,\mathbb{P}_{length} > \mathbb{Q}_{length} \\
+% \mathbb{Q} & ,\mathbb{Q}_{length} > \mathbb{P}_{length}
+% \end{cases}\\
+% Q =\begin{cases}
+% \mathbb{Q} & ,\mathbb{P}_{length} > \mathbb{Q}_{length} \\
+% \mathbb{P} & ,\mathbb{Q}_{length} > \mathbb{P}_{length}
+% \end{cases}
+% \end{align}
 
 
-
-Now, with the output from the filtering process, these records can be compared against the input query $\mathbb{Q}$. This step begins by comparing the length of the query ($\mathbb{Q}_{length}$) against the length of the individual records ($\mathbb{R}[i]_{length}$) in the database. This step is an essential ingredient for the next phase of measuring the dissimilarity using Chamfer Distance.
-
-
-Chamfer Distance, $D_{chamfer}$, is one of the many distance measure metrics available. $D_{chamfer}$ can be formalized using Equation \ref{eq:chamferDistance}. In this framework, this distance metrics is use to measure the dissimilarity between the input query $\mathbb{Q}$ and each record $\mathbb{R}[i]$ that fulfills the Equation \ref{eq:timedatefilter}, these records will then be included in the $\mathbb{P}$ set. In order to maximize the dissimilarity in Equation \ref{eq:chamferDistance}, the lengths ($\mathbb{Q}_{length}$, $\mathbb{R}[i]_{length}$) are taken into consideration. Based on Equation \ref{eq:chamferDistance}, while all the elements within both the sets will be compared against each other, the final value will be normalized by the length of $P$. 
-
-
-
-\begin{equation}
+\begin{align}
 \label{eq:chamferDistance}
-D_{Chamfer} (\mathbb{P},\mathbb{Q}) = \frac{1}{\mid P \mid} \sum_{t_p \in \mathbb{P}} \min_{t_q \in \mathbb{Q}}  \mid t_p - t_q \mid^{2}
+D_{Chamfer} (P,Q) = \frac{1}{\mid P \mid} \sum_{t_p \in P} \min_{t_q \in Q}  \mid t_p - t_q \mid^{2}
+\end{align}
+
+\subsection{Search Interface}
+The proposed retrieval engine interface was designed using web compliant graphical user interface in JavaScript as illustrated in \ref{fig:versionTwoInterface}. 
+Similar to the concept introduced in the \versionOne, users are able to construct queries by drawing the trajectory while providing complementary information such as the vehicle color and timestamp information.
+Once the query is constructed, the retrieval engine goes through the database searching for shots which highly resembles the given query. 
+Unlike the previous method, the use of HTML5 video elements in this retrieval engine made it easy to display the obtained results with a suitable thumbnail that represents each retrieved video while speeding up the speed as there was no need of encoding each retrieved shot on the fly.
+
+\begin{figure}[hbt!]\centering
+\includegraphics[width=.8\textwidth]{image/retrievalTwo/VISERinterface2.png}
+\caption{Search Interface for \versionTwo}
+\label{fig:versionTwoInterface}
+\end{figure}
+
+\subsection{Results and Analysis}
+
+The following subsections describes the scoring system, metrics as well as the evaluation process of the proposed method described in Section \ref{section:versionTwo}. Given that the main objective of the proposed retrieval engine is to provide users with results which closely resemble the given query in a sorted manner such that results which are more relevant should appear higher in the rank. The performance of the proposed method was measured using the \textit{Precision@K} and normalized Discounted Cumulative Gain (\textit{nDCG}) metrics.  
+
+The \textit{Precision@K} metric was used to identify the number of retrieved results which are relevant to the user while the \textit{nDCG} metrics is used to measure how well the retrieval engine display the results to the users. 
+
+In order to evaluate the performance of the proposed method, the evaluation of both the trajectory and color terms were separated. A group of volunteers were introduced to the retrieval engine along with it's features and a sample use case was demonstrated, then, they were given full control to draw any query they were interested in. Next, the volunteers were tasked to provide feedback by rating the results with a scale of 1 to 5 with 5 being a result that closely resembles the input query. 
+
+The volunteers were given full control of the input query \mathbb{P} as it closely resembles a real world scenario. With that in consideration, the ground truth annotation for each of those queries during the 30 days data is not available, hence, the recall rate can not be measured in this retrieval engine. 
+
+While the \textit{Precision@K} metrics is a commonly used metric for retrieval system, the main disadvantage of this metric is that the evaluation done in a coarse manner as it only provides a binary evaluation of whether or not a particular result is relevant to the query. On the other hand, the \textit{DCG} metric is able to provide a more granular evaluation of the proposed method as the results will also be evaluated based on its ordered rank along with the relevancy of the result. Figure \ref{fig:dcgGain} illustrates the decreasing gain value of the result as the ranking increases. 
+
+\cc{work from here onwards}
+
+\begin{figure}[h]
+\centering
+% Use the relevant command to insert your figure file.
+% For example, with the graphicx package use
+  \includegraphics[width=0.9\textwidth]{image/Discount_vs__Rank.png}
+% figure caption is below the figure
+\caption{The discounted gain decreases exponentially with the rank}
+\label{fig:dcgGain}       % Give a unique label
+\end{figure}
+
+\begin{equation}
+\label{eq:DCGk}
+DCG_p = \sum_{p=1}^k\frac{REL_{p}}{\log_2 (\max (p,2))}
+\end{equation}
+
+% $DCG@K = \sum_{i=i}^K\frac{REL_{i}}{\log_2 (\max (i,2))}$
+
+Since the Discounted Cumulative Gain metric produces an unbounded value ([0, $\infty$) range), it is not suitable for use when averaging across multiple independent queries. Hence, the normalized Discounted Cumulative Gain (nDCG) metric is used to convert the unbounded value into a [0, 1] range.
+
+
+\begin{equation}
+\label{eq:nDCG}
+\it{n}DCG_P = \frac{DCG_P}{IDCG_P} \textnormal{, where}
+\end{equation}
+
+
+\begin{equation}
+\label{eq:IDCG}
+IDCG_P \textnormal{ is the ideal DCG score at Rank P in the ideal ranking order}
 \end{equation}
 
 
 
-\subsection{Scoring System}
-\subsection{Vehicle Trajectory}
-\subsection{Vehicle Color \& Color Mode}
+
+\subsubsection{Vehicle Trajectory}
+ The volunteers were asked to draw at least 1 trajectory as an input query, next, they were asked to rate each of the resulting trajectory videos with a scale from 1 to 5: where 1 signifies the least relevant, and 5 being the most relevant. Each input query would return at least 25 results which are ordered randomly, this prevented the volunteers from having a preconceived idea of how the results should be ordered. This helped by removing biasness when the volunteers were tasked with rating each results. 
+
+\subsubsection{Vehicle Color \& Color Mode}
+A list with a total of 330 video snippets (30 video snippets for each of the 11 common colors) were presented to the volunteers. These 30 video snippets from each colors were selected using the top 30 results in the database which contained the highest probability for each of the colors. Then, the volunteers were asked to determine the relevance of the color term to that particular vehicle for each of the 330 video snippets with the same scale from 1 to 5. Since there were 4 types of colors modes (LUV, HSV, Lab, Average), the volunteers were split into 4 groups to evaluate each color mode.  
+
+
+
+
+
 \subsection{Results}
 
 \section{Result Analysis}
