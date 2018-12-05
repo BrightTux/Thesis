@@ -252,17 +252,39 @@ Instead of treating each spatio-temporal atom cubes as an unique document, in th
 
 In the same manner, the graphical input query was designed in such a way that it takes on the properties of the atom cubes' unique identifiers with the exception of the $atom_t$. As a substitute of the identifier, the order of the input, $o_{i}$, was used as a replacement. This was possible as the order was used to mimic the motion of the target vehicle shot. However, to do so, first, the graphical query input needs to be converted into a set, $\mathbb{Q}$, by removing duplicate identifiers which was introduced by the mouse stroke. This will thus result with unique identifiers remaining in the set. 
 
-As the retrieval engine is dealing with a huge set of data, the next step is to find a way to optimize the search scope. In this framework, a simplistic approach was taken. In order to further narrow down the search scope, the time and date semantics were ultilized. As these metadata were extracted during the semantic extraction phase, these useful information was used to assist the filter process. With the output from the filtering process, these data can now be compared against the input query $\mathbb{Q}$. This step begins by comparing the length of the query ($query_{length}$) against the length of the individual records ($record[i]_{length}$) in the database. This step is an essential ingredient for the next phase of measuring the dissimilarity using Chamfer Distance.
+As the retrieval engine deals with a huge set of data, the next logical step was to find ways to optimize and minimize the search scope. In this framework, a simplistic approach was taken to further narrow down the search scope. 
+The time and date semantics were utilized as these useful metadata which were extracted during the semantic extraction phase were suitable candidates in assisting the filtering process. 
+Equation \ref{eq:timedatefilter} was used to filter out records from the database which does not fulfill the input query's requirements and include records $\mathbb{R}$ which made it into set $\mathbb{P}$. 
 
-\cc{include an equation for the date and time filtering to formalize it?}
+
+
+\begin{gather} 
+\label{eq:timedatefilter}
+     \text{Start Timestamp} \hspace{.5em} \leq \hspace{.5em} \mathbb{R}[i] \hspace{.5em} \leq \hspace{.5em} \text{End Timestamp} \hspace{.5em} \Rightarrow \hspace{.5em} \mathbb{R}[i] \in \mathbb{P} 
+\end{gather}   
+
+
+\cc{rewrite the following part... so messy!}
+
+
 
 \begin{equation}
     \mathbb{Q} = \{ (x_i, y_i, o_i), (x_{i+1}, y_{i+1}, o_{i+1}), (x_{i+2}, y_{i+2}, o_{i+2}), \dotsb,(x_{i+n}, y_{i+n}, o_{i+n})\}
 \end{equation}
 
-Chamfer Distance, $D_{chamfer}$, is one of the many distance measure metrics available. $D_{chamfer}$ can be formalized using Equation \ref{eq:chamferDistance} \cc{please fill in the chamfer distance formular}, in this framework, this distance metrics is use to measure the dissimilarity between the input query $\mathbb{Q} and each record which fulfils the Equation \cc{date and time equation}. In order to maximize the dissimilarity, the lengths ($query_{length}$, $record[i]_{length}$) are taken into consideration. Based on Equation \ref{eq:chamferDistance}, while all the elements within both the sets will be compared against each other,     
 
 
+Now, with the output from the filtering process, these records can be compared against the input query $\mathbb{Q}$. This step begins by comparing the length of the query ($\mathbb{Q}_{length}$) against the length of the individual records ($\mathbb{R}[i]_{length}$) in the database. This step is an essential ingredient for the next phase of measuring the dissimilarity using Chamfer Distance.
+
+
+Chamfer Distance, $D_{chamfer}$, is one of the many distance measure metrics available. $D_{chamfer}$ can be formalized using Equation \ref{eq:chamferDistance}. In this framework, this distance metrics is use to measure the dissimilarity between the input query $\mathbb{Q}$ and each record $\mathbb{R}[i]$ that fulfills the Equation \ref{eq:timedatefilter}, these records will then be included in the $\mathbb{P}$ set. In order to maximize the dissimilarity in Equation \ref{eq:chamferDistance}, the lengths ($\mathbb{Q}_{length}$, $\mathbb{R}[i]_{length}$) are taken into consideration. Based on Equation \ref{eq:chamferDistance}, while all the elements within both the sets will be compared against each other, the final value will be normalized by the length of $P$. 
+
+
+
+\begin{equation}
+\label{eq:chamferDistance}
+D_{Chamfer} (\mathbb{P},\mathbb{Q}) = \frac{1}{\mid P \mid} \sum_{t_p \in \mathbb{P}} \min_{t_q \in \mathbb{Q}}  \mid t_p - t_q \mid^{2}
+\end{equation}
 
 
 
