@@ -300,6 +300,7 @@ In the \versionOne, each extracted semantic property is defined as a document. A
 
 
 \subsection{Color Semantic Extraction }
+\label{section:versionOneColorExtract}
 %With that in place, this setting effectively performs quantize the range of colors to a fixed number of color categories while taking advantage of the atom-based structure (Refer to Section \ref{SemanticSegmentation}).
 
 As the background subtraction module has separated the foreground blobs from background scene, these blobs are now assigned a bounding box using the blob's maximum and minimum value on both axis. These bounding box are used to mark the location of the vehicle when a vehicle is detected in the scene. However, due to the background subtraction method used, the final foreground blob tend to appear somewhat larger than the actual vehicle footprint. 
@@ -598,7 +599,7 @@ Along with that, there were several key issues which were identified that could 
 The aim of the \versionTwo is to provide alternative solutions and improve the performance of the \versionOne. In the following subsections, the color semantic extraction and motion semantic extraction is discussed in detail.
 
 \subsection{Color Semantic Extraction}
-
+\label{section:versiontwoColor}
 As previously discussed in the section \ref{subsec:colorsemantics}, the basic idea of colors is relatively simple for humans, machines on the other hand, have a hard time understanding the concept of colors. In order to extract color semantics, the initial steps to obtain the Average Dominant Color (ADC) was inherited from the previous method where the bounding box of the detected vehicles from the background subtraction method were cropped. 
 
 Next, the dominant color from each frame was extracted using the maximum bin of the 3-dimension HSV histogram and concatenated. At the end of a vehicle's tracked life cycle, the concatenated dominant colors were averaged out to obtain the ADC. The example in Figure \ref{fig:ADC} illustrates this method while the pseudo-code of the ADC method is described in Algorithm \ref{algo:ADC}.  

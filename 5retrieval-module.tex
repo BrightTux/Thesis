@@ -252,28 +252,22 @@ This section expounds on the techniques used behind this retrieval engine's fram
 Instead of treating each spatio-temporal atom cubes as an unique document, in this framework, the unique identifiers ($atom_x$, $atom_y$, $atom_t$) of each atom was used in the retrieval process. As mentioned above, the focus of this framework veered towards the use of distance measures (see Section \ref{section:distancemeasures}) and its applications in order to retrieve results that are relevant.
 
 In the same manner as the semantic extraction process, the graphical input query was designed in such a way that it takes on the properties of the atom cubes' unique identifiers with the exception of the $atom_t$. As a substitute of the identifier, the order of the input, $o_{i}$, was used as a replacement. This was possible as the order was used to mimic the motion of the target vehicle shot. However, to do so, first, the graphical query input needs to be converted into a set, $\mathbb{Q}$, by removing duplicate identifiers which was introduced by the mouse input strokes. This will thus result with unique identifiers remaining in the set. 
-
 \begin{equation}
     \mathbb{Q} = \{ (x_i, y_i, o_i), (x_{i+1}, y_{i+1}, o_{i+1}), (x_{i+2}, y_{i+2}, o_{i+2}), \dotsb,(x_{i+n}, y_{i+n}, o_{i+n})\}
 \end{equation}
-
 As the retrieval engine deals with a huge set of data, the next logical approach was to find ways to optimize and minimize the search area. In this framework, a simplistic approach was taken to further narrow down the search scope. 
 The time and date semantics were utilized as these useful metadata which were extracted during the semantic extraction phase were suitable candidates in assisting the filtering process. 
 Records $\mathbb{R}$ which fulfilled the input query's requirements were kept and included into a set $\mathbb{P}$, while records which failed was filtered out from this phase using Equation \ref{eq:timedatefilter}.
-
-
 \begin{gather} 
 \label{eq:timedatefilter}
      \text{Start Timestamp} \hspace{.5em} \leq \hspace{.5em} \mathbb{R}[i] \hspace{.5em} \leq \hspace{.5em} \text{End Timestamp} \hspace{.5em} \Rightarrow \hspace{.5em} \mathbb{R}[i] \in \mathbb{P} 
 \end{gather}   
-
-
 Now, with the output $\mathbb{P}$ from the filtering process, these records can now be compared against the input query $\mathbb{Q}$. In order to do so, this step begins by first comparing the length of the query ($\mathbb{Q}_{length}$) against the length of the individual records ($\mathbb{R}[i]_{length}$) in $\mathbb{P}$. This comparison is essential for the next phase of measuring the dissimilarity between using Chamfer Distance (see Equation \ref{eq:chamferDistance}).
 
 Chamfer Distance, $D_{chamfer}$, is one of the many distance measure metrics available. In this framework, this distance metrics was selected to measure the dissimilarity between the input query $\mathbb{Q}$ and each record in $\mathbb{P}$ that fulfills the Equation \ref{eq:timedatefilter}. In order to minimize the dissimilarity between $\mathbb{P}$ \& $\mathbb{Q}$, the number of records (length) within both $\mathbb{P}$ \& $\mathbb{Q}$ are taken into consideration. In the proposed method, $\mathbb{P}$ will be assigned to $P$ if $\mathbb{P}$'s length is greater $\mathbb{Q}$ and vice versa.
 
 
-\begin{table}[]
+\begin{table}[b!]
     \centering
     \begin{tabular}{ccc}
          \begin{equation*}
@@ -321,31 +315,26 @@ Once the query is constructed, the retrieval engine goes through the database se
 Unlike the previous method, the use of HTML5 video elements in this retrieval engine made it easy to display the obtained results with a suitable thumbnail that represents each retrieved video while speeding up the speed as there was no need of encoding each retrieved shot on the fly.
 
 \begin{figure}[hbt!]\centering
-\includegraphics[width=.8\textwidth]{image/retrievalTwo/VISERinterface2.png}
+\includegraphics[width=.9\textwidth]{image/retrievalTwo/VISERinterface2.png}
 \caption{Search Interface for \versionTwo}
 \label{fig:versionTwoInterface}
 \end{figure}
 
-\subsection{Results and Analysis}
+\subsection{Metrics, Scoring System and Experimental Methodology}
 
 The following subsections describes the scoring system, metrics as well as the evaluation process of the proposed method described in Section \ref{section:versionTwo}. Given that the main objective of the proposed retrieval engine is to provide users with results which closely resemble the given query in a sorted manner such that results which are more relevant should appear higher in the rank. The performance of the proposed method was measured using the \textit{Precision@K} and normalized Discounted Cumulative Gain (\textit{nDCG}) metrics.  
 
-The \textit{Precision@K} metric was used to identify the number of retrieved results which are relevant to the user while the \textit{nDCG} metrics is used to measure how well the retrieval engine display the results to the users. 
+The \textit{Precision@K} metric is used to identify the number of retrieved results which are relevant to the user while the \textit{nDCG} metrics is used to measure how well the retrieval engine's results are ordered for the end users. 
 
-In order to evaluate the performance of the proposed method, the evaluation of both the trajectory and color terms were separated. A group of volunteers were introduced to the retrieval engine along with it's features and a sample use case was demonstrated, then, they were given full control to draw any query they were interested in. Next, the volunteers were tasked to provide feedback by rating the results with a scale of 1 to 5 with 5 being a result that closely resembles the input query. 
+In order to evaluate the performance of the proposed method, the evaluation of both the trajectory and color terms were separated. The separation of evaluations allows further understanding on how to improve the retrieval engine as a whole. A group of volunteers were introduced to the retrieval engine along with it's features and a sample use case was demonstrated, then, the volunteers were given full control to draw any query they were interested in. Next with the results from the retrieval engine, the volunteers were tasked to provide feedback by rating each result with a scale of 1 to 5, with 5 being a result that closely resembles the input query. 
 
-The volunteers were given full control of the input query \mathbb{P} as it closely resembles a real world scenario. With that in consideration, the ground truth annotation for each of those queries during the 30 days data is not available, hence, the recall rate can not be measured in this retrieval engine. 
+The volunteers were given full control of the input query \mathbb{P} as it closely resembles real world scenarios. With that in consideration, it is not feasible to obtain the ground truth annotation for each of those queries within the one month data time frame, without which the recall rate can not be measured for this retrieval engine. 
 
-While the \textit{Precision@K} metrics is a commonly used metric for retrieval system, the main disadvantage of this metric is that the evaluation done in a coarse manner as it only provides a binary evaluation of whether or not a particular result is relevant to the query. On the other hand, the \textit{DCG} metric is able to provide a more granular evaluation of the proposed method as the results will also be evaluated based on its ordered rank along with the relevancy of the result. Figure \ref{fig:dcgGain} illustrates the decreasing gain value of the result as the ranking increases. 
-
-\cc{work from here onwards}
+While the \textit{Precision@K} metrics is a commonly used metric for retrieval system, the main disadvantage of this metric is that the evaluation process is done in a coarse manner as it only provides a binary evaluation of whether or not a particular result is relevant to the query. On the other hand, the \textit{DCG} metric is able to provide a more granular evaluation of the proposed method as the results are evaluated based on its ordered rank along with the relevancy of the result. Figure \ref{fig:dcgGain} illustrates the decreasing gain value of each result as the ranking of the result increases. 
 
 \begin{figure}[h]
 \centering
-% Use the relevant command to insert your figure file.
-% For example, with the graphicx package use
-  \includegraphics[width=0.9\textwidth]{image/Discount_vs__Rank.png}
-% figure caption is below the figure
+\includegraphics[width=0.9\textwidth]{image/retrievalTwo/discountvsrank.png}
 \caption{The discounted gain decreases exponentially with the rank}
 \label{fig:dcgGain}       % Give a unique label
 \end{figure}
@@ -357,40 +346,108 @@ DCG_p = \sum_{p=1}^k\frac{REL_{p}}{\log_2 (\max (p,2))}
 
 % $DCG@K = \sum_{i=i}^K\frac{REL_{i}}{\log_2 (\max (i,2))}$
 
-Since the Discounted Cumulative Gain metric produces an unbounded value ([0, $\infty$) range), it is not suitable for use when averaging across multiple independent queries. Hence, the normalized Discounted Cumulative Gain (nDCG) metric is used to convert the unbounded value into a [0, 1] range.
-
-
-\begin{equation}
+Since the Discounted Cumulative Gain metric produces an unbounded value ([0, $\infty$) range), it is not suitable for use when averaging across multiple independent queries. In order to make use of the \textit{DCG} metric, it is converted into the \textit{nDCG} metrics using Equation \ref{eq:nDCG} where the values are now bounded within a [0, 1] range.
+\begin{align}
 \label{eq:nDCG}
-\it{n}DCG_P = \frac{DCG_P}{IDCG_P} \textnormal{, where}
-\end{equation}
+\it{n}DCG_P = \frac{DCG_P}{IDCG_P} 
+\end{align}
+where: $IDCG_P$ is the ideal DCG score at Rank P in the ideal ranking order.
 
-
-\begin{equation}
-\label{eq:IDCG}
-IDCG_P \textnormal{ is the ideal DCG score at Rank P in the ideal ranking order}
-\end{equation}
-
-
+The following subsections provides in-depth details on the experimental methodology which were designed for the evaluation of the retrieval engine's ability to retrieve both the vehicle trajectory as well as vehicle colors. 
 
 
 \subsubsection{Vehicle Trajectory}
- The volunteers were asked to draw at least 1 trajectory as an input query, next, they were asked to rate each of the resulting trajectory videos with a scale from 1 to 5: where 1 signifies the least relevant, and 5 being the most relevant. Each input query would return at least 25 results which are ordered randomly, this prevented the volunteers from having a preconceived idea of how the results should be ordered. This helped by removing biasness when the volunteers were tasked with rating each results. 
+ The volunteers were given full control of the user interface and asked to draw at least 1 trajectory as an input query. Upon performing the query, they were asked to rate each of the resulting trajectory video shot with a scale from 1 to 5, where 1 signifies the least relevant, and 5 being the most relevant. 
+ Each input query would return at least 25 results which are ordered randomly, this is intentionally done to prevent volunteers from having a pre-conceived idea of how the results should be ordered. This helped to remove biasness when the volunteers were asked to provide a rating for each result. 
+
+ 
 
 \subsubsection{Vehicle Color \& Color Mode}
-A list with a total of 330 video snippets (30 video snippets for each of the 11 common colors) were presented to the volunteers. These 30 video snippets from each colors were selected using the top 30 results in the database which contained the highest probability for each of the colors. Then, the volunteers were asked to determine the relevance of the color term to that particular vehicle for each of the 330 video snippets with the same scale from 1 to 5. Since there were 4 types of colors modes (LUV, HSV, Lab, Average), the volunteers were split into 4 groups to evaluate each color mode.  
+A list with a total of 330 video snippets (30 video snippets for each of the 11 common colors) were presented to the volunteers. These 30 video snippets from each colors were selected using the top 30 results in the database which contained the highest probability for each of the colors. Then, the volunteers were asked to determine the relevance of the color term to that particular vehicle for each of the 330 video snippets with the same scale from 1 to 5. 
 
+In order to thoroughly evaluate the performance of the color semantic extraction process which was introduced in Section \ref{section:versiontwoColor}, 3 other color modes were included in the evaluation process. These color mode are variations on how the color terms are extracted using different color space and distance metrics. The variations are listed in Table \ref{table:ColorVariation}.    
 
+\begin{table}[]\centering
+\begin{tabular}{|c|l|}
+\hline
+Color Mode & Distance Metrics \\
+\hline
+LUV & 
+\begin{tabular}{lcl}
+\\
+$\mean{r}$ &  $=$  & $\frac{C_{1R} + C_{2R}}{2}$\\
+$\Delta R$ & $=$ & $C_{1R} - C_{2R}$\\
+$\Delta G$ & $=$ & $C_{1G} - C_{2G}$\\
+$\Delta B$ & $=$ & $C_{1B} - C_{2B}$\\
+\\
+$\Delta Color_{LUV}$ & $=$ &$\sqrt{(2 + \frac{\mean{r}}{256}) \times \Delta R^{2} + 4 \times \Delta G^{2} + (2 + \frac{255 - \mean{r}}{256}) \times \Delta B^{2}}$
+\\
+\hspace{4em}& & \\
+\end{tabular}\\
+\hline
+HSV & 
+\begin{tabular}{lcl}
+\\
+\multicolumn{3}{c}{(As introduced in Section \ref{section:versionOneColorExtract})}
+\\
 
+$\Delta{Hue}$ & $=$ & $\min\{ \mid GT_{hue} - Color_{hue} \mid,  180^{\circ} - \mid GT_{hue} - Color_{hue} \mid  \}$ \\
+$\Delta  Saturation$ & $=$ & $GT_{saturation} - Color_{saturation}$ \\
+$\Delta  Value$ &  $=$ & $GT_{Value} - Color_{Value}$ \\
+\\
+$\Delta Color_{HSV}$ & $=$ & $\sqrt{\Delta{Hue}^{2} + \Delta{Sat}^{2}  + \Delta{Val}^{2} }$
+\\
+\hspace{4em}& & \\
+\end{tabular}\\
+\hline
+Lab & 
+\begin{tabular}{lcl}
+\\
+$\Delta L$ & $=$ & $C_{1L} - C_{2L}$\\
+$\Delta a$ & $=$ & $C_{1a} - C_{2a}$\\
+$\Delta b$ & $=$ & $C_{1b} - C_{2b}$\\
+\\
+$\Delta{Color_{Lab}}$ & $=$ & $\sqrt{\Delta{L}^{2} + \Delta{a}^{2}  + \Delta{b}^{2} }$
+\\
+\hspace{5em}& & \\
+\end{tabular}\\
+\hline
+Average &
+\begin{tabular}{lcl}
+\\
+$\Delta{Color_{Average}}$ & $=$ & $\frac{\Delta{Color_{LUV}} + \Delta{Color_{HSV}} + \Delta{Color_{Lab}}}{3}$
+\\
+\hspace{4em}& & \\
+\end{tabular}\\
+\hline
+\end{tabular}
+\caption{Variation of Color Distance Metrics Used}
+\label{table:ColorVariation}
+\end{table}
 
 
 \subsection{Results}
+
+The results of both components (Vehicle Trajectory \& vehicle Color) are recorded in this section. For both experiments, a binary evaluation (True(1) / False(0)) is performed on each result. Here, results with an average score of 3 and above are considered relevant to the query. Hence, each relevant (True(1)) result \textit{(n)} will then contribute to the \textit{Precision@K} score using Equation \ref{eq:p@k}. 
+ \begin{equation}
+\label{eq:p@k}
+Precision@K =  \frac{\sum_{n=1}^K \begin{cases}1 \rightarrow True, & AvgScore(Result_n)\geq 3\\0 \rightarrow False, & AvgScore(Result_n)< 3 \end{cases}} {K}
+\end{equation}
+
+\cc{work on the results section} \\
+\cc{talk about how many trajectories were collected from how many volunteer} \\
+\cc{show the compiled graph} \\
+\cc{talk about the splitting between simple and complex trajectory}\\
+\cc{plot results of trajectory} \\
+\cc{move on to the color & the results}
+
 
 \section{Result Analysis}
 We also note that the achromatic algorithm is an essential step because the 8 Values bins are insufficient to accurately represent vehicles with borderline dominant color as the brightness values may be widely distributed.
 
 
 
-\cc{for the analysis, include a "heatmap" of the versionone vs versiontwo for the evaluation of results}
+\cc{for the analysis, include a "heatmap" of the versionone vs versiontwo for the evaluation of results} \\
+\cc{why the color metric selected worked best (higher difference btween each term)}
 
 
