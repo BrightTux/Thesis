@@ -324,7 +324,7 @@ Unlike the previous method, the use of HTML5 video elements in this retrieval en
 
 The following subsections describes the scoring system, metrics as well as the evaluation process of the proposed method described in Section \ref{section:versionTwo}. Given that the main objective of the proposed retrieval engine is to provide users with results which closely resemble the given query in a sorted manner such that results which are more relevant should appear higher in the rank. The performance of the proposed method was measured using the \textit{Precision@K} and normalized Discounted Cumulative Gain (\textit{nDCG}) metrics.  
 
-The \textit{Precision@K} metric is used to identify the number of retrieved results which are relevant to the user while the \textit{nDCG} metrics is used to measure how well the retrieval engine's results are ordered for the end users. 
+The \textit{Precision@K} metric is used to identify the number of retrieved results which are relevant to the user while the \textit{nDCG} metrics is used to measure how well the retrieval engine's results are ordered for the end users. The idea behind \textit{DCG} is that results that are highly relevant are more useful when it appears higher in rank, users would not need to go through too many results before finding a suitable and relevant result. The other side of the coin is true as well, relevant documents which appears lower in the rank should be penalized, hence the discount in its gain.
 
 In order to evaluate the performance of the proposed method, the evaluation of both the trajectory and color terms were separated. The separation of evaluations allows further understanding on how to improve the retrieval engine as a whole. A group of volunteers were introduced to the retrieval engine along with it's features and a sample use case was demonstrated, then, the volunteers were given full control to draw any query they were interested in. Next with the results from the retrieval engine, the volunteers were tasked to provide feedback by rating each result with a scale of 1 to 5, with 5 being a result that closely resembles the input query. 
 
@@ -349,23 +349,26 @@ DCG_p = \sum_{p=1}^k\frac{REL_{p}}{\log_2 (\max (p,2))}
 Since the Discounted Cumulative Gain metric produces an unbounded value ([0, $\infty$) range), it is not suitable for use when averaging across multiple independent queries. In order to make use of the \textit{DCG} metric, it is converted into the \textit{nDCG} metrics using Equation \ref{eq:nDCG} where the values are now bounded within a [0, 1] range.
 \begin{align}
 \label{eq:nDCG}
-\it{n}DCG_P = \frac{DCG_P}{IDCG_P} 
+\textit{nDCG}_P = \frac{DCG_P}{IDCG_P} 
 \end{align}
-where: $IDCG_P$ is the ideal DCG score at Rank P in the ideal ranking order.
+where: 
+
+\hspace{2em} $IDCG_P$ is the ideal DCG score at Rank P in the ideal ranking order.
 
 The following subsections provides in-depth details on the experimental methodology which were designed for the evaluation of the retrieval engine's ability to retrieve both the vehicle trajectory as well as vehicle colors. 
 
 
 \subsubsection{Vehicle Trajectory}
- The volunteers were given full control of the user interface and asked to draw at least 1 trajectory as an input query. Upon performing the query, they were asked to rate each of the resulting trajectory video shot with a scale from 1 to 5, where 1 signifies the least relevant, and 5 being the most relevant. 
- Each input query would return at least 25 results which are ordered randomly, this is intentionally done to prevent volunteers from having a pre-conceived idea of how the results should be ordered. This helped to remove biasness when the volunteers were asked to provide a rating for each result. 
+ The volunteers were given full control of the user interface and asked to draw at least 1 trajectory as an input query. Upon performing the query, the volunteers were asked to rate each of the resulting trajectory video shot with a scale from 1 to 5, where 1 signifies the least relevant, and 5 being the most relevant. 
+ 
+ Each input query would return at least 25 results which were ordered randomly, this was intentionally done to prevent the volunteers from having any pre-conceived idea of how the results should be ordered which would affect the way each retrieved results is judged. By removing the biasness, the volunteers were able to provide a fair and sound evaluation towards each result, hence increasing the credibility of the overall results.
 
  
 
 \subsubsection{Vehicle Color \& Color Mode}
-A list with a total of 330 video snippets (30 video snippets for each of the 11 common colors) were presented to the volunteers. These 30 video snippets from each colors were selected using the top 30 results in the database which contained the highest probability for each of the colors. Then, the volunteers were asked to determine the relevance of the color term to that particular vehicle for each of the 330 video snippets with the same scale from 1 to 5. 
+A list with a total of 330 video snippets (30 video snippets for each of the 11 common colors) were presented to the volunteers. These 30 video snippets from each colors were selected using the top 30 results in the database which contained the highest probability for each of the colors. The volunteers were then asked to determine the relevance of the color term to that particular vehicle for each of the 330 video snippets with the same scale from 1 to 5. 
 
-In order to thoroughly evaluate the performance of the color semantic extraction process which was introduced in Section \ref{section:versiontwoColor}, 3 other color modes were included in the evaluation process. These color mode are variations on how the color terms are extracted using different color space and distance metrics. The variations are listed in Table \ref{table:ColorVariation}.    
+In order to thoroughly evaluate the performance of the color semantic extraction process which was introduced in Section \ref{section:versiontwoColor}, three other color modes were included in the evaluation process. These color modes are variations on how the color terms are extracted using different color space and distance metrics. These variations are listed in Table \ref{table:ColorVariation}.    
 
 \begin{table}[]\centering
 \begin{tabular}{|c|l|}
@@ -428,23 +431,211 @@ $\Delta{Color_{Average}}$ & $=$ & $\frac{\Delta{Color_{LUV}} + \Delta{Color_{HSV
 
 \subsection{Results}
 
-The results of both components (Vehicle Trajectory \& vehicle Color) are recorded in this section. For both experiments, a binary evaluation (True(1) / False(0)) is performed on each result. Here, results with an average score of 3 and above are considered relevant to the query. Hence, each relevant (True(1)) result \textit{(n)} will then contribute to the \textit{Precision@K} score using Equation \ref{eq:p@k}. 
+The results of both components (Vehicle Trajectory \& vehicle Color) are recorded in this section. As the results were evaluated using a scale from 1 to 5, these results were converted using a binary evaluation (True(1) / False(0)). This is done to enable to evaluation using the \textit{Precision@K} metrics. Here, results scoring with an average of 3 and above are considered relevant to the query. Each relevant (True(1)) result \textit{(n)} will then contribute to the \textit{Precision@K} score (see Equation \ref{eq:p@k}). 
  \begin{equation}
 \label{eq:p@k}
 Precision@K =  \frac{\sum_{n=1}^K \begin{cases}1 \rightarrow True, & AvgScore(Result_n)\geq 3\\0 \rightarrow False, & AvgScore(Result_n)< 3 \end{cases}} {K}
 \end{equation}
 
-\cc{work on the results section} \\
-\cc{talk about how many trajectories were collected from how many volunteer} \\
-\cc{show the compiled graph} \\
-\cc{talk about the splitting between simple and complex trajectory}\\
-\cc{plot results of trajectory} \\
-\cc{move on to the color & the results}
+\subsubsection{Vehicle Trajectory}
+A total of eleven trajectories were drawn by six volunteers who were given full liberty on how each was drawn. Figure \ref{fig:versionTwoTrajquery} shows a compilation of these trajectories overlaid over the carpark scene, these trajectories covered a majority of the scene while showing a good mixture of different queries.
+While some of the queries exceeded the tracking area of the tracker, the retrieval engine managed to retrieved results which has the closest resemblance to the given queries. As mentioned, the performance of the retrieval engine was measured using \textit{Precision@K} along with the \textit{normalized Discounted Cumulative Gain} (\textit{nDCG}) metrics. 
 
+\begin{figure}[!t]
+  \centering
+    \includegraphics[width=0.8\linewidth]{image/retrievalTwo/trajquery.png}
+  \caption{Compilation of trajectory queries provided by volunteers}
+  \label{fig:versionTwoTrajquery}
+\end{figure}
+
+Even though the errors from the tracker\cite{lim2017} cascaded into database, results due to tracker error was not removed to provide a general idea of the retrieval engine's performance when working with trackers which are currently available. First, the \textit{Precision@K} of the retrieval engine was measured and recorded, Figure \ref{fig:versionTwoPreAtK} contains the plot of the average \textit{Precision@K} result. The result shows that the retrieval engine managed to retrieve video shots which were relatively relevant to the user's query with an average precision of 76\%. The \textit{Precision@K} results shows a steady decline in its precision as the K (number of results) increases, this was an expected outcome as it is common in a regular retrieval engine. 
+
+\begin{figure}[!ht]
+  \centering
+    \includegraphics[width=\linewidth]{image/retrievalTwo/p@k.png}
+  \caption{Precision at K for All Trajectory Queries}
+  \label{fig:versionTwoPreAtK}
+\end{figure}
+
+Next, in order to determine the retrieval engine's overall performance in regards to how the results were ordered, the average \textit{nDCG} score for all eleven trajectory queries were measured and plotted in Figure \ref{fig:ndcgWithError}. As a whole, the average \textit{nDCG} score lies along the 83\% region. This means that the results were 83\% of the time ordered in the best possible manner. As the number of retrieved results were evaluated, the \textit{nDCG} score shows an increase. 
+While this is not desirable, this behaviour was expected. A good retrieval engine would strive to provide the best results in the best order if possible.  
+
+\begin{figure}[!h]
+  \centering
+    \includegraphics[width=0.9\linewidth]{image/retrievalTwo/averageNDCG.png}
+  \caption{Average Normalized Discounted Cumulative Gain Score}
+  \label{fig:ndcgWithError}
+\end{figure}
+
+To further break down the evaluation process of the retrieval engine's performance, as per the previous retrieval model's evaluation, the trajectory queries were also divided into two categories: \textit{simple} and \textit{complex} trajectories. \textit{Simple} trajectories refers to trajectories that moves in a single direction without any turning (such as a straight line) while \textit{complex} trajectories refers to movements which consist of more than one turning. Table \ref{table:versionTwoComplexSimple} shows the category of each query while the \textit{Precision@K} results are plotted in Figure \ref{fig:versionTwoPatKAll}. 
+
+For simple trajectories, the Precision@K scores a high 100\% at the beginning and slowly decrease to around 68\% as the number of retrieved results (K) were reviewed. All the simple queries shows rather consistent results which are as expected. As for complex trajectories, the precision at k=1 started at 67\% and dropped further to 46\% at the end of 30 results. Even though Query 6 and Query 9 belongs in the complex trajectory category, the first 10 results shows rather high precision. However, the results from the other complex trajectory did not perform as well as Query 6 and Query 9. The results of those query started strong in the early K, but dropped significantly when K was 3 and above. The overall Precision@K results shows a rather expected behaviour where the precision would be high in the early K region, and would slowly decrease as K increases. 
+
+% Please add the following required packages to your document preamble:
+% \usepackage{multirow}
+\begin{table}[] \centering
+\begin{tabular}{|c|l|}
+\hline
+\multicolumn{1}{|l|}{\textbf{Trajectory Category}} & \textbf{Query Number} \\ \hline
+\multirow{5}{*}{Simple} & Query 4 \\ \cline{2-2} 
+ & Query 5 \\ \cline{2-2} 
+ & Query 7 \\ \cline{2-2} 
+ & Query 8 \\ \cline{2-2} 
+ & Query 10 \\ \hline
+\multirow{6}{*}{Complex} & Query 1 \\ \cline{2-2} 
+ & Query 2 \\ \cline{2-2} 
+ & Query 3 \\ \cline{2-2} 
+ & Query 6 \\ \cline{2-2} 
+ & Query 9 \\ \cline{2-2} 
+ & Query 11 \\ \hline
+\end{tabular}
+\caption{Queries and the Corresponding Trajectory Type}
+\label{table:versionTwoComplexSimple}
+\end{table}
+
+As a whole, both \textit{simple} and \textit{complex} queries shows reasonably good performance in terms of its precision, however, when evaluated individually, the \textit{complex} queries shows poorer results. Next, the \textit{nDCG} score of both the \textit{simple} and \textit{complex} trajectory queries were evaluated and plotted in Figure \ref{fig:versionTwoNDCG}(a) and Figure \ref{fig:versionTwoNDCG}(b) respectively.
+
+
+\begin{figure}[htb!]
+  \centering
+\begin{tabular}{c}
+ \includegraphics[width=0.9\linewidth]{image/retrievalTwo/p@k_simple.png}\\
+ (a) \textit{Precision@K} for Simple Trajectories \\
+ \includegraphics[width=0.9\linewidth]{image/retrievalTwo/p@k_complex.png} \\
+ (b) \textit{Precision@K} for Complex Trajectories
+\end{tabular}
+\caption{\textit{Precision@K} for Simple and Complex Trajectories Queries} \label{fig:versionTwoPatKAll}
+\end{figure}
+
+
+\begin{figure}[htb!]
+  \centering
+\begin{tabular}{c}
+ \includegraphics[width=0.9\linewidth]{image/retrievalTwo/ndcgSimple.png}\\
+ (a) \textit{nDCG} for Simple Trajectories \\
+ \includegraphics[width=0.9\linewidth]{image/retrievalTwo/ndcgComplex.png} \\
+ (b) \textit{nDCG} for Complex Trajectories
+\end{tabular}
+\caption{Normalized Discounted Cumulative Gain for Simple and Complex Trajectories Queries} \label{fig:versionTwoNDCG}
+\end{figure}
+
+The difference between the simple and complex trajectories are rather distinct. The overall nDCG score for the queries of simple trajectories were rather high in the 91\% region while the nDCG score for queries related to complex trajectories were in the 75\% region. The results here shows that the retrieval engine had an easier time sorting simple trajectories in the best ranking order while having some difficulty when organizing the complex trajectories using the $D_{chamfer}$ metrics. 
+
+In a nutshell, by using the proposed $D_{chamfer}$ metrics, the retrieval engine was able to provide relatively good results (Average \textit{Precision@K} = 76\%) which were sorted in the best way possible (\textit{nDCG} score = 83\%).
+
+\subsubsection{Vehicle Color \& Color Mode}
+\cc{re write these parts? or at least check them.. }
+
+The average Precision@K for each of the color metrics were tabulated as shown in Table \ref{tab:avg@k}. As mentioned in the previous section, the volunteers were asked to determine the relevance of the color term to that particular vehicle for each of the video snippets with a scale of 1 to 5. 
+
+\begin{table}[!t]
+	\centering
+	\caption{Average Precision @ K for each color metrics}
+	\label{tab:avg@k}
+\begin{tabular}{c||c|c|c|c|c|c|c|c|c|c}
+K & 1 & 2 & 3 & 4 & 5 & 10 & 15 & 20 & 25 & 30  \\ \hline \hline 
+\rowcolor{yellow} LUV  & 0.91 & 0.91 & 0.91 & 0.86 & 0.85 & 0.69 & 0.62 & 0.60 & 0.63 & 0.60 \\ 
+Lab  & 0.27 & 0.27 & 0.27 & 0.25 & 0.24 & 0.24 & 0.24 & 0.23 & 0.22 & 0.22 \\ 
+HSV & 0.27 & 0.36 & 0.30 & 0.27 & 0.29 & 0.25 & 0.25 & 0.23 & 0.21 & 0.21 \\  
+Avg & 0.09 & 0.18 & 0.15 & 0.16 & 0.16 & 0.18 & 0.18 & 0.20 & 0.23 & 0.23 \\ 
+\end{tabular} 
+
+\end{table}
+
+
+\begin{figure}[htb!]
+  \centering
+\begin{tabular}{c}
+ \includegraphics[width=0.4\linewidth]{image/luv_k.png} \\
+ (a) LUV Color Mode
+  \includegraphics[width=0.4\linewidth]{image/hsv_k.png}\\
+ (b) HSV Color Mode \\
+ \includegraphics[width=0.4\linewidth]{image/lab_k.png} \\
+ (c) Lab Color Mode
+ \includegraphics[width=0.4\linewidth]{image/avg_k.png} \\
+ (d) Average Color Mode \\
+\end{tabular}
+\caption{Precision @ K for each color metrics} \label{fig:colorspace_score}
+\end{figure}
+
+The confusion matrix of each color space is plotted in Figure \ref{fig:colorspace_score} using 30 results for each color (with a total of 330 results for each color space). The X-axis represents the Actual Color, while the Y-axis represents the Predicted Color. The colors in the confusion matrix is arranged in the following order: Black, Purple, Brown, Red, Pink, Orange, Yellow, Green, Blue, White, Gray. The X-axis also contains an additional row which indicates numbers of results which were due to tracking error in the proposed method's tracking and extraction phase. Both the actual color and the tracking error data were annotated by the authors.
+
+\begin{figure}[htb!]
+  \centering
+\begin{tabular}{cc}
+ \includegraphics[width=0.4\linewidth]{image/retrievalTwo/luvCM.png} & 
+  \includegraphics[width=0.4\linewidth]{image/retrievalTwo/hsvCM.png} \\
+ (a) LUV Color Mode & (b) HSV Color Mode \\
+ \includegraphics[width=0.4\linewidth]{image/retrievalTwo/labCM.png} &
+ \includegraphics[width=0.4\linewidth]{image/retrievalTwo/avgCM.png} \\
+(c) Lab Color Mode & (d) Average Color Mode \\
+\end{tabular}
+\caption{Comparison Between the Color Modes Using Confusion Matrix} \label{fig:colorspace_Confuscore}
+\end{figure}
+
+Upon deeper inspection of the confusion matrix, the results shows similar output when compared with the precision@k results tabulated from the volunteers using the scoring method. Both results tallies in their finding that the LUV color space metric proposed by Riemersma\cite{riemersma} outperforms the other color metrics. The Euclidean distance metrics used in the HSV Color Space performed the worst with not much variation in the results for each color. On the other hand, the Lab color space results shows some amount of accuracy for strongly saturated colors such as Red and Black but fails to differentiate the rest. The initial idea of using the mean from each of the color space was to maximize the strengths of each metric, however, as shown in the results, since only the LUV color space was performing well, the average score suffered. It is also interesting to note that all the color spaces managed to predict Black color relatively well.
+
+Since the LUV color space metrics outperformed the rest of the color spaces with a precision of 85\% at k=5, while the other color metrics barely touched the 30\% mark, the normalized Discounted Cumulative Gain (nDCG) for the LUV Color space results were measured and plotted to understand the performance of the retrieval engine in terms of how well the results were sorted. Since the HSV, Lab and Average color space metrics did not perform well, the nDCG metric was not measured as the order of the results does not represent the performance of the retrieval engine. In our experiment, the average color metric suffered due to the poor performance of the Lab and HSV color space metrics. The Discounted Cumulative Gain result was also visualized using Figure \ref{fig:colorndcg}.
+
+
+The Bar chart represents the number of results the user has to view in order to find a relevant document, hence a chart where the results consistently stays at the high 80-100\% area shows that the ranking of the results were done in the best way possible. The Radar chart on the other hand, represents the overall performance of a particular color over the number of results the user has to view in order to find a relevant document. Both of the charts clearly visualize that most colors were retrieved accurately and sorted in the a relatively good order with an astounding performance of high 80-90\% except for Brown and Green color where the retrieval engine's performance only reach the best at the end of 30 results.
+
+
+\begin{table}[h!]
+	\centering
+	\caption{Normalized Discounted Cumulative Gain (nDCG) for the LUV color metrics}
+	\label{tab:dcgColor}
+\resizebox{\textwidth}{!}{
+\begin{tabular}{c||c|c|c|c|c|c|c|c|c|c|c}
+& black & blue & brown & gray & green & orange & pink & purple & red & white & yellow \\ \hline \hline
+nDCG1 & 0.93 & 0.93 & 0.21 & 0.86 & 0.93 & 0.67 & 1.00 & 1.00 & 0.93 & 1.00 & 1.00 \\ 
+nDCG2 & 0.90 & 1.00 & 0.48 & 0.89 & 0.63 & 0.86 & 0.93 & 0.86 & 0.87 & 0.97 & 0.97 \\ 
+nDCG3 & 0.89 & 1.00 & 0.58 & 0.92 & 0.67 & 0.89 & 0.93 & 0.74 & 0.90 & 0.97 & 0.96 \\ 
+nDCG4 & 0.91 & 0.93 & 0.58 & 0.92 & 0.68 & 0.91 & 0.91 & 0.73 & 0.87 & 0.97 & 0.94 \\ 
+nDCG5 & 0.90 & 0.93 & 0.62 & 0.93 & 0.67 & 0.92 & 0.90 & 0.72 & 0.88 & 0.95 & 0.95 \\ 
+nDCG6 & 0.91 & 0.94 & 0.60 & 0.88 & 0.68 & 0.91 & 0.87 & 0.73 & 0.87 & 0.96 & 0.96 \\ 
+nDCG7 & 0.92 & 0.94 & 0.62 & 0.86 & 0.68 & 0.89 & 0.88 & 0.71 & 0.88 & 0.96 & 0.96 \\ 
+nDCG8 & 0.93 & 0.94 & 0.63 & 0.84 & 0.66 & 0.90 & 0.87 & 0.72 & 0.87 & 0.96 & 0.96 \\ 
+nDCG9 & 0.92 & 0.92 & 0.64 & 0.82 & 0.66 & 0.89 & 0.87 & 0.73 & 0.89 & 0.96 & 0.96 \\ 
+nDCG10 & 0.90 & 0.89 & 0.65 & 0.80 & 0.66 & 0.88 & 0.85 & 0.73 & 0.88 & 0.95 & 0.96 \\ 
+nDCG11 & 0.90 & 0.87 & 0.67 & 0.81 & 0.66 & 0.89 & 0.84 & 0.76 & 0.89 & 0.94 & 0.96 \\ 
+nDCG12 & 0.90 & 0.88 & 0.67 & 0.81 & 0.67 & 0.89 & 0.82 & 0.76 & 0.88 & 0.94 & 0.96 \\ 
+nDCG13 & 0.91 & 0.89 & 0.67 & 0.81 & 0.67 & 0.91 & 0.82 & 0.78 & 0.88 & 0.94 & 0.94 \\ 
+nDCG14 & 0.92 & 0.88 & 0.67 & 0.82 & 0.68 & 0.90 & 0.80 & 0.78 & 0.89 & 0.91 & 0.94 \\ 
+nDCG15 & 0.93 & 0.90 & 0.67 & 0.83 & 0.68 & 0.90 & 0.80 & 0.79 & 0.89 & 0.90 & 0.94 \\ 
+nDCG16 & 0.93 & 0.90 & 0.68 & 0.82 & 0.68 & 0.90 & 0.81 & 0.79 & 0.89 & 0.90 & 0.94 \\ 
+nDCG17 & 0.93 & 0.90 & 0.69 & 0.84 & 0.70 & 0.90 & 0.81 & 0.80 & 0.89 & 0.91 & 0.95 \\ 
+nDCG18 & 0.93 & 0.92 & 0.69 & 0.86 & 0.71 & 0.90 & 0.82 & 0.80 & 0.89 & 0.91 & 0.95 \\ 
+nDCG19 & 0.92 & 0.92 & 0.70 & 0.85 & 0.72 & 0.91 & 0.83 & 0.80 & 0.89 & 0.91 & 0.95 \\ 
+nDCG20 & 0.92 & 0.92 & 0.72 & 0.85 & 0.74 & 0.91 & 0.85 & 0.80 & 0.89 & 0.89 & 0.96 \\ 
+nDCG21 & 0.91 & 0.92 & 0.72 & 0.86 & 0.77 & 0.90 & 0.86 & 0.80 & 0.90 & 0.90 & 0.95 \\ 
+nDCG22 & 0.91 & 0.92 & 0.74 & 0.88 & 0.76 & 0.91 & 0.87 & 0.80 & 0.91 & 0.89 & 0.95 \\ 
+nDCG23 & 0.92 & 0.92 & 0.76 & 0.88 & 0.78 & 0.92 & 0.89 & 0.82 & 0.91 & 0.90 & 0.95 \\ 
+nDCG24 & 0.92 & 0.92 & 0.77 & 0.90 & 0.79 & 0.94 & 0.90 & 0.84 & 0.92 & 0.90 & 0.95 \\ 
+nDCG25 & 0.93 & 0.93 & 0.78 & 0.92 & 0.81 & 0.94 & 0.91 & 0.85 & 0.93 & 0.91 & 0.96 \\ 
+nDCG26 & 0.94 & 0.95 & 0.80 & 0.92 & 0.81 & 0.95 & 0.91 & 0.87 & 0.93 & 0.93 & 0.96 \\ 
+nDCG27 & 0.94 & 0.95 & 0.81 & 0.93 & 0.81 & 0.95 & 0.92 & 0.87 & 0.94 & 0.93 & 0.96 \\ 
+nDCG28 & 0.95 & 0.96 & 0.83 & 0.93 & 0.83 & 0.95 & 0.92 & 0.87 & 0.95 & 0.95 & 0.96 \\ 
+nDCG29 & 0.96 & 0.96 & 0.83 & 0.93 & 0.85 & 0.95 & 0.94 & 0.89 & 0.95 & 0.96 & 0.97 \\ 
+nDCG30 & 0.96 & 0.97 & 0.85 & 0.94 & 0.85 & 0.96 & 0.94 & 0.89 & 0.95 & 0.97 & 0.98 \\ 
+\end{tabular}}
+\end{table}
 
 \section{Result Analysis}
 We also note that the achromatic algorithm is an essential step because the 8 Values bins are insufficient to accurately represent vehicles with borderline dominant color as the brightness values may be widely distributed.
 
+Even though the overall results are relatively good, the implementation of Chamfer Distance in the proposed method is not without its faults. Observation of the results shows that chamfer distance performs poorly when (i) a trajectory is compared against a much shorter trajectory that intersects at a particular point or (ii) two trajectories turning into 2 different junctions. In both examples, the obtained $D_{chamfer}$ shows relatively low score that could result in those shots being retrieved, these examples can be found in Figure  \ref{fig:chamferDisadvantage}.
+
+\begin{figure}[htb!]
+  \centering
+\begin{tabular}{c}
+ \includegraphics[width=0.9\linewidth]{image/retrievalTwo/chamferDisadv.png}\\
+ (a) Two trajectories with similar shape \\
+ \includegraphics[width=0.9\linewidth]{image/retrievalTwo/chamferDisadv2.png} \\
+ (b) Trajectory intersecting with a point
+\end{tabular}
+\caption{Disadvantages of Chamfer Distance} \label{fig:chamferDisadvantage}
+\end{figure}
 
 
 \cc{for the analysis, include a "heatmap" of the versionone vs versiontwo for the evaluation of results} \\
