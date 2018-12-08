@@ -268,25 +268,28 @@ Chamfer Distance, $D_{chamfer}$, is one of the many distance measure metrics ava
 
 
 \begin{table}[b!]
-    \centering
-    \begin{tabular}{ccc}
-         \begin{equation*}
-         \begin{aligned}
-P =\begin{cases}
-\mathbb{P} & ,\mathbb{P}_{length} > \mathbb{Q}_{length} \\
-\mathbb{Q} & ,\mathbb{Q}_{length} > \mathbb{P}_{length}
-\end{cases}\end{aligned}\end{equation*} & ; &
-\begin{equation*}
-\begin{aligned}
-Q =\begin{cases}
-\mathbb{Q} & ,\mathbb{P}_{length} > \mathbb{Q}_{length} \\
-\mathbb{P} & ,\mathbb{Q}_{length} > \mathbb{P}_{length}
-\end{cases}
-\end{aligned}
-\end{equation*} 
-    \end{tabular}
-    % \caption{Caption}
-    % \label{tab:my_label}
+\centering
+\begin{tabular}{ccc}
+    \begin{equation*}
+        \begin{aligned}
+            P =\begin{cases}
+                \mathbb{P} & ,\mathbb{P}_{length} > \mathbb{Q}_{length} \\
+                \mathbb{Q} & ,\mathbb{Q}_{length} > \mathbb{P}_{length}
+            \end{cases}
+        \end{aligned}
+    \end{equation*} 
+    & ; &
+    \begin{equation*}
+        \begin{aligned}
+            Q =\begin{cases}
+                \mathbb{Q} & ,\mathbb{P}_{length} > \mathbb{Q}_{length} \\
+                \mathbb{P} & ,\mathbb{Q}_{length} > \mathbb{P}_{length}
+            \end{cases}
+        \end{aligned}
+    \end{equation*} 
+\end{tabular}
+% \caption{Caption}
+% \label{tab:my_label}
 \end{table}
 
 
@@ -328,7 +331,7 @@ The \textit{Precision@K} metric is used to identify the number of retrieved resu
 
 In order to evaluate the performance of the proposed method, the evaluation of both the trajectory and color terms were separated. The separation of evaluations allows further understanding on how to improve the retrieval engine as a whole. A group of volunteers were introduced to the retrieval engine along with it's features and a sample use case was demonstrated, then, the volunteers were given full control to draw any query they were interested in. Next with the results from the retrieval engine, the volunteers were tasked to provide feedback by rating each result with a scale of 1 to 5, with 5 being a result that closely resembles the input query. 
 
-The volunteers were given full control of the input query \mathbb{P} as it closely resembles real world scenarios. With that in consideration, it is not feasible to obtain the ground truth annotation for each of those queries within the one month data time frame, without which the recall rate can not be measured for this retrieval engine. 
+The volunteers were given full control of the input query $\mathbb{P}$ as it closely resembles real world scenarios. With that in consideration, it is not feasible to obtain the ground truth annotation for each of those queries within the one month data time frame, without which the recall rate can not be measured for this retrieval engine. 
 
 While the \textit{Precision@K} metrics is a commonly used metric for retrieval system, the main disadvantage of this metric is that the evaluation process is done in a coarse manner as it only provides a binary evaluation of whether or not a particular result is relevant to the query. On the other hand, the \textit{DCG} metric is able to provide a more granular evaluation of the proposed method as the results are evaluated based on its ordered rank along with the relevancy of the result. Figure \ref{fig:dcgGain} illustrates the decreasing gain value of each result as the ranking of the result increases. 
 
@@ -366,6 +369,7 @@ The following subsections provides in-depth details on the experimental methodol
  
 
 \subsubsection{Vehicle Color \& Color Mode}
+\label{subsec:vehColor}
 A list with a total of 330 video snippets (30 video snippets for each of the 11 common colors) were presented to the volunteers. These 30 video snippets from each colors were selected using the top 30 results in the database which contained the highest probability for each of the colors. The volunteers were then asked to determine the relevance of the color term to that particular vehicle for each of the 330 video snippets with the same scale from 1 to 5. 
 
 In order to thoroughly evaluate the performance of the color semantic extraction process which was introduced in Section \ref{section:versiontwoColor}, three other color modes were included in the evaluation process. These color modes are variations on how the color terms are extracted using different color space and distance metrics. These variations are listed in Table \ref{table:ColorVariation}.    
@@ -521,12 +525,13 @@ As a whole, both \textit{simple} and \textit{complex} queries shows reasonably g
 
 The difference between the simple and complex trajectories are rather distinct. The overall nDCG score for the queries of simple trajectories were rather high in the 91\% region while the nDCG score for queries related to complex trajectories were in the 75\% region. The results here shows that the retrieval engine had an easier time sorting simple trajectories in the best ranking order while having some difficulty when organizing the complex trajectories using the $D_{chamfer}$ metrics. 
 
-In a nutshell, by using the proposed $D_{chamfer}$ metrics, the retrieval engine was able to provide relatively good results (Average \textit{Precision@K} = 76\%) which were sorted in the best way possible (\textit{nDCG} score = 83\%).
+In a nutshell, by using the proposed $D_{chamfer}$ metrics, the retrieval engine was able to provide relatively good results (Average \textit{Precision@K} = 76\%) which were sorted in a rather organized and useful manner (\textit{nDCG} score = 83\%).
 
 \subsubsection{Vehicle Color \& Color Mode}
-\cc{re write these parts? or at least check them.. }
 
-The average Precision@K for each of the color metrics were tabulated as shown in Table \ref{tab:avg@k}. As mentioned in the previous section, the volunteers were asked to determine the relevance of the color term to that particular vehicle for each of the video snippets with a scale of 1 to 5. 
+As mentioned in Section \ref{subsec:vehColor}, a total of 330 video snippets were extracted from the top 30 results of each color modes were extracted. As four color modes were tested, the six volunteer were split into groups of three and they were given two sets of data to evaluate. 
+
+The results of the average \textit{Precision@K} metric for each of the color modes were tabulated in Figure \ref{fig:colorspace_score} while Table \ref{tab:avg@k} shows a high level overview of the results across K = 1 to 30. Similar to the evaluation process of the vehicle trajectories, this time, the volunteers were asked to determine the relevance of the color term to that particular vehicle for each of the video snippets with a scale of 1 to 5. 
 
 \begin{table}[!t]
 	\centering
@@ -539,26 +544,31 @@ Lab  & 0.27 & 0.27 & 0.27 & 0.25 & 0.24 & 0.24 & 0.24 & 0.23 & 0.22 & 0.22 \\
 HSV & 0.27 & 0.36 & 0.30 & 0.27 & 0.29 & 0.25 & 0.25 & 0.23 & 0.21 & 0.21 \\  
 Avg & 0.09 & 0.18 & 0.15 & 0.16 & 0.16 & 0.18 & 0.18 & 0.20 & 0.23 & 0.23 \\ 
 \end{tabular} 
-
 \end{table}
 
 
 \begin{figure}[htb!]
   \centering
-\begin{tabular}{c}
- \includegraphics[width=0.4\linewidth]{image/luv_k.png} \\
- (a) LUV Color Mode
-  \includegraphics[width=0.4\linewidth]{image/hsv_k.png}\\
+\begin{tabular}{cc}
+ \includegraphics[width=0.5\linewidth]{image/luv@k.png} &
+ \includegraphics[width=0.5\linewidth]{image/hsv@k.png}\\
+ (a) LUV Color Mode &
  (b) HSV Color Mode \\
- \includegraphics[width=0.4\linewidth]{image/lab_k.png} \\
- (c) Lab Color Mode
- \includegraphics[width=0.4\linewidth]{image/avg_k.png} \\
+ \includegraphics[width=0.5\linewidth]{image/lab@k.png} &
+ \includegraphics[width=0.5\linewidth]{image/avg@k.png} \\
+ (c) Lab Color Mode&
  (d) Average Color Mode \\
 \end{tabular}
-\caption{Precision @ K for each color metrics} \label{fig:colorspace_score}
+\caption{\textit{Precision@K} for Each Color Mode} \label{fig:colorspace_score}
 \end{figure}
 
-The confusion matrix of each color space is plotted in Figure \ref{fig:colorspace_score} using 30 results for each color (with a total of 330 results for each color space). The X-axis represents the Actual Color, while the Y-axis represents the Predicted Color. The colors in the confusion matrix is arranged in the following order: Black, Purple, Brown, Red, Pink, Orange, Yellow, Green, Blue, White, Gray. The X-axis also contains an additional row which indicates numbers of results which were due to tracking error in the proposed method's tracking and extraction phase. Both the actual color and the tracking error data were annotated by the authors.
+The \textit{Precision@K} results of the LUV color mode showed the best results among the other color modes used to extract the color term. The average precision at K=1 is at an amazing 91\%, however, by the time K=10, the precision has dropped to an average precision of 69\% and gradually drops to 60\% when K reached 30. The colors Yellow, Red, Black, and White showed rather consistent results throughout the experiment while colors like Purple, Green and Brown fared rather poorly. This was likely because there were not many cars which were highly saturated in those colors. 
+
+When comparing with the other color modes, Black color tend to provide consistent results throughout the entire experiment. The average precision for the HSV and Lab color modes was staggering around the 25\% region. It is also observed that the retrieval of Red and Black color vehicles perform significantly well in the Lab color space when compared to the other colors, the average precision of these two colors are in the 90\% vicinity. 
+
+During the phase of preparing the experimental methodology, the average color mode was designed with the goal of maximizing the strength of each color modes while averaging out the weaknesses. However, based on the conducted experiment, it was surprising to see the underwhelming performance of the HSV and Lab color mode. Hence, the average color mode also took a dive in terms of the precision. However, this color mode did live up to its expectation in maximizing the strengths of each color modes. Based on the results tabulated, the precision when retrieving Black color vehicles was rather well except for the initial precision during the early K region which were unexpected. 
+
+To further analyze the performance of the color modes used, the confusion matrix of each color mode used is plotted in Figure \ref{fig:colorspace_Confuscore} using 30 results for each color term (with a total of 330 results for each color space). The X-axis represents the Actual Color, while the Y-axis represents the Predicted Color. The colors in the confusion matrix were arranged in the following order: Black, Purple, Brown, Red, Pink, Orange, Yellow, Green, Blue, White, Gray. This colors were ordered based on its perceived similarity in terms of saturation and brightness. In the figure, the X-axis also contains an additional row which indicates numbers of results which were due to tracking error in the initial tracking  phase.
 
 \begin{figure}[htb!]
   \centering
@@ -573,12 +583,23 @@ The confusion matrix of each color space is plotted in Figure \ref{fig:colorspac
 \caption{Comparison Between the Color Modes Using Confusion Matrix} \label{fig:colorspace_Confuscore}
 \end{figure}
 
-Upon deeper inspection of the confusion matrix, the results shows similar output when compared with the precision@k results tabulated from the volunteers using the scoring method. Both results tallies in their finding that the LUV color space metric proposed by Riemersma\cite{riemersma} outperforms the other color metrics. The Euclidean distance metrics used in the HSV Color Space performed the worst with not much variation in the results for each color. On the other hand, the Lab color space results shows some amount of accuracy for strongly saturated colors such as Red and Black but fails to differentiate the rest. The initial idea of using the mean from each of the color space was to maximize the strengths of each metric, however, as shown in the results, since only the LUV color space was performing well, the average score suffered. It is also interesting to note that all the color spaces managed to predict Black color relatively well.
+Upon further inspection of the tabulated confusion matrices, the results shows similar output when compared with the \textit{Precision@K} results recorded from the volunteers via the scoring method. Both the results tallies in their finding that the low cost LUV color mode proposed by Riemersma\cite{riemersma} outperforms the other color modes. The Euclidean distance metrics used in the HSV color mode to extract the color terms performed the worst with not much variation in the results for each color. On the other hand, the Lab color mode's results showed a considered amount of accuracy for strongly distinct colors such as Red and Black but fails to differentiate the rest as visualized in Figure \ref{fig:colorspace_Confuscore}(C). 
 
-Since the LUV color space metrics outperformed the rest of the color spaces with a precision of 85\% at k=5, while the other color metrics barely touched the 30\% mark, the normalized Discounted Cumulative Gain (nDCG) for the LUV Color space results were measured and plotted to understand the performance of the retrieval engine in terms of how well the results were sorted. Since the HSV, Lab and Average color space metrics did not perform well, the nDCG metric was not measured as the order of the results does not represent the performance of the retrieval engine. In our experiment, the average color metric suffered due to the poor performance of the Lab and HSV color space metrics. The Discounted Cumulative Gain result was also visualized using Figure \ref{fig:colorndcg}.
+Since the LUV color mode's \textit{Precision@K} metrics outperformed the rest with a precision of 85\% at k=5, while the other color modes barely reached the 30\% mark, only the normalized Discounted Cumulative Gain (\textit{nDCG}) for the LUV color mode results were measured and plotted to understand the performance of the retrieval engine in terms of how well the results were sorted. Since the HSV, Lab and Average color space metrics did not perform well, the nDCG metric was not measured as the order of the results does not represent the actual performance of the retrieval engine. The Discounted Cumulative Gain result was also visualized using Figure \ref{fig:colorndcg}.
+
+The Bar chart is used to represent the number of results the user has to view in order to find a relevant document, hence a chart where the results consistently stays at the high 80-100\% area shows that the ranking of the results were done in one of the best ways possible. The Radar chart on the other hand, represents the overall performance of a particular color over the number of results the user has to view in order to find a relevant document. Both of the charts clearly visualize that most colors were retrieved accurately and sorted in the a relatively good order with an astounding performance of high 80-90\% except for Brown and Green color where the retrieval engine's performance only reach the best at the end of 30 results.
 
 
-The Bar chart represents the number of results the user has to view in order to find a relevant document, hence a chart where the results consistently stays at the high 80-100\% area shows that the ranking of the results were done in the best way possible. The Radar chart on the other hand, represents the overall performance of a particular color over the number of results the user has to view in order to find a relevant document. Both of the charts clearly visualize that most colors were retrieved accurately and sorted in the a relatively good order with an astounding performance of high 80-90\% except for Brown and Green color where the retrieval engine's performance only reach the best at the end of 30 results.
+\begin{figure}[htb!]
+  \centering
+\begin{tabular}{c}
+ \includegraphics[width=0.9\linewidth]{image/retrievalTwo/radar_ndcg_luv.png}\\
+ (a) \textit{nDCG} visualized in Radar Chart \\
+  \includegraphics[width=0.9\linewidth]{image/retrievalTwo/bar_ndcg_luv.png}\\
+ (b) \textit{nDCG} visualized in Bar Chart \\
+\end{tabular}
+\caption{\textit{nDCG} of the LUV Color Mode using Radar and Bar Chart} \label{fig:colorndcg}
+\end{figure}
 
 
 \begin{table}[h!]
@@ -587,39 +608,47 @@ The Bar chart represents the number of results the user has to view in order to 
 	\label{tab:dcgColor}
 \resizebox{\textwidth}{!}{
 \begin{tabular}{c||c|c|c|c|c|c|c|c|c|c|c}
-& black & blue & brown & gray & green & orange & pink & purple & red & white & yellow \\ \hline \hline
-nDCG1 & 0.93 & 0.93 & 0.21 & 0.86 & 0.93 & 0.67 & 1.00 & 1.00 & 0.93 & 1.00 & 1.00 \\ 
-nDCG2 & 0.90 & 1.00 & 0.48 & 0.89 & 0.63 & 0.86 & 0.93 & 0.86 & 0.87 & 0.97 & 0.97 \\ 
-nDCG3 & 0.89 & 1.00 & 0.58 & 0.92 & 0.67 & 0.89 & 0.93 & 0.74 & 0.90 & 0.97 & 0.96 \\ 
-nDCG4 & 0.91 & 0.93 & 0.58 & 0.92 & 0.68 & 0.91 & 0.91 & 0.73 & 0.87 & 0.97 & 0.94 \\ 
-nDCG5 & 0.90 & 0.93 & 0.62 & 0.93 & 0.67 & 0.92 & 0.90 & 0.72 & 0.88 & 0.95 & 0.95 \\ 
-nDCG6 & 0.91 & 0.94 & 0.60 & 0.88 & 0.68 & 0.91 & 0.87 & 0.73 & 0.87 & 0.96 & 0.96 \\ 
-nDCG7 & 0.92 & 0.94 & 0.62 & 0.86 & 0.68 & 0.89 & 0.88 & 0.71 & 0.88 & 0.96 & 0.96 \\ 
-nDCG8 & 0.93 & 0.94 & 0.63 & 0.84 & 0.66 & 0.90 & 0.87 & 0.72 & 0.87 & 0.96 & 0.96 \\ 
-nDCG9 & 0.92 & 0.92 & 0.64 & 0.82 & 0.66 & 0.89 & 0.87 & 0.73 & 0.89 & 0.96 & 0.96 \\ 
-nDCG10 & 0.90 & 0.89 & 0.65 & 0.80 & 0.66 & 0.88 & 0.85 & 0.73 & 0.88 & 0.95 & 0.96 \\ 
-nDCG11 & 0.90 & 0.87 & 0.67 & 0.81 & 0.66 & 0.89 & 0.84 & 0.76 & 0.89 & 0.94 & 0.96 \\ 
-nDCG12 & 0.90 & 0.88 & 0.67 & 0.81 & 0.67 & 0.89 & 0.82 & 0.76 & 0.88 & 0.94 & 0.96 \\ 
-nDCG13 & 0.91 & 0.89 & 0.67 & 0.81 & 0.67 & 0.91 & 0.82 & 0.78 & 0.88 & 0.94 & 0.94 \\ 
-nDCG14 & 0.92 & 0.88 & 0.67 & 0.82 & 0.68 & 0.90 & 0.80 & 0.78 & 0.89 & 0.91 & 0.94 \\ 
-nDCG15 & 0.93 & 0.90 & 0.67 & 0.83 & 0.68 & 0.90 & 0.80 & 0.79 & 0.89 & 0.90 & 0.94 \\ 
-nDCG16 & 0.93 & 0.90 & 0.68 & 0.82 & 0.68 & 0.90 & 0.81 & 0.79 & 0.89 & 0.90 & 0.94 \\ 
-nDCG17 & 0.93 & 0.90 & 0.69 & 0.84 & 0.70 & 0.90 & 0.81 & 0.80 & 0.89 & 0.91 & 0.95 \\ 
-nDCG18 & 0.93 & 0.92 & 0.69 & 0.86 & 0.71 & 0.90 & 0.82 & 0.80 & 0.89 & 0.91 & 0.95 \\ 
-nDCG19 & 0.92 & 0.92 & 0.70 & 0.85 & 0.72 & 0.91 & 0.83 & 0.80 & 0.89 & 0.91 & 0.95 \\ 
-nDCG20 & 0.92 & 0.92 & 0.72 & 0.85 & 0.74 & 0.91 & 0.85 & 0.80 & 0.89 & 0.89 & 0.96 \\ 
-nDCG21 & 0.91 & 0.92 & 0.72 & 0.86 & 0.77 & 0.90 & 0.86 & 0.80 & 0.90 & 0.90 & 0.95 \\ 
-nDCG22 & 0.91 & 0.92 & 0.74 & 0.88 & 0.76 & 0.91 & 0.87 & 0.80 & 0.91 & 0.89 & 0.95 \\ 
-nDCG23 & 0.92 & 0.92 & 0.76 & 0.88 & 0.78 & 0.92 & 0.89 & 0.82 & 0.91 & 0.90 & 0.95 \\ 
-nDCG24 & 0.92 & 0.92 & 0.77 & 0.90 & 0.79 & 0.94 & 0.90 & 0.84 & 0.92 & 0.90 & 0.95 \\ 
-nDCG25 & 0.93 & 0.93 & 0.78 & 0.92 & 0.81 & 0.94 & 0.91 & 0.85 & 0.93 & 0.91 & 0.96 \\ 
-nDCG26 & 0.94 & 0.95 & 0.80 & 0.92 & 0.81 & 0.95 & 0.91 & 0.87 & 0.93 & 0.93 & 0.96 \\ 
-nDCG27 & 0.94 & 0.95 & 0.81 & 0.93 & 0.81 & 0.95 & 0.92 & 0.87 & 0.94 & 0.93 & 0.96 \\ 
-nDCG28 & 0.95 & 0.96 & 0.83 & 0.93 & 0.83 & 0.95 & 0.92 & 0.87 & 0.95 & 0.95 & 0.96 \\ 
-nDCG29 & 0.96 & 0.96 & 0.83 & 0.93 & 0.85 & 0.95 & 0.94 & 0.89 & 0.95 & 0.96 & 0.97 \\ 
-nDCG30 & 0.96 & 0.97 & 0.85 & 0.94 & 0.85 & 0.96 & 0.94 & 0.89 & 0.95 & 0.97 & 0.98 \\ 
+& Black & Blue & Brown & Gray & Green & Orange & Pink & Purple & Red & White & Yellow \\ \hline \hline
+\textit{nDCG1} & 0.93 & 0.93 & 0.21 & 0.86 & 0.93 & 0.67 & 1.00 & 1.00 & 0.93 & 1.00 & 1.00 \\ 
+\textit{nDCG2} & 0.90 & 1.00 & 0.48 & 0.89 & 0.63 & 0.86 & 0.93 & 0.86 & 0.87 & 0.97 & 0.97 \\ 
+\textit{nDCG3} & 0.89 & 1.00 & 0.58 & 0.92 & 0.67 & 0.89 & 0.93 & 0.74 & 0.90 & 0.97 & 0.96 \\ 
+\textit{nDCG4} & 0.91 & 0.93 & 0.58 & 0.92 & 0.68 & 0.91 & 0.91 & 0.73 & 0.87 & 0.97 & 0.94 \\ 
+\textit{nDCG5} & 0.90 & 0.93 & 0.62 & 0.93 & 0.67 & 0.92 & 0.90 & 0.72 & 0.88 & 0.95 & 0.95 \\ 
+\textit{nDCG6} & 0.91 & 0.94 & 0.60 & 0.88 & 0.68 & 0.91 & 0.87 & 0.73 & 0.87 & 0.96 & 0.96 \\ 
+\textit{nDCG7} & 0.92 & 0.94 & 0.62 & 0.86 & 0.68 & 0.89 & 0.88 & 0.71 & 0.88 & 0.96 & 0.96 \\ 
+\textit{nDCG8} & 0.93 & 0.94 & 0.63 & 0.84 & 0.66 & 0.90 & 0.87 & 0.72 & 0.87 & 0.96 & 0.96 \\ 
+\textit{nDCG9} & 0.92 & 0.92 & 0.64 & 0.82 & 0.66 & 0.89 & 0.87 & 0.73 & 0.89 & 0.96 & 0.96 \\ 
+\textit{nDCG10} & 0.90 & 0.89 & 0.65 & 0.80 & 0.66 & 0.88 & 0.85 & 0.73 & 0.88 & 0.95 & 0.96 \\ 
+\textit{nDCG11} & 0.90 & 0.87 & 0.67 & 0.81 & 0.66 & 0.89 & 0.84 & 0.76 & 0.89 & 0.94 & 0.96 \\ 
+\textit{nDCG12} & 0.90 & 0.88 & 0.67 & 0.81 & 0.67 & 0.89 & 0.82 & 0.76 & 0.88 & 0.94 & 0.96 \\ 
+\textit{nDCG13} & 0.91 & 0.89 & 0.67 & 0.81 & 0.67 & 0.91 & 0.82 & 0.78 & 0.88 & 0.94 & 0.94 \\ 
+\textit{nDCG14} & 0.92 & 0.88 & 0.67 & 0.82 & 0.68 & 0.90 & 0.80 & 0.78 & 0.89 & 0.91 & 0.94 \\ 
+\textit{nDCG15} & 0.93 & 0.90 & 0.67 & 0.83 & 0.68 & 0.90 & 0.80 & 0.79 & 0.89 & 0.90 & 0.94 \\ 
+\textit{nDCG16} & 0.93 & 0.90 & 0.68 & 0.82 & 0.68 & 0.90 & 0.81 & 0.79 & 0.89 & 0.90 & 0.94 \\ 
+\textit{nDCG17} & 0.93 & 0.90 & 0.69 & 0.84 & 0.70 & 0.90 & 0.81 & 0.80 & 0.89 & 0.91 & 0.95 \\ 
+\textit{nDCG18} & 0.93 & 0.92 & 0.69 & 0.86 & 0.71 & 0.90 & 0.82 & 0.80 & 0.89 & 0.91 & 0.95 \\ 
+\textit{nDCG19} & 0.92 & 0.92 & 0.70 & 0.85 & 0.72 & 0.91 & 0.83 & 0.80 & 0.89 & 0.91 & 0.95 \\ 
+\textit{nDCG20} & 0.92 & 0.92 & 0.72 & 0.85 & 0.74 & 0.91 & 0.85 & 0.80 & 0.89 & 0.89 & 0.96 \\ 
+\textit{nDCG21} & 0.91 & 0.92 & 0.72 & 0.86 & 0.77 & 0.90 & 0.86 & 0.80 & 0.90 & 0.90 & 0.95 \\ 
+\textit{nDCG22} & 0.91 & 0.92 & 0.74 & 0.88 & 0.76 & 0.91 & 0.87 & 0.80 & 0.91 & 0.89 & 0.95 \\ 
+\textit{nDCG23} & 0.92 & 0.92 & 0.76 & 0.88 & 0.78 & 0.92 & 0.89 & 0.82 & 0.91 & 0.90 & 0.95 \\ 
+\textit{nDCG24} & 0.92 & 0.92 & 0.77 & 0.90 & 0.79 & 0.94 & 0.90 & 0.84 & 0.92 & 0.90 & 0.95 \\ 
+\textit{nDCG25} & 0.93 & 0.93 & 0.78 & 0.92 & 0.81 & 0.94 & 0.91 & 0.85 & 0.93 & 0.91 & 0.96 \\ 
+\textit{nDCG26} & 0.94 & 0.95 & 0.80 & 0.92 & 0.81 & 0.95 & 0.91 & 0.87 & 0.93 & 0.93 & 0.96 \\ 
+\textit{nDCG27} & 0.94 & 0.95 & 0.81 & 0.93 & 0.81 & 0.95 & 0.92 & 0.87 & 0.94 & 0.93 & 0.96 \\ 
+\textit{nDCG28} & 0.95 & 0.96 & 0.83 & 0.93 & 0.83 & 0.95 & 0.92 & 0.87 & 0.95 & 0.95 & 0.96 \\ 
+\textit{nDCG29} & 0.96 & 0.96 & 0.83 & 0.93 & 0.85 & 0.95 & 0.94 & 0.89 & 0.95 & 0.96 & 0.97 \\ 
+\textit{nDCG30} & 0.96 & 0.97 & 0.85 & 0.94 & 0.85 & 0.96 & 0.94 & 0.89 & 0.95 & 0.97 & 0.98 \\ 
 \end{tabular}}
 \end{table}
+
+
+\subsubsection{Retrieval Speed}
+\cc{need to obtain the retrieval engine's speed - 1 month, 6 months, 12 months and 24months}\\
+\cc{need to generate "test" data}\\
+
+\cc{also, measure the performance if all the data is valid, only 1 month is valid, 6 months are valid - in terms of speed}
+
 
 \section{Result Analysis}
 We also note that the achromatic algorithm is an essential step because the 8 Values bins are insufficient to accurately represent vehicles with borderline dominant color as the brightness values may be widely distributed.
