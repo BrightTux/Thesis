@@ -267,43 +267,39 @@ Now, with the output $\mathbb{P}$ from the filtering process, these records can 
 Chamfer Distance, $D_{chamfer}$, is one of the many distance measure metrics available. In this framework, this distance metrics was selected to measure the dissimilarity between the input query $\mathbb{Q}$ and each record in $\mathbb{P}$ that fulfills the Equation \ref{eq:timedatefilter}. In order to minimize the dissimilarity between $\mathbb{P}$ \& $\mathbb{Q}$, the number of records (length) within both $\mathbb{P}$ \& $\mathbb{Q}$ are taken into consideration. In the proposed method, $\mathbb{P}$ will be assigned to $P$ if $\mathbb{P}$'s length is greater $\mathbb{Q}$ and vice versa.
 
 
-\begin{table}[b!]
-\centering
-\begin{tabular}{ccc}
-    \begin{equation*}
-        \begin{aligned}
-            P =\begin{cases}
-                \mathbb{P} & ,\mathbb{P}_{length} > \mathbb{Q}_{length} \\
-                \mathbb{Q} & ,\mathbb{Q}_{length} > \mathbb{P}_{length}
-            \end{cases}
-        \end{aligned}
-    \end{equation*} 
-    & ; &
-    \begin{equation*}
-        \begin{aligned}
-            Q =\begin{cases}
-                \mathbb{Q} & ,\mathbb{P}_{length} > \mathbb{Q}_{length} \\
-                \mathbb{P} & ,\mathbb{Q}_{length} > \mathbb{P}_{length}
-            \end{cases}
-        \end{aligned}
-    \end{equation*} 
-\end{tabular}
-% \caption{Caption}
-% \label{tab:my_label}
-\end{table}
+% \begin{table}[b!]
+% \centering
+% \begin{tabular}{ccc}
+%         \begin{align}
+%             P =\begin{cases}
+%                 \mathbb{P} & ,\mathbb{P}_{length} > \mathbb{Q}_{length} \\
+%                 \mathbb{Q} & ,\mathbb{Q}_{length} > \mathbb{P}_{length}
+%             \end{cases}
+%         \end{align}
+%     & ; &
+%         \begin{align}
+%             Q =\begin{cases}
+%                 \mathbb{Q} & ,\mathbb{P}_{length} > \mathbb{Q}_{length} \\
+%                 \mathbb{P} & ,\mathbb{Q}_{length} > \mathbb{P}_{length}
+%             \end{cases}
+%         \end{align}
+% \end{tabular}
+% % \caption{Caption}
+% % \label{tab:my_label}
+% \end{table}
 
 
 
-% \begin{align}
-% P =\begin{cases}
-% \mathbb{P} & ,\mathbb{P}_{length} > \mathbb{Q}_{length} \\
-% \mathbb{Q} & ,\mathbb{Q}_{length} > \mathbb{P}_{length}
-% \end{cases}\\
-% Q =\begin{cases}
-% \mathbb{Q} & ,\mathbb{P}_{length} > \mathbb{Q}_{length} \\
-% \mathbb{P} & ,\mathbb{Q}_{length} > \mathbb{P}_{length}
-% \end{cases}
-% \end{align}
+\begin{align}
+P =\begin{cases}
+\mathbb{P} & ,\mathbb{P}_{length} > \mathbb{Q}_{length} \\
+\mathbb{Q} & ,\mathbb{Q}_{length} > \mathbb{P}_{length}
+\end{cases}\\
+Q =\begin{cases}
+\mathbb{Q} & ,\mathbb{P}_{length} > \mathbb{Q}_{length} \\
+\mathbb{P} & ,\mathbb{Q}_{length} > \mathbb{P}_{length}
+\end{cases}
+\end{align}
 
 
 \begin{align}
@@ -655,16 +651,16 @@ We also note that the achromatic algorithm is an essential step because the 8 Va
 
 Even though the overall results are relatively good, the implementation of Chamfer Distance in the proposed method is not without its faults. Observation of the results shows that chamfer distance performs poorly when (i) a trajectory is compared against a much shorter trajectory that intersects at a particular point or (ii) two trajectories turning into 2 different junctions. In both examples, the obtained $D_{chamfer}$ shows relatively low score that could result in those shots being retrieved, these examples can be found in Figure  \ref{fig:chamferDisadvantage}.
 
-\begin{figure}[htb!]
-  \centering
-\begin{tabular}{c}
- \includegraphics[width=0.9\linewidth]{image/retrievalTwo/chamferDisadv.png}\\
- (a) Two trajectories with similar shape \\
- \includegraphics[width=0.9\linewidth]{image/retrievalTwo/chamferDisadv2.png} \\
- (b) Trajectory intersecting with a point
-\end{tabular}
-\caption{Disadvantages of Chamfer Distance} \label{fig:chamferDisadvantage}
-\end{figure}
+% \begin{figure}[htb!]
+%   \centering
+% \begin{tabular}{c}
+%  \includegraphics[width=0.9\linewidth]{image/retrievalTwo/chamferDisadv.png}\\
+%  (a) Two trajectories with similar shape \\
+%  \includegraphics[width=0.9\linewidth]{image/retrievalTwo/chamferDisadv2.png} \\
+%  (b) Trajectory intersecting with a point
+% \end{tabular}
+% \caption{Disadvantages of Chamfer Distance} \label{fig:chamferDisadvantage}
+% \end{figure}
 
 
 \cc{for the analysis, include a "heatmap" of the versionone vs versiontwo for the evaluation of results} \\

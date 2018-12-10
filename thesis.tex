@@ -1,4 +1,4 @@
-\documentclass{mmuthesis}
+\documentclass[x11names,dvipsnames,svgnames,table,xcdraw]{mmuthesis}
 %\newsubfloat{figure}
 
 \usepackage{lipsum}
@@ -6,14 +6,17 @@
 \usepackage[T1]{fontenc}
 \usepackage{graphicx}
 \usepackage{enumitem}
-% -------------------------------------------------------------------
-% own package
-\usepackage[table,xcdraw]{xcolor}
-% -------------------------------------------------------------------
 
-%\usepackage[x11names,dvipsnames,svgnames]{xcolor}
+
+\usepackage[x11names,dvipsnames,svgnames]{xcolor}
 \usepackage[os=win]{menukeys}
 \usepackage{listings}
+
+% -------------------------------------------------------------------
+% own package
+% \usepackage[table,xcdraw]{xcolor}
+% -------------------------------------------------------------------
+
 \lstset{language=[LaTeX]TeX,columns=fullflexible,
 basicstyle=\ttfamily,texcsstyle=*\bfseries\color{NavyBlue},
 commentstyle=\itshape\color{PaleVioletRed4},
