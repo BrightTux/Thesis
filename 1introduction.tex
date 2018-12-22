@@ -1,37 +1,68 @@
 \chapter{Introduction}
-The use of video based surveillance system has exploded over the past decade. The ease of implementation along with its benefits drew the attention of both the public and private sectors, without a doubt, the digital security industry caught on to it and consequently bloomed with more and more retail stores, shopping malls, and even homes equipping themselves with closed circuit televisions (CCTV) as a means for safety precaution. With the rise of such technology and coupled the hype around the idea of Internet of Things (IoT) and Big Data over the recent years, there has been a deeper thirst among researchers in finding ways for practical uses of bridging existing data with technology to bring about a new wave in the research field.
+The use of video-based surveillance system has exploded over the past decade. The ease of implementation along with its benefits drew the attention of both the public and private sectors, without a doubt, the digital security industry caught on to it and consequently bloomed with more and more retail stores, shopping malls, traffic and even homes equipping themselves with closed circuit televisions (CCTV) as a means for safety precaution. With the rise of such technology and coupled the hype around the idea of Internet of Things (IoT), Big Data and even Industry 4.0 over the recent years, there has been a deeper thirst among researchers in finding ways for practical uses of bridging existing data with technology to bring about a new wave in the research field.
 
-\subsection{Overview}
+\section{Research Overview}
 \label{section:introduction}
-%In this work, the author takes on a journey to explore this new research territory of utilizing video based surveillance footage for 
 
-With a constant stream of hundreds of thousands of hours worth of  video data filling up database warehouses across the globe by the second, the commercial sector has seen a bloom of various video search engines such as the Google, Youtube, Dailymotion which were made available for public. All of which implements the same underlying concept, first the process begins with extraction of video metadata such as title, description, filename, dates, subtitles and even tags. Next, these videos are stored in the database along with these metadata which is used during the retrieval process. Finally, these video shots are retrieved based on a text-based query and sorted for the end users. 
+The growth of the surveillance industry in conjunction with its cheap implementation cost also birth forth the rise to a constant stream of thousands of hours worth of video data filling up database warehouses across the globe by the second. While these video footage are useful when it is needed, for example when dealing with a crime scene investigation. However, most of the time, these data are just stored and left unprocessed, taking up additional storage space while adding to the overhead cost. 
 
-However, this approach can not be directly applied towards surveillance video footage as the metadata such as title, description or even tags does not exist. Traditionally, the process of finding a particular video from a huge collection is done manually. This process involves an inquirer/user who is looking for a particular scene or shot, and an person-in-charge who manages the CCTV video collection. Now, in a carpark scenario, the inquirer would typically need to provide information such as time, date, color of the vehicle, vehicle registration number, and place of which an incident occurred. 
+When looking from the other side of the spectrum, other industries such as the entertainment sector are also dishing out multimedia contents at a rather alarming rate. These video files are being pushed into data warehouses and consumed by the public on a daily basis. The public sector has benefited from the rise of various video search engines such as the Google, YouTube, Dailymotion and Bing which were made available for general public, however none of these existing technologies can be directly applied towards surveillance video footage. Clearly, the idea of using search engines to retrieve video shots is nothing new. Nevertheless, inspirations can be drawn from these technologies and applied into the research problems which will be discussed in this work. 
 
-Next, the person-in-charge would have to sift through hours and hours of video in order to find a distinct video shot. This process is undeniably time consuming, laborious, monotonous and tedious. While the task is potentially simpler and straightforward when there is only one video shot with clear-cut definitive time and date given, this process takes an enormous effort when the time and date is not given, or even in cases when all the video shots with similar properties are desired. 
+All of these retrieval engine technologies has one thing in common, that is, the underlying concept. In these retrieval engines, first, the process begins with extraction of video metadata such as title, description, filename, dates, subtitles and various other details that could assist in identifying these footage. Next, these videos are stored in the database along with the extracted metadata which can be used during the retrieval process. Finally, when a text-based query is issued, these video shots are retrieved and are then sorted in a way that best represents the query for the end users. 
 
-Evidently, there exist a gap which can be addressed using a well designed retrieval engine.
+However, as mentioned, this approach can not be directly applied towards surveillance video footage as the metadata such as title, description or even tags does not exist most of the time. Looking from the surveillance video footage standpoint, traditionally, the process of finding a particular video from a huge collection is done manually. This process involves an inquirer/user who is looking for a particular scene or shot, and an person-in-charge who manages the CCTV video collection. Now, bringing that into the scope of this work, which is a carpark scenario, the inquirer would typically need to provide information such as time, date, color of the vehicle, vehicle registration number, and place of which an incident occurred. %In this work, these information are examples of what would be referred to as semantics. 
+
+Next, the person-in-charge would have to sift through hours and hours of video in order to find a distinct video shot that matches the given semantics. This process is undeniably time consuming, laborious, monotonous and tedious. While the task is potentially simpler and straightforward when there is only one intended video shot with clear-cut definitive time and date given, this process takes an enormous effort when the time and date is not given, or even in cases when all the video shots with similar properties are desired. Evidently, there exist a gap which can be addressed using a well designed semantic extraction tool and a retrieval engine in which this work would attempt to address.
+
+\section{Motivation and Problem Statements}
+
+In this section, the motivation to address the topic at hand are discussed from the following perspectives, \textit{(i)} computer vision perspective and \textit{(ii)} neutral perspective.
+
+\subsection{Computer Vision Perspective}
+
+At the rate of surveillance video data collected by the second, employing human task force to manually extract information from the video data source will undoubtedly be time consuming and be extremely labour intensive. 
+While not impossible, the simple act of watching the same scene over and over again from the video source will definitely put a strain on the task force, and it is certainly not worth the effort. Also, when considering the amount of legacy video data that has been collected over the years and the amount of insights it could offer, the time taken to analyze them manually would be too long, hence, foregoing the chance to reap the benefits of these past data.
+ 
+With the disadvantages of performing these task manually etched in mind, the use of computer vision to extract information from video data could potentially alleviate the burden. The use of such techniques is not a new idea, works in regards to extracting vehicle specific attributes can be found from the early 90's. 
 
 
-\subsection{Motivation and Problem Statements}
+\begin{figure}[!hbt]\centering
+\includegraphics[width=.8\textwidth]{image/general/simpleframe.png}
+\caption{Generic Computer Vision Task}
+\label{fig:genericCV}
+\end{figure}
 
-In this section, the motivation behind this work is discussed in detail. With the recent hype around the term Industry 4.0 and Internet of Things, researchers around the world are scrambling in search for the next big thing that would impact the world. Likewise, in this work, the author delved into this work in hope of developing something that would be beneficial.
 
+
+
+
+, however, none of which has worked on a carpark scene.   
+
+
+
+
+
+\subsection{Neutral Perspective}
+
+
+\cc{what has other people done?}
 
 
 
 \subsection{Research Objectives}
 
 
-
-
-\subsection{Scope of Thesis}
+\subsection{Expected Outcome and Scope of Thesis}
+%\subsection{Scope of Thesis}
 \label{subsec:scope}
 \cc{** explain what semantic is, what type of semantic we are trying to extract and the scope of the work} 
+\cc{include a summurized methodology}
 
+\cc{maybe just a simple graph ... video in... then black box process ... output metadata etc and how to search for it}
 
 
 \subsection{Contribution}
 
 \subsection{Organization of Thesis}
+
+The roadmap of this thesis is laid out as follow: First, the introduction on the subject matter is discussed in this chapter. Next, related works in this research field are reviewed thoroughly to provide an idea what has been tried and solved, as well as what are the areas of improvements that could be addressed. This is then followed with a chapter that describes the overview of the proposed framework along with some reoccuring key concepts that will be used in this work (See Chapter \ref{fillup}). Upon which, the proposed video semantics extraction methods for both the vehicle color and vehicle motion will be discussed. Next, the proposed retrieval engine along with its results are reported in Chapter \ref{fillup}, this chapter also includes some analysis of the results based on the proposed methods in this thesis. Finally, the conclusion of this work along with a list of suggestions for future works is prepared in Chapter \ref{fillup}. 
