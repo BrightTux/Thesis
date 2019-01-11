@@ -17,7 +17,7 @@ As a reminder, both the vehicle trajectory and vehicle color evaluation process 
 
 
 
-\section{\versionOne}
+\section{\versionOneRet}
 This section uncovers the techniques used behind this retrieval engine's framework along with the results. As previously introduced, as this retrieval engine was inspired by Locality Sensitive Hashing (LSH), documents are hashed into similar locations depending on the similarity. With that in mind, first, the concept of this retrieval engine is discussed. Next, the scoring system is discussed, the evaluation of the system is performed and recorded in the following subsections.
 
 
@@ -49,7 +49,7 @@ Upon validating the sanctity of the results, commands were sent to FFmpeg to ext
 % \usepackage[normalem]{ulem}
 \begin{table}[hbt]
 	\centering 
-\caption{Database structure for a vehicle identified as red and pink color with object id "1" of the \versionOne }
+\caption{Database structure for a vehicle identified as red and pink color with object id "1" of the \versionOneRet }
 \label{table:dbSample}
 \begin{tabular}{llllll}
 \multicolumn{6}{l}{{ color\_red}} \\ \hline
@@ -97,7 +97,7 @@ The proposed retrieval engine was realized in a form of a graphical user search 
 		\includegraphics[width=0.7\linewidth]{image/retrievalOne/test2-6input.PNG}\\
 		(b) Motion Test Case 2 (TQ2)
 	\end{tabular}
-	\caption{Search interface for \versionOne} 
+	\caption{Search interface for \versionOneRet} 
 	\label{fig:versionOneInterface}
 \end{figure}
 
@@ -242,10 +242,10 @@ While better results could potentially be obtained by carefully and systematical
 %However, should the initial test against the $T_{pivot}$ fails, the proposed method is able to fall back on the HSV histogram results.
 
 
-\section{\versionTwo}
+\section{\versionTwoRet}
 \label{section:versionTwo}
 
-This section expounds on the techniques used behind this retrieval engine's framework along with the results. The proposed interface in \versionTwo also focuses on extensibility as well as ease of access of the retrieval engine while improving on the overall results. The JavaScript (JS) language was selected as a means to this end as it is commonly used in web browsers. The focus of this work sees a shift from indexing methods to results-sorting optimization by measuring the difference between the query and the retrieved results. The concept and scoring systems used in this retrieval engine will be discussed further in the following subsections along with the evaluation. 
+This section expounds on the techniques used behind this retrieval engine's framework along with the results. The proposed interface in \versionTwoRet also focuses on extensibility as well as ease of access of the retrieval engine while improving on the overall results. The JavaScript (JS) language was selected as a means to this end as it is commonly used in web browsers. The focus of this work sees a shift from indexing methods to results-sorting optimization by measuring the difference between the query and the retrieved results. The concept and scoring systems used in this retrieval engine will be discussed further in the following subsections along with the evaluation. 
 
 \subsection{Concept}
 
@@ -309,13 +309,13 @@ D_{Chamfer} (P,Q) = \frac{1}{\mid P \mid} \sum_{t_p \in P} \min_{t_q \in Q}  \mi
 
 \subsection{Search Interface}
 The proposed retrieval engine interface was designed using web compliant graphical user interface in JavaScript as illustrated in \ref{fig:versionTwoInterface}. 
-Similar to the concept introduced in the \versionOne, users are able to construct queries by drawing the trajectory while providing complementary information such as the vehicle color and timestamp information.
+Similar to the concept introduced in the \versionOneRet, users are able to construct queries by drawing the trajectory while providing complementary information such as the vehicle color and timestamp information.
 Once the query is constructed, the retrieval engine goes through the database searching for shots which highly resembles the given query. 
 Unlike the previous method, the use of HTML5 video elements in this retrieval engine made it easy to display the obtained results with a suitable thumbnail that represents each retrieved video while speeding up the speed as there was no need of encoding each retrieved shot on the fly.
 
 \begin{figure}[hbt!]\centering
 \includegraphics[width=.9\textwidth]{image/retrievalTwo/VISERinterface2.png}
-\caption{Search Interface for \versionTwo}
+\caption{Search Interface for \versionTwoRet}
 \label{fig:versionTwoInterface}
 \end{figure}
 

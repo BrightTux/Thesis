@@ -281,11 +281,11 @@ Since the object of interest in this work are the vehicles in the carpark scene,
 
 
 
-\section{\versionOne }
+\section{\versionOneExt }
 \label{section:semantic_lsh}
 
 \subsection{Overview}
-Before diving deeper into the nitty-gritty of the \versionOne, first, the term Locality Sensitive Hashing needs to be addressed. LSH is a technique used for its ability in dimensionality reduction, this technique excels especially when working with high dimensional data such video data. 
+Before diving deeper into the nitty-gritty of the \versionOneExt, first, the term Locality Sensitive Hashing needs to be addressed. LSH is a technique used for its ability in dimensionality reduction, this technique excels especially when working with high dimensional data such video data. 
 
 This is done by hashing documents with similar properties, mapping and clustering them into a similar neighbourhood. Hence, reducing the dimensionality of a large document in the process. However, since the exact implementation of LSH is not used in this work, the focus will be anchored on the idea of clustering documents with similar properties in the same neighbourhood. 
 
@@ -296,7 +296,7 @@ This is done by hashing documents with similar properties, mapping and clusterin
 \label{fig:lshexample}
 \end{figure}
 
-In the \versionOne, each extracted semantic property is defined as a document. A total of 11 color semantic clusters as well as 9 motion semantic clusters were assigned. In this implementation, each cluster was represented using an SQL table. During the semantic extraction process, documents with similar properties were inserted into the same table as the clustering method. 
+In the \versionOneExt, each extracted semantic property is defined as a document. A total of 11 color semantic clusters as well as 9 motion semantic clusters were assigned. In this implementation, each cluster was represented using an SQL table. During the semantic extraction process, documents with similar properties were inserted into the same table as the clustering method. 
 
 
 \subsection{Color Semantic Extraction }
@@ -521,7 +521,7 @@ As previously mention, this work chose to primarily work on the HSV color space,
 This setup ends up with a total of 960 bins where each of these bins are assigned a single color term based on the closest euclidean distance between this bin's color and the highest scoring ground truth color term using the HSV color space. Using this setup, the color term which corresponds to the bin(h,s,v) which contains the highest number of hits for a given image is assigned. The examples in Table \ref{tab:hsvExample} shows samples of bins and their corresponding similarity score. However, since the vehicles are moving in the outdoor setting, the ambient and directional lighting (from sun and other light sources) contribute to slight variation of colors. To accommodate the varying lighting condition, the dominant color of each tracked vehicle from each frame was averaged out throughout its trajectory as illustrated in \ref{fig:ADC}. 
 
 
-As the entire process was done repeatedly over every single frame in the video, the color term of a particular vehicle is saved into the database while it is tracked. As such, a single vehicle could be classified as a variety of colors depending on the location on where the vehicle was tracked. Algorithm \ref{algo:colorExtract} summarizes the strategy used for color semantic extraction process for the \versionOne. 
+As the entire process was done repeatedly over every single frame in the video, the color term of a particular vehicle is saved into the database while it is tracked. As such, a single vehicle could be classified as a variety of colors depending on the location on where the vehicle was tracked. Algorithm \ref{algo:colorExtract} summarizes the strategy used for color semantic extraction process for the \versionOneExt. 
 
 
 
@@ -586,17 +586,17 @@ Figure \ref{fig:cardinalbins} illustrates this property. Each of this directions
 
 
 
-\section{\versionTwo }
+\section{\versionTwoExt }
 \label{section:semantic_chamfer}
 
 
 \subsection{Overview}
 
-During the course of experimenting with the \versionOne, one of the drawbacks identified was that the semantic extraction process was too handcrafted. Although the results could have improved with more tweaking of the parameters and various knobs available, the process of experimenting what works best would be extremely tedious and the end product would not necessarily be extendable to other frameworks depending on the input data.
+During the course of experimenting with the \versionOneExt, one of the drawbacks identified was that the semantic extraction process was too handcrafted. Although the results could have improved with more tweaking of the parameters and various knobs available, the process of experimenting what works best would be extremely tedious and the end product would not necessarily be extendable to other frameworks depending on the input data.
 
 Along with that, there were several key issues which were identified that could be improved upon. One of the issue pinpointed was that the process of determining whether or not a vehicle belonged to achromatic or chromatic scale was biased. In the dataset on which the experiments were conducted on, there were a lot more achromatic vehicle compared to chromatic vehicle. As the scale was bias, it was easy to manipulate the overall retrieval results by adjusting the parameters to favor the achromatic scale. 
 
-The aim of the \versionTwo is to provide alternative solutions and improve the performance of the \versionOne. In the following subsections, the color semantic extraction and motion semantic extraction is discussed in detail.
+The aim of the \versionTwoExt is to provide alternative solutions and improve the performance of the \versionOneExt. In the following subsections, the color semantic extraction and motion semantic extraction is discussed in detail.
 
 \subsection{Color Semantic Extraction}
 \label{section:versiontwoColor}
@@ -849,7 +849,7 @@ Along with that, based on the similarity score (\%) obtained using Riemersma's l
 
 \subsection{Motion Semantic Extraction}
 
-With the intention of extracting motion information from the input video data, the spatio-temporal cubes or \emph{atoms} were adopted here. Contrary to the framework used in \versionOne's motion extraction framework, instead of grouping the motions into 9 directional bins, only the location information of the vehicle is saved. This eliminates the use of handcrafted parameters while maintaining important low level semantics which can be used to represent motion information.
+With the intention of extracting motion information from the input video data, the spatio-temporal cubes or \emph{atoms} were adopted here. Contrary to the framework used in \versionOneExt's motion extraction framework, instead of grouping the motions into 9 directional bins, only the location information of the vehicle is saved. This eliminates the use of handcrafted parameters while maintaining important low level semantics which can be used to represent motion information.
 
 
 \begin{equation}
