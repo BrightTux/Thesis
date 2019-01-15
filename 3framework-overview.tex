@@ -42,10 +42,11 @@ In order to expound on the quantization process, a mathematical model of this pr
 \subsection{Distance Measure}
 \label{section:distancemeasures}
 
-The use of distance metrics is another recurring key concept in the proposed method. While distance measure is commonly used in computer science as well as the mathematics field, there are numerous metrics suggested by different authors which are applicable and useful in different scenarios.   
+The use of distance metrics is another recurring key concept in the proposed methods. While distance measure is commonly used in computer science as well as the mathematics field, there are numerous metrics suggested by different authors which are applicable and useful in different scenarios. 
 
-In the proposed method, distance measures are used to measure the performance of the proposed algorithms. A simple example of how distance metrics can be applied in the proposed method is illustrated using Figure \ref{fig:distanceMeasure} where the distance between two lines signifies the dissimilarity between them. 
+To further accentuate on the concept of distance measure in this work, a simple example of how distance metrics can be applied in the proposed method is illustrated using Figure \ref{fig:distanceMeasure} with two plotted lines. In order to simplify the research problem, these lines can be thought of as vehicle trajectories captured over time, and flatten unto a 2D plot. Using the available data, the distance between two trajectories can be measured and used to signify the dissimilarity between them. This distance measure can also be used to identify trajectories with high resemblance. 
 
+However, as different distance measure metrics are suitable for different scenarios, a good distance measure is an essential for comparing a significantly extensive set of vehicle trajectories during the retrieval process of a car park scene. This concept of distance measure was further extended into a multi-dimensional space such as the colors space, where the similarity between two or more colors were measured using different distance metrics to evaluate the performance of each metric. 
 
 
 \begin{figure}[hbt!]\centering
@@ -54,8 +55,7 @@ In the proposed method, distance measures are used to measure the performance of
 \label{fig:distanceMeasure}
 \end{figure}
 
-As different distance measure metrics are suitable for different scenarios, a good distance measure is an essential process of a carpark scene when comparing a significantly extensive set of vehicle trajectories during the retrieval process.   
-Again, this concept was further extended into a multi-dimensional space such as the colors space, where the similarity between two or more colors were measured using different distance metrics to evaluate the performance of each metric. 
+
 
 
 
@@ -94,30 +94,35 @@ As a whole, the end-to-end framework can be visualized using Figure \ref{fig:fra
 \subsection{LSH-Inspired Retrieval Framework}
 The first of the two frameworks suggested in this work is the \textit{LSH-Inspired Retrieval Framework}. Locality-Sensitve Hashing (LSH) is a technique used for dimensionality reduction, typically to perform hashing on a set of documents so that documents with similar properties are mapped and clustered to similar locality or neighbourhood. This technique excels especially when working with high dimensional data such as video data.
 
-By building on top of the fundamental processing step, the semantics from each vehicle blobs are extracted
+Inspirations to cluster similar documents were drawn from the LSH technique and implemented in this framework. The extracted semantics from each vehicle blobs were clustered into semantic groups which contains color and motion information. This concept was adopted in the proposed method with the following considerations in mind: 
 
-\subsection{Chamfer Distance- Inspired Framework}
-
-
-
-
-
+\begin{enumerate}
+    \item Ease of Interpretation \& Access: As the extracted semantics are stored in clusters of similar properties, these semantics can be easily interpreted and retrieved. 
+    \item Reduction of Input/Output (I/O) Bottleneck: As the proposed method stores the extracted semantics in a database, I/O bottlenecks are bound to occur when reading and retrieving large quantity of data. As the semantics of similar properties are clustered together, the retrieval engine does not have to search through the entire set of database for records that matches the given query.
+\end{enumerate}
 
 
+\subsection{Chamfer Distance-Inspired Framework}
+The second of the two frameworks suggested in this work is the \textit{Chamfer Distance-Inspired Framework}. Chamfer distance is one of the many distance measure (see Section \ref{section:distancemeasures}) introduced by mathematicians and researchers. Chamfer Distance, as introduced by \cite{barrow1977parametric}, was originally designed to match images by comparing the shapes of two collections of shape fragments. However, in this framework, the use of chamfer distance was modified to suite the research problem of comparing the shapes of vehicle trajectories. While the implementation of chamfer distance measure in this framework has its advantages, it also comes with some drawbacks. The considerations taken when designing this frameworks are as such:
 
+
+\begin{enumerate}
+    \item The use of Chamfer Distance to compare trajectories allows the retrieval engine to search from a wider range, however, this comes with extra computational cost. While the disadvantages were undesirable, the benefits outweighs this drawback by providing a higher recall rate for the retrieved results. Along with that, the use of time and date filtering could potentially reduce the number of records, hence, further reducing the computational cost. 
+    \item The ranking of results is a desirable feature in a retrieval engine. As Chamfer Distance produces a distance score for every pair of trajectories compared, this score can be used to sort the results in an intuitive manner where results of higher resemblance would appear higher in the ranking.  
+\end{enumerate}
 
 
 \section{Dataset}
 \label{section:dataset_used}
 
-In view of testing the proposed framework for large-scale extraction and retrieval of video semantics, a new collection of video dataset was gathered. A stationary cloud-enabled web camera was set up on the fourth floor of a building with a window facing a piece of private carpark area. Figure \ref{fig:camerasetup} depicts the camera setup overcasting the carpark area. 
+In view of testing the proposed framework for large-scale extraction and retrieval of video semantics, a new collection of video dataset was gathered. A stationary cloud-enabled web camera was set up on the fourth floor of a building with a window facing a piece of private car park area. Figure \ref{fig:camerasetup} depicts the camera setup overcasting the car park area. 
 
-The aforementioned setup was done to mimic a typical camera setup which tower over a piece of outdoor carpark lot that are found in the wild. 
+The aforementioned setup was done to mimic a typical camera setup which tower over a piece of outdoor car park lot that are found in the wild. 
 
 
 \begin{figure}[hbt!]\centering
-\includegraphics[width=.8\textwidth]{image/fcicarpark2.png}
-\caption{Camera setup to capture the carpark from the fourth floor}
+\includegraphics[width=.8\textwidth]{image/fcicar park2.png}
+\caption{Camera setup to capture the car park from the fourth floor}
 \label{fig:camerasetup}
 \end{figure}
 
@@ -148,7 +153,7 @@ Naming Convention: & $CCYYMMDD\_HHMMSS.mp4$
 
 \begin{tabular}{cc}
  \includegraphics[width=0.4\linewidth]{image/general/rain.PNG} &  \includegraphics[width=0.4\linewidth]{image/general/reflection.PNG}\\ 
-\begin{tabular}{c}(a) Rainy day with \\ reflective surface\end{tabular} & \begin{tabular}{c}(b) Reflection on the \\carpark from the window\end{tabular} \\
+\begin{tabular}{c}(a) Rainy day with \\ reflective surface\end{tabular} & \begin{tabular}{c}(b) Reflection on the \\car park from the window\end{tabular} \\
 \includegraphics[width=0.4\linewidth]{image/general/shadow.png} &  \includegraphics[width=0.4\linewidth]{image/general/shadow2.png}\\
 \begin{tabular}{c}(c) Severe shadow over \\ the car park (08:48AM)\end{tabular} & \begin{tabular}{c}(d)  Severe shadow over \\ the car park (04:06PM)\end{tabular}
 \end{tabular}
@@ -158,7 +163,7 @@ Naming Convention: & $CCYYMMDD\_HHMMSS.mp4$
 \end{figure}
 
 
-This setup was left to record data over the course of several months with various weather conditions, lighting conditions as well as a diverse set of carpark scenes which includes peak hours with plenty of vehicles along with the off-days. In addition to that, this setup covers a total of over 45 parking lots which excludes parking lots that are too small or occluded. Figure \ref{fig:weather} exhibits the various weather conditions and noise which were recorded sporadically throughout the dataset.
+This setup was left to record data over the course of several months with various weather conditions, lighting conditions as well as a diverse set of car park scenes which includes peak hours with plenty of vehicles along with the off-days. In addition to that, this setup covers a total of over 45 parking lots which excludes parking lots that are too small or occluded. Figure \ref{fig:weather} exhibits the various weather conditions and noise which were recorded sporadically throughout the dataset.
 
 
 
@@ -173,7 +178,14 @@ As the performance of the proposed method is essential towards end users, each o
 
 The proposed methods were implemented and evaluated on an Intel i7 machine with 16GB RAM, GeForce GTX 1060 GPU. As the main focal point in this proposed method revolves around the semantic extraction of vehicle color along with the vehicle trajectory, both of these components were assessed and evaluated individually to better understand the performance, effectiveness as well as the weakness of the proposed methods. This, in turn, provides a deeper understanding and opportunities for improvements as well as future works. 
 
-While the collected dataset comprised of several months of data, only two days of data were manually fully annotated by several annotators and cross-checked to arrive at a consensus. These manually annotated dataset included the total number of vehicles with their corresponding color categories. The total number of vehicles performing $TQ1$ \& $TQ2$ (see Figure \ref{fig:versionOneInterface}) which were used in the evaluation of \versionOneRet was recorded. 
+While the collected dataset comprised of several months of data, only two days of data were used for the evaluation of \versionOneRet. These data were  fully annotated manually by several annotators and cross-checked to arrive at a consensus. The  annotated dataset included the total number of vehicles with their corresponding color categories. The total number of vehicles performing $TQ1$ \& $TQ2$ (see Figure \ref{fig:versionOneInterface}).
 
-However, as with any large scale retrieval engine, for all intents and purposes, it is not feasible to annotate a huge amount of ground truth manually as it is a labour intensive, mundane and time consuming process. Hence in \versionTwoRet, one month of data was processed and evaluated without the manual annotations of all the events. Instead, the best practice used in evaluating a large scale retrieval engine was used to document the evaluation process. To do that, the relevance of each results was evaluated by the volunteers who described the test queries. 
+
+However, as with any retrieval engine for all intents and purposes dealing with long-term data, it is not feasible to annotate a huge amount of ground truth manually as it is a labour intensive, mundane and time consuming process. Hence in the \versionTwoRet, one month of data was processed and evaluated without the manual annotations of all the events. 
+%Instead, the best practice used in evaluating a large scale retrieval engine was used to document the evaluation process. 
+Instead, this evaluation process took on an empirical user study approach. Here, a group of six volunteers were tasked to perform queries on the retrieval system and provide relevance score for each retrieved results. 
+
+%Justify why the experimental methodology for both frameworks are different
+\cc{hmm not sure how to justify why different experimental methodology was used for these frameworks}
+
 

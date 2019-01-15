@@ -122,9 +122,9 @@ With the annotated values, the Precision and Recall (Equation \ref{eq:precisionr
 
 \subsubsection{Vehicle Trajectory}
 
-In order to evaluate the performance of the retrieval engine in regards to vehicle trajectories, the ground truth of the data has to be first obtained. As the manual annotation of these video data is laborious and time consuming, only two specific motion paths were designated as trajectory queries (TQ). The first query, TQ1 refers to vehicles heading southward (see Figure \ref{fig:versionOneInterface} (a)) while TQ2 represents vehicles turning into a junction (see Figure \ref{fig:versionOneInterface} (b)). 
+In order to evaluate the performance of the retrieval engine in regards to vehicle trajectories, the ground truth of the data has to be first obtained. As the manual annotation of these video data is laborious and time consuming, only two specific motion paths were designated as trajectory queries (TQ). The first query, TQ1 refers to vehicles heading southward (see Figure \ref{fig:versionOneInterface} (a)) while TQ2 represents vehicles turning into a junction (see Figure \ref{fig:versionOneInterface} (b)).
 
-These predefined trajectory queries (TQ) were selected to represent two types of motion which exist in a carpark scene, (i) \textit{simple motion} - motions that are simple in nature, moving straight \& (ii) \textit{complex motion} - motions which contains multiple elements such as turning into a junction. The distribution of these TQ are tabulated in Table \ref{table:motiondist}. In each TQ experiment, the number of atom input query used to represent each TQ were varied to understand the co-relating effects between the number of inputs and the performance of the retrieval engine. In addition to that, the effects of using varying confidence values (CV) in regards to the performance is also evaluated. These experiments were tested on three CV values which were set at 70\%, 80\%, and 90\%.
+These predefined trajectory queries (TQ) were selected to represent two types of motion which exist in a car park scene, (i) \textit{simple motion} - motions that are simple in nature, moving straight \& (ii) \textit{complex motion} - motions which contains multiple elements such as turning into a junction. The distribution of these TQ are tabulated in Table \ref{table:motiondist}. In each TQ experiment, the number of atom input query used to represent each TQ were varied to understand the co-relating effects between the number of inputs and the performance of the retrieval engine. In addition to that, the effects of using varying confidence values (CV) in regards to the performance is also evaluated. These experiments were tested on three CV values which were set at 70\%, 80\%, and 90\%.
 
 
 \begin{table}[bht!]
@@ -438,7 +438,7 @@ Precision@K =  \frac{\sum_{n=1}^K \begin{cases}1 \rightarrow True, & AvgScore(Re
 \end{equation}
 
 \subsubsection{Vehicle Trajectory}
-A total of eleven trajectories were drawn by six volunteers who were given full liberty on how each was drawn. Figure \ref{fig:versionTwoTrajquery} shows a compilation of these trajectories overlaid over the carpark scene, these trajectories covered a majority of the scene while showing a good mixture of different queries.
+A total of eleven trajectories were drawn by six volunteers who were given full liberty on how each was drawn. Figure \ref{fig:versionTwoTrajquery} shows a compilation of these trajectories overlaid over the car park scene, these trajectories covered a majority of the scene while showing a good mixture of different queries.
 While some of the queries exceeded the tracking area of the tracker, the retrieval engine managed to retrieved results which has the closest resemblance to the given queries. As mentioned, the performance of the retrieval engine was measured using \textit{Precision@K} along with the \textit{normalized Discounted Cumulative Gain} (\textit{nDCG}) metrics. 
 
 \begin{figure}[!t]
