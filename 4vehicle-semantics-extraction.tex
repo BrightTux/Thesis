@@ -293,29 +293,40 @@ Since the object of interest in this work are the vehicles in the car park scene
 \label{section:semantic_lsh}
 
 \subsection{Overview}
-Before diving deeper into the nitty-gritty of the \versionOneExt, first, the term Locality Sensitive Hashing needs to be addressed. LSH is a technique used for its ability in dimensionality reduction, this technique excels especially when working with high dimensional data such video data. 
+Before diving deeper into the nitty-gritty of the \versionOneExt, first, the term Locality Sensitive Hashing needs to be addressed. LSH is a technique used for its ability in dimensionality reduction, this technique excels especially when working with high dimensional data such video data.
+This is done by hashing documents with similar properties, mapping and clustering them into a similar neighbourhood. Hence, reducing the dimensionality of a large document in the process. Figure \ref{fig:lshexample} visualizes this process.
 
-This is done by hashing documents with similar properties, mapping and clustering them into a similar neighbourhood. Hence, reducing the dimensionality of a large document in the process. However, since the exact implementation of LSH is not used in this work, the focus will be anchored on the idea of clustering documents with similar properties in the same neighbourhood. 
+However, LSH techniques were not implemented in this work. Instead, inspirations to cluster documents with similar properties were drawn from the technique and applied in this work. 
+In the \versionOneExt, each of the extracted semantics from the vehicles are treated like documents that needs to be  clustered. For the purpose of this work, a total of 11 color semantic clusters as well as 9 motion semantic clusters were assigned, these clusters were represented using an SQL table individually. 
+During the semantics extraction process, each of these extracted semantics will then be clustered into these tables according to the color and motion semantic cluster group.
+
 
 
 \begin{figure}[hbt!]\centering
 \includegraphics[width=.7\textwidth]{image/lsh.png}
-\caption{Locality Sensitive Hashing}
+\caption{Locality Sensitive Hashing - Documents with similar properties within the dataset are clustered into similar neighbourhood using LSH via the hashing function, h(x)}
 \label{fig:lshexample}
 \end{figure}
 
-In the \versionOneExt, each extracted semantic property is defined as a document. A total of 11 color semantic clusters as well as 9 motion semantic clusters were assigned. In this implementation, each cluster was represented using an SQL table. During the semantic extraction process, documents with similar properties were inserted into the same table as the clustering method. 
 
 
 \subsection{Color Semantic Extraction }
 \label{section:versionOneColorExtract}
 %With that in place, this setting effectively performs quantize the range of colors to a fixed number of color categories while taking advantage of the atom-based structure (Refer to Section \ref{SemanticSegmentation}).
 
-As the background subtraction module has separated the foreground blobs from background scene, these blobs are now assigned a bounding box using the blob's maximum and minimum value on both axis. These bounding box are used to mark the location of the vehicle when a vehicle is detected in the scene. However, due to the background subtraction method used, the final foreground blob tend to appear somewhat larger than the actual vehicle footprint. 
+As the background subtraction module has separated the foreground blobs from background scene, these blobs are now assigned a bounding box using the blob's maximum and minimum value on both axis. These bounding box are used to mark the location of the vehicle when a vehicle is detected in the scene. However, due to the background subtraction method adopted, the final foreground blob tend to appear somewhat larger than the actual vehicle footprint. 
 
 In order to minimize noise from the bounding box and to obtain a closer estimation of the vehicle's dominant color, the bounding box is cropped by a factor of 30\% to reduce background noise such as the tar road or vehicles close to it. In order to maintain as much information, the bounding box was not reduced further as that often results in the cropping of the vehicle's windscreen and window regions, thus altering the overall dominant color.
 
-Now that the bounding box has been cropped, the next strategy was implemented to determine the dominant color of each vehicle by first distinguishing between chromatic and achromatic vehicles. Following similar definition of achromatic colors from Munsell, achromatic colors also known as neutral colors are characterized by the lack of strong hue or chroma values such as black, white and gray color. This process starts off by comparing the cropped image against a grayscale version of the same image. Next, the obtained absolute difference between these images were subjected to a threshold process for all three channels in the RGB color space. The step was done to effectively amplify the difference between the original image and the grayscale image, pixels with values above the threshold value were set to the maximum value of 255. The threshold value used for this step was empirically set at 35. Finally, the output of the process was converted to the grayscale color space. The hint of significant values at this stage provided an indication of substantial presence of chromatic hues for this particular vehicle.     
+Now that the bounding box has been cropped, the next strategy was implemented to determine the dominant color of each vehicle by first distinguishing between chromatic and achromatic vehicles. 
+
+\cc{REF:180119 - work on this part}
+The reason for differentiating between these two color groups is ?? ... 960 hsv color bins... but the achromatic colors is hard to differnetiate 
+
+
+
+Following similar definition of achromatic colors from Munsell, achromatic colors also known as neutral colors are characterized by the lack of strong hue or chroma values such as black, white and gray color. This process starts off by comparing the cropped image against a grayscale version of the same image. 
+Next, the obtained absolute difference between these images were subjected to a threshold process for all three channels in the RGB color space. The step was done to effectively amplify the difference between the original image and the grayscale image, pixels with values above the threshold value were set to the maximum value of 255. The threshold value used for this step was empirically set at 35. Finally, the output of the process was converted to the grayscale color space. The hint of significant values at this stage provided an indication of substantial presence of chromatic hues for this particular vehicle.     
 
 With the interest of differentiating between chromatic and achromatic vehicles, the ratio of non-zero pixel value over the total pixels in an image were obtained. This threshold pivot value, $T_{pivot}$, was empirically set at 18\% where vehicles blobs that exceeds this value were assumed to contain strong chromatic hue. The entire process from the original image to the deduction of whether a vehicle blob was chromatic or achromatic is illustrated using Figure \ref{fig:achromatic_thresh}. This handcrafted algorithm allows the deduction of strong chromatic hues and estimates if a particular vehicle blob belongs to a chromatic or achromatic subset. 
 
@@ -335,15 +346,25 @@ With the interest of differentiating between chromatic and achromatic vehicles, 
 
 \paragraph{Achromatic and chromatic color processing.} Upon determining whether or not the vehicle belongs to the achromatic scale using the $T_{pivot}$ value, the cropped images were then subjected to both the black and white color filters individually. These simple filters were designed using binary thresholds values empirically set at an intensity levels of 50 and 170 respectively. Next, using a similar fashion, the ratio of non-zero pixels upon filtering were computed. These non-zero percentage ration was used to determine if the vehicle belongs to black, white or gray color terms. Figure \ref{fig:blackwhite_filter} shows how a white vehicle responds to a black and white filter. 
 
-\begin{figure}[hbt!]\centering
-\includegraphics[width=.7\textwidth]{image/general/blackwhitefilter.PNG}
-\caption{Black \& While Filter Response of a White Vehicle}
-\label{fig:blackwhite_filter}
+
+\begin{figure}[htb!]
+  \centering
+\begin{tabular}{ccc}
+ \includegraphics[width=0.22\linewidth]{image/retrievalOne/whitefilter1.png}   &
+ \includegraphics[width=0.22\linewidth]{image/retrievalOne/whitefilter2.png}   &
+ \includegraphics[width=0.22\linewidth]{image/retrievalOne/whitefilter3.png}   \\
+(a) Target Vehicle (White) &
+(b) Black Filter Response &
+(c) White Filter Response \\
+\end{tabular}
+\caption{Black \& While Filter Response of a White Vehicle} \label{fig:blackwhite_filter}
 \end{figure}
 
 
+
+
  \begin{algorithm}[!ht]
-  \caption{Achromatic Color}
+  \caption{Achromatic Color Term Extraction}
   \label{algo:achromatic}
   \begin{algorithmic}[1]
   
@@ -365,7 +386,7 @@ With the interest of differentiating between chromatic and achromatic vehicles, 
   \caption{Color Term Extraction}
   \label{algo:colorExtract}
   \begin{algorithmic}[1]
-    \For{Each blob in object}
+    \For{Each blob in image}
         \State Shrink bounding box \& crop image
         \State Create a copy of the cropped image in grayscale
         \State Compute absolute difference between cropped image \& grayscale image
@@ -380,7 +401,7 @@ With the interest of differentiating between chromatic and achromatic vehicles, 
                 \State // Achromatic Vehicle
                 \State Perform black \& white filter 
                 \State Obtain ratio of non-zero pixels from both filters
-                \State Determine Color Term
+                \State CALL: Achromatic Color Term Extraction
             \EndIf
 
     \EndFor
@@ -389,7 +410,7 @@ With the interest of differentiating between chromatic and achromatic vehicles, 
 \end{algorithm}
 
 
-As previously mention, this work chose to primarily work on the HSV color space, this applies especially for the chromatic color extraction process. First, the cropped image was converted to the HSV color space. Then, a 3-Dimensional histogram of the cropped image was generated to identify the maximum value of each channel. However, as colors belongs to a spectrum, using a fine-grained histogram is not ideal as the generated output would be spread across a segment. Hence, the HSV channels were quantized into the following settings: 15 Hue bins, 8 Saturation bins and 8 Value bins for the histogram generation. 
+As previously mention, this work chose to primarily work on the HSV color space, especially for the chromatic color extraction process. First, the cropped image was converted to the HSV color space. Then, a 3-Dimensional histogram of the cropped image was generated to identify the maximum value of each channel. However, as colors belongs to a spectrum, using a fine-grained histogram is not ideal as the generated output would be spread across a segment. Hence, the HSV channels were quantized into the following settings: 15 Hue bins, 8 Saturation bins and 8 Value bins for the histogram generation. 
 
 
 
