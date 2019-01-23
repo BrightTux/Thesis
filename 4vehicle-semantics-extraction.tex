@@ -304,7 +304,7 @@ During the semantics extraction process, each of these extracted semantics will 
 
 \begin{figure}[hbt!]\centering
 \includegraphics[width=.7\textwidth]{image/lsh.png}
-\caption{Locality Sensitive Hashing - Documents with similar properties within the dataset are clustered into similar neighbourhood using LSH via the hashing function, h(x)}
+\caption{Locality Sensitive Hashing - Documents with similar properties within the dataset are clustered into similar neighbourhood using LSH via the hashing function, h(x). In this example, shapes and colors are used to illustrate documents with similar properties.}
 \label{fig:lshexample}
 \end{figure}
 
@@ -318,15 +318,65 @@ As the background subtraction module has separated the foreground blobs from bac
 
 In order to minimize noise from the bounding box and to obtain a closer estimation of the vehicle's dominant color, the bounding box is cropped by a factor of 30\% to reduce background noise such as the tar road or vehicles close to it. In order to maintain as much information, the bounding box was not reduced further as that often results in the cropping of the vehicle's windscreen and window regions, thus altering the overall dominant color.
 
-Now that the bounding box has been cropped, the next strategy was implemented to determine the dominant color of each vehicle by first distinguishing between chromatic and achromatic vehicles. 
+Upon having the bounding box of the vehicles cropped, the next strategy implemented was to determine the dominant color of each vehicle by first distinguishing between chromatic and achromatic vehicles. Following similar definition of achromatic colors from Munsell, achromatic colors also known as neutral colors are characterized by the lack of strong hue or chroma values such as black, white and gray color.
 
-\cc{REF:180119 - work on this part}
-The reason for differentiating between these two color groups is ?? ... 960 hsv color bins... but the achromatic colors is hard to differnetiate 
+\begin{figure}[htb!]
+  \centering
+\begin{tabular}{c}
+ \includegraphics[width=0.7\linewidth]{image/retrievalOne/all.png} \\  
+\end{tabular}
+\caption{960 Allocated Color Bins} \label{fig:hsvAllocated}
+\end{figure}
+
+The step to differentiate between chromatic and achromatic vehicles was implemented to overcome the shortcomings of the 960 color bins proposed for the Color Term Extraction process. Figure \ref{fig:hsvAllocated} illustrates the color bins generated, the details on how these color bins were allocated is discussed further in the following paragraphs. One of the main drawback of the proposed method  was the number of bins which represented the achromatic colors. From the figure, it is clear that while there are a substantial amount of bins (approximately 120 bins) representing the almost-pure-black darker tonnes, however, approximately only 15-30 bins were used to represent the lighter shades of achromatic colors. This imbalance, compounded with the noise captured (ie: road, other vehicles, trees) during the dominant color extraction process made it difficult for vehicles to be match with "White" color term. Hence, this step was introduced as a measure to counterbalance the weakness of the proposed method. 
+
+
+This process of differentiating chromatic against achromatic vehicles starts off by comparing the cropped image, $I_{ori}$, against a grayscale version of the same image, $I_{grayscale}$. The conversion from RGB to grayscale is performed using $I_{grayscale_{(x,y)}} = 0.299 \cdot I_{ori}R_{(x,y)}+0.587 \cdot I_{ori}G_{(x,y)}+0.114 \cdot I_{ori}B_{(x,y)}$. However, as the grayscale image and RGB image does not have the same number of channels, the grayscale image is converted back to a RGB image prior to the comparison.
+Next, the obtained absolute difference, $I_{Abs_{diff}} = \mid I_{ori} - I_{grayscale(RGB)} \mid$, between these images were subjected to a threshold process for all three channels in the RGB color space. 
+The step was done to effectively amplify the difference between the original image and the grayscale image, pixels with values above the threshold value were set to the maximum value of 255. \\ 
+Given that $V_{(x,y)}$ is the value of a pixel at location $(x,y)$, the threshold value $T_{Abs_{diff}}(x,y)$ can be obtained using:   
+
+\begin{align*}
+\label{eq:threshabsolutediff}
+T_{Abs_{diff}}(x,y) = \alpha \cdot (255) + \bar{\alpha} \cdot(0) \\
+\text{where} 
+\begin{cases}
+V_{(x,y)} \geq 35, & \alpha = 1\\
+otherwise, & \alpha = 0
+\end{cases}
+\end{align*}
 
 
 
-Following similar definition of achromatic colors from Munsell, achromatic colors also known as neutral colors are characterized by the lack of strong hue or chroma values such as black, white and gray color. This process starts off by comparing the cropped image against a grayscale version of the same image. 
-Next, the obtained absolute difference between these images were subjected to a threshold process for all three channels in the RGB color space. The step was done to effectively amplify the difference between the original image and the grayscale image, pixels with values above the threshold value were set to the maximum value of 255. The threshold value used for this step was empirically set at 35. Finally, the output of the process was converted to the grayscale color space. The hint of significant values at this stage provided an indication of substantial presence of chromatic hues for this particular vehicle.     
+ Finally, the output of the process was converted to the grayscale color space. The hint of significant values at this stage provided an indication of substantial presence of chromatic hues for this particular vehicle.     
+
+%Next, the obtained absolute difference between these images were subjected to a threshold process for all three channels in the RGB color space. The step was done to effectively amplify the difference between the original image and the grayscale image, pixels with values above the threshold value were set to the maximum value of 255. The threshold value used for this step was empirically set at 35. 
+
+
+\begin{comment}
+
+
+\begin{align}
+\label{eq:achromaticSteps}
+I_{ori_{i,j}} = \{R_{i,j},G_{i,j},B_{i,j}\} \\
+I_{grayscale}, Y_{i,j} = 0.299 \cdot I_{ori}R_{(x_i,y_j)}+0.587 \cdot I_{ori}G_{(x_i,y_j)}+0.114 \cdot I_{ori}B_{(x_i,y_j)}\\
+I_{grayscale(RGB_{i,j})} = \begin{cases}R = Y_{i,j}\\G = Y_{i,j} \\ B = Y_{i,j} \end{cases}\\
+Abs_{diff}(R,G,B) = \mid I_{ori} - I_{grayscale(BGR)} \mid \\
+Threshold_{Abs_{diff}}, T_{Abs_{diff}} = 
+\begin{cases}R = \begin{cases}Abs_{diff}R\geq 35, & R =255\\ otherwise, & R =0
+\end{cases} \\
+G = \begin{cases}Abs_{diff}G\geq 35, & G =255\\ otherwise, & G =0
+\end{cases} \\ 
+B = \begin{cases}Abs_{diff}B\geq 35, & B =255\\ otherwise, & B =0
+\end{cases} 
+\end{cases}\\
+Threshold_{Abs_{diff(grayscale)}} = \\
+0.299 \cdot T_{Abs_{diff}}R_{(x_i,y_j)}+0.587 \cdot T_{Abs_{diff}}G_{(x_i,y_j)}+0.114 \cdot T_{Abs_{diff}}B_{(x_i,y_j)}
+\end{align}
+\end{comment}
+
+
+
 
 With the interest of differentiating between chromatic and achromatic vehicles, the ratio of non-zero pixel value over the total pixels in an image were obtained. This threshold pivot value, $T_{pivot}$, was empirically set at 18\% where vehicles blobs that exceeds this value were assumed to contain strong chromatic hue. The entire process from the original image to the deduction of whether a vehicle blob was chromatic or achromatic is illustrated using Figure \ref{fig:achromatic_thresh}. This handcrafted algorithm allows the deduction of strong chromatic hues and estimates if a particular vehicle blob belongs to a chromatic or achromatic subset. 
 
@@ -631,7 +681,7 @@ The aim of the \versionTwoExt is to provide alternative solutions and improve th
 \label{section:versiontwoColor}
 As previously discussed in the section \ref{subsec:colorsemantics}, the basic idea of colors is relatively simple for humans, machines on the other hand, have a hard time understanding the concept of colors. In order to extract color semantics, the initial steps to obtain the Average Dominant Color (ADC) was inherited from the previous method where the bounding box of the detected vehicles from the background subtraction method were cropped. 
 
-Next, the dominant color from each frame was extracted using the maximum bin of the 3-dimension HSV histogram and concatenated. At the end of a vehicle's tracked life cycle, the concatenated dominant colors were averaged out to obtain the ADC. The example in Figure \ref{fig:ADC} illustrates this method while the pseudo-code of the ADC method is described in Algorithm \ref{algo:ADC}.  
+Next, the dominant color from each frame was extracted using the maximum bin of the 3-dimension HSV histogram and concatenated. At the end of a vehicle's tracked life cycle, the concatenated dominant colors were averaged out to obtain the ADC. The example in Figure \ref{fig:ADC} illustrates this method while the pseudo-code of the ADC method is described in Algorithm \ref{algo:ADC}. 
 
 
 \begin{figure}[hbt!]\centering
