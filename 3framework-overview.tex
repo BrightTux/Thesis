@@ -4,73 +4,6 @@
 \section{Introduction}
 In order to tackle the issues identified through the research questions and literature review, the theoretical framework is laid as to provide a conceptual schema on how to break the rather huge and intricate challenge into multiple bite sized puzzles. First, some reoccurring key concepts used throughout this work is discussed in Section \ref{section:keyconcepts}. This is then followed by the overview of the proposed framework used in this work is described in Section \ref{section:framework}. Next, the description of the dataset used is described in Section \ref{section:dataset_used} and finally, this chapter concludes with the experimental methodology applied in this work to obtain the published results (see Section \ref{sec:expmethodology}). 
 
-\section{Key Concepts}
-\label{section:keyconcepts}
-Before diving deeper into the nitty-gritty of the proposed framework, fundamental understanding towards the key concepts used in this work is discussed. As this work covers a rather broad spectrum of different concepts, a general understanding towards these key concepts would provide some degree of clarity towards the topic at hand. This section briefly describes the fundamental of the following key concepts: i) Quantization, ii) Distance Measure \& iii) Color Model. 
-
-
-\subsection{Quantization}
-
-The use of quantization in the mathematical and digital signal processing field is not a new concept. However, digital signal processors are limited by natural boundaries such as hardware limitations, and are only able to compute and perform arithmetic operations within a limited range \cite{spors_2018}. The use of quantization refers to the process of mapping and projecting a set of large values which are often continuous or analog in nature into a set of discrete and finite values. 
-
-\begin{figure}[hbt!]\centering
-\includegraphics[width=\textwidth]{image/general/quantization.png}
-\caption{Quantization}
-\end{figure}
-
-
-The use of quantization enables reduction in memory usage (compression) as well as the reduction of computational cost, hence, leading to faster processing speed. However, since quantization is a many-to-few mapping operation, hence, the operation is considered irreversible without prior knowledge of the loss. Nevertheless, the output discrete signal can closely resemble the continuous input signal depending on the number of quantization level used.
-
-In the proposed method, the quantization technique was extended further into a three dimensional space where the 3D space is quantized into a set of discrete and finite values to ease the calculation and manipulation of data in the both the video data as well as the color space. 
-
-\begin{equation}\centering
-\label{eq:quantization}
-x_Q[k] = g( \mspace{3mu}\lfloor \mspace{3mu}f(x[k]) \mspace{3mu}\rfloor\mspace{3mu})
-\end{equation} 
-
-\vspace{-3em}
-
-
-\begin{equation}\centering
-\label{eq:quantizationerror}
-e[k] = x_Q[k] - x[k]
-\end{equation}
-
-
-In order to expound on the quantization process, a mathematical model of this process can be formulated as such. Consider a continuous signal $x[k]$ whose quantized signal, $x_Q[k]$, is desired, Equation \ref{eq:quantization}. The functions $f (\mspace{3mu} \cdot  \mspace{3mu})$ \& $g (\mspace{3mu} \cdot  \mspace{3mu})$ can be thought of as a real-value mapping function while the $\lfloor \mspace{3mu} \cdot  \mspace{3mu} \rfloor$ represents a rounding function. As previously mention, this process is considered irreversible with prior knowledge of the loss, in this case, the quantization error, $e[k]$, can be computed as Equation \ref{eq:quantizationerror}. 
-
-\subsection{Distance Measure}
-\label{section:distancemeasures}
-
-The use of distance metrics is another recurring key concept in the proposed methods. While distance measure is commonly used in computer science as well as the mathematics field, there are numerous metrics suggested by different authors which are applicable and useful in different scenarios. 
-
-To further accentuate on the concept of distance measure in this work, a simple example of how distance metrics can be applied in the proposed method is illustrated using Figure \ref{fig:distanceMeasure} with two plotted lines. In order to simplify the research problem, these lines can be thought of as vehicle trajectories captured over time, and flatten unto a 2D plot. Using the available data, the distance between two trajectories can be measured and used to signify the dissimilarity between them. This distance measure can also be used to identify trajectories with high resemblance. 
-
-However, as different distance measure metrics are suitable for different scenarios, a good distance measure is an essential for comparing a significantly extensive set of vehicle trajectories during the retrieval process of a car park scene. This concept of distance measure was further extended into a multi-dimensional space such as the colors space, where the similarity between two or more colors were measured using different distance metrics to evaluate the performance of each metric. 
-
-
-\begin{figure}[hbt!]\centering
-\includegraphics[width=.7\textwidth]{image/general/distance.png}
-\caption{Example of Distance Measure}
-\label{fig:distanceMeasure}
-\end{figure}
-
-
-
-
-
-\subsection{Color Model}
-
-While humans' visible spectrum $(400nm - 700nm)$ can be represented using the respective wavelengths,  in order to describe these values in a 
-
-\cc{to fill up... talk about color space and why}
-%http://markkness.net/colorpy/ColorPy.html
-
-\begin{figure}[hbt!]\centering
-\includegraphics[width=.7\textwidth]{image/general/VisibleSpectrum.png}
-\caption{RGB Values and their corresponding spectrum}
-\label{fig:visibleSpectrum}
-\end{figure}
 
 
 \section{Framework Overview}
@@ -113,7 +46,7 @@ The second of the two frameworks suggested in this work is the \textit{Chamfer D
 
 
 \section{Dataset}
-\label{section:dataset_used}
+\label{datasetused}
 
 In view of testing the proposed framework for large-scale extraction and retrieval of video semantics, a new collection of video dataset was gathered. A stationary cloud-enabled web camera was set up on the fourth floor of a building with a window facing a piece of private car park area. Figure \ref{fig:camerasetup} depicts the camera setup overcasting the car park area. 
 

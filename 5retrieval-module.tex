@@ -267,39 +267,17 @@ Now, with the output $\mathbb{P}$ from the filtering process, these records can 
 Chamfer Distance, $D_{chamfer}$, is one of the many distance measure metrics available. In this framework, this distance metrics was selected to measure the dissimilarity between the input query $\mathbb{Q}$ and each record in $\mathbb{P}$ that fulfills the Equation \ref{eq:timedatefilter}. In order to minimize the dissimilarity between $\mathbb{P}$ \& $\mathbb{Q}$, the number of records (length) within both $\mathbb{P}$ \& $\mathbb{Q}$ are taken into consideration. In the proposed method, $\mathbb{P}$ will be assigned to $P$ if $\mathbb{P}$'s length is greater $\mathbb{Q}$ and vice versa.
 
 
-% \begin{table}[b!]
-% \centering
-% \begin{tabular}{ccc}
-%         \begin{align}
-%             P =\begin{cases}
-%                 \mathbb{P} & ,\mathbb{P}_{length} > \mathbb{Q}_{length} \\
-%                 \mathbb{Q} & ,\mathbb{Q}_{length} > \mathbb{P}_{length}
-%             \end{cases}
-%         \end{align}
-%     & ; &
-%         \begin{align}
-%             Q =\begin{cases}
-%                 \mathbb{Q} & ,\mathbb{P}_{length} > \mathbb{Q}_{length} \\
-%                 \mathbb{P} & ,\mathbb{Q}_{length} > \mathbb{P}_{length}
-%             \end{cases}
-%         \end{align}
-% \end{tabular}
-% % \caption{Caption}
-% % \label{tab:my_label}
-% \end{table}
-
-
-
 \begin{align}
-P =\begin{cases}
-\mathbb{P} & ,\mathbb{P}_{length} > \mathbb{Q}_{length} \\
-\mathbb{Q} & ,\mathbb{Q}_{length} > \mathbb{P}_{length}
-\end{cases}\\
-Q =\begin{cases}
-\mathbb{Q} & ,\mathbb{P}_{length} > \mathbb{Q}_{length} \\
-\mathbb{P} & ,\mathbb{Q}_{length} > \mathbb{P}_{length}
+\mathrm{P} =\begin{cases}
+\mathbb{P}, & \mathbb{P}_{length} > \mathbb{Q}_{length} \\
+\mathbb{Q}, & \mathbb{Q}_{length} > \mathbb{P}_{length}
+\end{cases}   \hspace{2em}  &  \hspace{2em}
+\mathrm{Q} =\begin{cases}
+\mathbb{Q}, & \mathbb{P}_{length} > \mathbb{Q}_{length} \\
+\mathbb{P}, & \mathbb{Q}_{length} > \mathbb{P}_{length}
 \end{cases}
 \end{align}
+
 
 
 \begin{align}

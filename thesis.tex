@@ -63,6 +63,33 @@ breaklines=true,breakatwhitespace=true}
 \usepackage{amssymb}
 \usepackage{multirow}
 
+%%% HELPER CODE FOR DEALING WITH EXTERNAL REFERENCES
+\usepackage{xr}
+\makeatletter
+\newcommand*{\addFileDependency}[1]{
+  \typeout{(#1)}
+  \@addtofilelist{#1}
+  \IfFileExists{#1}{}{\typeout{No file #1.}}
+}
+\makeatother
+
+\newcommand*{\myexternaldocument}[1]{
+    \externaldocument{#1}
+    \addFileDependency{#1.tex}
+    \addFileDependency{#1.aux}
+}
+%%% END HELPER CODE
+
+% % put all the external documents here!
+% % \myexternaldocument{File2}
+% \myexternaldocument{1introduction}
+% \myexternaldocument{2literature-review}
+% \myexternaldocument{3framework-overview}
+% \myexternaldocument{4vehicle-semantics-extraction}
+% \myexternaldocument{5retrieval-module}
+% \myexternaldocument{6conclusion}
+
+
 
 
 \author{Clarence Cheong Weihan}
@@ -105,6 +132,10 @@ Last and not least, I would like to applaud myself and give myself some credit f
 \prefacefromfile{preface}
 
 \mainmatter
+
+
+
+
 
 \include{1introduction}
 \include{2literature-review}

@@ -141,7 +141,7 @@ Object specific semantics extracted from the scene is able to provide deeper ins
 \textbf{2}   & Time                    & Filename data extraction                                                                                                         \\ \hline
 \textbf{3}   & Color                   & \begin{tabular}[c]{@{}l@{}}i) Handcrafted Feature \& Distance Estimation (HSV)\\ ii) Distance Estimation (Luv)\end{tabular} \\ \hline
 \textbf{4}   & Motion                  & \begin{tabular}[c]{@{}l@{}}i) Handcrafted Feature\\ ii) Collection of Centroids\end{tabular}                                \\ \hline
-\textbf{5}   & Object Type             & Deep Learning                                                                                                               \\ \hline
+\textbf{5}   & Object Type             & YOLOv2 (described in \ref{objecttype})                                                                                                               \\ \hline
 \textbf{6}   & Size                    & Bounding box from Background Subtraction                                                                                                      \\ \hline
 \end{tabular}
 
@@ -154,24 +154,18 @@ Object specific semantics extracted from the scene is able to provide deeper ins
 
 Without a doubt, color information plays a significant role as a useful semantics as it is often one of the most common information a user provides when they are tasked to describe an object from a given event in a particular scene. However, the process of extracting color information accurately is extremely challenging, especially in an outdoor setting. In these settings, the white balance of the said scene would appear very differently depending on various factors such as the ambient illumination during the different hours of the day or even weather conditions such as cloudy, rainy or sunshine that may affect the overall scene. Several commercially available product such as 'Nix color sensor' \cite{nixsensorltd} and 'Adafruit RGB sensor' \cite{adafruit} makes use of an independent light source which has been calibrated as a means to tackle this challenge.
 
-As color terms are commonly derived from the Munsell Color system which was created in the early 20th century by Professor Albert H. Munsell, this color system was investigated further to examined how the color terms were defined for the color extraction process. The Munsell Color System was designed to organize colors similar to how the human's eye sees - which is, by organizing colors according to their hues, followed by the chromatic range and the brightness values in a perceptually uniform manner. For each horizontal circle, the hues can be divided into 5 principle hues which are Red, Yellow, Green, Blue, and Purple. This setup allows another 5 intermediate hues between each principle hues, for example: Green-Blue hue, Purple-Red hue. 
+\cc{correct the following paragraph}
 
-However, as previously discussed in Section \ref{section:litreview}, various color terms are used in the myriad of available standards. In the computing field, this creates a whole lot of problem as color terms are often presented with differing definitions and values. Hence, there is a dire need of determining the best way to extract and represent color values with its corresponding color terms. While the basic idea of colors seems to be a relatively simple idea for humans, machines on the other hand, do not understand the concept of colors. Modern computers generally represents color values using the Red-Green-Blue (RGB) values for most applications. Despite its frequent usage, it is difficult for humans to visualize a particular color when presented with three RGB values as these values does not directly translate the intuitive nature of a particular color. Along with that, it is also very difficult to visualize the difference between two colors using the RGB values only. 
+As mentioned, color terms are commonly derived from the Munsell Color system. Hence, ideologies and inspirations were drawn from this color system and applied in this work. However, as previously discussed in Section \ref{section:litreview}, various color terms are used in the myriad of available standards. In the computing field, this creates a whole lot of problem as color terms are often presented with differing definitions and values. Hence, there is a dire need of determining the best way to extract and represent color values with its corresponding color terms. While the basic idea of colors seems to be a relatively simple idea for humans, machines on the other hand, do not understand the concept of colors. Modern computers generally represents color values using the Red-Green-Blue (RGB) values for most applications. Despite its frequent usage, it is difficult for humans to visualize a particular color when presented with three RGB values as these values does not directly translate the intuitive nature of a particular color. Along with that, it is also very difficult to visualize the difference between two colors using the RGB values only. 
 
 
-\begin{figure}[!htb]
-  \centering
-\begin{tabular}{cc}
- \includegraphics[width=0.4\linewidth]{image/general/munsell.png}  &
- \includegraphics[width=0.4\linewidth]{image/general/25YR.png}\\
- (a) Munsell Color System &
-(b) Hue at 2.5YR with various Chroma and Value\\
-\end{tabular}
-\caption{Munsell Color System} \label{fig:munsell}
+While the Munsell Color system provided a significant contribution in color term naming research, the irregularity along the chroma and value axis does not translate well in a modern color space as the modern color spaces are uniformly distributed along all axis. Hence, in order to better represent the color space, this work chose to work primarily on the Hue-Saturation-Value (HSV) color space with some minor usage of other color spaces. The use of the HSV color space is twofold, firstly, the ease of color representation as it closely resembles the Munsell Color System, and secondly the distance between two colors are now intuitive and linear. As HSV color space is commonly used, the conversion between the RGB and HSV color spaces are seamless and can be easily introduced into the existing processing framework. Figure \ref{fig:hsvcylinder} provides a visual representation of the HSV color space.
+
+\begin{figure}[hbt!]\centering
+\includegraphics[width=.5\textwidth]{image/general/HSV.png}
+\caption{Hue-Saturation-Value (HSV) Cylinder Visualization}
+\label{fig:hsvcylinder}
 \end{figure}
-
-
-Figure \ref{fig:munsell}(b) illustrates the property of the chroma and value scale available on the Munsell color system, for example, a hue at 2.5 Yellow-Red (YR) has a maximum chroma value which differs along the value axis. While the Munsell Color system provided a significant contribution in color term naming research, the irregularity along the chroma and value axis does not translate well in a modern color space as the modern color spaces are uniformly distributed along all axis. Hence, in order to better represent the color space, this work chose to work primarily on the Hue-Saturation-Value (HSV) color space with some minor usage of other color spaces. The use of the HSV color space is twofold, firstly, the ease of color representation as it closely resembles the Munsell Color System, and secondly the distance between two colors are now intuitive and linear. As HSV color space is commonly used, the conversion between the RGB and HSV color spaces are seamless and can be easily introduced into the existing processing framework. 
 
 \begin{table}[]
 \centering
@@ -188,26 +182,16 @@ xkcd                                                & 954                       
 \label{table:allcolorterms}
 \end{table}
 
-
-
-
-\begin{figure}[hbt!]\centering
-\includegraphics[width=.5\textwidth]{image/general/HSV.png}
-\caption{Hue-Saturation-Value (HSV) Cylinder Visualization}
-\label{fig:hsvcylinder}
-\end{figure}
-
-
 %https://people.csail.mit.edu/jaffer/Color/Dictionaries
 % x11 colors: https://groups.google.com/forum/?fromgroups=#!topic/comp.windows.x/AYPozZhQxok
 % https://www.crayola.com/explore-colors.aspx
 
 
-Table \ref{table:allcolorterms} lists several famous web color dictionary along with the number of color categories available in each of those color standards. Given that there are so many different color categories, this ultimately leads to another set of question: "How many color categories should be extracted for the color semantic? And why?". In this work, the eleven basic color terms in English proposed in a classic study of worldwide color naming by \cite{berlinandkay} was adopted. In their study, Berlin and Kay proposed that the naming of colors terms may differ due to different cultures. Based on their findings, native English language speakers generally used eleven basic color terms. These terms had to have three common properties which are: i) Highly used, ii) Monolexemic - meaning a single(mono) word, and not compounded color term such as 'baby blue', and iii) agreed upon by native speakers of the language. With those definitions, the common color terms proposed are black, white, gray, brown, red, orange, yellow, purple, green, blue, and pink. However, the definition of color terms by themselves are insufficient and invokes another set of challenge- that is the representation of these colors in numerical terms which are typically used in computers. 
+Table \ref{table:allcolorterms} lists several famous web color dictionary along with the number of color categories available in each of those color standards. Given that there are so many different color categories, this ultimately leads to another set of question: "How many color categories should be extracted for the color semantic? And why?". In this work, the eleven basic color terms in English proposed in a classic study of worldwide color naming by \cite{berlinandkay} was adopted. In their study, Berlin and Kay proposed that the naming of colors terms may differ due to different cultures. Based on their findings, native English language speakers generally used eleven basic color terms. These terms had to have three common properties which are: i) Highly used, ii) Monolexemic - meaning a single(mono) word, and not compounded color term such as 'baby blue', and iii) agreed upon by native speakers of the language. With those definitions, the common color terms proposed for the English language are black, white, gray, brown, red, orange, yellow, purple, green, blue, and pink. 
 
-However, those basic color terms defined were not associated with how colors are represented on a modern computer. Anatomically, there are three types of cones in the human retina, each of which are responsible over the receptiveness of colors in a particular type of wavelength. These wavelengths can be classified into three main categories: Short wavelengths light (420–440 nm), Medium  wavelengths light (534–545 nm) and Long wavelengths light (564–580 nm). As the number of cones cells in the retina varies from each person, this, in turn affects the color perception of everyone. That, compounded with the fact that most monitor screens are not color calibrated professionally provided an opportunity for Munroe \cite{munroe2010color} to perform an internet crowd-sourcing survey on color terms and their respective numeral representation according to how colors are displayed on typical monitors.
+However, the definition of color terms by themselves are insufficient as it invokes another set of challenge - that is, the representation of these colors in numerical terms, such as RGB values which are typically used in computers. As previously discussed in Section \ref{section:eyes}, each person has a relatively different perception of color due to the number of cones cells in the retina. This, compounded with the fact that most monitor screens are not color calibrated professionally provided an opportunity for Munroe \cite{munroe2010color} to perform an internet crowd-sourcing survey on color terms and their respective numeral representation according to how colors are displayed on typical monitors.
 
-In Munroe's experiments, 222,500 user sessions consisting of 40,000 women and 100,000 men, provided over five million colors according to the respective color terms. With the collected results, Munroe then proceeds to map a RGB tuple to a particular color term according to the highest frequency of responses. The mapping of these terms were done by averaging results of several stochastic hill climbing algorithms. At the end of Munroe's experiment, 954 color terms were assigned to a set of RGB tuples of equal size. Figure \ref{fig:xkcd} shows the mapping of dominant color terms over three fully saturated faces of the RGB cube. Now, by combining the work of Berlin and Kay along with the work of Munroe, the eleven basic color terms can now be translated into modern color tuples using the information collected. These color terms and the corresponding HEX values are listed in Table \ref{table:colorshex} and in this work, these values are treated as ground truth color data. 
+In Munroe's experiments, 222,500 user sessions consisting of 40,000 women and 100,000 men, provided over five million colors according to their respective color terms. With the collected results, Munroe then proceeds to map a RGB tuple to a particular color term according to the highest frequency of responses. According to Munroe, the mapping of these terms were done by averaging results of several stochastic hill climbing algorithms. At the end of the experiment, 954 color terms were assigned to a set of RGB tuples of equal size. Figure \ref{fig:xkcd} shows the mapping of dominant color terms over three fully saturated faces of the RGB cube. Now, by combining the work of Berlin and Kay along with the work of Munroe, the eleven basic color terms can now be translated into modern color tuples using the information collected. These color terms and the corresponding HEX values are listed in Table \ref{table:colorshex}. In this work, these tabulated values are treated as ground truth for each color term. 
 
 
 \begin{figure}[hbt!]\centering
@@ -215,11 +199,6 @@ In Munroe's experiments, 222,500 user sessions consisting of 40,000 women and 10
 \caption{Dominant Color Terms over Three Fully Saturated Faces of the RGB Cube}
 \label{fig:xkcd}
 \end{figure}
-
-
-
-
-
 
 
 % Please add the following required packages to your document preamble:
@@ -252,7 +231,7 @@ The use of video data for surveillance purposes no doubt lies in its ability to 
 
 Typically, a user describes motion information using a combination of several information such as time of occurrence, location and how the motion occurred. Traditionally, the motion information from videos are converted into text based descriptions using handcrafted methods. Given the following example: "A yellow vehicle was turning into the cross section between Road Alpha and Road Beta at 3:30pm when a black vehicle came rushing over and hitting a pedestrian in the process during commotion", this statement could be converted into a keyword-based statement such as "yellow car turn left Road Alpha and Road Beta". 
 
-However, keyword-based statements like these are not intuitive to users who are not familiar with the terminology used in the system. While motions are not as subjective as the concept of colors, text based descriptions of motion events are less intuitive when compared to a graphical description. Hence, this work aims to extract motion information which can be  represented in a graphical form, with the goal of providing a naturally more intuitive and accurate description of an event.
+However, keyword-based statements like these are not intuitive to users who are not familiar with the terminology used in the system. While motions are not as subjective as the concept of colors, text based descriptions of motion events are less intuitive when compared to a graphical description. Hence, this work aims to extract motion information such that it can be represented using a graphical form, with the goal of providing a naturally more intuitive representation of a given event.
 
 
 
@@ -270,19 +249,17 @@ In this subsection, the extraction process of the other low level semantics are 
 
 \subsubsection{Date \& Time}
 
-Both date and time information are valuable information in the context of surveillance retrieval engines. As these information are important, the camera was set to name the recorded files according to the time and date during the course of the dataset collection. As the filename contains both the time and date information, the date information can be easily extracted while the time information can be deduced when a vehicle is observed in the car park scene as follow, 
-
+Both date and time information are valuable information in the context of surveillance retrieval engines. As these information are important, the camera was set to name the recorded files according to the time and date during the course of the dataset collection. As the filename contains both the time and date information, the date information can be easily extracted while the time information from frame $\mathbb{T}$ can be deduced when a vehicle is observed in the car park scene as follow: 
 \begin{align}
-\label{eq:file_timing}
-	Time_{Current Frame}  = (Video Duration \times \frac{Current Frame}{Total Frames}) + Time_{filename}, 
+    \mathbb{T}_{time}  = (\mathbb{VD} \times \frac{\mathbb{T}}{\mathbb{TF}}) + \mathbb{F}_{time}
 \end{align}
-
-where~$VideoDuration$ is 6 minutes (see Section \ref{section:dataset_used}) and ~$Time_{filename}$ is the time information extracted from the last six digits of filename (excluding the file extension). Upon extracting these information, simple formatting is done to ensure these information conform to the typical SQL database requirements.
+where $\mathbb{VD}$ corresponds to the video duration of each file (6 minutes) and $\mathbb{TF}$ is the total frames of the current video. The $\mathbb{F}_{time}$ is the time information extracted from the last six digits of filename, excluding the file extension (see Section \ref{datasetused} for more details). Upon extracting these information, simple formatting is done to ensure these information conform to the typical SQL database requirements.
 
 %As described in Section \ref{section:dataset_used}, the camera was set to record video clips from 8:30am to 6:30pm in the evening with each clip being 6 minutes long. 
 
 
 \subsubsection{Object Type \& Size}
+\label{objecttype}
 Since the object of interest in this work are the vehicles in the car park scene, YOLOv2 was used to assist the validation of the foreground object detected by the background subtraction method as described in Section \ref{subsection:fundamental}. With that in place, all the objects which were detected were assumed to fall under the "vehicle" class. As for the object size, the size of the foreground objects' bounding box were saved in the database as the object size.
 
 
@@ -328,34 +305,28 @@ Upon having the bounding box of the vehicles cropped, the next strategy implemen
 \caption{960 Allocated Color Bins} \label{fig:hsvAllocated}
 \end{figure}
 
-The step to differentiate between chromatic and achromatic vehicles was implemented to overcome the shortcomings of the 960 color bins proposed for the Color Term Extraction process. Figure \ref{fig:hsvAllocated} illustrates the color bins generated, the details on how these color bins were allocated is discussed further in the following paragraphs. One of the main drawback of the proposed method  was the number of bins which represented the achromatic colors. From the figure, it is clear that while there are a substantial amount of bins (approximately 120 bins) representing the almost-pure-black darker tonnes, however, approximately only 15-30 bins were used to represent the lighter shades of achromatic colors. This imbalance, compounded with the noise captured (ie: road, other vehicles, trees) during the dominant color extraction process made it difficult for vehicles to be match with "White" color term. Hence, this step was introduced as a measure to counterbalance the weakness of the proposed method. 
+The step to differentiate between chromatic and achromatic vehicles was implemented to overcome the shortcomings of the 960 color bins proposed for the Color Term Extraction process. Figure \ref{fig:hsvAllocated} illustrates the color bins generated, the details on how these color bins were allocated are discussed later. One of the main drawback of the proposed method was the number of bins used to represent the achromatic colors. From the figure, it is observed that while there are a substantial amount of bins representing the almost-pure-black darker tonnes. However, the number of bins used to represent the lighter shades of achromatic colors are just a fraction of the total bins. 
+This imbalance, compounded with the noise captured (ie: road, other vehicles, trees) during the dominant color extraction process made it extremely difficult for vehicles to be match with "White" color term. Hence, this step was introduced as a measure to counterbalance the weakness of the proposed method. 
 
 
-This process of differentiating chromatic against achromatic vehicles starts off by comparing the cropped image, $I_{ori}$, against a grayscale version of the same image, $I_{grayscale}$. The conversion from RGB to grayscale is performed using $I_{grayscale_{(x,y)}} = 0.299 \cdot I_{ori}R_{(x,y)}+0.587 \cdot I_{ori}G_{(x,y)}+0.114 \cdot I_{ori}B_{(x,y)}$. However, as the grayscale image and RGB image does not have the same number of channels, the grayscale image is converted back to a RGB image prior to the comparison.
-Next, the obtained absolute difference, $I_{Abs_{diff}} = \mid I_{ori} - I_{grayscale(RGB)} \mid$, between these images were subjected to a threshold process for all three channels in the RGB color space. 
-The step was done to effectively amplify the difference between the original image and the grayscale image, pixels with values above the threshold value were set to the maximum value of 255. \\ 
-Given that $V_{(x,y)}$ is the value of a pixel at location $(x,y)$, the threshold value $T_{Abs_{diff}}(x,y)$ can be obtained using:   
-
+This process of differentiating chromatic against achromatic vehicles starts off by comparing the cropped image, $I_{crop}$, against a grayscale version of the same image, $I_{gray}$. The conversion from RGB to grayscale is performed using $I_{gray} = 0.299 \cdot I_{crop}[R]+0.587 \cdot I_{crop}[G]+0.114 \cdot I_{crop}[B]$. However, as the grayscale image and RGB image does not have the same number of channels, hence, the grayscale image was converted back to a RGB image prior to the comparison.
+The absolute difference between these images were obtained using: $I_{Abs_{diff}} = \mid I_{crop} - I_{gray(RGB)} \mid$. Next, the obtained $I_{Abs_{diff}}$ result was subjected to a threshold process for all three channels in the RGB color space to produce $I_{threshold}(RGB)$. 
+The step was done to effectively amplify the difference between the original image and the grayscale image, Pixels, $Pv_{(x,y)}$, with values above the threshold value of 35 were set to the maximum value of 255. 
 \begin{align*}
 \label{eq:threshabsolutediff}
-T_{Abs_{diff}}(x,y) = \alpha \cdot (255) + \bar{\alpha} \cdot(0) \\
-\text{where} 
+I_{threshold}(x,y)(RGB) = \alpha \cdot (255) \\
+\text{where, } 
+\alpha = 
 \begin{cases}
-V_{(x,y)} \geq 35, & \alpha = 1\\
-otherwise, & \alpha = 0
+1, & Pv_{(x,y)} \geq 35\\
+0, & otherwise
 \end{cases}
 \end{align*}
 
-
-
- Finally, the output of the process was converted to the grayscale color space. The hint of significant values at this stage provided an indication of substantial presence of chromatic hues for this particular vehicle.     
-
-%Next, the obtained absolute difference between these images were subjected to a threshold process for all three channels in the RGB color space. The step was done to effectively amplify the difference between the original image and the grayscale image, pixels with values above the threshold value were set to the maximum value of 255. The threshold value used for this step was empirically set at 35. 
+ Finally, the output of the process was converted back to the grayscale color space to generate $I_{threshold}(gray)$. The hint of significant values at this stage provides an indication of substantial presence of chromatic hues for this particular vehicle.     
 
 
 \begin{comment}
-
-
 \begin{align}
 \label{eq:achromaticSteps}
 I_{ori_{i,j}} = \{R_{i,j},G_{i,j},B_{i,j}\} \\
@@ -375,9 +346,6 @@ Threshold_{Abs_{diff(grayscale)}} = \\
 \end{align}
 \end{comment}
 
-
-
-
 With the interest of differentiating between chromatic and achromatic vehicles, the ratio of non-zero pixel value over the total pixels in an image were obtained. This threshold pivot value, $T_{pivot}$, was empirically set at 18\% where vehicles blobs that exceeds this value were assumed to contain strong chromatic hue. The entire process from the original image to the deduction of whether a vehicle blob was chromatic or achromatic is illustrated using Figure \ref{fig:achromatic_thresh}. This handcrafted algorithm allows the deduction of strong chromatic hues and estimates if a particular vehicle blob belongs to a chromatic or achromatic subset. 
 
 
@@ -389,7 +357,7 @@ With the interest of differentiating between chromatic and achromatic vehicles, 
  \includegraphics[width=0.9\linewidth]{image/general/achromatic_threshold_color2.PNG}\\
 (b) Chromatic vehicle (Red)
 \end{tabular}
-\caption{(From left) Original image; Grayscale image; Absolute difference; Binary threshold absolute difference; Threshold difference in grayscale} \label{fig:achromatic_thresh}
+\caption{(From left) Original image, $I_{crop}$; Grayscale image, $I_{gray}$; Absolute difference, $I_{Abs_{diff}}$; Binary threshold absolute difference, $I_{threshold}(RGB)$; Threshold difference in grayscale, $I_{threshold}(gray)$} \label{fig:achromatic_thresh}
 \end{figure}
 
 
