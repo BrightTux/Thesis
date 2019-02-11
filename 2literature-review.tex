@@ -7,7 +7,7 @@
 \chapter{Background Studies}
 \label{section:litreview}
 
-In this chapter, related theoretical background concepts are first introduced. Then, the related works are discussed in two main portions: 
+In this chapter, related theoretical background concepts are first introduced. Then, the related state of the art works are discussed in two main portions: 
 \begin{enumerate}
     \item Existing methodology and techniques used for semantics extraction
     \item Recent methodology and techniques used for semantic retrieval.
@@ -23,38 +23,35 @@ Before diving deeper into the nitty-gritty of the proposed framework, fundamenta
 
 \subsection{Quantization}
 
-The use of quantization in the mathematical and digital signal processing field is not a new concept. However, digital signal processors are limited by natural boundaries such as hardware limitations, and are only able to compute and perform arithmetic operations within a limited range \cite{spors_2018}. The use of quantization refers to the process of mapping and projecting a set of large values which are often continuous or analog in nature into a set of discrete and finite values. 
+The use of quantization in the mathematical and digital signal processing field is not a new concept. Digital signal processors are limited by natural boundaries such as hardware limitations, and are only able to compute and perform arithmetic operations within a limited range \cite{spors_2018}. The use of quantization refers to the process of mapping and projecting a set of large values which are often continuous or analog in nature into a set of discrete and finite values. 
 
 \begin{figure}[hbt!]\centering
 \includegraphics[width=\textwidth]{image/general/quantization.png}
 \caption{Quantization}
+\label{fig:quantize}
 \end{figure}
 
 
-The use of quantization enables reduction in memory usage (compression) as well as the reduction of computational cost, hence, leading to faster processing speed. However, since quantization is a many-to-few mapping operation, hence, the operation is considered irreversible without prior knowledge of the loss. Nevertheless, the output discrete signal can closely resemble the continuous input signal depending on the number of quantization level used.
-
-In the proposed method, the quantization technique was extended further into a three dimensional space where the 3D space is quantized into a set of discrete and finite values to ease the calculation and manipulation of data in the both the video data as well as the color space. 
-
+The use of quantization enables reduction in memory usage (compression) as well as the reduction of computational cost, hence, leading to faster processing speed. However, since the quantization process is a many-to-few mapping operation, the operation is considered irreversible without prior knowledge of the loss. Nevertheless, the output discrete signal can closely resemble the continuous input signal depending on the number of quantization level used.
 \begin{equation}\centering
 \label{eq:quantization}
 x_Q[k] = g( \mspace{3mu}\lfloor \mspace{3mu}f(x[k]) \mspace{3mu}\rfloor\mspace{3mu})
 \end{equation} 
-
 \vspace{-3em}
-
-
 \begin{equation}\centering
 \label{eq:quantizationerror}
 e[k] = x_Q[k] - x[k]
 \end{equation}
+In order to expound on the quantization process, a mathematical model of this process can be formulated as such. Consider a continuous signal $x[k]$ whose quantized signal, $x_Q[k]$, is desired (see Equation \ref{eq:quantization}). The functions $f (\mspace{3mu} \cdot  \mspace{3mu})$ \& $g (\mspace{3mu} \cdot  \mspace{3mu})$ can be thought of as a real-value mapping function while the $\lfloor \mspace{3mu} \cdot  \mspace{3mu} \rfloor$ represents a rounding function. The $f (\mspace{3mu} \cdot  \mspace{3mu})$ function is used to convert real-world values into a digital signal, while $g (\mspace{3mu} \cdot  \mspace{3mu})$ is used to map the digital signal into a quantized signal. As previously mention, this process is considered irreversible with prior knowledge of the loss, in this case, the quantization error, $e[k]$, can be computed as Equation \ref{eq:quantizationerror}. Figure \ref{fig:quantize} illustrates a quantization process where the red signal ($x[k]$) represents the real-world continuous signal, the blue signal ($x_Q[k]$) refers to the quantized signal while the green signal ($e[k]$) represents the error due to quantization process.
+
+In order to leverage on this concept, in this work, the quantization technique was extended further into a three dimensional space. As video data can be represented in a 3D space, the quantization process was used to quantize the continuous video data into a set of discrete and finite values. These discrete and finite values can ease the calculation and manipulation of data. As color space can also be represented using a 3D space, this concept was adapted and applied here to quantize the color space into color terms (See Section \ref{section:colorterm}).
 
 
-In order to expound on the quantization process, a mathematical model of this process can be formulated as such. Consider a continuous signal $x[k]$ whose quantized signal, $x_Q[k]$, is desired, Equation \ref{eq:quantization}. The functions $f (\mspace{3mu} \cdot  \mspace{3mu})$ \& $g (\mspace{3mu} \cdot  \mspace{3mu})$ can be thought of as a real-value mapping function while the $\lfloor \mspace{3mu} \cdot  \mspace{3mu} \rfloor$ represents a rounding function. As previously mention, this process is considered irreversible with prior knowledge of the loss, in this case, the quantization error, $e[k]$, can be computed as Equation \ref{eq:quantizationerror}. 
 
 \subsection{Distance Measure}
 \label{section:distancemeasures}
 
-The use of distance metrics is another recurring key concept in the proposed methods. While distance measure is commonly used in computer science as well as the mathematics field, there are numerous metrics suggested by different authors which are applicable and useful in different scenarios. 
+The use of distance measure is another recurring key concept in the proposed method. Given that distance measures are commonly used in computer science as well as the mathematics field, there are numerous metrics suggested by different authors which are applicable and useful in different scenarios. In essence, distance measure is used to compute the difference between targets. On the flip side, the difference can also be thought of as the similarity between these targets.
 
 \begin{figure}[hbt!]\centering
 \includegraphics[width=.7\textwidth]{image/general/distance.png}
@@ -62,11 +59,35 @@ The use of distance metrics is another recurring key concept in the proposed met
 \label{fig:distanceMeasure}
 \end{figure}
 
-To further accentuate on the concept of distance measure in this work, a simple example of how distance metrics can be applied in the proposed method is illustrated using Figure \ref{fig:distanceMeasure} with two plotted lines. In order to simplify the research problem, these lines can be thought of as vehicle trajectories captured over time, and flatten unto a 2D plot. Using the available data, the distance between two trajectories can be measured and used to signify the dissimilarity between them. This distance measure can also be used to identify trajectories with high resemblance. 
+To further accentuate on the concept of distance measure in this work, a simple example of how distance metrics can be applied in the proposed method is illustrated using Figure \ref{fig:distanceMeasure} with two plotted lines. In order to simplify the research problem, these lines can be thought of as vehicle trajectories captured over time that is flatten unto a 2D plot. Using the available data, the distance between two trajectories can be measured and used to signify the dissimilarity between them. This distance measure can also be used to identify trajectories with high resemblance. 
 
-However, as different distance measure metrics are suitable for different scenarios, a good distance measure is an essential for comparing a significantly extensive set of vehicle trajectories during the retrieval process of a car park scene. This concept of distance measure was further extended into a multi-dimensional space such as the colors space, where the similarity between two or more colors were measured using different distance metrics to evaluate the performance of each metric. 
+However, as different distance measure metrics are suitable for different scenarios, a good distance measure is an essential for comparing a significantly extensive set of vehicle trajectories during the retrieval process of a car park scene. This concept of distance measure was further extended into a multi-dimensional space such as the colors space, where the similarity between two or more colors were measured using different distance metrics to evaluate the performance of each metric. Table \ref{table:distance} lists out several distance measure which are commonly used along with the pros and cons of each while Figure \ref{fig:manhattan} shows the contrast between Euclidean and Manhattan distance.
+
+\begin{table}[]
+\label{table:distance}
+\resizebox{\textwidth}{!}{
+\begin{tabular}{|l|l|l|}
+\hline
+\textbf{Distance Measure} & \textbf{Pros} & \textbf{Cons}  \\ \hline
+Euclidean Distance        & 
+\begin{tabular}[c]{@{}l@{}}Simple, \\ Fast, \\ Commonly used\end{tabular}   &
+\begin{tabular}[c]{@{}l@{}}Vector order dependent,\\ Requires same length vectors\end{tabular} \\ \hline
+Manhattan Distance        & 
+\begin{tabular}[c]{@{}l@{}}Reflection invariant, \\ Translation invariant,\\ Produces same distance\end{tabular}  & 
+\begin{tabular}[c]{@{}l@{}}Requires same length vectors,\\ Does not have a unique solution\end{tabular} \\ \hline
+Chamfer Distance          & 
+\begin{tabular}[c]{@{}l@{}}Able to work with \\different length vectors,\\ Vector order invariant, \\ Minimizes the difference \\between vectors\end{tabular} & 
+Higher computational cost \\ \hline
+\end{tabular}}
+\end{table}
 
 
+
+\begin{figure}[hbt!]\centering
+\includegraphics[width=.5\textwidth]{image/lit/manhattan.png}
+\caption{Using Manhattan Distance, regardless of the path taken, the distance for the red, green and blue lines has the length of $14$. However, using Euclidean Distance, the distance is measured to be $\sqrt{8^2+6^2} = 10$. Euclidean Distance only produces $1$ unique solution while Manhattan Distance may produce more than one solution.}
+\label{fig:manhattan}
+\end{figure}
 
 
 \subsection{Human Visual System}
@@ -88,6 +109,7 @@ Anatomically, there are three types of cones in the human retina, each of which 
 
 
 \subsection{Color Model and Color Terms}
+\label{section:colorterm}
 
 %[cref010219-continue from here]
 The humans' visible spectrum $(400nm - 700nm)$ can be represented using the respective wavelengths. In order to describe these values 
