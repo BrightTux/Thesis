@@ -2,7 +2,7 @@
 \chapter{Framework Overview}
 
 \section{Introduction}
-In order to tackle the issues identified through the research questions and literature review, the theoretical framework is laid as to provide a conceptual schema on how to break the rather huge and intricate challenge into multiple bite sized puzzles. First, some reoccurring key concepts used throughout this work is discussed in Section \ref{section:keyconcepts}. This is then followed by the overview of the proposed framework used in this work is described in Section \ref{section:framework}. Next, the description of the dataset used is described in Section \ref{section:dataset_used} and finally, this chapter concludes with the experimental methodology applied in this work to obtain the published results (see Section \ref{sec:expmethodology}). 
+In order to tackle the issues identified through the research questions and literature review, the theoretical framework is laid as to provide a conceptual schema on how to break the rather huge and intricate challenge into multiple bite sized puzzles. First, the overview of the proposed framework used in this work is described in Section \ref{section:framework}. Next, the description of the dataset used is described in Section \ref{section:dataset_used} and finally, this chapter concludes with the experimental methodology applied in this work to obtain the published results (see Section \ref{sec:expmethodology}). 
 
 
 
@@ -46,7 +46,7 @@ The second of the two frameworks suggested in this work is the \textit{Chamfer D
 
 
 \section{Dataset}
-\label{datasetused}
+\label{section:dataset_used}
 
 In view of testing the proposed framework for large-scale extraction and retrieval of video semantics, a new collection of video dataset was gathered. A stationary cloud-enabled web camera was set up on the fourth floor of a building with a window facing a piece of private car park area. Figure \ref{fig:camerasetup} depicts the camera setup overcasting the car park area. 
 
@@ -109,16 +109,27 @@ In the subsequent chapters, the detailed descriptions of the proposed vehicle se
 
 As the performance of the proposed method is essential towards end users, each of the proposed algorithm in the framework is evaluated with the help of volunteers. Even though the fundamental framework was adopted from \cite{lim2017} without changes on the underlying algorithm, errors which were propagated from the Vehicle Detection and Vehicle Tracking modules were not overlooked nor discarded during the evaluation of the subsequent modules in the pipeline. This was done intentionally to provide an end-to-end assessment of the framework. 
 
-The proposed methods were implemented and evaluated on an Intel i7 machine with 16GB RAM, GeForce GTX 1060 GPU. As the main focal point in this proposed method revolves around the semantic extraction of vehicle color along with the vehicle trajectory, both of these components were assessed and evaluated individually to better understand the performance, effectiveness as well as the weakness of the proposed methods. This, in turn, provides a deeper understanding and opportunities for improvements as well as future works. 
+The proposed methods were implemented and evaluated on an Intel i7 machine with 16GB RAM, GeForce GTX 1060 GPU. As the main focal point in this proposed method revolves around the semantic extraction of \textbf{vehicle color} along with the \textbf{vehicle trajectory}, both of these components were assessed and evaluated individually to better understand the performance, effectiveness as well as the weakness of the proposed methods. This, in turn, provides a deeper understanding and opportunities for improvements as well as future works. 
 
-While the collected dataset comprised of several months of data, only two days of data were used for the evaluation of \versionOneRet. These data were  fully annotated manually by several annotators and cross-checked to arrive at a consensus. The  annotated dataset included the total number of vehicles with their corresponding color categories. The total number of vehicles performing $TQ1$ \& $TQ2$ (see Figure \ref{fig:versionOneInterface}).
+Two retrieval engines were designed and implemented in this work, the objective of the first retrieval engine was to build a prototype for the evaluation of the its current performance and to identify gaps to be improved. This process allowed the author to return to the drawing board and reevaluate the algorithms, metrics and evaluation process performed. Given this setup, the experimental methodology can be divided into two phase. 
 
 
-However, as with any retrieval engine for all intents and purposes dealing with long-term data, it is not feasible to annotate a huge amount of ground truth manually as it is a labour intensive, mundane and time consuming process. Hence in the \versionTwoRet, one month of data was processed and evaluated without the manual annotations of all the events. 
+\subsection{Phase One - Prototype}
+While the collected dataset comprised of several months of data, only two days of data (20 hours) were used for the evaluation of \versionOneRet. Several annotators were deployed to manually label and fully annotate these data. Upon completing the annotation process, the annotators would cross-check to verify the sanctity of the annotation, along with that, the cross-checking allows the annotators to arrive at consensus on annotations that did not tally. The annotators were asked to take note of following events:
+\begin{enumerate}
+    \item Number of vehicle of each color category (11 categories, see \ref{table:colorshex})
+    \item Number of vehicles performing motion $TQ1$ \& $TQ2$ (See Figure \ref{fig:versionOneInterface})
+\end{enumerate}
+
+Given that the data were fully annotated, the evaluation metrics used for Phase One experiment was Accuracy, Recall, and $F_1$ Score.
+
+\subsection{Phase Two - Full Experiment}
+
+During the Phase One of the experiment, it was noted that the entire annotation process was taking up a significant amount of work despite only using two days of data. As one month of data was set aside for the evaluation of the \versionTwoRet, an alternative methodology was applied. Typically, with any retrieval engine of all intents and purposes dealing with long-term data, it is not feasible to annotate a huge amount of ground truth manually as it is a labour intensive, mundane and time consuming process. Hence in this phase, one month of data was processed and evaluated without the manual annotations of all the events. 
 %Instead, the best practice used in evaluating a large scale retrieval engine was used to document the evaluation process. 
-Instead, this evaluation process took on an empirical user study approach. Here, a group of six volunteers were tasked to perform queries on the retrieval system and provide relevance score for each retrieved results. 
 
-%Justify why the experimental methodology for both frameworks are different
-\cc{hmm not sure how to justify why different experimental methodology was used for these frameworks}
+Given that the final output of this work is a end-user facing retrieval system, the evaluation process took on an empirical user study approach. This unbiased approach provided users with full control and freedom to perform any kinds of search, and provide feedback for each of the result.
+With this setup, a group of six volunteers were tasked to perform queries on the retrieval system for both the color and trajectory of the vehicles and provide relevance score for each retrieved results. 
 
+As the data in Phase Two was not fully annotated, it is impossible to compute the Recall and $F_1$ score. Instead, the Precision@K along with the normalized Discounted Cumulative Gain (nDCG) metrics were used. 
 

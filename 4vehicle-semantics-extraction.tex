@@ -154,12 +154,12 @@ Object specific semantics extracted from the scene is able to provide deeper ins
 
 Without a doubt, color information plays a significant role as a useful semantics as it is often one of the most common information a user provides when they are tasked to describe an object from a given event in a particular scene. However, the process of extracting color information accurately is extremely challenging, especially in an outdoor setting. In these settings, the white balance of the said scene would appear very differently depending on various factors such as the ambient illumination during the different hours of the day or even weather conditions such as cloudy, rainy or sunshine that may affect the overall scene. Several commercially available product such as 'Nix color sensor' \cite{nixsensorltd} and 'Adafruit RGB sensor' \cite{adafruit} makes use of an independent light source which has been calibrated as a means to tackle this challenge.
 
-\cc{correct the following paragraph}
-
-As mentioned, color terms are commonly derived from the Munsell Color system. Hence, ideologies and inspirations were drawn from this color system and applied in this work. However, as previously discussed in Section \ref{section:litreview}, various color terms are used in the myriad of available standards. In the computing field, this creates a whole lot of problem as color terms are often presented with differing definitions and values. Hence, there is a dire need of determining the best way to extract and represent color values with its corresponding color terms. While the basic idea of colors seems to be a relatively simple idea for humans, machines on the other hand, do not understand the concept of colors. Modern computers generally represents color values using the Red-Green-Blue (RGB) values for most applications. Despite its frequent usage, it is difficult for humans to visualize a particular color when presented with three RGB values as these values does not directly translate the intuitive nature of a particular color. Along with that, it is also very difficult to visualize the difference between two colors using the RGB values only. 
+As mentioned, color terms are commonly derived from the Munsell Color system. Hence, ideologies and inspirations were drawn from this color system and applied in this work. However, as previously discussed in Section \ref{section:colorterm}, various color terms are used in the myriad of available standards. In the computing field, this creates a whole lot of problem as color terms are often presented with differing definitions and values. Hence, there is a dire need of determining the best way to extract and represent color values with its corresponding color terms. 
 
 
-While the Munsell Color system provided a significant contribution in color term naming research, the irregularity along the chroma and value axis does not translate well in a modern color space as the modern color spaces are uniformly distributed along all axis. Hence, in order to better represent the color space, this work chose to work primarily on the Hue-Saturation-Value (HSV) color space with some minor usage of other color spaces. The use of the HSV color space is twofold, firstly, the ease of color representation as it closely resembles the Munsell Color System, and secondly the distance between two colors are now intuitive and linear. As HSV color space is commonly used, the conversion between the RGB and HSV color spaces are seamless and can be easily introduced into the existing processing framework. Figure \ref{fig:hsvcylinder} provides a visual representation of the HSV color space.
+
+
+The Munsell Color system provided a significant contribution in color term naming research, however, the irregularity along the chroma and value axis does not translate well in a modern color space as the modern color spaces are often uniformly distributed along all axis. Hence, in order to better represent the color space, this work chose to work primarily on the Hue-Saturation-Value (HSV) color space with some minor usage of other color spaces. The use of the HSV color space is twofold, firstly, the ease of color representation as it closely resembles the Munsell Color System, and secondly the distance between two colors are now intuitive and linear. As HSV color space is commonly used, the conversion between the RGB and HSV color spaces are seamless and can be easily introduced into the existing processing framework. Figure \ref{fig:hsvcylinder} provides a visual representation of the HSV color space.
 
 \begin{figure}[hbt!]\centering
 \includegraphics[width=.5\textwidth]{image/general/HSV.png}
@@ -167,24 +167,6 @@ While the Munsell Color system provided a significant contribution in color term
 \label{fig:hsvcylinder}
 \end{figure}
 
-\begin{table}[]
-\centering
-\begin{tabular}{|c|c|c|}
-\hline
-\multicolumn{1}{|c|}{\textbf{Web Color Dictionary}} & \multicolumn{1}{c|}{\textbf{Number of Color Terms}} & \multicolumn{1}{c|}{\textbf{Year}} \\ \hline
-x11 (R3)                                            & 631                                                 & 1988                               \\ \hline
-HTML                                                & 140                                                 & Current                            \\ \hline
-CSS                                                 & 148                                                 & Current                            \\ \hline
-Crayola                                             & 248                                                 & Current                            \\ \hline
-xkcd                                                & 954                                                 & 2010                               \\ \hline
-\end{tabular}
-\caption{Web Color Dictionary and the corresponding number of color terms}
-\label{table:allcolorterms}
-\end{table}
-
-%https://people.csail.mit.edu/jaffer/Color/Dictionaries
-% x11 colors: https://groups.google.com/forum/?fromgroups=#!topic/comp.windows.x/AYPozZhQxok
-% https://www.crayola.com/explore-colors.aspx
 
 
 Table \ref{table:allcolorterms} lists several famous web color dictionary along with the number of color categories available in each of those color standards. Given that there are so many different color categories, this ultimately leads to another set of question: "How many color categories should be extracted for the color semantic? And why?". In this work, the eleven basic color terms in English proposed in a classic study of worldwide color naming by \cite{berlinandkay} was adopted. In their study, Berlin and Kay proposed that the naming of colors terms may differ due to different cultures. Based on their findings, native English language speakers generally used eleven basic color terms. These terms had to have three common properties which are: i) Highly used, ii) Monolexemic - meaning a single(mono) word, and not compounded color term such as 'baby blue', and iii) agreed upon by native speakers of the language. With those definitions, the common color terms proposed for the English language are black, white, gray, brown, red, orange, yellow, purple, green, blue, and pink. 

@@ -61,28 +61,6 @@ The use of distance measure is another recurring key concept in the proposed met
 
 To further accentuate on the concept of distance measure in this work, a simple example of how distance metrics can be applied in the proposed method is illustrated using Figure \ref{fig:distanceMeasure} with two plotted lines. In order to simplify the research problem, these lines can be thought of as vehicle trajectories captured over time that is flatten unto a 2D plot. Using the available data, the distance between two trajectories can be measured and used to signify the dissimilarity between them. This distance measure can also be used to identify trajectories with high resemblance. 
 
-However, as different distance measure metrics are suitable for different scenarios, a good distance measure is an essential for comparing a significantly extensive set of vehicle trajectories during the retrieval process of a car park scene. This concept of distance measure was further extended into a multi-dimensional space such as the colors space, where the similarity between two or more colors were measured using different distance metrics to evaluate the performance of each metric. Table \ref{table:distance} lists out several distance measure which are commonly used along with the pros and cons of each while Figure \ref{fig:manhattan} shows the contrast between Euclidean and Manhattan distance.
-
-\begin{table}[]
-\label{table:distance}
-\resizebox{\textwidth}{!}{
-\begin{tabular}{|l|l|l|}
-\hline
-\textbf{Distance Measure} & \textbf{Pros} & \textbf{Cons}  \\ \hline
-Euclidean Distance        & 
-\begin{tabular}[c]{@{}l@{}}Simple, \\ Fast, \\ Commonly used\end{tabular}   &
-\begin{tabular}[c]{@{}l@{}}Vector order dependent,\\ Requires same length vectors\end{tabular} \\ \hline
-Manhattan Distance        & 
-\begin{tabular}[c]{@{}l@{}}Reflection invariant, \\ Translation invariant,\\ Produces same distance\end{tabular}  & 
-\begin{tabular}[c]{@{}l@{}}Requires same length vectors,\\ Does not have a unique solution\end{tabular} \\ \hline
-Chamfer Distance          & 
-\begin{tabular}[c]{@{}l@{}}Able to work with \\different length vectors,\\ Vector order invariant, \\ Minimizes the difference \\between vectors\end{tabular} & 
-Higher computational cost \\ \hline
-\end{tabular}}
-\end{table}
-
-
-
 \begin{figure}[hbt!]\centering
 \includegraphics[width=.5\textwidth]{image/lit/manhattan.png}
 \caption{Using Manhattan Distance, regardless of the path taken, the distance for the red, green and blue lines has the length of $14$. However, using Euclidean Distance, the distance is measured to be $\sqrt{8^2+6^2} = 10$. Euclidean Distance only produces $1$ unique solution while Manhattan Distance may produce more than one solution.}
@@ -90,9 +68,29 @@ Higher computational cost \\ \hline
 \end{figure}
 
 
+However, as different distance measure metrics are suitable for different scenarios, a good distance measure is an essential for comparing a significantly extensive set of vehicle trajectories during the retrieval process of a car park scene. This concept of distance measure was further extended into a multi-dimensional space such as the colors space, where the similarity between two or more colors were measured using different distance metrics to evaluate the performance of each metric. Table \ref{table:distance} lists out several distance measure which are commonly used along with the pros and cons of each while Figure \ref{fig:manhattan} shows the contrast between Euclidean and Manhattan distance.
+
+\begin{table}[]
+\resizebox{\textwidth}{!}{
+\begin{tabular}{|l|l|l|}
+\hline
+\textbf{Distance Measure} & \textbf{Pros} & \textbf{Cons} \\ \hline
+Euclidean Distance & \begin{tabular}[c]{@{}l@{}}Simple, Fast,\\ Commonly used,\\ Able to work on n-Dimension data\end{tabular} & \begin{tabular}[c]{@{}l@{}}Vector order dependent,\\ Requires same length vectors\end{tabular} \\ \hline
+Manhattan Distance & \begin{tabular}[c]{@{}l@{}}Reflection invariant,\\ Translation invariant,\\ Produces same result,\\ Able to work on n-Dimension data\end{tabular} & \begin{tabular}[c]{@{}l@{}}Requires same length vectors,\\ Does not have a unique solution\end{tabular} \\ \hline
+Chamfer Distance & \begin{tabular}[c]{@{}l@{}}Able to work with \\ vectors of different length,\\ Vector order invariant, \\ Minimizes the difference \\ between vectors,\\ Able to work on n-Dimension data\end{tabular} & \begin{tabular}[c]{@{}l@{}}Higher computational cost,\\ Alternative matches may \\ receive equal distance\end{tabular} \\ \hline
+Hamming Distance & \begin{tabular}[c]{@{}l@{}}Ensure similarity between vectors,\\ Able to work on n-Dimension data\end{tabular} & \begin{tabular}[c]{@{}l@{}}Vector order dependent,\\ Requires same length vectors\end{tabular} \\ \hline
+\end{tabular}%
+}
+\caption{List of several distance measures along with their pros and cons}
+\label{table:distance}
+\end{table}
+
+
+
+
 \subsection{Human Visual System}
 \label{section:eyes}
-The human eyes are visual system organs, responsible of receiving and processing visual information. Figure \ref{fig:eyes} shows a rough anatomy of the human eye. Within the eye, rods and cones are light-sensitive cells, found on the retina which are in charge of vision. While rods cells are not able to perceive colour information, they are known to be responsible for low-light achromatic vision. On the other hand, cones cells are responsible for the reception of color information.   
+The human eyes are visual system organs, responsible of receiving and processing visual information. Figure \ref{fig:eyes} shows a rough anatomy of the human eye. Within the eye, rods and cones are light-sensitive cells, found on the retina which are in charge of vision. Both of these cells plays a different role, rods cells are not able to perceive colour information, hence, they are known to be responsible for determining the lighting condition. On the other hand, cones cells are responsible for the reception of color information. As human retina contains approximately 120 million rods and 6 million cones, the eyes are more sensitive toward lighting conditions. The sheer number of rods also enables humans to see in low-light achromatic vision.   
 
 
 \begin{figure}[hbt!]\centering
@@ -101,34 +99,65 @@ The human eyes are visual system organs, responsible of receiving and processing
 \label{fig:eyes}
 \end{figure}
 
-Anatomically, there are three types of cones in the human retina, each of which are responsible over the receptiveness of colors in a particular type of wavelength. These wavelengths can be classified into three main categories: Short wavelengths light ('blue' cones, 420–440 nm), Medium  wavelengths light ('green' cones, 534–545 nm) and Long wavelengths light ('red' cones, 564–580 nm). Colors are perceived from the combination of stimuli to these rods and cones cells and responses from brain. When stimulated, these cells fires electrical signals to the optic nerves fibres that communicates with the brain. However, as the number of cones cells in the retina varies for each person, the color perception of everyone would differ in a way or another. 
+Anatomically, there are three types of cones in the human retina, each of which are responsible over the receptiveness of colors in a particular type of wavelength. These wavelengths can be classified into three main categories: Short wavelengths light ['blue' cones, 420–440 nm], Medium  wavelengths light ['green' cones, 534–545 nm] and Long wavelengths light ['red' cones, 564–580 nm] (See Figure \ref{fig:visibleSpectrum} \cite{eyespectrum}). Colors are perceived from the combination of stimuli to these rods and cones cells and responses from brain. When stimulated, these cells fires electrical signals to the optic nerves fibres that communicates with the brain. However, as the number of cones cells in the retina varies for each person, the color perception of everyone would differ in a way or another. 
 
-
-
-
-
-
-\subsection{Color Model and Color Terms}
-\label{section:colorterm}
-
-%[cref010219-continue from here]
-The humans' visible spectrum $(400nm - 700nm)$ can be represented using the respective wavelengths. In order to describe these values 
-
-\cc{create a table: rgb: how many colors, x11 how many color, munsell: x number of color etc}
-https://people.csail.mit.edu/jaffer/Color/Dictionaries
-%https://en.wikipedia.org/wiki/Cone_cell
-
-\cc{to fill up... talk about color space and why}
-%http://markkness.net/colorpy/ColorPy.html
 
 \begin{figure}[hbt!]\centering
-\includegraphics[width=.7\textwidth]{image/general/VisibleSpectrum.png}
-\caption{RGB Values and their corresponding spectrum}
+\includegraphics[width=.7\textwidth]{image/lit/ColorSensitivity.jpg}
+\caption{Normalized human photoreceptor (cons \& rods) absorbances for different wavelengths of light}
 \label{fig:visibleSpectrum}
 \end{figure}
 
 
-\subsection{Munsell Color System}
+
+
+\subsection{Color Model, Systems and Terms}
+\label{section:colorterm}
+
+In order to represent colors in tuples of number, color models were designed. In essence, it can be thought of a quantization process of converting a series of real-world continuous signal (color wavelengths) into a set of finite tuples of numbers within a color model. 
+With the ability to quantize these wavelengths into sets of finite tuples, the colors can be digitized and used for further processing.
+
+
+\subsubsection{Color Models}
+From the previous section, the humans' visual system was explored. From there, it is learnt that the cones cells in the retina are strongly receptive towards stimuli of 'Red', 'Green' and 'Blue' wavelengths. Given the solid theory behind human perception of colors, the RGB color model was designed. This color model is commonly used to represent and display images in digital systems. 
+
+As an example, the RGB color space is an additive color model, each of the components (R, G, B) are added together to produce the final color. Typically each of these components are represented using 8 bits, hence, 256 possibilities for each component with a total of $256 \times 256 \times 256 = 16M$ color combinations in total. As this is an additive model, 'Black' color is  represented using $(0, 0, 0)$, while 'White' using $(255, 255, 255)$. Figure \ref{fig:rgb} represents this color model.
+
+\begin{figure}[hbt!]\centering
+\includegraphics[width=.4\textwidth]{image/lit/rgbcolor.jpg}
+\caption{RGB Color Model}
+\label{fig:rgb}
+\end{figure}
+
+\subsubsection{Color Terms}
+
+While the basic idea of colors seems to be a relatively simple idea for humans, machines on the other hand, do not understand the concept of colors. Modern computers generally represents color values using the Red-Green-Blue (RGB) values for most applications. Despite its frequent usage, it is difficult for humans to visualize a particular color when presented with three RGB values as these values does not directly translate the intuitive nature of a particular color. Along with that, it is also very difficult to visualize the difference between two colors using the RGB values only. Table \ref{table:allcolorterms} lists several popular web color dictionaries along with the number of color terms as well as the publishing year. One notable property of these color terms is the use of compound terms such as 'Baby blue', 'Dark red', 'Light purple' and 'Very deep brown'. Along with that, in some color dictionary, certain colors terms are duplicated for several tuples. 
+
+\begin{table}[]
+\centering
+\begin{tabular}{|c|c|c|}
+\hline
+\multicolumn{1}{|c|}{\textbf{Web Color Dictionary}} & \multicolumn{1}{c|}{\textbf{Number of Color Terms}} & \multicolumn{1}{c|}{\textbf{Year}} \\ \hline
+x11 (R3)                                            & 631                                                 & 1988                               \\ \hline
+HTML                                                & 140                                                 & Current                            \\ \hline
+CSS                                                 & 148                                                 & Current                            \\ \hline
+Crayola                                             & 248                                                 & Current                            \\ \hline
+xkcd                                                & 954                                                 & 2010                               \\ \hline
+\end{tabular}
+\caption{Web Color Dictionary and the corresponding number of color terms}
+\label{table:allcolorterms}
+\end{table}
+
+%https://people.csail.mit.edu/jaffer/Color/Dictionaries
+% x11 colors: https://groups.google.com/forum/?fromgroups=#!topic/comp.windows.x/AYPozZhQxok
+% https://www.crayola.com/explore-colors.aspx
+%http://markkness.net/colorpy/ColorPy.html
+
+
+
+
+
+\subsubsection{Munsell Color System}
 \label{section:munsellcs}
 Color terms - such as "Red", "Green" or "Blue", are commonly derived from the Munsell Color system which was created in the early 20th century by Professor Albert H. Munsell. The Munsell Color System was designed to organize colors similar to how the human's eye sees - which is, by organizing colors according to their hues, followed by the chromatic range and the brightness values in a perceptually uniform manner. 
 
@@ -139,16 +168,23 @@ Figure \ref{fig:munsell}(a) illustrates the Munsell Color System while Figure \r
 
 \begin{figure}[!htb]
   \centering
+  \resizebox{\textwidth}{!}{
 \begin{tabular}{cc}
  \includegraphics[width=0.4\linewidth]{image/general/munsell.png}  &
  \includegraphics[width=0.4\linewidth]{image/general/25YR.png}\\
  (a) Munsell Color System &
 (b) Hue at 2.5YR with various Chroma and Value\\
-\end{tabular}
+\end{tabular}}
 \caption{Munsell Color System} \label{fig:munsell}
 \end{figure}
 
 
+
+
+
+
 \section{Related work (STOA)}
 \label{section:litreview}
+
+
 
