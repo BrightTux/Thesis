@@ -14,7 +14,7 @@ Now, with the vehicle specific semantics stored in the database, retrieval engin
 
 
 \begin{figure}[hbt!]\centering
-\includegraphics[width=.9\textwidth]{image/framework_new.PNG}
+\includegraphics[width=.9\textwidth]{image/new/framework_new.PNG}
 \caption{Framework Diagram, Contribution in Highlighted Border}
 \label{fig:framework}
 \end{figure}
@@ -54,7 +54,7 @@ The aforementioned setup was done to mimic a typical camera setup which tower ov
 
 
 \begin{figure}[hbt!]\centering
-\includegraphics[width=.8\textwidth]{image/fcicarpark2.png}
+\includegraphics[width=.8\textwidth]{image/new/fcicarpark2.png}
 \caption{Camera setup to capture the car park from the fourth floor}
 \label{fig:camerasetup}
 \end{figure}
@@ -69,7 +69,7 @@ The aforementioned setup was done to mimic a typical camera setup which tower ov
 
 Through the camera's web interface, this device was set to record on weekdays from Monday through Friday, starting from 08:30 in the morning up until 18:30 in the evening, with a total of 10 hours of video being recorded each day. Among the important settings, each recorded video clip was set to have a maximum length of 6 minutes, and hence, 10 video clips every hour, and a total of 100 at the end of each day. The recorded video clips were saved into the external microSD memory card. At the end of each day, the data was then copied over to a server via a script. However, due to glitches that occurred during the recording process, some of the video clips were cut off abruptly. Hence, some of the days do not contain the full 10 hours video clips. 
 
-\begin{table}[]\centering
+\begin{table}[!ht]\centering
 \begin{tabular}{ll}
 Camera Model: & Dlink DSC-942L        \\
 Resolution:   & 640$\times$480 pixels \\
@@ -78,10 +78,10 @@ Format:       & H.264 / MPEG-4 AVC    \\
 Naming Convention: & $CCYYMMDD\_HHMMSS.mp4$
 \end{tabular}
 \vspace{1em}
-\caption{Camera details}
+\caption{Details of the Camera Setup used for Data Collection}
 \end{table}
 
-\begin{figure}[htb!]
+\begin{figure}[!htb]
   \centering
 
 \begin{tabular}{cc}
@@ -92,7 +92,7 @@ Naming Convention: & $CCYYMMDD\_HHMMSS.mp4$
 \end{tabular}
 
 
-\caption{Noisy data within the collected dataset} \label{fig:weather}
+\caption{Noisy Data Within the Collected Dataset} \label{fig:weather}
 \end{figure}
 
 
@@ -111,7 +111,7 @@ As the performance of the proposed method is essential towards end users, each o
 
 The proposed methods were implemented and evaluated on an Intel i7 machine with 16GB RAM, GeForce GTX 1060 GPU. As the main focal point in this proposed method revolves around the semantic extraction of \textbf{vehicle color} along with the \textbf{vehicle trajectory}, both of these components were assessed and evaluated individually to better understand the performance, effectiveness as well as the weakness of the proposed methods. This, in turn, provides a deeper understanding and opportunities for improvements as well as future works. 
 
-Two retrieval engines were designed and implemented in this work, the objective of the first retrieval engine was to build a prototype for the evaluation of the its current performance and to identify gaps to be improved. This process allowed the author to return to the drawing board and reevaluate the algorithms, metrics and evaluation process performed. Given this setup, the experimental methodology can be divided into two phase. 
+Two retrieval engines were designed and implemented in this work, the objective of the first retrieval engine was to build a prototype for the evaluation of the its current performance and to identify gaps to be improved. This process allowed the author to return to the drawing board and reevaluate the algorithms, metrics and evaluation process performed. Given this setup, the experimental methodology can be divided into two phase. Given that the data were fully annotated, the evaluation metrics used for Phase One experiment was Accuracy, Recall, and $F_1$ Score.
 
 
 \subsection{Phase One - Prototype}
@@ -121,7 +121,7 @@ While the collected dataset comprised of several months of data, only two days o
     \item Number of vehicles performing motion $TQ1$ \& $TQ2$ (See Figure \ref{fig:versionOneInterface})
 \end{enumerate}
 
-Given that the data were fully annotated, the evaluation metrics used for Phase One experiment was Accuracy, Recall, and $F_1$ Score.
+
 
 \subsection{Phase Two - Full Experiment}
 
@@ -130,6 +130,5 @@ During the Phase One of the experiment, it was noted that the entire annotation 
 
 Given that the final output of this work is a end-user facing retrieval system, the evaluation process took on an empirical user study approach. This unbiased approach provided users with full control and freedom to perform any kinds of search, and provide feedback for each of the result.
 With this setup, a group of six volunteers were tasked to perform queries on the retrieval system for both the color and trajectory of the vehicles and provide relevance score for each retrieved results. 
-
 As the data in Phase Two was not fully annotated, it is impossible to compute the Recall and $F_1$ score. Instead, the Precision@K along with the normalized Discounted Cumulative Gain (nDCG) metrics were used. 
 
