@@ -181,6 +181,7 @@ xkcd                                                & 954                       
 
 
 
+In a classic study of worldwide colour naming, \citeA{berlinandkay} proposed that the naming of colours terms may differ due to different cultures. Based on their findings, native English language speakers generally used eleven basic colour terms. These terms had to have three common properties which are: i) Highly used, ii) Monolexemic - meaning a single(mono) word, and not compounded colour term such as 'baby blue', and iii) agreed upon by native speakers of the language. With those definitions, the common colour terms proposed for the English language are black, white, gray, brown, red, orange, yellow, purple, green, blue, and pink. The 11 common colour terms were also adopted by several other authors  (\citeA{van2009learning}, \citeA{zaslavsky2018efficient}, and \citeA{yu2018beyond}) in their work to understand how these colour terms can be used for real-world image applications.
 
 
 
@@ -191,22 +192,22 @@ xkcd                                                & 954                       
 \section{Related Works}
 \label{section:relatedworks}
 
-The advancement of computer vision technologies enabled the development and integration of various solutions to tackle challenges in Intelligent Transportation Systems (ITS). As ITS is a big topic, there has been a substantial increase of research done on the various subdomains. With the amount of research done, instead of reinventing the wheel, existing frameworks were adopted and leveraged upon. Recent survey done by \cite{tian2017hierarchical} and \cite{chandran2017review} were studied to understand the general overview of the state of related works. The authors has summarised the challenges that are often found in an ITS setting that is implemented on a one-camera setup: 
+The advancement of computer vision technologies enabled the development and integration of various solutions to tackle challenges in Intelligent Transportation Systems (ITS). As ITS is a big topic, there has been a substantial increase of research done on the various subdomains. With the amount of research done, instead of reinventing the wheel, existing frameworks were adopted and leveraged upon. Recent survey done by \citeA{tian2017hierarchical} and \citeA{chandran2017review} were studied to understand the general overview of the state of related works. The authors has summarised the challenges that are often found in an ITS setting that is implemented on a one-camera setup: 
 \begin{enumerate}
     \item \textbf{Camera placement} affects the overall performance. 
-    \item The \textbf{lighting condition} varies throughout the day. Supplemental lighting equipments can be used during the night, however, the visual range will be limited.
+    \item The \textbf{lighting condition} varies throughout the day. Supplemental lighting equipment can be used during the night, however, the visual range will be limited.
     \item Vehicles are often \textbf{occluded} in an ITS setting; often by pedestrians, bicycles, trees, and even buildings.
     \item \textbf{Vehicle pose} varies when turning or changing lanes.
     \item Vehicles comes in a \textbf{variety of shapes, sizes, and colour.}
     \item As \textbf{vehicles' size changes} as it pass through the camera's field of view. This variation in visual information affects the robustness of some detection models. 
 \end{enumerate}
-Along with that, \cite{tian2017hierarchical} has presented an overview of the general frameworks for ITSs with the aim of vehicle attribute extraction and behaviour understanding in Figure \ref{fig:ITSoverview}. 
+Along with that, \citeA{tian2017hierarchical} presented an overview of the general frameworks for ITSs with the aim of vehicle attribute extraction and behaviour understanding in Figure \ref{fig:ITSoverview}. According to \citeA{liu2016deep}, in a real-world scenario, appearance features such as colours, shapes, and types are very effective to filter out the dissimilar vehicles. In addition, they are efficient to be extracted and searched in large-scale dataset. 
 As mentioned in Section \ref{subsec:scope}, the bounding box of each vehicles are assumed to be obtained prior to the semantic extraction task, related literature regarding the detection and tracking of vehicles will not be discussed. 
 Instead, the rest of this section is expounded under two main categories: i) Objects Semantic Extraction, and ii) Object Semantic Retrieval. 
 
 
 \begin{figure}[hbt!]\centering
-\includegraphics[width=.8\textwidth]{image/lit/ITS.png}
+\includegraphics[width=1\textwidth]{image/lit/ITS.png}
 \caption[Overview of the General Frameworks for ITSs]{(From Bottom) Layer 1: The process of obtaining data via vision sensors. Layer 2: Attribute Extraction from data; this includes motion, trajectories, colours, shapes and etc. Layer 3: Analysis on vehicle behaviours from the extracted attributes to decide traffic status. Layer 4: Utilises information from Layer 3 to optimise various ITS services. Figure reproduced from~\citeA{tian2017hierarchical}}
 \label{fig:ITSoverview}
 \end{figure}
@@ -216,17 +217,107 @@ Instead, the rest of this section is expounded under two main categories: i) Obj
 
 \subsection{Object Semantics Extraction}
 
-
-The extraction of Vehicle colours is essential for a wide variety of applications in ITS such as crime prevention and security purposes. \cite{hsieh2015vehicle} noted that in an full-day surveillance scenario, the varying illumination as well as the camera viewpoint in an outdoor scene affected the classification of colours drastically. In that work, the vehicles are grouped into seven categories (Figure \ref{fig:sevenclasses}) via colour correction method. As the vehicle windows appear white due to the effects of specular highlights, the authors also proposed a window-removal task to increase the accuracy. This work also proposed the classification of vehicles into chromatic and achromatic classes, the final colour category is decided via Support Vector Machine (SVM). 
+\subsubsection{Vehicle Colours Extraction}
+The extraction of Vehicle colours is essential for a wide variety of applications in ITS such as crime prevention and security purposes. 
+According to \citeA{zhang2017vehicle}, colour is one of the most stable attributes of vehicles and often used as a valuable cue in some important applications.
+\citeA{hsieh2015vehicle}, \citeA{chen2014vehicle} and \citeA{zhang2017vehicle} noted that in a surveillance scenario, the varying illumination, coupled with complex environment factors (weather, noise) as well as the camera viewpoint in an outdoor scene affected the classification of colours drastically. 
+Various vehicle colour extraction methods has been proposed in the recent years, these methods can be broadly divided into two main categories: i) Hand Crafted Features, and ii) Machine Learned Features.
+In \citeA{hsieh2015vehicle}'s work, the vehicles are grouped into seven categories (Figure \ref{fig:sevenclasses}). Given that the source footages were taken outdoor with varying illumination settings, a global colour correction method (Figure \ref{fig:colorcorrection}) was employed to suit different lighting needs. 
 
 \begin{figure}[hbt!]\centering
-\includegraphics[width=.4\textwidth]{image/lit/carscolors.png}
-\caption[Colour Appearance Categories of  Vehicle  Used  for  Colour Classification]{(a) Vehicles Classified as "Achromatic"; (b) Chromatic Vehicles. Reproduced from \cite{hsieh2015vehicle}.}
+\includegraphics[width=.8\textwidth]{image/lit/carscolors.png}
+\caption[Colour Appearance Categories of  Vehicle  Used  for  Colour Classification]{(a) Vehicles Classified as "Achromatic"; (b) Chromatic Vehicles. Reproduced from \citeA{hsieh2015vehicle}.}
 \label{fig:sevenclasses}
 \end{figure}
 
+\begin{figure}[!htb]
+  \centering
+ \resizebox{\textwidth}{!}{
+\begin{tabular}{ccc}
+ \includegraphics[width=0.4\linewidth]{image/lit/windowremove1.png}  &
+ \includegraphics[width=0.4\linewidth]{image/lit/windowremove2.png} & 
+ \includegraphics[width=0.4\linewidth]{image/lit/windowremove3.png} \\
+ (a) Input Vehicle &
+(b) Proposed Cutting Line for Window Removal &
+(c) Result of Window Removal\\
+\end{tabular}
+}
+\caption[Window Removal Task. From left: Input Vehicle, Proposed Cutting Line, Results of Window Removal]{Window Removal Task. From left: Input Vehicle, Proposed Cutting Line, Results of Window Removal. Image reproduced from \citeA{hsieh2015vehicle} \label{fig:windowremoval}}
+\end{figure}
 
-.In[105]knearestneighborlikeclassifierwasusedtoclassifyvehiclecolorintosixgroups,eachofthemcontainssimilarcolorslikeblack,darkblueanddarkgray.HSVcolorspacewasusedin[106].Theyclassifyvehiclecolorintored,blue,black,whiteandyellowusing2-DhistogramofHandSchannelstogetherwithSVM.Multipleclassificationmethods(K-NN,ANNsandSVM)alongwithtworegionofinterestwereusedin[107]torecognizevehiclecolorina16colorspace.In[108]bagofwordtechniquewasusedtoselectregionofinterestforcolorrecognition
+\begin{figure}[!htb]
+  \centering
+  \resizebox{\textwidth}{!}{
+\begin{tabular}{cccc}
+ \includegraphics[width=0.3\linewidth]{image/lit/cc1.png}  &
+ \includegraphics[width=0.3\linewidth]{image/lit/cc2.png} & 
+ \includegraphics[width=0.3\linewidth]{image/lit/cc4.png} & 
+ \includegraphics[width=0.3\linewidth]{image/lit/cc3.png} \\
+ (a) Reference Image &
+(b) Colour Distortion &
+(c) Background of (b) &
+(d) Result of Colour Correction\\
+\end{tabular}
+}
+\caption[Colour Correction. From left: Reference Image, Image with Colour Distortion, Background of (b), Results of Colour Correction]{Colour Correction. From left: Reference Image, Image with Colour Distortion, Background of (b), Results of Colour Correction. Image reproduced from \citeA{hsieh2015vehicle} \label{fig:colorcorrection}}
+\end{figure}
+
+Along with that, occasionally the vehicle windows appear white due to the effects of specular highlights, the authors also proposed a window-removal task to increase the accuracy (Figure \ref{fig:windowremoval}). This work also proposed the classification of vehicles into chromatic and achromatic classes, the final colour category is decided via Support Vector Machine (SVM). The accuracy of differentiating between chromatic and achromatic classes over 10,000 vehicles were reported to be approximately 88\%. \citeA{chen2014vehicle} also suggested a similar approach by implicitly selecting a Region-of-Interest (ROI) to improve the classification performance for both images and video data. These collected data were captured using high-definition cameras with resolutions of $1920 \times 1080$ pixels. In this work, the ROI in the image was selected by assigning different weights which are learnt by a classifier for each of the proposed subregions. 
+
+\citeA{jeong2017homogeneity} took on a different approach in order to extract the vehicle colours by implementing a Homogeneity Patch Search Method. In their work, a voting system as implemented to vote on the dominant colour based on the HSV histograms which were extracted from each patch using Adaboost Classifier. First, the edges from the input image was detected using Sobel edge operators. Next, Distance Transformation was performed using Felzen-szwlb algorithm to obtain the minimal distance to the edges of each pixel. As edges often introduce distortion of colour, this step allows the proposed method to select patches that further from the edges. Figure \ref{fig:colorpatches} illustrates this process. While \citeA{jeong2017homogeneity}'s proposed method obtained an accuracy of 92\% over 7 classes, it was only tested against 208 images that have a relatively high resolution of $1624 \times 1224$ pixels.
+
+\begin{figure}[!htb]
+  \centering
+  %\resizebox{\textwidth}{!}{
+\begin{tabular}{cc}
+ \includegraphics[width=0.3\linewidth]{image/lit/homo1.png}  &
+ \includegraphics[width=0.3\linewidth]{image/lit/homo3.png} \\
+(a) ROI Image &
+(b) Inverse of Edge Image \\
+ \includegraphics[width=0.3\linewidth]{image/lit/homo2.png} & 
+ \includegraphics[width=0.3\linewidth]{image/lit/homo4.png} \\
+(c) Distance Transformation &
+(d) Selected Patches\\
+\end{tabular}
+%}
+\caption[Homogeneity Patch Search from Input. (a) Region of Interest, (b) Inverse of Edge Image Using Sobel Operators, (c) Distance Transformation Calculated using Felzen-szwlb algorithm, (d) Selected Patches Based on Obtained Distance.]{Homogeneity Patch Search from Input. (a) Region of Interest, (b) Inverse of Edge Image Using Sobel Operators, (c) Distance Transformation Calculated using Felzen-szwlb algorithm, (d) Selected Patches Based on Obtained Distance. Image reproduced from \citeA{jeong2017homogeneity} \label{fig:colorpatches}}
+\end{figure}
+
+
+As colour histograms are one of the most common feature used for colour classification task, \citeA{kim2008deciding} aimed to understand the correlation of the number of colour histogram bins used and how different configurations would affect the performance of matching the histogram bins to colour terms using distance measures. This use of histogram bins effectively reduces the processing time needed while promoting recognition accuracy \cite{zhang2017vehicle}. The Hue-Saturation-Intensity (HSI) colour space was used with a total of 17 varying configurations of histogram bins (e.g. 16 bins for Hues, 4 bins for Saturation and 4 bins for Intensity) for the experiment. The results from the experiment shows an average score of 84\%; the best configuration of (H:8, S:4, I:4) achieved an accuracy of 87.83\% over seven colour classes with 100 images per class. 
+
+
+
+\citeA{zhang2017vehicle} and \citeA{hu2015vehicle} approached this challenge of extracting colour term by implementing a convolutional neural network (CNN) to extract deep features which are then fed into a linear SVM for the classification task. \citeA{zhang2017vehicle} mentioned that the state-of-the-arts methods takes the whole image for colour recognition, however many parts of the images such as car windows, wheels, and background contributes negatively to the recognition accuracy. A noise reduction method via saliency detection was proposed in order to boost the performance. While this method achieved an accuracy of 94\%, the proposed pipeline with saliency detection, deep feature extraction, dual-orientational dimensionality reduction and classifier training is not suitable for real-time applications.
+According to \citeA{hu2015vehicle}, there are two reason of choosing SVM over fully-connected layers (FCL). The first reason is the ability of SVMs to perform better due to the regularisation contraints that helps overcome overfitting of training data. Another reason why SVM was chosen was due to the fact that SVMs has lesser parameters, this makes the fine tuning process easier. 
+Figure \ref{fig:responseFCL} illustrates the input image and the response produced by the first convolutional layer produced in \citeA{hu2015vehicle}'s work. The author claims that the proposed method has advantages over hand-crafted methods that performs the segmentation of subregions, this is because the response map from the first convolutional layer contains meaningful ROIs which are effective for distinguishing vehicle colours. This work achieved an average precision of 93\%, with input data of $1920 \times 1080$ resolution.  
+As a whole, while both hand crafted features and machine learnt features methods were able to achieve an accuracy of over 84\%, most of the proposed solutions worked on high resolution data.   
+
+\begin{figure}[hbt!]\centering
+\includegraphics[width=1\textwidth]{image/lit/salient1.png}
+\caption[Vehicle-Color Saliency Detection]{Vehicle-Color Saliency Detection. Reproduced from \citeA{zhang2017vehicle}.}
+\label{fig:Colorsaliency}
+\end{figure}
+
+In a semi-related research area of vehicle re-identification, several authors ( \citeA{liu2016deep}, \citeA{liu2016deep2} and \citeA{shen2017learning}) made use of extracted colour features to assist with the re-identification process. \citeA{liu2016deep} adopted the Probabilistic Latent Semantic Analysis (PLSA) introduced by \citeA{van2009learning} to extract the colour features. A PLSA model is used to learn the relation between words (colour terms) and images by providing a conditional probability score. Similar to the work of \citeA{kim2008deciding}, the images in this work were segmented and represented using L*a*b colour histogram of $10 \times 20 \times 20$ grids. \citeA{liu2016deep2} applied deep learning techniques inspired by a triplet loss network proposed by \citeA{ding2015deep}, the network used a new loss function to accelerate the training convergence. The colour features were extracted using the proposed network. Similarly, \citeA{shen2017learning} applied a deep learning network to extract the colour features using a Siamese Network with a shared ResNet-50 configuration. The visual features, including colours, were obtained using the features from the global pooling layers.
+
+\begin{figure}[!htb]
+  \centering
+  %\resizebox{\textwidth}{!}{
+\begin{tabular}{cc}
+ \includegraphics[width=0.4\linewidth]{image/lit/hu1.png}  &
+ \includegraphics[width=0.6\linewidth]{image/lit/hu2.png} \\
+(a) Input Image &
+(b) Response Map of the First Convolutional Layer \\
+\end{tabular}
+%}
+\caption[(a) Input and (b) Response from First Convolutional Layer. ]{(a) Input and (b) Response from First Convolutional Layer. Image reproduced from \citeA{hu2015vehicle} \label{fig:responseFCL}}
+\end{figure}
+
+
+
+
+
 
 
 
@@ -239,5 +330,7 @@ According to the survey by \cite{chandran2017review}, trajectory retrieval algor
 
 
 
+"For example, if themonitoring staves want to find a suspect vehicle in huge amount of surveillancevideos, they will firstly filter out large numbers of vehicles by appearance fea-tures, such as colors, shapes and types, to narrow down the search space."
 
-longest   common   subsequence   (LCSS)   algorithm complete  string-based  matching  trajectories  by  per-forming  a  frame-by-frame  analysis  directly  on  ob-jects’ coordinates. The  work  in  [3]  assumed a  query  by  example  me-chanism  according  to  presented  example  trajectory and  the  search  system  could  return  a  ranked  list  of most similar items in the data set by a string matching algorithm,  whereas  the  sketch-based  method  projects a trajectory on a  set ofbasic functions and matches it according to its low-level geometrical features.
+
+longest   common   subsequence   (LCSS)   algorithm complete  string-based  matching  trajectories  by  per-forming  a  frame-by-frame  analysis  directly  on  ob-jects’ coordinates. The  work  in  [3]  assumed a  query  by  example  me-chanism  according  to  presented  example  trajectory and  the  search  system  could  return  a  ranked  list  of most similar items in the data set by a string matching algorithm,  whereas  the  sketch-based  method  projects a trajectory on a  set of basic functions and matches it according to its low-level geometrical features.
