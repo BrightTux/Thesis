@@ -283,23 +283,9 @@ Along with that, occasionally the vehicle windows appear white due to the effect
 \caption[Homogeneity Patch Search from Input. (a) Region of Interest, (b) Inverse of Edge Image Using Sobel Operators, (c) Distance Transformation Calculated using Felzen-szwlb algorithm, (d) Selected Patches Based on Obtained Distance.]{Homogeneity Patch Search from Input. (a) Region of Interest, (b) Inverse of Edge Image Using Sobel Operators, (c) Distance Transformation Calculated using Felzen-szwlb algorithm, (d) Selected Patches Based on Obtained Distance. Image reproduced from \citeA{jeong2017homogeneity} \label{fig:colorpatches}}
 \end{figure}
 
-
 As colour histograms are one of the most common feature used for colour classification task, \citeA{kim2008deciding} aimed to understand the correlation of the number of colour histogram bins used and how different configurations would affect the performance of matching the histogram bins to colour terms using distance measures. This use of histogram bins effectively reduces the processing time needed while promoting recognition accuracy \cite{zhang2017vehicle}. The Hue-Saturation-Intensity (HSI) colour space was used with a total of 17 varying configurations of histogram bins (e.g. 16 bins for Hues, 4 bins for Saturation and 4 bins for Intensity) for the experiment. The results from the experiment shows an average score of 84\%; the best configuration of (H:8, S:4, I:4) achieved an accuracy of 87.83\% over seven colour classes with 100 images per class. 
 
-
-
 \citeA{zhang2017vehicle} and \citeA{hu2015vehicle} approached this challenge of extracting colour term by implementing a convolutional neural network (CNN) to extract deep features which are then fed into a linear SVM for the classification task. \citeA{zhang2017vehicle} mentioned that the state-of-the-arts methods takes the whole image for colour recognition, however many parts of the images such as car windows, wheels, and background contributes negatively to the recognition accuracy. A noise reduction method via saliency detection was proposed in order to boost the performance. While this method achieved an accuracy of 94\%, the proposed pipeline with saliency detection, deep feature extraction, dual-orientational dimensionality reduction and classifier training is not suitable for real-time applications.
-According to \citeA{hu2015vehicle}, there are two reason of choosing SVM over fully-connected layers (FCL). The first reason is the ability of SVMs to perform better due to the regularisation contraints that helps overcome overfitting of training data. Another reason why SVM was chosen was due to the fact that SVMs has lesser parameters, this makes the fine tuning process easier. 
-Figure \ref{fig:responseFCL} illustrates the input image and the response produced by the first convolutional layer produced in \citeA{hu2015vehicle}'s work. The author claims that the proposed method has advantages over hand-crafted methods that performs the segmentation of subregions, this is because the response map from the first convolutional layer contains meaningful ROIs which are effective for distinguishing vehicle colours. This work achieved an average precision of 93\%, with input data of $1920 \times 1080$ resolution.  
-As a whole, while both hand crafted features and machine learnt features methods were able to achieve an accuracy of over 84\%, most of the proposed solutions worked on high resolution data.   
-
-\begin{figure}[hbt!]\centering
-\includegraphics[width=1\textwidth]{image/lit/salient1.png}
-\caption[Vehicle-Color Saliency Detection]{Vehicle-Color Saliency Detection. Reproduced from \citeA{zhang2017vehicle}.}
-\label{fig:Colorsaliency}
-\end{figure}
-
-In a semi-related research area of vehicle re-identification, several authors ( \citeA{liu2016deep}, \citeA{liu2016deep2} and \citeA{shen2017learning}) made use of extracted colour features to assist with the re-identification process. \citeA{liu2016deep} adopted the Probabilistic Latent Semantic Analysis (PLSA) introduced by \citeA{van2009learning} to extract the colour features. A PLSA model is used to learn the relation between words (colour terms) and images by providing a conditional probability score. Similar to the work of \citeA{kim2008deciding}, the images in this work were segmented and represented using L*a*b colour histogram of $10 \times 20 \times 20$ grids. \citeA{liu2016deep2} applied deep learning techniques inspired by a triplet loss network proposed by \citeA{ding2015deep}, the network used a new loss function to accelerate the training convergence. The colour features were extracted using the proposed network. Similarly, \citeA{shen2017learning} applied a deep learning network to extract the colour features using a Siamese Network with a shared ResNet-50 configuration. The visual features, including colours, were obtained using the features from the global pooling layers.
 
 \begin{figure}[!htb]
   \centering
@@ -314,14 +300,48 @@ In a semi-related research area of vehicle re-identification, several authors ( 
 \caption[(a) Input and (b) Response from First Convolutional Layer. ]{(a) Input and (b) Response from First Convolutional Layer. Image reproduced from \citeA{hu2015vehicle} \label{fig:responseFCL}}
 \end{figure}
 
+According to \citeA{hu2015vehicle}, there are two reason of choosing SVM over fully-connected layers (FCL). The first reason is the ability of SVMs to perform better due to the regularisation contraints that helps overcome overfitting of training data. Another reason why SVM was chosen was due to the fact that SVMs has lesser parameters, this makes the fine tuning process easier. 
+Figure \ref{fig:responseFCL} illustrates the input image and the response produced by the first convolutional layer produced in \citeA{hu2015vehicle}'s work. The author claims that the proposed method has advantages over hand-crafted methods that performs the segmentation of subregions, this is because the response map from the first convolutional layer contains meaningful ROIs which are effective for distinguishing vehicle colours. This work achieved an average precision of 93\%, with input data of $1920 \times 1080$ resolution.  
+As a whole, while both hand crafted features and machine learnt features methods were able to achieve an accuracy of over 84\%, most of the proposed solutions worked on high resolution data.   
+
+\begin{figure}[hbt!]\centering
+\includegraphics[width=1\textwidth]{image/lit/salient1.png}
+\caption[Vehicle-Colour Saliency Detection]{Vehicle-Colour Saliency Detection. Reproduced from \citeA{zhang2017vehicle}.}
+\label{fig:Colorsaliency}
+\end{figure}
+
+In a semi-related research area of vehicle re-identification, several authors ( \citeA{liu2016deep}, \citeA{liu2016deep2} and \citeA{shen2017learning}) made use of extracted colour features to assist with the re-identification process. \citeA{liu2016deep} adopted the Probabilistic Latent Semantic Analysis (PLSA) introduced by \citeA{van2009learning} to extract the colour features. A PLSA model is used to learn the relation between words (colour terms) and images by providing a conditional probability score. Similar to the work of \citeA{kim2008deciding}, the images in this work were segmented and represented using L*a*b colour histogram of $10 \times 20 \times 20$ grids. \citeA{liu2016deep2} applied deep learning techniques inspired by a triplet loss network proposed by \citeA{ding2015deep}, the network used a new loss function to accelerate the training convergence. The colour features were extracted using the proposed network. Similarly, \citeA{shen2017learning} applied a deep learning network to extract the colour features using a Siamese Network with a shared ResNet-50 configuration. The visual features, including colours, were obtained using the features from the global pooling layers.
+
+\subsubsection{Colour to Colour Term Mapping}
+
+Colour terms are very useful in a real-world application instead of colour tuples. According to \cite{van2009learning}, colour names are required for image retrieval and image annotation applications. 
+Several authors has looked into mapping colour tuples into their respective colour terms. \citeA{van2009learning} proposed several variants of Probabilistic Latent Semantic Analysis (PLSA) model to learn colour names from data obtained Google Images. 
+This was done in order to avoid hand-labelling real-world images with colour names, Figure \ref{fig:van20091}. The authors approach this challenge by comparing their methods against 3 chip-based methods. 
+In their work, chip-based methods was described as colour naming method that is performed in a controlled environment where the labels of colour chips are placed on a neutral background under a known white light source.
+
+\begin{figure}[hbt!]\centering
+\includegraphics[width=1\textwidth]{image/lit/van20091.PNG}
+\caption[Google-retrieved examples for colour names. The red bounding boxes indicate false positives. An image can be retrieved with various colour names, such as the flower image which appears in the red and the yellow set.]{Google-retrieved examples for colour names. The red bounding boxes indicate false positives. An image can be retrieved with various colour names, such as the flower image which appears in the red and the yellow set.  Reproduced from \citeA{van2009learning}.}
+\label{fig:van20091}
+\end{figure}
+
+The PLSA model allows multiple colour terms to be named for each image. The pixels in the image (document) was discretized (quantized) into a finite vocabulary set of $10 \times 20 \times 20$ cubes of L*a*b colour space. Then, the image was represented using a histogram which indicates how many pixels are assigned to each bin (word). 
+
+\cc{need to finish up the above statement ... maybe dont put equation, but describe it in words}
+Given a set of documents $D = {d_1, d_2, ... , d_N}$ each described in a vocabulary $W = {w_1, w_2, ... , w_M}$, the words are taken to be generated by latent topics $Z = {z_1, z_2, ... , z_K}$. In the PLSA model the conditional probability of a word $w$ in a document $d$ is given by
 
 
 
 
+\cc{ the following statement needs to be removed}
+Figure \ref{fig:munsell_ori330} shows the original Munsell 330 Colour chips which contains 10 achromatic colour chips and 320 chromatic colour chips. 
+The 320 chromatic chips are 40 hues (at full saturation) which are evenly spaced out with 8 different levels of lightness (value) for each hue-value pair (\cite{kay2009world}).
+These chips are also known as the World Colour Survey (WCS) stimulus palette.  
+Figure \ref{fig:munsell_compare} shows the comparison of how the WCS stimulus palette were assigned colour terms using different methods; (a)Parametric model by \citeA{benavente2008parametric}; (b)  Probabilistic Latent Semantic Analysis (PLSA) - individual by \citeA{van2009learning}; (c) Linguistic approach by \citeA{zaslavsky2018efficient}; (d) The plot for our proposed method assigns the colour term that contains achieved the highest similarity score (\%) using Riemersma's low cost LUV estimation metrics.
+The plot produced by our method shows similarity when compared with the plot produced using the linguistic approach. Comparing the parametric model (a) with the proposed method, it is noted that the achromatic tones were given more room to express its nature of low saturation value. However, as the assigning of colour terms are subjective to individuals, is it difficult to measure how well each method performed against each other. 
 
 
-
-
+\subsubsection{Vehicle Motion Extraction}
 
 
 \subsection{Object Semantics Retrieval}
@@ -329,6 +349,8 @@ In a semi-related research area of vehicle re-identification, several authors ( 
 According to the survey by \cite{chandran2017review}, trajectory retrieval algorithms can be largely divided into two categories: i) String  Matching Algorithm, and ii) Sketch Matching Algorithm. String matching algorithms   
 
 
+
+\cc{include what type of semantics were extracted from which paper, take from proposal defense}
 
 "For example, if themonitoring staves want to find a suspect vehicle in huge amount of surveillancevideos, they will firstly filter out large numbers of vehicles by appearance fea-tures, such as colors, shapes and types, to narrow down the search space."
 

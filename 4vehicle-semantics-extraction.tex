@@ -19,10 +19,6 @@ The extracted semantics from the \versionOneExt has similar properties to a \tex
 As describe in Section \ref{subsec:scope}, the two major semantics extracted in the proposed algorithm are (i) Vehicle Colour and (ii) Vehicle Trajectory. Other semantic information such as the time and date which were extracted will not discussed in detail as these are simple extraction based on the input file names.
 
 
-\section{Related Literature?}
-
-what is semantics
-
 
 \section{Atom-based Quantization}
 \label{section:atoms}
@@ -61,18 +57,11 @@ The use of these atom-based spatial-temporal cube is paramount in this work. By 
 \end{figure}
 
 
-\begin{comment}
-\section{Database Schema}
-
-\cc{do i need a database schema section?}
-
-\end{comment}
-
 
 \section{Vehicle Blobs Extraction}
 \label{subsection:fundamental}
 
-Before the video dataset can be channelled to the vehicle semantics extraction, some pre-processing work has to be done. The fundamental framework was adopted from a portion of the work done by \cite{lim2017} where the author developed a framework to detect moving objects in a video using popular techniques such as background subtraction to differentiate between static background and moving objects as depicted in Figure \ref{fig:bgs}. 
+As described in Section \ref{subsec:scope}, this work assumes that the preliminary task of detecting, tracking and obtaining the bounding box of each vehicle is obtained. This section briefly describes the steps taken by \cite{lim2017} to detect and extract moving objects in a video using background subtraction techniques to differentiate between static background and moving objects as depicted in Figure \ref{fig:bgs}. 
 
 \begin{figure}[htb!]
   \centering
@@ -86,6 +75,8 @@ Before the video dataset can be channelled to the vehicle semantics extraction, 
 
 As the vanilla application of background subtraction often results with noisy output, the proposed algorithm used in \cite{lim2017} implemented a combination of adaptive learning and frame differencing method. This step was used to detect and extract moving objects (foreground blobs). This is then followed by several erosion and dilation morphology operations to further reduce the noise and to provide a better foreground blob at the end of the process.
 
+
+\begin{comment}
 \begin{figure}[htb!]
   \centering
 \begin{tabular}{ccc}
@@ -112,13 +103,12 @@ The process is known as \textit{Opening} occurs when the morphology operations a
 
 \cc{do i need to cite these images? \\}
 %https://docs.opencv.org/3.0-beta/doc/py_tutorials/py_imgproc/py_morphological_ops/py_morphological_ops.html
+\end{comment}
 
 
 Now with the background subtraction operation in place, the foreground objects can now be detected. Each of these foreground object are referred to as a \textit{blob}. Each of these blobs are then filtered using some handcrafted parameters to separate between vehicles and non-vehicles objects. To further enhance this process, a deep learning model was deployed to increase the probability of filtering non-vehicle blobs. 
 
-In the proposed method framework, the work of \cite{redmon2016you} namely YOLOv2 (You Only Look Once) - a deep learning model was deployed as a complementary module. Now, as YOLO is a deep learning model designed to be real-time object detection, the detection process incurred very little overhead to the overall computational time and cost. Here, the bounding box of each foreground blob is sent into the YOLO network as an input. The network will then divide the input into multiple smaller regions and perform prediction of the bounding box along with the class probability. As the YOLO model is pre-trained with "vehicle" as one of the many classes, no further retraining was done in the proposed method pipeline.
-
-With that in place, each of the blobs which were identified as a vehicle were tracked. However, blobs which were not identified as a vehicle was left as a possible candidate. This is done in view of mis-identification due to poor lighting conditions or error during the background subtraction process. For each of the vehicle blobs, the semantic extraction module can now proceed.  
+The work of \cite{redmon2016you} namely YOLOv2 (You Only Look Once) - a deep learning model was deployed as a complementary module. Now, as YOLO is a deep learning model designed to be real-time object detection, the detection process incurred very little overhead to the overall computational time and cost. Here, the bounding box of each foreground blob is sent into the YOLO network as an input. The network will then divide the input into multiple smaller regions and perform prediction of the bounding box along with the class probability. As the YOLO model is pre-trained with "vehicle" as one of the many classes, no further retraining was done. With that in place, each of the blobs which were identified as a vehicle were tracked, and the bounding box of each was obtained. With that, the semantic extraction module can now take place.  
 
 
 
@@ -139,7 +129,7 @@ Object specific semantics extracted from the scene is able to provide deeper ins
 \textbf{No.} & \textbf{Semantics Type} & \textbf{Method(s)}                                                                                                          \\ \hline
 \textbf{1}   & Date                    & Filename data extraction                                                                                                         \\ \hline
 \textbf{2}   & Time                    & Filename data extraction                                                                                                         \\ \hline
-\textbf{3}   & Colour                   & \begin{tabular}[c]{@{}l@{}}i) Handcrafted Feature \& Distance Estimation (HSV)\\ ii) Distance Estimation (Luv)\end{tabular} \\ \hline
+\textbf{3}   & Colour                   & \begin{tabular}[c]{@{}l@{}}i) Handcrafted Feature \& Distance Estimation (HSV)\\ ii) Distance Estimation (CIELUV)\end{tabular} \\ \hline
 \textbf{4}   & Motion                  & \begin{tabular}[c]{@{}l@{}}i) Handcrafted Feature\\ ii) Collection of Centroid \end{tabular}                                \\ \hline
 \textbf{5}   & Object Type             & YOLOv2 (described in \ref{objecttype})                                                                                                               \\ \hline
 \textbf{6}   & Size                    & Bounding box from Background Subtraction                                                                                                      \\ \hline
@@ -367,15 +357,15 @@ With the interest of differentiating between chromatic and achromatic vehicles, 
   \label{algo:achromatic}
   \begin{algorithmic}[1]
   
-  \If{Percentage of White $>$ 25\%  \\
+  \IF{Percentage of White $>$ 25\%  \\
   \hspace{1em} \&\& Percentage of Black $<$ 25\%}
-	\State Colour Term = White  	
-  \ElsIf {Percentage of Black $>$ 25\%  \\ 
+	\STATE Colour Term = White  	
+  \ELSIF {Percentage of Black $>$ 25\%  \\ 
   \hspace{1em} \&\& Percentage of White $<$ 25\%}
-  	\State Colour Term = Black
-  \Else
-  	\State Colour Term = Gray
-  \EndIf
+  	\STATE Colour Term = Black
+  \ELSE
+  	\STATE Colour Term = Gray
+  \ENDIF
   
   \end{algorithmic}
 \end{algorithm}
@@ -385,26 +375,26 @@ With the interest of differentiating between chromatic and achromatic vehicles, 
   \caption{Colour Term Extraction}
   \label{algo:colorExtract}
   \begin{algorithmic}[1]
-    \For{Each blob in image}
-        \State Shrink bounding box \& crop image
-        \State Create a copy of the cropped image in grayscale
-        \State Compute absolute difference between cropped image \& grayscale image
-        \State Perform threshold on absolute difference to amplify difference
-        \State Convert results into grayscale \& calculate no. of non-zero pixels
-            \If{Ratio of non-zero pixels $>$ $T_{pivot}$} 
-                \State // Chromatic Vehicle
-                \State Calculate 3D HSV histogram  
-                \State Locate maximum bin location of each channel
-                \State Map the highest bin from each channel to Colour Term
-            \Else 
-                \State // Achromatic Vehicle
-                \State Perform black \& white filter 
-                \State Obtain ratio of non-zero pixels from both filters
-                \State CALL: Achromatic Colour Term Extraction
-            \EndIf
+    \FOR{Each blob in image}
+        \STATE Shrink bounding box \& crop image
+        \STATE Create a copy of the cropped image in grayscale
+        \STATE Compute absolute difference between cropped image \& grayscale image
+        \STATE Perform threshold on absolute difference to amplify difference
+        \STATE Convert results into grayscale \& calculate no. of non-zero pixels
+            \IF{Ratio of non-zero pixels $>$ $T_{pivot}$} 
+                \STATE // Chromatic Vehicle
+                \STATE Calculate 3D HSV histogram  
+                \STATE Locate maximum bin location of each channel
+                \STATE Map the highest bin from each channel to Colour Term
+            \ELSE 
+                \STATE // Achromatic Vehicle
+                \STATE Perform black \& white filter 
+                \STATE Obtain ratio of non-zero pixels from both filters
+                \STATE CALL: Achromatic Colour Term Extraction
+            \ENDIF
 
-    \EndFor
-    \State Obtain average dominant colour \& return Colour Term
+    \ENDFOR
+    \STATE Obtain average dominant colour \& return Colour Term
   \end{algorithmic}
 \end{algorithm}
 
@@ -562,54 +552,53 @@ As two subsequent frames is likely to have too little difference, the algorithm 
 
 Figure \ref{fig:cardinalbins} illustrates this property. Each of this directions are determined using handcrafted parameters which were selected empirically, the displacement values, $X_{displacement}$ \& $Y_{displacement}$ were set to 5 pixels each. If the difference between the current position of the blob and the position 10 frames ago is larger than either $X_{displacement}$ or $Y_{displacement}$, the motion of the vehicle is updated accordingly. The extracted motion semantic is then saved into the database for each frame. 
 
-
- \begin{algorithm}[!ht]
-	\caption{Motion Semantic Extraction}
-	\label{algo:motion}
-	\begin{algorithmic}[1]
-		\For{Each blob}
-		\State Save current centroid position$P_N$ in $List_{motion}$, \H{L} 
-		\If{\H{L}.length > 10} 
-		\State Calculate $Difference_x$ and $Difference_y$ using:
-		\State $Difference_{centroid} = P_N -P_{(N-10)}$
-		\If {Absolute ($Difference_{x}$) > $X_{displacement}$ }
-		\If {$Difference_{x}$ > 0 }
-		\State Set \textit{Direction(X)} to "LEFT"
-		\Else 
-		\State Set \textit{Direction(X)} to "RIGHT"
-		\EndIf
-		\EndIf
-		\If {Absolute ($Difference_{y}$) > $Y_{displacement}$ }
-		\If {$Difference_{y}$ > 0 }
-		\State Set \textit{Direction(Y)} to "UP"
-		\Else 
-		\State Set \textit{Direction(Y)} to "DOWN"
-		\EndIf
-		\EndIf
-
-		\If {\textit{Direction(Y)} != NULL AND \textit{Direction(X)} != NULL }
-		\State Set blob's motion = \textit{Direction(X)} + \textit{Direction(Y)}
-		\Else 
-		\If {\textit{Direction(X)} != NULL }
-		\State Set blob's motion = \textit{Direction(X) }
-		\ElsIf  {\textit{Direction(Y)} != NULL }
-		\State Set blob's motion = \textit{Direction(Y)}
-		\Else 
-		\State Set blob's motion = "Motionless"
-		\EndIf
-		\EndIf
-		\EndIf
-		\State Save blob's current motion into database
-		\EndFor
-	\end{algorithmic}
-\end{algorithm}
-
-\begin{figure}[hbt!]\centering
+\begin{figure}[H]\centering
 \includegraphics[width=.5\textwidth]{image/new/motion.PNG}
 \caption{Directional bins setup}
 \label{fig:cardinalbins}
 \end{figure}
 
+
+ \begin{algorithm}[H]
+	\caption{Motion Semantic Extraction}
+	\label{algo:motion}
+	\begin{algorithmic}[1]
+		\FOR{Each blob}
+		\STATE Save current centroid position ($P_N$) in $List_{motion}$, \H{L} 
+		\IF{\H{L}.length > 10} 
+		\STATE Calculate $Difference_x$ and $Difference_y$ using:
+		\STATE $Difference_{centroid} = P_N -P_{(N-10)}$ 
+		\IF {Absolute ($Difference_{x}$) > $X_{displacement}$ }
+		\IF {$Difference_{x}$ > 0 }
+		\STATE Set \textit{Direction(X)} to "LEFT"
+		\ELSE  
+		\STATE Set \textit{Direction(X)} to "RIGHT"
+		\ENDIF
+		\ENDIF
+		\IF {Absolute ($Difference_{y}$) > $Y_{displacement}$ }
+		\IF {$Difference_{y}$ > 0 }
+		\STATE Set \textit{Direction(Y)} to "UP"
+		\ELSE 
+		\STATE Set \textit{Direction(Y)} to "DOWN"
+		\ENDIF
+		\ENDIF
+
+		\IF {\textit{Direction(Y)} != NULL AND \textit{Direction(X)} != NULL }
+		\STATE Set blob's motion = \textit{Direction(X)} + \textit{Direction(Y)}
+		\ELSE 
+		\IF {\textit{Direction(X)} != NULL }
+		\STATE Set blob's motion = \textit{Direction(X) }
+		\ELSIF  {\textit{Direction(Y)} != NULL }
+		\STATE Set blob's motion = \textit{Direction(Y)}
+		\ELSE 
+		\STATE Set blob's motion = "Motionless"
+		\ENDIF
+		\ENDIF
+		\ENDIF
+		\STATE Save blob's current motion into database
+		\ENDFOR
+	\end{algorithmic}
+\end{algorithm}
 
 
 
@@ -632,35 +621,27 @@ As previously discussed in the section \ref{subsec:colorsemantics}, the basic id
 
 Next, the dominant colour from each frame was extracted using the maximum bin of the 3-dimension HSV histogram and concatenated. At the end of a vehicle's tracked life cycle, the concatenated dominant colours were averaged out to obtain the ADC. The example in Figure \ref{fig:ADC} illustrates this method while the pseudo-code of the ADC method is described in Algorithm \ref{algo:ADC}. 
 
-
 \begin{figure}[hbt!]\centering
 \includegraphics[width=.9\textwidth]{image/general/ADC.png}
 \caption{(a) Dominant Colour of the Vehicle at Each Frame; (b) Average Dominant Colour (ADC)}
 \label{fig:ADC}
 \end{figure}
 
-
-
-
-\begin{algorithm}[!ht]
+\begin{algorithm}[H]
   \caption{Average Dominant colour \& Similarity Score Determination}
   \label{algo:ADC}
   \begin{algorithmic}[1]
-    \For{Each tracked vehicle in the current frame}
-        \State Shrink bounding box (crop image)
-        \State Calculate 3D HSV histogram
-        \State Locate maximum bin location of each channel from histogram
-        \State Concatenate resulting dominant colours from each frame
-        \State Obtain the Average Dominant colour (ADC)
-        \State Measure the difference between ground truth value from Munroe \cite{munroe2010color} 
-        \State Obtain Similarity Score of colour tuple against colour terms
-    \EndFor
+    \FOR{Each tracked vehicle in the current frame}
+        \STATE Shrink bounding box (crop image)
+        \STATE Calculate 3D HSV histogram
+        \STATE Locate maximum bin location of each channel from histogram
+        \STATE Concatenate resulting dominant colours from each frame
+        \STATE Obtain the Average Dominant colour (ADC)
+        \STATE Measure the difference between ground truth value (Table \ref{table:colorshex}) and ADC 
+        \STATE Obtain Similarity Score of colour tuple against colour terms
+    \ENDFOR
   \end{algorithmic}
 \end{algorithm}
-
-
-
-
 
 In order to reduce the number of parameters and steer clear of handcrafted features such as the one introduced in the previous subsections, instead of assigning one single colour term for each extracted, the similarity score for each colour against all eleven ground truth colours were measured and saved into the database instead. The metrics used to measure the similarity scores between the colours were adopted from the work of Riemersma\cite{riemersma}. This metrics is a low cost estimation of the differences of colours in the LUV linear colour space using RGB values. As the Average Dominant colour was obtained in the HSV colour space, a quick conversion from HSV to RGB colour space was done using Equation \ref{eq:RGBHSVconversion1} to \ref{eq:RGBHSVconversion3}. 
 
@@ -735,7 +716,7 @@ In Equation \ref{eq:DiffColorLUV}, the mean of the red channel ($\mean{r}$) is u
 % Please add the following required packages to your document preamble:
 % \usepackage[table,xcdraw]{xcolor}
 % If you use beamer only pass "xcolor=table" option, i.e. \documentclass[xcolor=table]{beamer}
-\begin{table}[!ht]\centering
+\begin{table}[!hbt]\centering
 \resizebox{\textwidth}{!}{
 \begin{tabular}{c|c|c|c|c|c|c|c|c|c|c|c|}
 \cline{2-12}
@@ -871,13 +852,63 @@ In Equation \ref{eq:DiffColorLUV}, the mean of the red channel ($\mean{r}$) is u
 
 The usage of all eleven colour terms to describe an ADC is essential as some colours bears high similarity against the other. A good example would be between pink and red colour; while they are essentially two different colours, however, both these colours belong to a relatively similar hue family. Hence, the similarity score between both these red and pink colour would rather high. This setup allows colours which are visually similar to be ranked higher when the video shots are retrieved using the retrieval engine.
 
-Along with that, based on the similarity score (\%) obtained using Riemersma's low cost LUV estimation metrics recorded in Table \ref{tab:luvExample}, the initial analysis of the data shows that distinction between contrasting colour terms are rather clear especially when comparing against the data in Table \ref{tab:hsvExample}. 
+Based on the similarity score (\%) obtained using Riemersma's low cost LUV estimation metrics recorded in Table \ref{tab:luvExample}, the initial analysis of the data shows that distinction between contrasting colour terms are rather clear especially when comparing against the data in Table \ref{tab:hsvExample}. 
 
+
+
+
+\begin{figure}[hbt!]\centering
+\includegraphics[width=.9\textwidth]{image/analysis/munsell_o.png}
+\caption{Munsell 330 Colour Chip}
+\label{fig:munsell_ori330}
+\end{figure}
+
+
+\begin{comment}
+\begin{figure}[htb!]
+  \centering
+\begin{tabular}{cc}
+ \includegraphics[width=0.45\linewidth]{image/analysis/munsell_a.png}   &
+ \includegraphics[width=0.45\linewidth]{image/analysis/munsell_b.png}   \\
+(a) Parametric model &
+(b) PLSA-individual  \\
+ \includegraphics[width=0.45\linewidth]{image/analysis/munsell_e.png}  &
+ \includegraphics[width=0.45\linewidth]{image/analysis/munsell_d.png}   \\
+(c) Linguistic Approach &
+(d) Our method \\
+\end{tabular}
+\caption[Comparison of the Munsell 330 Colour Chips and the Assigned Colour Terms]{Comparison of the Munsell 330 Colour Chips and the Assigned Colour Terms. (a) Parametric model. Image reproduced from \citeA{benavente2008parametric}; (b) PLSA-individual. Image reproduced from \citeA{van2009learning}; (c) Linguistic Approach. Image reproduced from \citeA{zaslavsky2018efficient}; (d) Proposed Method } \label{fig:munsell_compare}
+\end{figure}
+\end{comment}
+
+
+
+\begin{figure}[htb!]
+  \centering
+\begin{tabular}{c}
+ (a) Parametric model \\
+ \includegraphics[width=0.7\linewidth]{image/analysis/munsell_a.png}   \\
+ (b) PLSA-individual  \\
+ \includegraphics[width=0.7\linewidth]{image/analysis/munsell_b.png}   \\
+ (c) Linguistic Approach \\
+ \includegraphics[width=0.7\linewidth]{image/analysis/munsell_e.png}  \\
+ (d) Our method \\
+ \includegraphics[width=0.7\linewidth]{image/analysis/munsell_d.png}   \\
+\end{tabular}
+\caption[Comparison of the Munsell 330 Colour Chips and the Assigned Colour Terms]{Comparison of the Munsell 330 Colour Chips and the Assigned Colour Terms. (a) Parametric model. Image reproduced from \citeA{benavente2008parametric}; (b) PLSA-individual. Image reproduced from \citeA{van2009learning}; (c) Linguistic Approach. Image reproduced from \citeA{zaslavsky2018efficient}; (d) Proposed Method } \label{fig:munsell_compare}
+\end{figure}
+
+
+Figure \ref{fig:munsell_ori330} shows the original Munsell 330 Colour chips which contains 10 achromatic colour chips and 320 chromatic colour chips. 
+The 320 chromatic chips are 40 hues (at full saturation) which are evenly spaced out with 8 different levels of lightness (value) for each hue-value pair (\cite{kay2009world}).
+These chips are also known as the World Colour Survey (WCS) stimulus palette.  
+Figure \ref{fig:munsell_compare} shows the comparison of how the WCS stimulus palette were assigned colour terms using different methods; (a)Parametric model by \citeA{benavente2008parametric}; (b)  Probabilistic Latent Semantic Analysis (PLSA) - individual by \citeA{van2009learning}; (c) Linguistic approach by \citeA{zaslavsky2018efficient}; (d) The plot for our proposed method assigns the colour term that contains achieved the highest similarity score (\%) using Riemersma's low cost LUV estimation metrics.
+The plot produced by our method shows similarity when compared with the plot produced using the linguistic approach. Comparing the parametric model (a) with the proposed method, it is noted that the achromatic tones were given more room to express its nature of low saturation value. However, as the assigning of colour terms are subjective to individuals, is it difficult to measure how well each method performed against each other.  
 
 
 \subsection{Motion Semantic Extraction}
 
-With the intention of extracting motion information from the input video data, the spatio-temporal cubes or \emph{atoms} were adopted here. Contrary to the framework used in \versionOneExt's motion extraction framework, instead of grouping the motions into 9 directional bins, only the location information of the vehicle is saved. This eliminates the use of handcrafted parameters while maintaining important low level semantics which can be used to represent motion information.
+With the intention of extracting motion information from the input video data, the spatio-temporal cubes or \emph{atoms} were adopted here. Contrary to the framework used in \versionOneExt's motion extraction framework, instead of grouping the motions into 9 directional bins, only the location information of the vehicle is saved. This eliminates the use of handcrafted parameters while maintaining important low level semantics which can be used to represent motion information. 
 
 
 \begin{equation}
@@ -899,11 +930,20 @@ As the background subtraction method has identified the vehicle's location, the 
 
 Now, in order to determine the motion of the vehicle, the order and sequence of the centroids' t-coordinates was used to represents the motion and the trajectory, $P$, of a vehicle. Figure \ref{fig:motionExample} illustrates the property of this setup which allows trajectories of vehicles to be identified by only using the centroid information. Upon obtaining the location of the centroids, the x \& y-coordinate can be inferred as the atom's width and heights were predefined. Finally, the sequence of the t-coordinate along with the x \& y-coordinates are written into the database as a means of collecting motion information.
 
-As a vehicle in the car park scene generally does not move in an irregular motion, the sequence information of the vehicle's centroid holds sufficient clue for the reconstruction and estimation of a vehicle's trajectory within the car park scene. This setup also allows reduction of overhead computational cost and storage space which might occur when converting these centroid information into finer vector features. 
-
-
 \begin{figure}[hbt!]\centering
 \includegraphics[width=.9\textwidth]{image/general/trajectorysample2.png}
-\caption{Collection of a Vehicle's Centroids to Represent the Vehicle's Motion}
+\caption{Collection of a Vehicle's Centroid to Represent the Vehicle's Motion}
 \label{fig:motionExample}
 \end{figure}
+
+As a vehicle in the car park scene generally does not move in an irregular motion, the sequence information of the vehicle's centroid holds sufficient clue for the reconstruction and estimation of a vehicle's trajectory within the car park scene. This setup also allows reduction of overhead computational cost and storage space which might occur when converting these centroid information into finer vector features. 
+
+\section{Summary}
+In this chapter, two different semantic extraction methods were proposed. The semantics that were extracted includes the time date information, colour, motion, object type as well as the size of the objects. Both methods employed a slightly different method of extracting the colour and motion information, the performance of these methods will be discussed in Section \ref{section:retrievalengine}. 
+
+For the extraction of vehicle colour semantics, in comparison with the existing methods described in Section \ref{section:litreview}, this work proposed a method that works on videos with relatively low resolution. Next, analysis were done on several colour term mapping methods against the WCS stimulus palette. Given that the mapping of these colour terms is subjective to individual's liking, a user study was perform. The results shows most users prefers the \cc{fill up which method}.
+
+In the future, the colour term mapping function can be potentially improved so that the results would resemble the \cc{best method}'s performance.  
+
+% the linguistic approach has a better representation of the colour terms.
+

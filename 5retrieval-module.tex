@@ -12,8 +12,6 @@ In this chapter, two retrieval module with relatively different concepts and und
 As a reminder, both the vehicle trajectory and vehicle colour evaluation process was separated in order to better gauge the performance of each module (see \ref{sec:expmethodology}).
 
 
-\cc{please measure the VISER retrieval speed and attach the results.}
-
 
 
 
@@ -47,7 +45,7 @@ Upon validating the sanctity of the results, commands were sent to FFmpeg to ext
 
 % Please add the following required packages to your document preamble:
 % \usepackage[normalem]{ulem}
-\begin{table}[hbt]
+\begin{table}[!hbt]
 	\centering 
 \caption{Database Structure for a Vehicle Identified as Red and Pink Colour with Object id "1" of the \versionOneRet }
 \label{table:dbSample}
@@ -89,7 +87,7 @@ The proposed retrieval engine was realized in a form of a graphical user search 
 
 
 
-\begin{figure}[htb!]
+\begin{figure}[!htb]
 	\centering
 	\begin{tabular}{c}
 		\includegraphics[width=0.7\linewidth]{image/retrievalOne/test1-8inputs.PNG} \\  
@@ -291,7 +289,7 @@ Similar to the concept introduced in the \versionOneRet, users are able to const
 Once the query is constructed, the retrieval engine goes through the database searching for shots which highly resembles the given query. 
 Unlike the previous method, the use of HTML5 video elements in this retrieval engine made it easy to display the obtained results with a suitable thumbnail that represents each retrieved video while speeding up the speed as there was no need of encoding each retrieved shot on the fly.
 
-\begin{figure}[hbt!]\centering
+\begin{figure}[!hbt]\centering
 \includegraphics[width=.9\textwidth]{image/retrievalTwo/VISERinterface2.png}
 \caption{Search Interface for \versionTwoRet}
 \label{fig:versionTwoInterface}
@@ -306,10 +304,9 @@ The \textit{Precision@K} metric is used to identify the number of retrieved resu
 In order to evaluate the performance of the proposed method, the evaluation of both the trajectory and colour terms were separated. The separation of evaluations allows further understanding on how to improve the retrieval engine as a whole. A group of volunteers were introduced to the retrieval engine along with it's features and a sample use case was demonstrated, then, the volunteers were given full control to draw any query they were interested in. Next with the results from the retrieval engine, the volunteers were tasked to provide feedback by rating each result with a scale of 1 to 5, with 5 being a result that closely resembles the input query. 
 
 The volunteers were given full control of the input query $\mathbb{P}$ as it closely resembles real world scenarios. With that in consideration, it is not feasible to obtain the ground truth annotation for each of those queries within the one month data time frame, without which the recall rate can not be measured for this retrieval engine. 
-
 While the \textit{Precision@K} metrics is a commonly used metric for retrieval system, the main disadvantage of this metric is that the evaluation process is done in a coarse manner as it only provides a binary evaluation of whether or not a particular result is relevant to the query. On the other hand, the \textit{DCG} metric is able to provide a more granular evaluation of the proposed method as the results are evaluated based on its ordered rank along with the relevancy of the result. Figure \ref{fig:dcgGain} illustrates the decreasing gain value of each result as the ranking of the result increases. 
 
-\begin{figure}[h]
+\begin{figure}[!ht]
 \centering
 \includegraphics[width=0.9\textwidth]{image/retrievalTwo/discountvsrank.png}
 \caption{The Discounted Gain Decreases Exponentially as Rank Increases}
@@ -504,7 +501,6 @@ In a nutshell, by using the proposed $D_{chamfer}$ metrics, the retrieval engine
 \subsubsection{Vehicle Colour \& Colour Mode}
 
 As mentioned in Section \ref{subsec:vehColor}, a total of 330 video snippets were extracted from the top 30 results of each colour modes were extracted. As four colour modes were tested, the six volunteer were split into groups of three and they were given two sets of data to evaluate. 
-
 The results of the average \textit{Precision@K} metric for each of the colour modes were tabulated in Figure \ref{fig:colorspace_score} while Table \ref{tab:avg@k} shows a high level overview of the results across K = 1 to 30. Similar to the evaluation process of the vehicle trajectories, this time, the volunteers were asked to determine the relevance of the colour term to that particular vehicle for each of the video snippets with a scale of 1 to 5. 
 
 \begin{table}[!t]
@@ -576,7 +572,7 @@ The Bar chart is used to represent the number of results the user has to view in
 \end{figure}
 
 
-\begin{table}[h!]
+\begin{table}[ht!]
 	\centering
 	\caption{Normalised Discounted Cumulative Gain (nDCG) for the LUV colour metrics}
 	\label{tab:dcgColor}
@@ -631,11 +627,11 @@ Even though the overall results are relatively good, the implementation of Chamf
 
 \begin{figure}[htb!]
   \centering
-\begin{tabular}{c}
- \includegraphics[width=0.9\linewidth]{image/retrievalTwo/chamferDisadv2.png}\\
- (a) Two trajectories with similar shape \\
- \includegraphics[width=0.9\linewidth]{image/retrievalTwo/chamferDisadv1.png} \\
- (b) Trajectory intersecting with a point
+\begin{tabular}{cc }
+ \includegraphics[width=0.45\linewidth]{image/retrievalTwo/chamferDisadv2.png} &
+ \includegraphics[width=0.45\linewidth]{image/retrievalTwo/chamferDisadv1.png} \\
+ (a) Two trajectories with similar shape &
+ (b) Trajectory intersecting with a point \\
 \end{tabular}
 \caption{Disadvantages of Chamfer Distance} \label{fig:chamferDisadvantage}
 \end{figure}
