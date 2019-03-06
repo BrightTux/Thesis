@@ -316,8 +316,9 @@ In a semi-related research area of vehicle re-identification, several authors ( 
 
 Colour terms are very useful in a real-world application instead of colour tuples. According to \cite{van2009learning}, colour names are required for image retrieval and image annotation applications. 
 Several authors has looked into mapping colour tuples into their respective colour terms. \citeA{van2009learning} proposed several variants of Probabilistic Latent Semantic Analysis (PLSA) model to learn colour names from data obtained Google Images. 
-This was done in order to avoid hand-labelling real-world images with colour names, Figure \ref{fig:van20091}. The authors approach this challenge by comparing their methods against 3 chip-based methods. 
-In their work, chip-based methods was described as colour naming method that is performed in a controlled environment where the labels of colour chips are placed on a neutral background under a known white light source.
+This was done in order to avoid hand-labelling real-world images with colour names, Figure \ref{fig:van20091} illustrates the types of images retrieved using Google Images. The authors approach this challenge by comparing their methods against 3 chip-based methods. 
+In their work, chip-based methods was described as colour naming method that is performed in a controlled environment where the labels of colour chips are placed on a neutral background under a known white light source. 
+Similar to \citeA{van2009learning}'s work, \citeA{yu2018beyond} also applied PLSA to estimate the probability of colour values when given a colour term.
 
 \begin{figure}[hbt!]\centering
 \includegraphics[width=1\textwidth]{image/lit/van20091.PNG}
@@ -331,6 +332,10 @@ The PLSA model allows multiple colour terms to be named for each image. The pixe
 \end{align}
 The aim of $p(w|d)$ is to find latent topics which best explains the observed data, and in this case, finding the colour terms that best describes an image. In their approach, the authors claim that it their proposed method is flexible when new colour terms are introduced to any given system as the model can be trained with a small amount of data as compared to traditional methods which relies on chip based studies. 
 
+In the works of \citeA{khan2013discriminative} and \citeA{yu2018beyond}, the authors suggests that colour representation that has been extended to more than the eleven dimensions could be beneficial. The authors in \cite{yu2018beyond} proposed a dataset of 28 additional colour terms (a total of 39 terms) which was used in their experiments on several task such as visual tracking, person re-identification as well as image classification. One of their experiments shows that the classification accuracy has improved by 4\% when changing from 11 to 25 colour terms. 
+
+
+
 \begin{figure}[hbt!]\centering
 \includegraphics[width=1\textwidth]{image/lit/datacompress1.PNG}
 \caption[(A) Shannon's communication model. In this model, the source message $M$ and its reconstruction $\hat{M}$ are distributions over objects in the universe $U$. We refer to these messages as meanings. $M$ is compressed into a code, or word, W. We assume that $W$ is transmitted over an idealised noiseless channel and that the reconstruction $\hat{M}$ of the source message is based on $W$. The accuracy of communication is determined by comparing $M$ and $\hat{M}$, and the complexity of the lexicon is determined by the mapping from $M$ to $W$. 
@@ -342,10 +347,10 @@ Reproduced from \citeA{zaslavsky2018efficient}.}
 \label{fig:datacompression1}
 \end{figure}
 
-In the work of \cite{zaslavsky2018efficient}, the authors aimed to study efficient compression in colour naming and its evolution. \citeA{zaslavsky2018efficient} claims that colour categories cannot be hard-partitioned in the colour space, instead, a soft-partitioned approach should be taken. However, with a soft-partition approach, there are transition regions in the colour space that are often inconsistently named. 
+The work of \cite{zaslavsky2018efficient} took on another approach towards colour tuples mapping. The authors aimed to study efficient compression in colour naming and its evolution. \citeA{zaslavsky2018efficient} claims that colour categories cannot be hard-partitioned in the colour space, instead, a soft-partitioned approach should be taken. However, with a soft-partition approach, there are transition regions in the colour space that are often inconsistently named. 
 In their work, the approached this challenge of understanding how colours are named from the angle of data compression. Figure \ref{fig:datacompression1} illustrates the idea of \citeA{zaslavsky2018efficient}'s work. The goal of this work is to design a Information Bottleneck (IB) compression model that represents can effectively represent colours terms in different languages. 
 
-\citeA{yu2018beyond} proposed that the 11 common colour terms that are commonly use is insufficient. The work of \citeA{khan2013discriminative} agrees and suggests that colour representation that has been extended to more than the eleven dimensions could be beneficial. Instead, a dataset of 28 additional colour terms (a total of 39 terms) was used in their experiments on several task such as visual tracking, person re-identification as well as image classification. Similar to \citeA{van2009learning}'s work, \citeA{yu2018beyond} also applied PLSA to estimate the probability of colour values when given a colour term.
+
 
 
 
@@ -365,21 +370,63 @@ http://www.munsellcolourscienceforpainters.com/ConversionsBetweenMunsellAndsRGBs
 
 
 
-\cc{ the following statement needs to be removed}
-Figure \ref{fig:munsell_ori330} shows the original Munsell 330 Colour chips which contains 10 achromatic colour chips and 320 chromatic colour chips. 
-The 320 chromatic chips are 40 hues (at full saturation) which are evenly spaced out with 8 different levels of lightness (value) for each hue-value pair (\cite{kay2009world}).
-These chips are also known as the World Colour Survey (WCS) stimulus palette.  
-Figure \ref{fig:munsell_compare} shows the comparison of how the WCS stimulus palette were assigned colour terms using different methods; (a)Parametric model by \citeA{benavente2008parametric}; (b)  Probabilistic Latent Semantic Analysis (PLSA) - individual by \citeA{van2009learning}; (c) Linguistic and data compression approach by \citeA{zaslavsky2018efficient}; (d) The plot for our proposed method assigns the colour term that contains achieved the highest similarity score (\%) using Riemersma's low cost LUV estimation metrics.
-The plot produced by our method shows similarity when compared with the plot produced using the linguistic approach. Comparing the parametric model (a) with the proposed method, it is noted that the achromatic tones were given more room to express its nature of low saturation value. However, as the assigning of colour terms are subjective to individuals, is it difficult to measure how well each method performed against each other. 
-
 
 \subsubsection{Vehicle Motion Extraction}
+
+\begin{comment}
+--> ways of extracting motion: optical flow+histogram bin, bgs+movement,  
+\end{comment}
+
+Vehicle motion is an important feature that can be used to describe activities in a car park surveillance scene. While there are not many research done within the scope of a car park surveillance setting, there has been many works in the ITS domain which extracts vehicle motions. In most cases where the research setup involves a static camera sensor, the extraction of these motions can be broadly divided into two groups: i) Background subtraction (BGS) methods combined with vehicle centroid position for motion estimation; and ii) Feature (SIFT, HOG, Haar, etc) extraction combined with Optical flow for motion estimation. 
+\cc{--> However, there are also several other methods that for motion extraction such as histogram bins....  }
+
+Several authors such as \citeA{wang2016research}, \citeA{luvizon2017video}, and  \citeA{apeltauer2015automatic} extracted vehicle motion information using the first approach where a BGS method was employed. Generally, a clean model of background information is first obtained. When a new subject is introduced to the scene in the current frame, the differences between the background information and the current frame is extracted to indicate changes in the scene. When the subjects are moving in the scene, the data obtained from the subtraction process would correspond to motion information. Figure \ref{fig:bgs2} illustrates the process involve in BGS. 
+
+\begin{figure}[hbt!]\centering
+\includegraphics[width=1\textwidth]{image/lit/bgs.PNG}
+\caption[Vehicle Motion Extraction using Background Subtraction. From left: Input, Background Model, Sparse Outlier, Noise, Foreground, Tracking Result]
+{Vehicle Motion Extraction using Background Subtraction. From left: Input, Background Model, Sparse Outlier, Noise, Foreground, Tracking Result.
+Reproduced from \citeA{yang2017real}.}
+\label{fig:bgs2}
+\end{figure}
+
+In the second approach, 
+
+
+However, as described in Section \ref{subsec:scope}, the bounding box of the vehicles is assumed to be provided. Hence, the trajectory representation methods are discussed in detail instead of the trajectory extraction process. 
+In the works of \citeA{momin2015vehicle}, the authors only split the motion of the vehicles into 4 directions (LEFT, RIGHT, UP, DOWN). Similarly, the works of \citeA{feris2012large} splits the motion of vehicles into 12 motion directions. This was done by building a motion direction histogram, where bins that receives the highest number votes were saved into the database. 
+
+\citeA{lai2015video}, \citeA{castanon2016retrieval} --> represent trajectories in 3d space
+
+\cite{lessard2016countingapp} --> count vehicles in 500 hours
 
 
 \subsection{Object Semantics Retrieval}
 
-According to the survey by \cite{chandran2017review}, trajectory retrieval algorithms can be largely divided into two categories: i) String  Matching Algorithm, and ii) Sketch Matching Algorithm. String matching algorithms   
+According to the survey by \cite{chandran2017review}, object retrieval algorithms can be broadly divided into two categories: i) String Matching Algorithm, and ii) Sketch Matching Algorithm. String matching algorithms typically converts subjects into a set of known keywords and match them using its semantic meanings. Several authors (\citeA{feris2012large}, \cite{momin2015vehicle}, and \cite{yang2015semantic}) has implemented string matching algorithms in their work.
 
+In the case of vehicle trajectories, the queries used corresponds to the extracted motion terms such as "Turning into junction A" or "Enter from entrance B". 
+
+
+as their queries were performed on specific scenes with little variation of motions.    
+
+
+However, in a real life application, this method of segmenting different motions into
+
+
+
+
+On the other hand, sketch matching algorithm 
+by \citeA{castanon2016retrieval} \citeA{lai2015video}
+
+
+
+
+
+
+castanon2016retrieval
+feris2012large
+lessard2016countingapp
 
 
 \cc{include what type of semantics were extracted from which paper, take from proposal defense}

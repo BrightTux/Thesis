@@ -26,7 +26,6 @@ As describe in Section \ref{subsec:scope}, the two major semantics extracted in 
 As the utilisation of video data is the central focus in this work, there was a need for coming up with a way to easily manipulate and represent the video information. As video data can be  represented using the 3 dimensional space using X-axis, Y-axis, \& time-axis, quantization techniques can be applied here to convert the continuous data into discrete data blocks.     
 
 In order to design a framework for long term object semantics extraction from video data, this work adopted the concept of "atoms" as coined by \cite{castanon2016retrieval} which enabled quantization of the video input into individual 3D spatial-temporal cubes which consist of the X-axis, Y-axis and T-axis. In this work, an atom is defined as a group of cells at a similar spatial location, that spans a certain fixed number of frames; hence forming a spatio-temporal `cube'.
-
 As described in Section \ref{section:dataset_used}, the input video data has a resolution of 640$\times$480 pixels and frame rate of 10$fps$, the dimensions of each atoms ($\alpha$) were 
 %analytically 
 set to $\alpha_{width}=32$ pixels, $\alpha_{height}=24$ pixels and $\alpha_{time}=10$ frames, which represents the temporal duration of one second. The resolution of the atom ($\alpha_{width},\alpha_{height}$) were set such that the video resolution can be uniformly divided by 20 atoms across both its width and height as illustrated in Figure \ref{fig:viewfromcamera}. Using this setup, each individual atom can be uniquely identified using the $X, Y$ and $T$ identifiers. 
@@ -61,7 +60,7 @@ The use of these atom-based spatial-temporal cube is paramount in this work. By 
 \section{Vehicle Blobs Extraction}
 \label{subsection:fundamental}
 
-As described in Section \ref{subsec:scope}, this work assumes that the preliminary task of detecting, tracking and obtaining the bounding box of each vehicle is obtained. This section briefly describes the steps taken by \cite{lim2017} to detect and extract moving objects in a video using background subtraction techniques to differentiate between static background and moving objects as depicted in Figure \ref{fig:bgs}. 
+As described in Section \ref{subsec:scope}, this work assumes that the preliminary task of detecting, tracking and obtaining the bounding box of each vehicle is obtained. This section briefly describes the steps taken by \citeA{lim2017} to detect and extract moving objects in a video using background subtraction techniques to differentiate between static background and moving objects as depicted in Figure \ref{fig:bgs}. 
 
 \begin{figure}[htb!]
   \centering
@@ -73,7 +72,8 @@ As described in Section \ref{subsec:scope}, this work assumes that the prelimina
 \label{fig:bgs}
 \end{figure}
 
-As the vanilla application of background subtraction often results with noisy output, the proposed algorithm used in \cite{lim2017} implemented a combination of adaptive learning and frame differencing method. This step was used to detect and extract moving objects (foreground blobs). This is then followed by several erosion and dilation morphology operations to further reduce the noise and to provide a better foreground blob at the end of the process.
+As the vanilla application of background subtraction often results with noisy output, the proposed algorithm used in \cite{lim2017} implemented a combination of adaptive learning and frame differencing method. This step was used to detect and extract moving objects (foreground blobs). This is then followed by several erosion and dilation morphology operations to further reduce the noise and to provide a better foreground blob at the end of the process. 
+Now with the background subtraction operation in place, the foreground objects can now be detected. Each of these foreground object are referred to as a \textit{blob}. Each of these blobs are then filtered using some handcrafted parameters to separate between vehicles and non-vehicles objects. To further enhance this process, a deep learning model was deployed to increase the probability of filtering non-vehicle blobs. 
 
 
 \begin{comment}
@@ -106,9 +106,9 @@ The process is known as \textit{Opening} occurs when the morphology operations a
 \end{comment}
 
 
-Now with the background subtraction operation in place, the foreground objects can now be detected. Each of these foreground object are referred to as a \textit{blob}. Each of these blobs are then filtered using some handcrafted parameters to separate between vehicles and non-vehicles objects. To further enhance this process, a deep learning model was deployed to increase the probability of filtering non-vehicle blobs. 
 
-The work of \cite{redmon2016you} namely YOLOv2 (You Only Look Once) - a deep learning model was deployed as a complementary module. Now, as YOLO is a deep learning model designed to be real-time object detection, the detection process incurred very little overhead to the overall computational time and cost. Here, the bounding box of each foreground blob is sent into the YOLO network as an input. The network will then divide the input into multiple smaller regions and perform prediction of the bounding box along with the class probability. As the YOLO model is pre-trained with "vehicle" as one of the many classes, no further retraining was done. With that in place, each of the blobs which were identified as a vehicle were tracked, and the bounding box of each was obtained. With that, the semantic extraction module can now take place.  
+
+The work of \cite{redmon2016you} namely YOLOv2 (You Only Look Once) - a deep learning model was deployed as a complementary module. YOLO is a deep learning model designed to be real-time object detection, the detection process incurred very little overhead to the overall computational time and cost. Here, the bounding box of each foreground blob is sent into the YOLOv2 network as an input. The network will then divide the input into multiple smaller regions and perform prediction of the bounding box along with the class probability. As the YOLOv2 model is pre-trained with "car" as one of the many classes, no further retraining was done. With that, each of the blobs which were identified as a vehicle were tracked, and the bounding box of each was obtained. These bounding boxes are then fed to the proposed semantic extraction module for further processing.  
 
 
 
@@ -890,20 +890,43 @@ Based on the similarity score (\%) obtained using Riemersma's low cost LUV estim
  \includegraphics[width=0.7\linewidth]{image/analysis/munsell_a.png}   \\
  (b) PLSA-individual  \\
  \includegraphics[width=0.7\linewidth]{image/analysis/munsell_b.png}   \\
- (c) Linguistic Approach \\
+ (c) Linguistic Approach, Before Compression \\
+ \includegraphics[width=0.7\linewidth]{image/analysis/munsell_c.png}   \\
+ (d) Linguistic Approach, After Compression \\
  \includegraphics[width=0.7\linewidth]{image/analysis/munsell_e.png}  \\
- (d) Our method \\
+ (e) Proposed method\\
  \includegraphics[width=0.7\linewidth]{image/analysis/munsell_d.png}   \\
 \end{tabular}
-\caption[Comparison of the Munsell 330 Colour Chips and the Assigned Colour Terms]{Comparison of the Munsell 330 Colour Chips and the Assigned Colour Terms. (a) Parametric model. Image reproduced from \citeA{benavente2008parametric}; (b) PLSA-individual. Image reproduced from \citeA{van2009learning}; (c) Linguistic Approach. Image reproduced from \citeA{zaslavsky2018efficient}; (d) Proposed Method } \label{fig:munsell_compare}
+\caption[Comparison of the Munsell 330 Colour Chips and the Assigned Colour Terms]{Comparison of the Munsell 330 Colour Chips and the Assigned Colour Terms. (a) Parametric model. Image reproduced from \citeA{benavente2008parametric}; (b) PLSA-individual. Image reproduced from \citeA{van2009learning}; (c, d) Linguistic Approach (Before \& After compression). Image reproduced from \citeA{zaslavsky2018efficient}; (e) Proposed Method } \label{fig:munsell_compare}
 \end{figure}
 
 
 Figure \ref{fig:munsell_ori330} shows the original Munsell 330 Colour chips which contains 10 achromatic colour chips and 320 chromatic colour chips. 
 The 320 chromatic chips are 40 hues (at full saturation) which are evenly spaced out with 8 different levels of lightness (value) for each hue-value pair (\cite{kay2009world}).
 These chips are also known as the World Colour Survey (WCS) stimulus palette.  
-Figure \ref{fig:munsell_compare} shows the comparison of how the WCS stimulus palette were assigned colour terms using different methods; (a)Parametric model by \citeA{benavente2008parametric}; (b)  Probabilistic Latent Semantic Analysis (PLSA) - individual by \citeA{van2009learning}; (c) Linguistic and Data Compression approach by \citeA{zaslavsky2018efficient}; (d) The plot for our proposed method assigns the colour term that contains achieved the highest similarity score (\%) using Riemersma's low cost LUV estimation metrics.
-The plot produced by our method shows similarity when compared with the plot produced using the linguistic approach. Comparing the parametric model (a) with the proposed method, it is noted that the achromatic tones were given more room to express its nature of low saturation value. However, as the assigning of colour terms are subjective to individuals, is it difficult to measure how well each method performed against each other.  
+Figure \ref{fig:munsell_compare} shows the comparison of how the WCS stimulus palette were assigned colour terms using different methods; (a)Parametric model by \citeA{benavente2008parametric}; (b) Probabilistic Latent Semantic Analysis (PLSA) - individual by \citeA{van2009learning}; (c, d) Linguistic and Data Compression approach by \citeA{zaslavsky2018efficient}; (e) Proposed method - which assigns the colour term that contains achieved the highest similarity score (\%) using Riemersma's low cost LUV estimation metrics.
+
+When comparing the parametric model (a) and PLSA model (b) against the linguistic approach (c) and proposed method (e), it is noted that the achromatic tones were given more room to express its nature of low saturation value. However, as the assigning of colour terms are subjective to individuals, is it difficult to measure how well each method performed against each other. Hence, a user study of 77 individuals was conducted to determine which method performed the best to classifying colours from the WCS stimulus into colour terms (Figure \ref{fig:munsell_compare}). The results from the user study is tabulated in Table \ref{tab:munsell_result}. 
+
+\begin{table}[H]\centering
+\begin{tabular}{|l|c|c|}
+\hline
+\textbf{Method}                             & \textbf{\# of votes} & \textbf{Percentage (\%)} \\ \hline
+(a) Parametric model                        & 17                   & 22.08              \\ \hline
+(b) PLSA-individual                         & 20                   & 25.97              \\ \hline
+(c) Linguistic Approach, Before Compression & 4                    & 5.19              \\ \hline
+(d) Linguistic Approach, After Compression  & 24                   & 31.17              \\ \hline
+(e) Proposed method                         & 12                   & 15.58              \\ \hline
+\end{tabular}
+\caption{User study: Understanding Users' Preference on How Colour Terms Should Be Allocated}
+\label{tab:munsell_result}
+\end{table}
+
+\vspace{-2em}
+
+While the results tabulated does not favour the proposed method, the overall results shows and agrees with the hypothesis that the division of colour terms according to the colour chips are widely subjective. However, the linguistic approach after compression (d) received the highest number of votes.
+However, this approach of testing does not reflect the total capability of the proposed method as the proposed method returns a set of probability for each of the colour terms instead of one final value.
+
 
 
 \subsection{Motion Semantic Extraction}
@@ -941,9 +964,6 @@ As a vehicle in the car park scene generally does not move in an irregular motio
 \section{Summary}
 In this chapter, two different semantic extraction methods were proposed. The semantics that were extracted includes the time date information, colour, motion, object type as well as the size of the objects. Both methods employed a slightly different method of extracting the colour and motion information, the performance of these methods will be discussed in Section \ref{section:retrievalengine}. 
 
-For the extraction of vehicle colour semantics, in comparison with the existing methods described in Section \ref{section:litreview}, this work proposed a method that works on videos with relatively low resolution. Next, analysis were done on several colour term mapping methods against the WCS stimulus palette. Given that the mapping of these colour terms is subjective to individual's liking, a user study was perform. The results shows most users prefers the \cc{fill up which method}.
-
-In the future, the colour term mapping function can be potentially improved so that the results would resemble the \cc{best method}'s performance.  
-
-% the linguistic approach has a better representation of the colour terms.
+For the extraction of vehicle colour semantics, in comparison with the existing methods described in Section \ref{section:litreview}, this work proposed a method that works on videos with relatively low resolution. Next, analysis were done on several colour term mapping methods against the WCS stimulus palette. Given that the mapping of these colour terms is subjective to individual's liking, a user study was perform. The results shows most users prefers the colour model proposed by \citeA{zaslavsky2018efficient} after compression.
+In the future, the colour term mapping function can be potentially improved so that the results would resemble the best colour mapping function. 
 

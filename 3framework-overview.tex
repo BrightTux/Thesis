@@ -20,14 +20,14 @@ Now, with the vehicle specific semantics stored in the database, retrieval engin
 \end{figure}
 
 
-In this work, two frameworks were suggested and used for the vehicle semantic extraction and retrieval process. Both frameworks utilize an underlying distinctive approach, with the same end goal in mind, which is the retrieval of desired video snippets which closely resembles a user described query. For each of these frameworks, the formulation of idea, steps and process involved are described in this chapter. 
+In this work, two frameworks were suggested and used for the vehicle semantic extraction and retrieval process. Both frameworks utilise an underlying distinctive approach, with the same end goal in mind, which is the retrieval of desired video snippets which closely resembles a user described query. For each of these frameworks, the formulation of idea, steps and process involved are described in this chapter. 
 %As there are various solutions proposed in this work, solutions which are common to both core frameworks is also provided. 
-As a whole, the end-to-end framework can be visualized using Figure \ref{fig:framework} where the main contribution of this work is highlighted in yellow border. 
+As a whole, the end-to-end framework can be visualised using Figure \ref{fig:framework} where the main contribution of this work is highlighted in yellow border. 
 
 \subsection{LSH-Inspired Retrieval Framework}
-The first of the two frameworks suggested in this work is the \textit{LSH-Inspired Retrieval Framework}. Locality-Sensitve Hashing (LSH) is a technique used for dimensionality reduction, typically to perform hashing on a set of documents so that documents with similar properties are mapped and clustered to similar locality or neighbourhood. This technique excels especially when working with high dimensional data such as video data.
+The first of the two frameworks suggested in this work is the \textit{LSH-Inspired Retrieval Framework}. Locality-Sensitive Hashing (LSH) is a technique used for dimensionality reduction, typically to perform hashing on a set of documents so that documents with similar properties are mapped and clustered to similar locality or neighbourhood. This technique excels especially when working with high dimensional data such as video data.
 
-Inspirations to cluster similar documents were drawn from the LSH technique and implemented in this framework. The extracted semantics from each vehicle blobs were clustered into semantic groups which contains color and motion information. This concept was adopted in the proposed method with the following considerations in mind: 
+Inspirations to cluster similar documents were drawn from the LSH technique and implemented in this framework. The extracted semantics from each vehicle blobs were clustered into semantic groups which contains colour and motion information. This concept was adopted in the proposed method with the following considerations in mind: 
 
 \begin{enumerate}
     \item Ease of Interpretation \& Access: As the extracted semantics are stored in clusters of similar properties, these semantics can be easily interpreted and retrieved. 
@@ -109,7 +109,7 @@ In the subsequent chapters, the detailed descriptions of the proposed vehicle se
 
 As the performance of the proposed method is essential towards end users, each of the proposed algorithm in the framework is evaluated with the help of volunteers. Even though the fundamental framework was adopted from \cite{lim2017} without changes on the underlying algorithm, errors which were propagated from the Vehicle Detection and Vehicle Tracking modules were not overlooked nor discarded during the evaluation of the subsequent modules in the pipeline. This was done intentionally to provide an end-to-end assessment of the framework. 
 
-The proposed methods were implemented and evaluated on an Intel i7 machine with 16GB RAM, GeForce GTX 1060 GPU. As the main focal point in this proposed method revolves around the semantic extraction of \textbf{vehicle color} along with the \textbf{vehicle trajectory}, both of these components were assessed and evaluated individually to better understand the performance, effectiveness as well as the weakness of the proposed methods. This, in turn, provides a deeper understanding and opportunities for improvements as well as future works. 
+The proposed methods were implemented and evaluated on an Intel i7 machine with 16GB RAM, GeForce GTX 1060 GPU. As the main focal point in this proposed method revolves around the semantic extraction of \textbf{vehicle colour} along with the \textbf{vehicle trajectory}, both of these components were assessed and evaluated individually to better understand the performance, effectiveness as well as the weakness of the proposed methods. This, in turn, provides a deeper understanding and opportunities for improvements as well as future works. 
 
 Two retrieval engines were designed and implemented in this work, the objective of the first retrieval engine was to build a prototype for the evaluation of the its current performance and to identify gaps to be improved. This process allowed the author to return to the drawing board and reevaluate the algorithms, metrics and evaluation process performed. Given this setup, the experimental methodology can be divided into two phase. Given that the data were fully annotated, the evaluation metrics used for Phase One experiment was Accuracy, Recall, and $F_1$ Score.
 
@@ -117,7 +117,7 @@ Two retrieval engines were designed and implemented in this work, the objective 
 \subsection{Phase One - Prototype}
 While the collected dataset comprised of several months of data, only two days of data (20 hours) were used for the evaluation of \versionOneRet. Several annotators were deployed to manually label and fully annotate these data. Upon completing the annotation process, the annotators would cross-check to verify the sanctity of the annotation, along with that, the cross-checking allows the annotators to arrive at consensus on annotations that did not tally. The annotators were asked to take note of following events:
 \begin{enumerate}
-    \item Number of vehicle of each color category (11 categories, see \ref{table:colorshex})
+    \item Number of vehicle of each colour category (11 categories, see \ref{table:colorshex})
     \item Number of vehicles performing motion $TQ1$ \& $TQ2$ (See Figure \ref{fig:versionOneInterface})
 \end{enumerate}
 
@@ -129,6 +129,6 @@ During the Phase One of the experiment, it was noted that the entire annotation 
 %Instead, the best practice used in evaluating a large scale retrieval engine was used to document the evaluation process. 
 
 Given that the final output of this work is a end-user facing retrieval system, the evaluation process took on an empirical user study approach. This unbiased approach provided users with full control and freedom to perform any kinds of search, and provide feedback for each of the result.
-With this setup, a group of six volunteers were tasked to perform queries on the retrieval system for both the color and trajectory of the vehicles and provide relevance score for each retrieved results. 
-As the data in Phase Two was not fully annotated, it is impossible to compute the Recall and $F_1$ score. Instead, the Precision@K along with the normalized Discounted Cumulative Gain (nDCG) metrics were used. 
+With this setup, a group of six volunteers were tasked to perform queries on the retrieval system for both the colour and trajectory of the vehicles and provide relevance score for each retrieved results. 
+As the data in Phase Two was not fully annotated, it is impossible to compute the Recall and $F_1$ score. Instead, the Precision@K along with the normalised Discounted Cumulative Gain (nDCG) metrics were used. 
 
