@@ -1,6 +1,45 @@
 %!TEX ROOT = thesis.tex
 
 \chapter{Conclusion}
-
 \label{section:conclusion}
-\section{Introduction}
+\section*{Introduction}
+
+Given that the use of video data as a means of surveillance is a common solution in many places, there are an abundance of such data sources. However, most of these data are stored unprocessed, and they are only retrieved when a incident dictates the need of doing so. 
+This reactive approach towards an unforeseen event could cost an organisations valuable resources such as man power, time and finance. 
+The goal of this thesis is to present a preemptive solution towards such incidents by converting these video footages into meaningful semantics which can be retrieved on the fly. 
+
+While there has been plenty of existing works in surveillance setting, only a handful of these work revolves around a car park scenario. 
+And among the existing literature that focuses on a car park scenario, a majority of them tend to only focus on the availability of parking spots. 
+Chapter \ref{section:litreview} provides an overview and critique of recent approaches to extract object semantics such as vehicle colour and motion along with relevant works involving retrieval engines. As a whole, the chapter suggests a considerable room for improvement and research in the field of computer vision for car park surveillance data.
+Specifically, this thesis addresses two main objectives: (1) Identify and extract suitable object semantics that can be easily interpretable while accurately describing scenarios in the car park, and (2) Retrieve video footages using a video retrieval engine that takes in user-described queries. 
+
+In view of the advantages offered by segmentation of video data, the framework used in this work segmented the input video data into a spatio-temporal cube (\textit{atoms}) structure inspired by \cite{castanon2016retrieval}. These \textit{atoms} were then used to describe specific locations in a 3D space where the extracted vehicle colours and motions occurred in both the \versionOneExt and \versionTwoExt modules. This segmentation process also allowed end users to describe trajectories in the form of drawings upon the search canvas intuitively. Both of the applied methods in this work has obvious advantages and disadvantages: While the \versionOneRet method was able to accurately pinpoint locations in which an extracted semantic was found, the overall recall rate was significantly lower as the user had to provide exact queries to retrieve a desired shot. This high accuracy \& low recall rate is useful when the exact query needs to be matched 100\%. On the other hand, the \versionTwoRet was able to retrieve a wider range of results, at the cost of a lower accuracy rate. The retrieval engine here is proven to be more robust even when the input query was not provided accurately. 
+
+Overall, the proposed framework and algorithms has demonstrated a moderate performance in extracting and retrieving object specific semantics. Given that the trajectory information was stored in a pseudo-cartesian coordinate manner, the concept used in the \versionTwoRet can be extended to various datasets with similar properties. The concluding remarks and future extensions for each of the proposed methods are covered in the following sections.
+
+\section*{Semantic Extraction, Representation and Retrieval}
+
+\subsection*{Colour Semantic Extraction}
+The proposed vehicle colour extraction methods described in both Section \ref{section:versionOneColorExtract}, and \ref{section:versiontwoColor} demonstrates robustness over existing handcrafted vehicle colour extraction methods in a low resolution scenario. 
+By leveraging on the extracted dominant colour of each vehicle over its entire tracked life cycle, the proposed method averages out the extracted dominant colours and finally obtains a good estimate of the vehicle's colour. Discoloration due to occlusion and shadows was averaged out in the proposed method. 
+In the experiments recorded in Chapter \ref{subsec:vehiclecolourchamferdistanceexperiment}, the proposed method was able to retrieve vehicle colours accurately 91\% of the time within the top 3 results.  
+While the proposed method might not be able to outperform techniques that applies CNN and SVMs such as the one in the works of \cite{hu2015vehicle} (94\%), the proposed method was able to put up a good fight. 
+Although the definition of colour terms using the 330 Munsell Colour chips did not favour the proposed method, the adoption of \cite{riemersma}'s low cost estimation of difference in colours in junction with the definition of colours terms along with the tuples provided by \cite{munroe2010color} proves to be fairly accurate when applied in retrieval engine setting.     
+
+In the future, the mapping of colour terms can be further improved by clustering the compressed data provided by \citeA{zaslavsky2018efficient}. Along with that, the segmented ROI from the response map of a CNN can be implemented for the extraction of colour information. The experiments in this work shows that the use of distance measures to differentiate colours may not be as efficient and accurate when compared with deep learning methods. Hence, a deep learning model can be designed to classify the colour terms.
+
+
+\subsection*{Motion Semantic Representation and Retrieval}
+As dictated in the scope of this work, the bounding box of the vehicles were assumed to be provided. Using the positions of the bounding boxes, the centroid of each box was used to mark the location of the vehicles. In Chapter \ref{subsec:motions9binextract}, the motion information was derived using the previous and current position of the vehicle. These motion information was then segmented into 9 bins of various direction categories. While this method provided adequate representation of motion, the hard-coded motion information that was stored made it difficult during the retrieval process. Users had to provide the queries accurately to retrieve the desired video footage. At best, the \versionOneRet engine suggests an accuracy of 95\%, however, at a cost of input queries that were carefully crafted. Along with that, the proposed method did not show promising recall rates. 
+
+This drawback of the proposed method in \versionOneRet led to the development of \versionTwoRet. In Chapter \ref{subsec:chamferdistancemotionextraction}, the motion information was left unprocessed. Instead, the individual location information obtained from the bounding box was represented using the spatio-temporal cubes (\textit{atoms}). With this setup, Chamfer Distance was re-purposed in \versionTwoRet as a means to measure the difference between the user's input against the data stored within the database. The retrieval engine presented users with a input canvas where the motion of a desired vehicle could be drawn upon. The trajectories of the input query was translated using the input sequence information in which the motion was drawn. The proposed retrieval engine was able to achieve an accuracy of 100\% for the top 3 results of simple trajectories. However, with difficult trajectories that involves multiple turnings, the accuracy drops to 67\%. Overall, the retrieval engine manages to achieve an accuracy of 82\% for the top 3 results.
+
+While the proposed retrieval engines were able to successfully retrieve desired video footages, there are still some inherent weaknesses. In the future, the retrieval engine should be extended to retrieve shots with multiple trajectories. This would be useful in scenarios involving accidents of multiple vehicles. Next, the retrieval engine can also be extended to specify the parking spot of the vehicles. In the current setup, the retrieval engine only evaluates the results based on its overall trajectories. However, in a car park scenario, the parking location of the vehicle plays an important role in describing activities in a car park.
+
+\subsection*{Final Remark}
+This thesis managed to achieve the objectives of identifying and extracting useful object semantics that can accurately describe the events in a car park scenario. 
+A retrieval engine that takes in user described trajectories along with other object specific semantics such as colour as well as time and date information allows users to easily define the desired queries. 
+As the retrieval engine was developed using web based technology, it is easy for such tool to be implemented on modern web browsers which are independent over the underlying Operating System (OS). 
+This also allows the results to be retrieved quicker as the resulting videos does not need to be decoded and re-encoded to the specific time periods as the HTML5 video supports Media Fragments URI. 
+For example, in order to play a video from the 10th second to the 20th second, a $t=10,20$ parameter can specified.
+While the overall goal of this thesis was achieved, there are definitely rooms for improvements.

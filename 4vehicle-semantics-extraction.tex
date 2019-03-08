@@ -25,18 +25,21 @@ As describe in Section \ref{subsec:scope}, the two major semantics extracted in 
 
 As the utilisation of video data is the central focus in this work, there was a need for coming up with a way to easily manipulate and represent the video information. As video data can be  represented using the 3 dimensional space using X-axis, Y-axis, \& time-axis, quantization techniques can be applied here to convert the continuous data into discrete data blocks.     
 
+
+\begin{figure}[H]\centering
+\includegraphics[width=0.6\textwidth]{image/general/atom.PNG}
+\caption[Quantization of Video Data into Atoms.]
+{Quantization of Video Data into Atoms.
+Inspired by the works of \citeA{castanon2016retrieval}.}
+\label{fig:atoms}
+\end{figure}
+
+
 In order to design a framework for long term object semantics extraction from video data, this work adopted the concept of "atoms" as coined by \cite{castanon2016retrieval} which enabled quantization of the video input into individual 3D spatial-temporal cubes which consist of the X-axis, Y-axis and T-axis. In this work, an atom is defined as a group of cells at a similar spatial location, that spans a certain fixed number of frames; hence forming a spatio-temporal `cube'.
 As described in Section \ref{section:dataset_used}, the input video data has a resolution of 640$\times$480 pixels and frame rate of 10$fps$, the dimensions of each atoms ($\alpha$) were 
 %analytically 
 set to $\alpha_{width}=32$ pixels, $\alpha_{height}=24$ pixels and $\alpha_{time}=10$ frames, which represents the temporal duration of one second. The resolution of the atom ($\alpha_{width},\alpha_{height}$) were set such that the video resolution can be uniformly divided by 20 atoms across both its width and height as illustrated in Figure \ref{fig:viewfromcamera}. Using this setup, each individual atom can be uniquely identified using the $X, Y$ and $T$ identifiers. 
 
-
-
-\begin{figure}[hbt!]\centering
-\includegraphics[width=.7\textwidth]{image/general/atom.PNG}
-\caption{Quantization of Video Data into Atoms}
-\label{fig:atoms}
-\end{figure}
 
 The use of these atom-based spatial-temporal cube is paramount in this work. By applying the quantization of data in the X,Y and T-axis, the atom-based structure enables two major types of queries to be performed conveniently. Figure \ref{fig:typesofQuery} illustrates the types of queries which are regularly desired when working with video data: Region of Interest (ROI) query \& Time-slicing query. More often than not, the queries used in real world applications are in the form of a combination of both the ROI and time-slicing query where the users are interested in certain activity that occurred in a particular location given a set time frame. 
 
@@ -47,7 +50,7 @@ The use of these atom-based spatial-temporal cube is paramount in this work. By 
   
 
 \begin{tabular}{cc}
- \includegraphics[width=0.4\linewidth]{image/general/atom_ROI.PNG} &  \includegraphics[width=0.4\linewidth]{image/general/atom_time_slicing.PNG}\\
+ \includegraphics[width=0.3\linewidth]{image/general/atom_ROI.PNG} &  \includegraphics[width=0.3\linewidth]{image/general/atom_time_slicing.PNG}\\
 (a) Region of Interest & (b) Time Slicing
 \end{tabular}
 
@@ -544,7 +547,7 @@ As the entire process was done repeatedly over every single frame in the video, 
 
 
 \subsection{Motion Semantic Extraction}
-
+\label{subsec:motions9binextract}
 
 In order to extract motion information of vehicles, the initial step of obtaining the foreground objects from the background subtraction method still stands. Upon identifying these foreground objects, the locations of each vehicles are obtained using the centroids using Equation \ref{eq:centroid}. The motions were extracted by naive position displacement inference methods. Next, the centroids of the vehicles from each frame ($P_N$) are stored in a list, \H{L}. 
 
@@ -614,6 +617,8 @@ During the course of experimenting with the \versionOneExt, one of the drawbacks
 Along with that, there were several key issues which were identified that could be improved upon. One of the issue pinpointed was that the process of determining whether or not a vehicle belonged to achromatic or chromatic scale was biased. In the dataset on which the experiments were conducted on, there were a lot more achromatic vehicle compared to chromatic vehicle. As the scale was bias, it was easy to manipulate the overall retrieval results by adjusting the parameters to favour the achromatic scale. 
 
 The aim of the \versionTwoExt is to provide alternative solutions and improve the performance of the \versionOneExt. In the following subsections, the colour semantic extraction and motion semantic extraction is discussed in detail.
+
+
 
 \subsection{Colour Semantic Extraction}
 \label{section:versiontwoColor}
@@ -930,6 +935,7 @@ However, this approach of testing does not reflect the total capability of the p
 
 
 \subsection{Motion Semantic Extraction}
+\label{subsec:chamferdistancemotionextraction}
 
 With the intention of extracting motion information from the input video data, the spatio-temporal cubes or \emph{atoms} were adopted here. Contrary to the framework used in \versionOneExt's motion extraction framework, instead of grouping the motions into 9 directional bins, only the location information of the vehicle is saved. This eliminates the use of handcrafted parameters while maintaining important low level semantics which can be used to represent motion information. 
 
