@@ -404,9 +404,9 @@ $\Delta{Color_{Average}}$ & $=$ & $\frac{\Delta{Color_{LUV}} + \Delta{Color_{HSV
 \end{table}
 
 
-\subsection{Results}
+\subsection{Results and Analysis}
 
-The results of both components (Vehicle Trajectory \& vehicle Color) are recorded in this section. As the results were evaluated using a scale from 1 to 5, these results were converted using a binary evaluation (True(1) / False(0)). This is done to enable to evaluation using the \textit{Precision@K} metrics. Here, results scoring with an average of 3 and above are considered relevant to the query. Each relevant (True(1)) result \textit{(n)} will then contribute to the \textit{Precision@K} score (see Equation \ref{eq:p@k}). 
+The results of both components (Vehicle Trajectory \& vehicle Colour) are recorded in this section. As the results were evaluated using a scale from 1 to 5, these results were converted using a binary evaluation (True(1) / False(0)). This is done to enable to evaluation using the \textit{Precision@K} metrics. Here, results scoring with an average of 3 and above are considered relevant to the query. Each relevant (True(1)) result \textit{(n)} will then contribute to the \textit{Precision@K} score (see Equation \ref{eq:p@k}). 
  \begin{equation}
 \label{eq:p@k}
 Precision@K =  \frac{\sum_{n=1}^K \begin{cases}1 \rightarrow True, & AvgScore(Result_n)\geq 3\\0 \rightarrow False, & AvgScore(Result_n)< 3 \end{cases}} {K}
@@ -438,7 +438,7 @@ While this is not desirable, this behaviour was expected. A good retrieval engin
 \begin{figure}[!ht]
   \centering
     \includegraphics[width=0.9\linewidth]{image/retrievalTwo/averageNDCG.png}
-  \caption{Average Normalized Discounted Cumulative Gain Score}
+  \caption{Average Normalised Discounted Cumulative Gain Score}
   \label{fig:ndcgWithError}
 \end{figure}
 
@@ -494,9 +494,26 @@ As a whole, both \textit{simple} and \textit{complex} queries shows reasonably g
 \caption{Normalized Discounted Cumulative Gain for Simple and Complex Trajectories Queries} \label{fig:versionTwoNDCG}
 \end{figure}
 
-The difference between the simple and complex trajectories are rather distinct. The overall nDCG score for the queries of simple trajectories were rather high in the 91\% region while the nDCG score for queries related to complex trajectories were in the 75\% region. The results here shows that the retrieval engine had an easier time sorting simple trajectories in the best ranking order while having some difficulty when organizing the complex trajectories using the $D_{chamfer}$ metrics. 
+The difference between the simple and complex trajectories are rather distinct. The overall nDCG score for the queries of simple trajectories were rather high in the 91\% region while the nDCG score for queries related to complex trajectories were in the 75\% region. The results here shows that the retrieval engine had an easier time sorting simple trajectories in the best ranking order while having some difficulty when organising the complex trajectories using the $D_{chamfer}$ metrics. Even though the overall results are relatively good, the implementation of Chamfer Distance in the proposed method is not without its faults. Observation of the results shows that chamfer distance performs poorly when (i) a trajectory is compared against a much shorter trajectory that intersects at a particular point or (ii) two trajectories turning into 2 different junctions. In both examples, the obtained $D_{chamfer}$ shows relatively low score that could result in those shots being retrieved, these examples can be found in Figure  \ref{fig:chamferDisadvantage}.
 
-In a nutshell, by using the proposed $D_{chamfer}$ metrics, the retrieval engine was able to provide relatively good results (Average \textit{Precision@K} = 76\%) which were sorted in a rather organized and useful manner (\textit{nDCG} score = 83\%).
+\begin{figure}[htb!]
+  \centering
+\begin{tabular}{cc }
+ \includegraphics[width=0.45\linewidth]{image/retrievalTwo/chamferDisadv2.png} &
+ \includegraphics[width=0.45\linewidth]{image/retrievalTwo/chamferDisadv1.png} \\
+ (a) Two trajectories with similar shape &
+ (b) Trajectory intersecting with a point \\
+\end{tabular}
+\caption{Disadvantages of Chamfer Distance} \label{fig:chamferDisadvantage}
+\end{figure}
+
+
+
+\cc{for the analysis, include a "heatmap" of the versionone vs versiontwo for the evaluation of results} \\
+\cc{why the colour metric selected worked best (higher difference btween each term)}
+
+
+In a nutshell, despite the flaws of Chamfer Distance, the implementation of $D_{chamfer}$ in the retrieval engine provided relatively good results (Average \textit{Precision@K} = 76\%) that were sorted in an organised and useful manner (\textit{nDCG} score = 83\%). The use of Chamfer Distance can be extended to other datasets of similar properties.
 
 \subsubsection{Vehicle Colour \& Colour Mode}
 \label{subsec:vehiclecolourchamferdistanceexperiment}
@@ -615,30 +632,56 @@ The Bar chart is used to represent the number of results the user has to view in
 
 
 \subsubsection{Retrieval Speed}
-\cc{need to obtain the retrieval engine's speed - 1 month, 6 months, 12 months and 24months}\\
-\cc{need to generate "test" data}\\
 
-\cc{also, measure the performance if all the data is valid, only 1 month is valid, 6 months are valid - in terms of speed}
+As with any retrieval engine, the speed in which the retrieval engine returns results to the end users plays an important role in determining the feasibility of the proposed method. In this experiment, the relevance of each result was not taken into consideration. Instead, the time taken to perform the queries were measured. A baseline (BL) measurement of the proposed method was performed with the default values of: (i) Retrieval of 30 results, (ii) Trajectory length of 10 atoms, (iii) Includes all colours and (iv) Sorting of first 200 Colour Matches (SortColourSize).
+Using the BL setting, the proposed method ignores all colour information during the retrieval process as only the trajectory information along with the time and date input affects the final results. 
 
+Table \ref{tab:retrievalspeed} summarises the retrieval speed of the proposed method using various settings.
+The collection of results were done by repeating and averaging out 20 executions of queries. 
+The results of the BL is highlighted in the table.
+It is observed from the results that the BL settings achieved an average of 1.24seconds when retrieving 30 results given an input trajectory of 10. The increase of size for the displayed results does not heavily affect the processing time. It is noticed that the length of input trajectory affects the processing speed more than the number of displayed results. This is consistent with the nature of Chamfer Distance (see Eq. \ref{eq:chamferDistance}). As the length of the queries increase, the proposed method would have to spend more time running through each item within the set.
 
-\section{Result Analysis}
-We also note that the achromatic algorithm is an essential step because the 8 Values bins are insufficient to accurately represent vehicles with borderline dominant colour as the brightness values may be widely distributed.
+When the colour information was given as an input, the proposed method took considerably more time than the BL measurement. This is because the proposed method had to compare more data and sort the returned results in accordance to both the colour accuracy as well as the similarity between the input trajectory and the database records. In the same manner, when the number of colours increased from 1 to 5, the retrieval engine took an extra 0.3 seconds to process the results.
 
-Even though the overall results are relatively good, the implementation of Chamfer Distance in the proposed method is not without its faults. Observation of the results shows that chamfer distance performs poorly when (i) a trajectory is compared against a much shorter trajectory that intersects at a particular point or (ii) two trajectories turning into 2 different junctions. In both examples, the obtained $D_{chamfer}$ shows relatively low score that could result in those shots being retrieved, these examples can be found in Figure  \ref{fig:chamferDisadvantage}.
-
-\begin{figure}[htb!]
-  \centering
-\begin{tabular}{cc }
- \includegraphics[width=0.45\linewidth]{image/retrievalTwo/chamferDisadv2.png} &
- \includegraphics[width=0.45\linewidth]{image/retrievalTwo/chamferDisadv1.png} \\
- (a) Two trajectories with similar shape &
- (b) Trajectory intersecting with a point \\
-\end{tabular}
-\caption{Disadvantages of Chamfer Distance} \label{fig:chamferDisadvantage}
-\end{figure}
+In order to further validate the performance of the proposed method, synthetic data was generated to simulate 6 months of valid data within the database. When the BL settings were applied, the proposed method took 7.7 seconds to generate the results. The additional colour queries only took an extra 0.6 seconds for the generation of results. Furthermore, the combination of input trajectory length of 30 along with 5 colour queries only took 9.4 seconds for the proposed method to produce the final results.
+When comparing against the traditional method of manually filtering the data, the proposed method shows significant improvement. Without a doubt, the proposed solution is able to outperform any human. 
 
 
-\cc{for the analysis, include a "heatmap" of the versionone vs versiontwo for the evaluation of results} \\
-\cc{why the colour metric selected worked best (higher difference btween each term)}
 
+
+
+% Please add the following required packages to your document preamble:
+% \usepackage[table,xcdraw]{xcolor}
+% If you use beamer only pass "xcolor=table" option, i.e. \documentclass[xcolor=table]{beamer}
+\begin{table}[!hbt]
+	\centering
+	\caption{Retrieval Speed with Varying Parameters}
+	\label{tab:retrievalspeed}
+	\resizebox{\textwidth}{!}{
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+\textbf{Data Size} & \textbf{Result Size} & \textbf{Traj. Length} & \textbf{No. of Colours} & \textbf{SortColourSize} & \textbf{Avg Retrieval Speed } \\ \hline
+\rowcolor{yellow}
+1 month            & 30                           & 10                         & 11                         & 200                     & 1246.7720 ms (BL)                        \\ \hline
+1 month            & 100                          & 10                         & 11                         & 200                     & 1282.0485 ms                            \\ \hline
+1 month            & 30                           & 30                         & 11                         & 200                     & 1301.3777  ms                           \\ \hline
+1 month            & 30                           & 10                         & 11                         & 500                     & 1374.3655 ms                             \\ \hline
+1 month            & 30                           & 10                         & 1                         & 200                     & 1382.6237 ms                             \\ \hline
+1 month            & 30                           & 10                         & 1                          & 500                     & 1580.7543 ms                            \\ \hline
+1 month            & 30                           & 30                         & 1                          & 500                     & 1641.2180 ms                            \\ \hline
+1 month            & 30                           & 10                         & 5                          & 500                     & 1972.2770 ms                            \\ \hline
+6 months           & 30                           & 10                         & 11                         & 200                     & 7745.1803 ms                            \\ \hline
+6 months           & 30                           & 10                         & 1                          & 200                     & 7874.1965 ms                            \\ \hline
+6 months           & 30                           & 10                         & 5                          & 200                     & 8314.7145 ms                            \\ \hline
+6 months           & 30                           & 30                         & 5                          & 200                     & 9369.6657 ms                            \\ \hline
+\end{tabular}}
+\end{table}
+
+
+\section{Summary}
+
+In this chapter, two different semantic retrieval engines were proposed to retrieve semantics extracted in Chapter \ref{section:semanticsextraction}. 
+Both the proposed methods implements distinctly different algorithm for the retrieval process. The \versionOneRet retrieved relevant documents based on the locality in which the data was saved while the \versionTwoRet retrieved and sorted relevant documents based on the similarity with the given input. 
+
+Both of the retrieval engine reported respectable precision when retrieving both motion and colour information. The proposed \versionTwoRet also demonstrates its ability to retrieve relevant results accurately within 1.2 seconds while organising the results in the best possible manner. Along with that, as the colour semantics were not hard coded into one final category, the colour retrieval process shows significant improvement over the method proposed in \versionOneRet.
 

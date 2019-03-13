@@ -371,16 +371,16 @@ http://www.munsellcolourscienceforpainters.com/ConversionsBetweenMunsellAndsRGBs
 
 
 
-\subsubsection{Vehicle Motion Extraction}
+\subsubsection{Vehicle Motion Extraction \& Representation}
+\label{subsec:vehiclemotionextraction}
 
-\begin{comment}
---> ways of extracting motion: optical flow+histogram bin, bgs+movement,  
-\end{comment}
+Vehicle motion is an important feature that can be used to describe activities in a car park surveillance scene. While there are not many research done within the scope of a car park surveillance setting, there has been many works in the ITS domain which extracts vehicle motions. In most cases where the research setup involves a static camera sensor, the extraction of these motions can be broadly divided into two groups: i) Background subtraction (BGS) methods combined with vehicle centroid position for motion estimation; and ii) Extraction of features (Eg: Scale-Invariant Feature Transform (SIFT), Histogram of Oriented Gradients (HOG), Haar-like, Kanade-Lucas-Tomasi (KLT)) which are combined with Optical flow for motion estimation. 
+However, as described in Section \ref{subsec:scope}, the bounding box of the vehicles is assumed to be provided.
+Hence, a brief overview of the vehicle motion extraction process will be explored while trajectory representation methods are discussed in detail. 
 
-Vehicle motion is an important feature that can be used to describe activities in a car park surveillance scene. While there are not many research done within the scope of a car park surveillance setting, there has been many works in the ITS domain which extracts vehicle motions. In most cases where the research setup involves a static camera sensor, the extraction of these motions can be broadly divided into two groups: i) Background subtraction (BGS) methods combined with vehicle centroid position for motion estimation; and ii) Feature (SIFT, HOG, Haar, etc) extraction combined with Optical flow for motion estimation. 
-\cc{--> However, there are also several other methods that for motion extraction such as histogram bins....  }
 
-Several authors such as \citeA{wang2016research}, \citeA{luvizon2017video}, and  \citeA{apeltauer2015automatic} extracted vehicle motion information using the first approach where a BGS method was employed. Generally, a clean model of background information is first obtained. When a new subject is introduced to the scene in the current frame, the differences between the background information and the current frame is extracted to indicate changes in the scene. When the subjects are moving in the scene, the data obtained from the subtraction process would correspond to motion information. Figure \ref{fig:bgs2} illustrates the process involve in BGS. 
+BGS methods are often used as there is no need of prior training on a machine to recognise vehicles, instead this method relies on captured motions.
+Several authors (\citeA{wang2016research, luvizon2017video, apeltauer2015automatic}) extracted vehicle motion information via BGS method. Generally, a clean model of background information is first obtained. When a new object is introduced on the scene in the current frame, the differences between the background information and the current frame is extracted to indicate changes in the scene. When the objects (blobs) are moving in the scene, the data obtained from the subtraction process would correspond to motion information. Figure \ref{fig:bgs2} illustrates the process involve in BGS. In order to further increase the accuracy, these works filters out blobs that does not match the desired dimensions. 
 
 \begin{figure}[hbt!]\centering
 \includegraphics[width=1\textwidth]{image/lit/bgs.PNG}
@@ -390,48 +390,77 @@ Reproduced from \citeA{yang2017real}.}
 \label{fig:bgs2}
 \end{figure}
 
-In the second approach, 
+Contrary to BGS methods, feature extraction methods relies on visual information of vehicles such as colours, texture and shapes. In the case of vehicles, the combination different components such as the windscreen, doors, wheels and windows adds up to be a vehicle. These visual information are learned to model and identify vehicles.
+Several authors \cc{fill up who used features like these}
+In the attempt of counting vehicles from 500 hours of videos, \citeA{lessard2016countingapp} applied the works of \citeA{saunier2006feature} to extract motion information using KLT tracker. Next, these extracted features were grouped into unique trajectories that varies depending on the targeted scene. In their work, some scenes were allocated up to 12 different types of unique trajectories. Using this method, the authors was able to uniquely identify the different types of motion, however, this method is not feasible when dealing with  datasets in the wild as there are too many variables and parameters to account for. Furthermore, the process of annotating the data would be too laborious. 
+
+Instead of manually allocating unique trajectories, \citeA{momin2015vehicle} took a different approach of categorising motions. The authors combined haar-like features along with BGS methods to extract motion information. The extracted vehicle motions at each point in time is then split into one of the four directions (LEFT, RIGHT, UP, DOWN). Similarly, the works of \citeA{feris2012large} splits the motion of vehicles into 12 motion directions depending on the orientation of the vehicles. These motion directions were assigned for every $\ang{30}$ (eg: $\ang{0}-\ang{30}, \ang{30}-\ang{60}, \cdots, \ang{330}-\ang{360}$). A motion direction histogram was built such that bins which receives the highest number votes were assigned as the motion direction saved into the database. Likewise, \citeA{castanon2016retrieval} categorised motions into 9 histogram of motion bins using the aggregate motion which was computed using pixel-level optical flow (Horn and Schunck method). These 9 bins corresponds to the eight cardinal directions along with one idle bin to denote the absence of significant motion.
 
 
-However, as described in Section \ref{subsec:scope}, the bounding box of the vehicles is assumed to be provided. Hence, the trajectory representation methods are discussed in detail instead of the trajectory extraction process. 
-In the works of \citeA{momin2015vehicle}, the authors only split the motion of the vehicles into 4 directions (LEFT, RIGHT, UP, DOWN). Similarly, the works of \citeA{feris2012large} splits the motion of vehicles into 12 motion directions. This was done by building a motion direction histogram, where bins that receives the highest number votes were saved into the database. 
+With the goal of designing huge repositories of moving vehicle trajectories, \citeA{d2015designing} represent trajectories using spatio temporal cubes (See Figure \ref{fig:spatiocube}). 
+Similarly, \citeA{lai2015video} represented trajectories of human's trajectories in this manner. In addition to that, the authors used B-spline curve fitting methods to further reduce noisy information. As different degrees of curve fitting leads to different results (see Figure \ref{fig:spatiocube2}), the authors proposed to merge multiple curves of different degrees to strike a balance between noise removal and accuracy.
+This method of trajectory representation using spatio temporal cubes is intuitive as it is able to capture and relay information accurately. 
+However, the downside of this method is that the accuracy of data representation heavily relies on the number of spatio-temporal cubes used. 
 
-\citeA{lai2015video}, \citeA{castanon2016retrieval} --> represent trajectories in 3d space
+\begin{figure}[hbt!]\centering
+\includegraphics[width=.5\textwidth]{image/lit/spatiotemporal.PNG}
+\caption[Representation of Trajectories in a Spatio-temporal Cube.]
+{Representation of Trajectories in a Spatio-temporal Cube.
+Reproduced from \citeA{d2015designing}.}
+\label{fig:spatiocube}
+\end{figure}
 
-\cite{lessard2016countingapp} --> count vehicles in 500 hours
+\begin{figure}[hbt!]\centering
+\includegraphics[width=1\textwidth]{image/lit/spatiotemporal2.PNG}
+\caption[Representation of Human Trajectories in a Spatio-temporal Cube. (a) Original Object Trajectories; (b) Curve fitting results using high degrees; (c) Curve fitting results using low degrees.]
+{Representation of Human Trajectories in a Spatio-temporal Cube. (a) Original Object Trajectories; (b) Curve fitting results using high degrees; (c) Curve fitting results using low degrees.
+Reproduced from \citeA{lai2015video}.}
+\label{fig:spatiocube2}
+\end{figure}
+
 
 
 \subsection{Object Semantics Retrieval}
 
-According to the survey by \cite{chandran2017review}, object retrieval algorithms can be broadly divided into two categories: i) String Matching Algorithm, and ii) Sketch Matching Algorithm. String matching algorithms typically converts subjects into a set of known keywords and match them using its semantic meanings. Several authors (\citeA{feris2012large}, \cite{momin2015vehicle}, and \cite{yang2015semantic}) has implemented string matching algorithms in their work.
+According to the survey by \cite{chandran2017review}, object retrieval algorithms can be broadly divided into two categories: i) String Matching Algorithm, and ii) Sketch Matching Algorithm. String matching algorithms typically converts subjects into a set of known keywords and match them using its semantic meanings. However, \citeA{bhaumik2016hybrid} suggests that Content-based Video Retrieval (CVBR) can be classified into three categories: i) Classical Approach, ii) Soft Computing and iii) Hybrid Soft Computing. Figure \ref{fig:cvbr} presents a classification of the various approaches used in CVBR systems.
 
-In the case of vehicle trajectories, the queries used corresponds to the extracted motion terms such as "Turning into junction A" or "Enter from entrance B". 
+\begin{figure}[hbt!]\centering
+\includegraphics[width=.7\textwidth]{image/lit/cvbr.PNG}
+\caption[Classification of Approaches Used in Content-based Video Retrieval Systems.]
+{Classification of Approaches Used in Content-based Video Retrieval Systems.
+Reproduced from \citeA{bhaumik2016hybrid}.}
+\label{fig:cvbr}
+\end{figure}
 
+Several authors (\citeA{feris2012large}, \cite{momin2015vehicle}, and \cite{yang2015semantic}) has implemented string matching algorithms (classical approach) in their work. In the case of vehicle trajectories, often the queries are represented in the form of keywords such as "Turning into junction A" or "Enter from entrance B". The approach suggested by these authors attempts to simulate natural language queries that would be provided by end users. However, when dealing with large datasets that contains a variety of scenes, it is difficult to adopt this approach as it is not feasible to manually assign keywords. In a review, \citeA{bhaumik2016hybrid} claims that the use of textual queries has been proven to be ineffective in video retrieval systems. This is because keywords may not be able to capture the type of semantic content required by a end user.
 
-as their queries were performed on specific scenes with little variation of motions.    
-
-
-However, in a real life application, this method of segmenting different motions into
-
-
-
-
-On the other hand, sketch matching algorithm 
-by \citeA{castanon2016retrieval} \citeA{lai2015video}
-
+Within the exemplar-based retrieval, the use of sketch approach is another classical method applied by retrieval engines.
+\citeA{flickner1995qbic} proposed a retrieval engine which takes in queries in the form of features such as object motion, colours, shapes and texture. Similarly, \citeA{Cheng_2013_ICCV} also took on the challenge of retrieving contents based on the detected salient regions. However, the author only focused on the retrieval of still images instead of videos. In terms of retrieval of trajectories, \citeA{lai2015video} allowed end users to draw trajectories that matches the desired results. These drawn trajectories will then be fitted using B-spline curves which will then be use to match against the records stored in the database. The authors reported an average accuracy of 73.28\% when tested against 5 video sequence with an average length of 1500 frames. Figure \ref{fig:drawquery1} illustrates the hand drawn trajectories which are converted into query inputs.
 
 
+\begin{figure}[hbt!]\centering
+\includegraphics[width=.9\textwidth]{image/lit/trajdraw1.PNG}
+\caption[\textit{Left}: Hand-drawn Trajectory for Retrieval Purposes. \textit{Right}: Resulting Simplified B-spline Curve for Easier Manipulation of Trajectory. ]
+{\textit{Left}: Hand-drawn Trajectory for Retrieval Purposes. \textit{Right}: Resulting Simplified B-spline Curve for Easier Manipulation of Trajectory.
+Reproduced from \citeA{lai2015video}.}
+\label{fig:drawquery1}
+\end{figure}
+
+Similar to the approach taken by \cite{lai2015video}, in an airborne video setting, \citeA{castanon2016retrieval} also allowed end users to draw the trajectories which are then segmented and used for the retrieval purposes. The authors applied dynamic programming techniques to search for the best match. Along with that, the authors also reported that their approach takes an average of 2.9 seconds to process one frame for a simpler task while taking up to 4.32 seconds to process a single frame in a complicated task. The processing speed was averaged out across 2000 frames. This approach appears to be rather computationally expensive. However, the authors reports significantly better results when compared to other methods.Figure \ref{fig:drawquery2} illustrates the proposed GUI and the input queries while Figure \ref{fig:rocresult} reports the performance of the proposed method.
 
 
+\begin{figure}[hbt!]\centering
+\includegraphics[width=.6\textwidth]{image/lit/trajdraw2.PNG}
+\caption[Graphical User Interface and the Input Trajectory.]
+{Graphical User Interface and the Input Trajectory.
+Reproduced from \citeA{castanon2016retrieval}.}
+\label{fig:drawquery2}
+\end{figure}
 
-castanon2016retrieval
-feris2012large
-lessard2016countingapp
-
-
-\cc{include what type of semantics were extracted from which paper, take from proposal defense}
-
-"For example, if themonitoring staves want to find a suspect vehicle in huge amount of surveillancevideos, they will firstly filter out large numbers of vehicles by appearance fea-tures, such as colors, shapes and types, to narrow down the search space."
-
-
-longest   common   subsequence   (LCSS)   algorithm complete  string-based  matching  trajectories  by  per-forming  a  frame-by-frame  analysis  directly  on  ob-jects’ coordinates. The  work  in  [3]  assumed a  query  by  example  me-chanism  according  to  presented  example  trajectory and  the  search  system  could  return  a  ranked  list  of most similar items in the data set by a string matching algorithm,  whereas  the  sketch-based  method  projects a trajectory on a  set of basic functions and matches it according to its low-level geometrical features.
+\begin{figure}[hbt!]\centering
+\includegraphics[width=.6\textwidth]{image/lit/roc.PNG}
+\caption[ROC Curve for Cars and Human Trajectories in Airborne Data.]
+{ROC Curve for Cars and Human Trajectories in Airborne Data
+Reproduced from \citeA{castanon2016retrieval}.}
+\label{fig:rocresult}
+\end{figure}
