@@ -6,7 +6,7 @@ With the rise of such technology and coupled with the hype around the idea of In
 \section{Research Overview}
 \label{section:introduction}
 
-The growth of the surveillance industry also brought forth the rise to a constant stream of video data. According to a research done by the IHS (a leading source of information, insights and analytics) claimed that by 2019, the average data generated daily by new surveillance camera shipped globally will grow up to 2,500 petabytes daily \cite{}.
+The growth of the surveillance industry also brought forth the rise to a constant stream of video data. According to a research done by the IHS (a leading source of information, insights and analytics) claimed that by 2019, the average data generated daily by new surveillance camera shipped globally will grow up to 2,500 petabytes daily \cite{woodhouse2016big}.
 As you are reading, thousands, if not millions of hours worth of video data filling up database warehouses across the globe by the second. While these video footages are useful when it is needed, for example when dealing with a crime scene investigation, most of the time, these data are just stored and left unprocessed, taking up additional storage space while adding to the overhead cost.
 This 'reactive-approach' towards surveillance systems makes it slow and difficult for investigators when dealing with crime scenes.
 
@@ -36,7 +36,7 @@ With the disadvantages of performing these task manually etched in mind, the use
 \label{fig:genericCV}
 \end{figure}
 
-The rise of technology has benefited researchers in the computer vision area greatly due to higher computational power and lower price points. The ability to churn out metadata from raw video footages quickly combined with the advantages of easily interpretable and meaningful semantics shows great potential for the commercialisation of such technology. Even so, there are still plenty of challenges and opportunities to improve on existing techniques. As mentioned in Section \ref{section:introduction}, existing popular video retrieval engines such as youtube generally relies on keyword-based queries, however, there are also works that have developed example-based queries \cite{zhang2017car, liu2016large, castanon2016retrieval} to facilitate the retrieval process.
+The rise of technology has benefited researchers in the computer vision area greatly due to higher computational power and lower price points. The ability to churn out metadata from raw video footages quickly combined with the advantages of easily interpretable and meaningful semantics shows great potential for the commercialisation of such technology. Even so, there are still plenty of challenges and opportunities to improve on existing techniques. As mentioned in Section \ref{section:introduction}, existing popular video retrieval engines such as Youtube generally relies on keyword-based queries, however, there are also works that have developed example-based queries \cite{zhang2017car, liu2016large, castanon2016retrieval} to facilitate the retrieval process.
 
 Example-based queries typically requires end users to provide inputs in the form of an image or sample of the desired output. While it is possible to provide a thumbnail image-example for different scenes (eg: beach, mountain, waterfall) and objects (eg: bicycle, pen, lipstick), this cannot be said so with surveillance video footages as these data are often similar throughout the recorded duration.
 
@@ -66,7 +66,8 @@ The scope of this work is further constrained to surveillance video footages tak
 
 
 \subsection{Contribution}
-As this thesis comprise of a collection framework, formulation of concepts and algorithms, the contribution of this work can be summarized as two main components in two different phase as visualized in Figure \ref{}.
+As this thesis comprise of a collection framework, formulation of concepts and algorithms, the contribution of this work can be summarized as follow: 
+
 
 \begin{enumerate}
 \item Designed a framework for the \textbf{extraction of vehicle specific semantics} which includes colour information of a vehicle throughout its tracked-life-cycle, the relative position of the vehicle at each frame, time and date information of when the vehicle was observed in the surveillance footages as well as size information of each vehicle. One of the proposed method employs an algorithm that averages out the dominant \textbf{colour} over the course of tracking it and ranking it against a set of eleven different hues. This is a challenging task as outdoor scenarios are often non-ideal due to its ever-changing illumination and weather conditions which would directly affect the classification accuracy of vehicle colours. The relative position of each vehicle was compiled into trajectory sets that represents the \textbf{motion} throughout the car-park. The time and date information for each vehicle are also extracted as these information are important in a surveillance scenario. To take advantage of the inherent property of video data, the spatio-temporal cube design was adopted to uniquely identify each section of the video footage.
@@ -75,4 +76,18 @@ As this thesis comprise of a collection framework, formulation of concepts and a
 
 \subsection{Organisation of Thesis}
 
-The road-map of this thesis is laid out as follow: First, the introduction on the subject matter is discussed in this chapter. Next, related theoretical background concepts are described in Section \ref{subsec:relatedConcepts}, then related works in this research field are reviewed thoroughly to provide an understanding on what has been tried and solved, disadvantages along with potential areas of improvements that could be addressed. This is then followed with a chapter that describes the overview of the proposed framework in Section \ref{section:framework}. Upon which, the proposed video semantics extraction methods for both the vehicle colour and vehicle motion will be discussed. Next, the proposed retrieval techniques along with their results are reported in Chapter \ref{section:retrievalengine}, this chapter also includes some analysis of the results based on the proposed methods in this thesis. Finally, the conclusion of this work along with a list of suggestions for future works is prepared in Chapter \ref{section:conclusion}.
+The road-map of this thesis is laid out as follow: First, the introduction on the subject matter is discussed in this chapter. 
+In Chapter \ref{section:litreview}, first a brief overview of related theoretical background concepts is dicussed in Section \ref{subsec:relatedConcepts}. Then, in Section \ref{section:relatedworks}, related works in this research field are reviewed thoroughly to provide an understanding on what has been tried and solved, disadvantages along with potential areas of improvements that could be addressed. 
+In Chapter \ref{chapter:framework}, an overview of the proposed method's framework, dataset along with the experimental methodologies is described.
+Chapter \ref{section:semanticsextraction} and Chapter \ref{section:retrievalengine} describes both the main components: i) \textbf{Semantics Extraction} and ii) \textbf{Semantics Retrieval}, however, the organization within these Chapters were divided into two cascaded phases. 
+Figure \ref{fig:proposedmethodoverview} illustrates these two phases.
+Chapter \ref{section:semanticsextraction} focuses on the video semantics extraction methods for both the vehicle colour and vehicle motion, while Chapter \ref{section:retrievalengine} discusses the proposed retrival techniques along with the results and analysis.
+Finally, the conclusion of this work along with potential future works is prepared in Chapter \ref{section:conclusion}.
+
+
+
+\begin{figure}[!hbt]\centering
+\includegraphics[width=\textwidth]{image/general/phases.PNG}
+\caption{Proposed Method Overview}
+\label{fig:proposedmethodoverview}
+\end{figure}
