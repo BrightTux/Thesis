@@ -60,13 +60,14 @@ The objectives of this thesis can be divided into two main interdependent entiti
 
 \subsection{Scope of Thesis and Expected Outcome}
 \label{subsec:scope}
-The work in this thesis encompasses tasks found in a generic computer vision vehicle semantic extraction and retrieval framework as illustrated in Figure \ref{fig:framework}. The preliminary task of detecting, tracking and obtaining the bounding box of each vehicle is assumed to be obtained prior to the semantic extraction task. Hence, the task of extracting semantics from the vehicles and the task of retrieving video footages are the central emphasis in this work. Here, the phrase 'long-term' is used to refer to the duration (one month) of videos in which the vehicle semantics were extracted and retrieved from.
+The work in this thesis encompasses tasks found in a generic computer vision vehicle semantic extraction and retrieval framework as illustrated in Figure \ref{fig:framework}. The preliminary task of detecting, tracking and obtaining the bounding box of each vehicle is assumed to be obtained prior to the semantic extraction task.
+Hence, the task of extracting semantics from the vehicles and the task of retrieving video footages are the central emphasis in this work. Here, the phrase 'long-term' is used to refer to the duration (one month) of videos in which the vehicle semantics were extracted and retrieved from.
 
 The scope of this work is further constrained to surveillance video footages taken from a single dataset. This dataset contains videos from a single camera with a stationary viewpoint (see Section \ref{section:dataset_used}). To further clarify the intent of this work, vehicle specific attributes are referred to as 'semantics'. This includes vehicle colour, trajectory, time and date of spotting the vehicle as well as location of vehicle in the scene. However, this does not include vehicle semantics such as vehicle brand, car segment (e.g.: sedan, hatchback, etc), and travelling speed. The extraction of scene semantics such as weather information, lighting condition and overall car park occupancy rate are also out of the scope of this work.
 
 
 \subsection{Contribution}
-As this thesis comprise of a collection framework, formulation of concepts and algorithms, the contribution of this work can be summarized as follow: 
+As this thesis comprise of a collection framework, formulation of concepts and algorithms, the contribution of this work can be summarized as follow:
 
 
 \begin{enumerate}
@@ -76,10 +77,10 @@ As this thesis comprise of a collection framework, formulation of concepts and a
 
 \subsection{Organisation of Thesis}
 
-The road-map of this thesis is laid out as follow: First, the introduction on the subject matter is discussed in this chapter. 
-In Chapter \ref{section:litreview}, first a brief overview of related theoretical background concepts is dicussed in Section \ref{subsec:relatedConcepts}. Then, in Section \ref{section:relatedworks}, related works in this research field are reviewed thoroughly to provide an understanding on what has been tried and solved, disadvantages along with potential areas of improvements that could be addressed. 
+The road-map of this thesis is laid out as follow: First, the introduction on the subject matter is discussed in this chapter.
+In Chapter \ref{section:litreview}, first a brief overview of related theoretical background concepts is dicussed in Section \ref{subsec:relatedConcepts}. Then, in Section \ref{section:relatedworks}, related works in this research field are reviewed thoroughly to provide an understanding on what has been tried and solved, disadvantages along with potential areas of improvements that could be addressed.
 In Chapter \ref{chapter:framework}, an overview of the proposed method's framework, dataset along with the experimental methodologies is described.
-Chapter \ref{section:semanticsextraction} and Chapter \ref{section:retrievalengine} describes both the main components: i) \textbf{Semantics Extraction} and ii) \textbf{Semantics Retrieval}, however, the organization within these Chapters were divided into two cascaded phases. 
+Chapter \ref{section:semanticsextraction} and Chapter \ref{section:retrievalengine} describes both the main components: i) \textbf{Semantics Extraction} and ii) \textbf{Semantics Retrieval}, however, the organization within these Chapters were divided into two cascaded phases.
 Figure \ref{fig:proposedmethodoverview} illustrates these two phases.
 Chapter \ref{section:semanticsextraction} focuses on the video semantics extraction methods for both the vehicle colour and vehicle motion, while Chapter \ref{section:retrievalengine} discusses the proposed retrival techniques along with the results and analysis.
 Finally, the conclusion of this work along with potential future works is prepared in Chapter \ref{section:conclusion}.
