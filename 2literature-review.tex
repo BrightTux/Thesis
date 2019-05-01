@@ -7,9 +7,9 @@
 \chapter{Background Studies}
 \label{section:litreview}
 
-In this chapter, related theoretical background concepts are first introduced. Then, the related works are discussed in two main portions: 
+In this chapter, related theoretical background concepts are first introduced. Then, the related works are separated and discussed in two main portions:
 \begin{enumerate}
-    \item Existing methodology and techniques used for semantics extraction
+    \item Existing methodology and techniques used for semantics extraction.
     \item Recent methodology and techniques used for semantic retrieval.
 \end{enumerate}
 
@@ -18,12 +18,12 @@ In this chapter, related theoretical background concepts are first introduced. T
 \section{Related Theoretical Background Concepts}
 \label{subsec:relatedConcepts}
 
-Before diving deeper into the nitty-gritty of the proposed framework, fundamental understanding towards related theoretical background concepts used in this work is discussed. As this work covers a rather broad spectrum of different concepts, a general understanding towards these concepts would provide some degree of clarity towards the topic at hand. This section briefly describes the fundamental of the following concepts: i) Quantization, ii) Distance Measure, iii) Human Visual System, \& iv) colour Model and colour Terms. 
+Before diving deeper into the nitty-gritty of the proposed framework, fundamental understanding towards related theoretical background concepts used in this work is first discussed. As this work covers a broad spectrum of different concepts, a general understanding towards these concepts would provide some degree of clarity towards the topic at hand. This section briefly describes the fundamental of the following concepts: i) Quantization, ii) Distance Measure, iii) Human Visual System, \& iv) colour Model and colour Terms.
 
 
 \subsection{Quantization}
 
-The use of quantization in the mathematical and digital signal processing field is not a new concept. Digital signal processors are limited by natural boundaries such as hardware limitations, and are only able to compute and perform arithmetic operations within a limited range \cite{spors_2018}. The use of quantization refers to the process of mapping and projecting a set of large values which are often continuous or analogue in nature into a set of discrete and finite values. 
+The use of quantization in the mathematical and digital signal processing field is not a new concept that can be found and applied for various use case. Digital signal processors are limited by natural boundaries such as hardware limitations, and are only able to compute and perform arithmetic operations within a limited range \cite{spors_2018}. The use of quantization refers to the process of mapping and projecting a set of large values which are often continuous or analogue in nature into a set of discrete and finite values.
 
 \begin{figure}[hbt!]\centering
 \includegraphics[width=\textwidth]{image/general/quantization.png}
@@ -44,7 +44,7 @@ e[k] = x_Q[k] - x[k]
 \end{equation}
 In order to expound on the quantization process, a mathematical model of this process can be formulated as such. Consider a continuous signal $x[k]$ whose quantized signal, $x_Q[k]$, is desired (see Equation \ref{eq:quantization}). The functions $f (\mspace{3mu} \cdot  \mspace{3mu})$ \& $g (\mspace{3mu} \cdot  \mspace{3mu})$ can be thought of as a real-value mapping function while the $\lfloor \mspace{3mu} \cdot  \mspace{3mu} \rfloor$ represents a rounding function. The $f (\mspace{3mu} \cdot  \mspace{3mu})$ function is used to convert real-world values into a digital signal, while $g (\mspace{3mu} \cdot  \mspace{3mu})$ is used to map the digital signal into a quantized signal. As previously mention, this process is considered irreversible with prior knowledge of the loss, in this case, the quantization error, $e[k]$, can be computed as Equation \ref{eq:quantizationerror}. Figure \ref{fig:quantize} illustrates a quantization process where the red signal ($x[k]$) represents the real-world continuous signal, the blue signal ($x_Q[k]$) refers to the quantized signal while the green signal ($e[k]$) represents the error due to quantization process.
 
-In order to leverage on this concept, in this work, the quantization technique was extended further into a three dimensional space. As video data can be represented in a 3D space, the quantization process was used to quantize the continuous video data into a set of discrete and finite values. These discrete and finite values can ease the calculation and manipulation of data. As colour space can also be represented using a 3D space, this concept was adapted and applied here to quantize the colour space into colour terms (See Section \ref{section:colourterm}).
+In order to leverage on this concept, in this work, the quantization technique was extended further into a three dimensional space. As video data can be thought of as a three dimensional space (X-axis, Y-axis, Time-axis), the quantization process was used to quantize the continuous video data into a set of discrete and finite values. These discrete and finite values is then used to further ease the calculation and manipulation of data. Likewise, colour spaces can also be represented using a 3D space, this quantization concept was adapted and applied here to quantize the colour space into several dominant colour along with colour terms (See Section \ref{section:colourterm}).
 
 
 
@@ -59,7 +59,8 @@ The use of distance measure is another recurring key concept in the proposed met
 \label{fig:distanceMeasure}
 \end{figure}
 
-To further accentuate on the concept of distance measure in this work, a simple example of how distance metrics can be applied in the proposed method is illustrated using Figure \ref{fig:distanceMeasure} with two plotted lines. In order to simplify the research problem, these lines can be thought of as vehicle trajectories captured over time that is flatten unto a 2D plot. Using the available data, the distance between two trajectories can be measured and used to signify the dissimilarity between them. This distance measure can also be used to identify trajectories with high resemblance. 
+To further accentuate on the concept of distance measure in this work, a simple example of how distance metrics can be applied in the proposed method is illustrated using Figure \ref{fig:distanceMeasure} with two plotted lines. In order to simplify the research problem, these lines can be thought of as vehicle trajectories captured over time, flatten unto a 2D plot. Using the available data, the distance between two trajectories can be measured and used to signify the dissimilarity between them. This distance measure can also be used to identify trajectories with high resemblance.
+
 
 \begin{figure}[hbt!]\centering
 \includegraphics[width=.5\textwidth]{image/lit/manhattan.png}
@@ -69,6 +70,7 @@ To further accentuate on the concept of distance measure in this work, a simple 
 
 
 However, as different distance measure metrics are suitable for different scenarios, a good distance measure is an essential for comparing a significantly extensive set of vehicle trajectories during the retrieval process of a car park scene. This concept of distance measure was further extended into a multi-dimensional space such as the colours space, where the similarity between two or more colours were measured using different distance metrics to evaluate the performance of each metric. Table \ref{table:distance} lists out several distance measure which are commonly used along with the pros and cons of each while Figure \ref{fig:manhattan} shows the contrast between Euclidean and Manhattan distance.
+Further comparison between several distance measures is also discussed in Chapter 4 to understand and validate the chosen distance measure for each of the proposed methods.
 
 \begin{table}[!ht]
 \resizebox{\textwidth}{!}{
@@ -90,7 +92,7 @@ Hamming Distance & \begin{tabular}[c]{@{}l@{}}Ensure similarity between vectors,
 
 \subsection{Human Visual System}
 \label{section:eyes}
-The human eyes are visual system organs, responsible of receiving and processing visual information. Figure \ref{fig:eyes} shows a rough anatomy of the human eye. Within the eye, rods and cones are light-sensitive cells, found on the retina which are in charge of vision. Both of these cells plays a different role, rods cells are not able to perceive colour information, hence, they are known to be responsible for determining the lighting condition. On the other hand, cones cells are responsible for the reception of colour information. As human retina contains approximately 120 million rods and 6 million cones, the eyes are more sensitive toward lighting conditions. The sheer number of rods also enables humans to see in low-light achromatic vision.   
+The human eyes are visual system organs, responsible of receiving and processing visual information. Figure \ref{fig:eyes} shows a rough anatomy of the human eye. Within the eye, rods and cones are light-sensitive cells, found on the retina which are in charge of vision. Both of these cells plays a different role, rods cells are not able to perceive colour information, hence, they are known to be responsible for determining the lighting condition. On the other hand, cones cells are responsible for the reception of colour information. As human retina contains approximately 120 million rods and 6 million cones, the eyes are more sensitive toward lighting conditions. The sheer number of rods also enables humans to see in low-light achromatic vision. 
 
 
 \begin{figure}[hbt!]\centering
@@ -99,7 +101,7 @@ The human eyes are visual system organs, responsible of receiving and processing
 \label{fig:eyes}
 \end{figure}
 
-Anatomically, there are three types of cones in the human retina, each of which are responsible over the receptiveness of colours in a particular type of wavelength. These wavelengths can be classified into three main categories: Short wavelengths light, Medium  wavelengths light and Long wavelengths light (See Figure \ref{fig:visibleSpectrum} \cite{eyespectrum}). colours are perceived from the combination of stimuli to these rods and cones cells and responses from brain. When stimulated, these cells fires electrical signals to the optic nerves fibres that communicates with the brain. However, as the number of cones cells in the retina varies for each person, the colour perception of everyone would differ in a way or another. 
+Anatomically, there are three types of cones in the human retina, each of which are responsible over the receptiveness of colours in a particular type of wavelength. These wavelengths can be classified into three main categories: Short wavelengths light, Medium  wavelengths light and Long wavelengths light (See Figure \ref{fig:visibleSpectrum} \cite{eyespectrum}). Colours are perceived from the combination of stimuli to these rods, cones cells and responses from brain. When stimulated, these cells fires electrical signals to the optic nerves fibres that communicates with the brain. However, as the number of cones cells in the retina varies for each person, the colour perception of everyone differs one way or another.
 
 
 \begin{figure}[hbt!]\centering
@@ -114,12 +116,12 @@ Anatomically, there are three types of cones in the human retina, each of which 
 \subsection{Colour Model, Systems and Terms}
 \label{section:colourterm}
 
-In order to represent colours in tuples of number, colour models were designed. In essence, it can be thought of a quantization process of converting a series of real-world continuous signal (colour wavelengths) into a set of finite tuples of numbers within a colour model. 
+In order to represent colours in modern computers, colour models were designed to represent colours in number tuples. In essence, it can be thought of a quantization process of converting a series of real-world continuous signal (colour wavelengths) into a set of finite tuples of numbers within a colour model.
 With the ability to quantize these wavelengths into sets of finite tuples, the colours can be digitised and used for further processing.
 
 
 \subsubsection{Colour Models}
-From the previous section, the humans' visual system was explored. From there, it is learnt that the cones cells in the retina are strongly receptive towards stimuli of 'Red', 'Green' and 'Blue' wavelengths. Given the solid theory behind human perception of colours, the RGB colour model was designed. This colour model is commonly used to represent and display images in digital systems. 
+From the previous section, the humans' visual system was explored. From there, it is learnt that the cones cells in the retina are strongly receptive towards stimuli of 'Red', 'Green' and 'Blue' wavelengths. Given the solid theory behind human perception of colours, the RGB colour model was designed. This colour model is commonly used to represent and display images in digital systems.
 
 As an example, the RGB colour space is an additive colour model, each of the components (R, G, B) are added together to produce the final colour. Typically each of these components are represented using 8 bits, hence, 256 possibilities for each component with a total of $256 \times 256 \times 256 = 16M$ colour combinations in total. As this is an additive model, 'Black' colour is  represented using $(0, 0, 0)$, while 'White' using $(255, 255, 255)$. Figure \ref{fig:rgb} represents this colour model.
 
