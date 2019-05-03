@@ -241,13 +241,11 @@ Since the object of interest in this work are the vehicles in the car park scene
 \label{section:semantic_lsh}
 
 \subsection{Overview}
-Before diving deeper into the nitty-gritty of the \versionOneExt, first, the term Locality Sensitive Hashing needs to be addressed. LSH is a technique used for its ability in dimensionality reduction, this technique excels especially when working with high dimensional data such video data.
-This is done by hashing documents with similar properties, mapping and clustering them into a similar neighbourhood. Hence, reducing the dimensionality of a large document in the process. Figure \ref{fig:lshexample} visualises this process.
-
-However, LSH techniques were not implemented in this work. Instead, inspirations to cluster documents with similar properties were drawn from the technique and applied in this work.
-In the \versionOneExt, each of the extracted semantics from the vehicles are treated like documents that needs to be  clustered. For the purpose of this work, a total of 11 colour semantic clusters as well as 9 motion semantic clusters were assigned, these clusters were represented using an SQL table individually.
-During the semantics extraction process, each of these extracted semantics will then be clustered into these tables according to the colour and motion semantic cluster group.
-
+As introduced in Section \ref{subsec:lsh-intro}, LSH is a hashing function aimed to maximize hash collisions.
+As the hashes collides, documents with similar hashes are then grouped and clustered into similar neighbourhoods.
+However, LSH was not implemented. Instead, the ideology of clustering similar semantic classes were drawn.
+The extracted semantics were clustered into 11 colour and 9 motion classes, each represented using anSQL table within the database.
+This setup allowed quick access towards semantic groups while easily representing the classes. Along with that, the proposed method also reduces I/O bottlenecks during the retrieval process.
 
 
 \begin{figure}[hbt!]\centering
@@ -256,15 +254,12 @@ During the semantics extraction process, each of these extracted semantics will 
 \label{fig:lshexample}
 \end{figure}
 
-
-
 \subsection{Colour Semantic Extraction }
 \label{section:versionOneColorExtract}
-%With that in place, this setting effectively performs quantize the range of colours to a fixed number of colour categories while taking advantage of the atom-based structure (Refer to Section \ref{SemanticSegmentation}).
 
-As the background subtraction module has separated the foreground blobs from background scene, these blobs are now assigned a bounding box using the blob's maximum and minimum value on both axis. These bounding box are used to mark the location of the vehicle when a vehicle is detected in the scene. However, due to the background subtraction method adopted, the final foreground blob tend to appear somewhat larger than the actual vehicle footprint.
-
-In order to minimise noise from the bounding box and to obtain a closer estimation of the vehicle's dominant colour, the bounding box is cropped by a factor of 30\% to reduce background noise such as the tar road or vehicles close to it. In order to maintain as much information, the bounding box was not reduced further as that often results in the cropping of the vehicle's windscreen and window regions, thus altering the overall dominant colour.
+With the bounding box of the vehicles obtained, the colour information can be obtained.
+As the bounding box provided by the BGS module tend to appear larger than the actual vehicle footprint, a cropping function of 30\% was introduced to remove unwanted regions.
+The cropping function also minimise noise such as surrounding vehicles, road, and trees from the bounding box which results with a closer estimation of the vehicle's colour.
 
 Upon having the bounding box of the vehicles cropped, the next strategy implemented was to determine the dominant colour of each vehicle by first distinguishing between chromatic and achromatic vehicles. Following similar definition of achromatic colours from Munsell, achromatic colours also known as neutral colours are characterised by the lack of strong hue or chroma values such as black, white and gray colour.
 
