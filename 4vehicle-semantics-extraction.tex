@@ -5,22 +5,22 @@
 
 \section{Introduction}
 
-In this chapter, the implementation of the vehicle semantic extraction module is discussed in detail.
-First, an atom-based quantization process of the video data is introduced in Section \ref{section:atoms}. This quantization technique was implemented for both phases of \versionOneExt and \versionTwoExt frameworks. Next, the process of obtaining the vehicle's bounding box is discussed briefly in Section \ref{subsection:fundamental}.
-The following sections thoroughly describes both of the vehicle semantic extraction modulesin Section \ref{section:semantic_lsh} and Section \ref{section:semantic_chamfer}.
+In this chapter, the implementation of the vehicle semantic extraction module will be discussed in detail.
+First, an atom-based quantization process for the video data is introduced in Section \ref{section:atoms}. This quantization technique was implemented for both phases of \versionOneExt and \versionTwoExt frameworks. Next, the process of obtaining the vehicle's bounding box is discussed briefly in Section \ref{subsection:fundamental}.
+The following sections thoroughly describes both of the vehicle semantic extraction modules in Section \ref{section:semantic_lsh} and Section \ref{section:semantic_chamfer}.
 
 %may be good to add a short paragraph to briefly describe and reinforce what "vehicle semantics extraction" is in relation to the big problem and that two extractions methods are introduced in this research and why two .... along with giving a brief distinction between the two.
 
-As the focus of this work revolves around car park surveillance video footage, colour and motion information are key information used to describe vehicles'activities. With the goal of designing retrieval techniques suitable for car park surveillance footage, an accurate extraction of these information is a crucial component of this work.
-While there are several differences between both of the extraction methods introduced in this research, the predominant difference lies with the flexibility of the outputs produced from these extraction modules.
-The extracted semantics from the \versionOneExt has similar properties to a \textit{keyword-based} system. Hence, the proposed retrieval technique was placed in a hit-or-miss situation. In order to enhance the retrieval process, the \versionTwoExt utilises probability scores to describe the extracted semantics. Hence, increasing the overall robustness.
+As the focus of this work revolves around car park surveillance footage, colour and motion information are key information used to describe vehicle activities. With the goal of designing retrieval techniques suitable for car park surveillance footage, an accurate extraction of these information is a crucial component of this work.
+While there are several differences between the two phases of the extraction methods, the predominant difference lies with the flexibility of the outputs produced from the extraction modules.
+The extracted semantics from the \versionOneExt are akin to keywords in a \textit{keyword-based} retrieval system. Hence, the proposed corresponding retrieval technique was placed in a hit-or-miss situation. In order to enhance the retrieval process, the \versionTwoExt utilises probability scores to describe the extracted semantics. Hence, increasing the overall robustness.
 
 
 
 \section{Atom-based Quantization}
 \label{section:atoms}
 
-As the utilisation of video data is central to this work, there was an urgent need to come up with a way to easily manipulate and represent the video information. As video data can be represented using the 3 dimensional space using \textit{X-axis, Y-axis, \& time-axis}, quantization techniques can be applied to convert the continuous data into discrete data blocks.
+As the utilisation of video data is central to this work, there's an urgent need to come up with a way to easily manipulate and represent the video information. Given that video data can be represented using the 3 dimensional space through \textit{X-axis, Y-axis, \& time-axis}, quantization techniques can be applied to convert the continuous data into discrete data blocks.
 
 
 \begin{figure}[H]\centering
@@ -32,15 +32,17 @@ Inspired by the works of \citeA{castanon2016retrieval}.}
 \end{figure}
 
 
-In order to design a framework for long-term vehicle semantics extraction from video data, this work adopted the concept of \textbf{"atoms"} as coined by \cite{castanon2016retrieval} which enabled quantization of the video input into individual 3D spatial-temporal cuboids. In this work, an atom is defined as a group of cells at a similar spatial location, that spans a certain fixed number of frames; hence forming a spatio-temporal `cuboid'.
-As described in Section \ref{section:dataset_used}, the input video data has a resolution of 640$\times$480 pixels and frame rate of 10$fps$, the dimensions of each atom ($\alpha$) were set to $\alpha_{width}=32$ pixels, $\alpha_{height}=24$ pixels and $\alpha_{time}=10$ frames, which represents the temporal duration of one second. The resolution of the atom ($\alpha_{width},\alpha_{height}$) were set such that the video resolution can be uniformly divided by 20 atoms across both its width and height as illustrated in Figure \ref{fig:viewfromcamera}. Using this setup, each individual atom can be uniquely identified using the $X, Y$ and $T$ identifiers.
+In order to design a framework for long-term vehicle semantics extraction from video data, this work adopted the concept of \textbf{"atoms"} as coined by \cite{castanon2016retrieval} which enables quantization of the video input into individual 3D spatial-temporal cuboids. In this work, an atom is defined as a group of pixels at a similar spatial location spanning across a fixed number of frames; hence forming a spatio-temporal `cuboid'.
+As described in Section \ref{section:dataset_used}, the input video data uses a resolution of 640$\times$480 pixels with a frame rate of 10$fps$.
+The dimensions of each atom ($\alpha$) is set to $\alpha_{width}=32$ pixels, $\alpha_{height}=24$ pixels and $\alpha_{time}=10$ frames - which represents the temporal duration of one second.
+The dimensions of the atom ($\alpha_{width},\alpha_{height}$) were set such that the input video data can be uniformly divided by 20 atoms across both its width and height as illustrated in Figure \ref{fig:viewfromcamera}. Using this setup, each individual atom can be uniquely identified using the $X, Y$ and $T$ identifiers.
 
+Given that the accuracy of data representation relies heavily upon the number of spatio-temporal cuboids used, the atom's width and heights were selected such that one and only one vehicle can occupy a single atom block at any given time. Hence, the colour and trajectory semantics of the vehicles can be adequately represented. While smaller atoms could be used to accurately capture exact location of the vehicle, the additional atoms would only add towards extra computational power needed to process the queries which will be discussed in Chapter \ref{section:retrievalengine}.
 
-However, as mentioned in Section \ref{subsec:vehiclemotionextraction}, the downside of this method is that the accuracy of data representation heavily relies on the number of spatio-temporal cuboids used. With that consideration, the atom's width and height ($\alpha_{width}, \alpha_{height}$) were selected such that one and only one vehicle can occupy a single atom block at any given time. Hence, the colour and trajectory semantics of the vehicles can be adequately represented. While smaller atoms could be used to accurately capture exact location of the vehicle, the additional atoms would only add towards extra computational power needed to process the queries which will be discussed in Chapter \ref{section:retrievalengine}.
-
-The use of these atom-based spatial-temporal cuboids is paramount in this work. By applying the quantization on all axis, the atom-based structure enables two major types of queries to be performed conveniently. Figure \ref{fig:typesofQuery} illustrates the types of queries which are regularly desired when working with video data: \textit{Region of Interest (ROI) query} \& \textit{Time-slicing query}. Typically, the queries used in real world applications are in the form of a combination of both the ROI and time-slicing query where the users are interested in certain activity that occurred in a particular location within a time frame.
-
-
+The use of these spatial-temporal cuboids is paramount in this work.
+By applying the quantization on all axis, the atom-based structure simplifies the filtering process of two major types of queries.
+Figure \ref{fig:typesofQuery} illustrates the types of queries which are regularly desired when working with video data: \textit{Region of Interest (ROI) query} \& \textit{Time-slicing query}.
+Moreover, real world applications queries typically combines both ROI and time-slicing queries where specific activities which occured in a particular location within a time frame is desired.
 
 
 \begin{figure}[htb!]
@@ -61,7 +63,7 @@ The use of these atom-based spatial-temporal cuboids is paramount in this work. 
 \section{Vehicle Blobs Extraction}
 \label{subsection:fundamental}
 
-As described in Section \ref{subsec:scope}, this work assumes that the preliminary task of detecting, tracking and identifying bounding box of each vehicle is obtained prior to the semantic extraction task. This section briefly describes the steps taken by \citeA{lim2017} to detect and extract moving objects in a video using background subtraction techniques to differentiate between static background and moving objects as depicted in Figure \ref{fig:bgs}.
+As described in Section \ref{subsec:scope}, the preliminary task of detecting, tracking and identifying bounding box of vehicles is obtained prior to the semantic extraction task. This section briefly describes the steps taken by \citeA{lim2017} to detect and extract moving objects in a video using background subtraction techniques to differentiate between static background and moving objects as depicted in Figure \ref{fig:bgs}.
 
 \begin{figure}[htb!]
   \centering
@@ -73,8 +75,10 @@ As described in Section \ref{subsec:scope}, this work assumes that the prelimina
 \label{fig:bgs}
 \end{figure}
 
-As the vanilla application of background subtraction (BGS) often results with noisy output, the proposed algorithm used in \cite{lim2017} implemented a combination of adaptive learning and frame differencing method. The BGS step was used to detect and extract moving objects (foreground blobs). Several erosion and dilation morphology operations were then performed to further reduce noise and to provide a better representation of foreground blob at the end of the process.
-To further improve the accuracy of the extracted blobs, some handcrafted parameters were used to differentiate between vehicles and non-vehicles objects. Furthermore, a deep learning model was deployed to increase the probability of filtering non-vehicle blobs.
+As the vanilla application of background subtraction (BGS) often results with noisy output, the proposed algorithm used in \cite{lim2017} implemented a combination of adaptive learning and frame differencing method. The BGS method detects and extracts moving objects (henceforth, referred to as foreground blobs).
+Several erosion and dilation morphology operations were then performed to further reduce noise and to provide a better representation of foreground blob at the end of the process.
+To further improve the accuracy of the extracted blobs, several handcrafted parameters were used to filter out blobs which does not match the dimensions of vehicles.
+Furthermore, a deep learning model was deployed to increase the probability of filtering non-vehicle blobs.
 
 
 \begin{comment}
@@ -107,8 +111,11 @@ The process is known as \textit{Opening} occurs when the morphology operations a
 \end{comment}
 
 
-The work of \citeA{redmon2016you} namely YOLOv2 (You Only Look Once) - a deep learning model was deployed as a complementary module. YOLOv2 is a \textbf{real-time} object detection deep learning model, as the detection process incurred very little overhead to the overall computational time and cost.
-With the obtained bounding box, each of foreground blobs were used as an input for the YOLOv2 network. The network will then divide the input into multiple smaller regions and perform prediction of the bounding box along with the class probability. As the YOLOv2 model is pre-trained with vehicles as one of the many classes, no further retraining was done. The tracking of the blobs only took place if they were identified as vehicles. These bounding boxes were then fed into the proposed semantic extraction framework for further processing.
+The work of \citeA{redmon2016you} namely YOLOv2 (You Only Look Once) - a \textbf{real-time} object detection deep learning model was deployed as a complementary module.
+As this model focuses on speed, the detection process incurred very little overhead to the overall computational time and cost.
+From the foreground blobs, the corresponding bounding boxes were channeled in as inputs for the YOLOv2 network.
+%The network will then divide the input into multiple smaller regions and perform prediction of the bounding box along with the class probability.
+As the YOLOv2 model is pre-trained with vehicles as one of the many classes, no further retraining was done. The tracking of the blobs only took place if they were identified as vehicles. These bounding boxes were then fed into the proposed semantic extraction framework for further processing.
 
 
 \section{Semantic Extraction}
@@ -638,7 +645,6 @@ Based on the experimental results, one of the issues pinpointed lies with the pr
 The experimental dataset highlighted positive bias towards achromatic vehicles as there were a lot more achromatic vehicle as compared to chromatic vehicle.
 Given the bias scale, it was trivial to manipulate the overall retrieval results by adjusting the parameters to favour the achromatic scale.
 The aim of the \versionTwoExt is to provide alternative solutions and improve the performance of the \versionOneExt. In the following subsections, the colour semantic extraction and motion semantic extraction is discussed in detail.
-
 
 
 \subsection{Colour Semantic Extraction}
