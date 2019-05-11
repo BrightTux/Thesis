@@ -631,16 +631,16 @@ In the scenario where the difference between the current position of the centroi
 
 \subsection{Overview}
 
-During the Phase 1 experiments, one of the drawbacks identified was that the extracted semantics was too handcrafted.
-As a result, each of the input for the retrieval technique had to be tremendously precise in order to achieve optimum result (see Section \ref{section:versionOne}).
-Although the results could potentially improve with further careful tweaking of the various parameters available, the experimental process for what works best would be extremely tedious.
-Futhermore, the final retrieval technique would not necessarily be extendable to other frameworks working on the a different set of input data.
+Upon experimenting with the methods proposed in Phase 1, one of the main drawback identified was that the extracted semantics was too handcrafted.
+As a result, the input of the retrieval technique had to be meticulously and precisely selected in order to achieve optimum results (see Section \ref{section:versionOne}).
+Although the results could potentially be improved with further careful tweaking of the various parameters , the experimental process for what works best would be extremely tedious.
+Futhermore, the selected parameters would not necessarily be extendable to other works working on the a different set of input data.
 
-Along with that, several other key issues identified could be improved upon.
-Based on the experimental results, one of the issues pinpointed lies with the process of determining between achromatic and chromatic vehicles.
+Along with that, there were several other key issues identified that could be improved upon.
+The experimental results shows that the process of determining between achromatic and chromatic vehicles were particularly problematic.
 The experimental dataset highlighted positive bias towards achromatic vehicles as there were a lot more achromatic vehicle as compared to chromatic vehicle.
 Given the bias scale, it was trivial to manipulate the overall retrieval results by adjusting the parameters to favour the achromatic scale.
-The aim of the \versionTwoExt is to provide alternative solutions and improve the performance of the \versionOneExt. In the following subsections, the colour semantic extraction and motion semantic extraction is discussed in detail.
+The aim of Phase 2: \versionTwoExt is to provide alternative solutions with better performance when compared with Phase 1: \versionOneExt. In the following subsections, the colour semantic extraction and motion semantic extraction is discussed in detail.
 
 
 \subsection{Colour Semantic Extraction}
