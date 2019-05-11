@@ -233,20 +233,20 @@ As both the proposed motion semantics extraction techniques employs different ex
 
 \subsection{Other Semantic}
 
-In this subsection, the extraction process of the other semantics are briefly discussed. These other extracted semantics includes the datetime information, object type as well as object size. As the extractions of these semantics were simple and/or played little-to-no roles in the both the extraction module and retrieval techniques, the extraction process are described here.
+In this subsection, the extraction process of the other semantics are briefly described. These extracted semantics includes the datetime information, object type as well as object size. As the extractions of these semantics were simple and played little-to-no roles in the both the extraction module and retrieval techniques, the extraction process are described here.
 
 \subsubsection{Date \& Time}
 
-Both date and time information are valuable information in a surveillance setting. In the context of retrieval techniques, these information can be used to narrow down and filter out irrelevant footage. In this work, the camera was setup to name the recorded files according to the time and date during the dataset collection process. As the filename contains both the time and date information, the date information can be easily extracted while the time information from frame $\mathbb{T}$ can be deduced when a vehicle is observed in the car park scene as follow:
+Both date and time information are valuable information in a surveillance setting. In the context of retrieval techniques, these information can be used to narrow down and filter out irrelevant footage. In this work, the camera was setup to name the recorded files according to the time and date during the dataset collection process. As the filename contains both the time and date information, the date information can be easily obtained via substring extraction. On the other hand, when a vehicle is observed in the car park scene, the time information from frame $\mathbb{T}$ can be deduced as follow:
 \begin{align}
     \mathbb{T}_{time}  = (\mathbb{VD} \times \frac{\mathbb{T}}{\mathbb{TF}}) + \mathbb{F}_{time}
 \end{align}
-where $\mathbb{VD}$ corresponds to the video duration of each file (6 minutes) and $\mathbb{TF}$ is the total frames of the current video. The $\mathbb{F}_{time}$ is the time information extracted from the last six digits of filename, excluding the file extension (see Section \ref{section:dataset_used} for more details). Upon extracting these information, simple formatting is done to ensure these information conform to the typical SQL database requirements.
+where $\mathbb{VD}$ corresponds to the video duration of each file (6 minutes) and $\mathbb{TF}$ is the total frames of the current video. The $\mathbb{F}_{time}$ is the time information obtained from the last six digits of filename, excluding the file extension (see Section \ref{section:dataset_used} for more details). Upon extracting these information, simple formatting is done to ensure these information conform to the typical SQL database requirements.
 
 
 \subsubsection{Object Type \& Size}
 \label{objecttype}
-Since vehicles are the only object of interest in this work, YOLOv2 was used to assist the validation of the foreground object detected by the BGS method described in Section \ref{subsection:fundamental}. Objects which were returned under the "vehicle" class were tracked are written into the database. As for the object size, the size of the foreground objects' bounding box were saved in the database as the object size.
+Given that 'vehicles' are the only object of interest in this work, YOLOv2 was used to assist the validation of the foreground object detected by the BGS method described in Section \ref{subsection:fundamental}. Objects which were returned under the "vehicle" class were tracked are written into the database. As for the object size, the size of the foreground objects' bounding box were saved in the database as the object size.
 
 
 \section{\versionOneExt }
@@ -255,8 +255,8 @@ Since vehicles are the only object of interest in this work, YOLOv2 was used to 
 \subsection{Overview}
 As introduced in Section \ref{subsec:lsh-intro}, LSH is a hashing function aimed to maximize hash collisions.
 As the hashes collides, documents with similar hashes are then grouped and clustered into similar neighbourhoods.
-However, LSH was not implemented. Instead, the ideology of clustering similar semantic classes were drawn.
-The extracted semantics were clustered into 11 colour and 9 motion classes, each represented using anSQL table within the database.
+However, LSH was not implemented in this work. Instead, the idea and concept of clustering similar semantic classes were drawn.
+The extracted semantics are clustered into 11 colour and 9 motion classes, each represented using an SQL table within the database.
 This setup allowed quick access towards semantic groups while easily representing the classes. Along with that, the proposed method also reduces I/O bottlenecks during the retrieval process.
 
 
@@ -269,14 +269,13 @@ This setup allowed quick access towards semantic groups while easily representin
 \subsection{Colour Semantic Extraction }
 \label{section:versionOneColorExtract}
 
-With the bounding box of the vehicles obtained, the extraction of colour semantics can begin.
-As the bounding box obtained from the BGS module appears larger than the actual vehicle, a cropping function of 30\% towards the center of the bounding box was introduced as a mean to remove unwanted regions.
+With the bounding box of the vehicles obtained from the BGS module, the extraction of colour semantics can begin.
+However, as the obtained bounding box is larger than the actual vehicle, a cropping function of 30\% towards the center of the bounding box was introduced to remove unwanted regions.
 The cropping function minimizes noise such as surrounding vehicles, roads, and trees from the bounding box, resulting with a closer estimation of the vehicle's footprint.
 As the bounding box of each vehicle in this work has very low resolution (approximately around 145$\times$75px), the methods proposed by the other authors in the related work section is neither suitable nor applicable.
 %Instead of segmenting portions of the vehicle to extract colour information, the dominant colour of each vehicle is extracted.
-In order to obtain the colour of each vehicle, the first approach was to distinguish between chromatic and achromatic vehicles.
-In this work, the definitions of achromatic colour by Munsell was adopted.
-Achromatic colours are defined as neutral colours which are characterised by the lack of strong hue or chroma values such as black, white and gray colour.
+In order to obtain the colour of each vehicle, the first step taken was to distinguish between chromatic and achromatic vehicles.
+In this work, the definitions of achromatic colour by Munsell was adopted: Achromatic colours are defined as neutral colours which are characterised by the lack of strong hue or chroma values such as black, white and gray colour.
 
 \begin{figure}[htb!]
   \centering
@@ -286,22 +285,22 @@ Achromatic colours are defined as neutral colours which are characterised by the
 	\caption{960 Allocated Colour Generated by the 15 Hue, 8 Saturation, \& 8 Value Histogram Bins} \label{fig:hsvAllocated}
 \end{figure}
 
-The step to differentiate between chromatic and achromatic vehicles was implemented to overcome the shortcomings of the 960 colour bins proposed for the Colour Term Extraction process. Figure \ref{fig:hsvAllocated} illustrates the colour bins generated, the details on how these colour bins were allocated are discussed later.
+The step to differentiate between chromatic and achromatic vehicles was implemented to overcome the shortcomings of the 960 colour bins proposed for the Colour Term Extraction process.
 One of the main drawback of the proposed method lies with the number of bins used to represent achromatic colours.
-From the figure, it is clear that there are plenty of bins representing the chromatic tones.
-While there are quite many bins representing the black/darker tonnes, only a fraction of bins used to represent the lighter shades of achromatic colours.
+Figure \ref{fig:hsvAllocated} illustrates the colour bins generated. From the figure, it is clear that there are plenty of bins representing the chromatic tones.
+While there are quite many bins representing the black/darker tonnes, only a fraction of bins are used to represent the lighter shades of achromatic colours.
 This imbalance, compounded with the achromatic noise captured (ie: road and shadow) during the colour extraction process made it extremely difficult for vehicles to be match with "White" or "Gray" colour terms. Hence, this step was introduced as a measure to counterbalance the weakness of the proposed method.
-
+The details on how these colour bins were allocated is discussed later in the chapter.
 
 This process of differentiating chromatic against achromatic vehicles starts by comparing the cropped image, $I_{crop}$, against a grayscale version, $I_{gray}$.
 The conversion from RGB to grayscale is performed using $I_{gray} = 0.299 \cdot I_{crop}[R]+0.587 \cdot I_{crop}[G]+0.114 \cdot I_{crop}[B]$.
-As grayscale images and RGB images does not have the same number of channels, the grayscale image was converted back to into a 3 channel image.
-Next, the absolute difference between these images were obtained using: $I_{Abs_{diff}} = \mid I_{crop} - I_{gray(RGB)} \mid$.
+As grayscale images and RGB images does not have the same number of channels, the grayscale image is converted back to into a 3 channel image.
+Next, the absolute difference between these images are obtained using: $I_{Abs_{diff}} = \mid I_{crop} - I_{gray(RGB)} \mid$.
 However, the difference produced tend to be rather low.
 Hence, the next step is to subject the obtained $I_{Abs_{diff}}$ result to a thresholding process for all 3 channels in the RGB colour space to produce $I_{threshold}(RGB)$.
 The step effectively amplifies the difference between the original image and the grayscale image. Pixels, $Pv_{(x,y)}$, with values above the threshold value of 35 were set to the maximum value of 255.
 Finally, the output %of $I_{threshold}(RGB)$
-was converted back to the grayscale colour space to generate $I_{threshold}(gray)$. The hint of significant values at this stage provides an indication of substantial presence of chromatic hues for this particular vehicle.
+is converted back to the grayscale colour space to generate $I_{threshold}(gray)$. The hint of significant values at this stage provides an indication of substantial presence of chromatic hues for this particular vehicle.
 
 \begin{align*}
 \label{eq:threshabsolutediff}
@@ -336,10 +335,10 @@ Threshold_{Abs_{diff(grayscale)}} = \\
 \end{align}
 \end{comment}
 
-With the interest of differentiating between chromatic and achromatic vehicles, the ratio of non-zero pixel value over the total pixels within the bounding box was obtained.
-A threshold pivot value, $T_{pivot}$, was assigned to determine the chomatic class. The threshold value was empirically set at 18\% to where vehicles blobs that exceeds this value were assumed to contain strong chromatic hue.
+With the interest of differentiating between chromatic and achromatic vehicles, the ratio of non-zero pixel value over the total pixels within the bounding box is obtained.
+A threshold pivot value, $T_{pivot}$, is assigned to determine the if the vehicle belongs to chromatic or achromatic class.
+The threshold value is empirically set at 18\% to where vehicles blobs that exceeds this value is assumed to contain presence of strong chromatic hues.
 The entire process from the cropped image to the deduction of chromatic class can be illustrated using Figure \ref{fig:achromatic_thresh}. This handcrafted algorithm allows the deduction of strong chromatic hues and estimates if a particular vehicle blob belongs to a chromatic or achromatic subset.
-
 
 \begin{figure}[htb!]
   \centering
@@ -352,11 +351,9 @@ The entire process from the cropped image to the deduction of chromatic class ca
 \caption{(From left) Original image, $I_{crop}$; Grayscale image, $I_{gray}$; Absolute difference, $I_{Abs_{diff}}$; Binary threshold absolute difference, $I_{threshold}(RGB)$; Threshold difference in grayscale, $I_{threshold}(gray)$} \label{fig:achromatic_thresh}
 \end{figure}
 
-
-
-\paragraph{Achromatic and chromatic colour processing.} Upon determining vehicle belonging to the achromatic class, the cropped images were then subjected to both the black and white colour filters individually. These simple filters were designed using binary thresholds values empirically set at an intensity levels of 50 and 170 respectively.
-Using a similar fashion, the ratio of non-zero pixels upon filtering were computed. The obtained ratio was then used to determine if the vehicle belongs to black, white or gray colour groups. Figure \ref{fig:blackwhite_filter} illustrates the response of a white vehicle towards both the black and white filters.
-The colour terms were then assigned to the vehicles based on the results.
+\paragraph{Achromatic and chromatic colour processing.} Upon determining vehicle belonging to the achromatic class, the cropped images are then subjected to both the black and white colour filters individually. These simple filters were designed using binary thresholds values empirically set at an intensity levels of 50 and 170 respectively.
+Using a similar fashion, the ratio of non-zero pixels upon filtering is computed. The obtained ratio is then used to determine if the vehicle belongs to black, white or gray colour groups. Figure \ref{fig:blackwhite_filter} illustrates the response map of a white vehicle towards both the black and white filters.
+The colour terms are then assigned to the vehicles based on the results.
 
 \begin{figure}[htb!]
   \centering
@@ -370,8 +367,6 @@ The colour terms were then assigned to the vehicles based on the results.
 \end{tabular}
 \caption{Black \& While Filter Response of a White Vehicle} \label{fig:blackwhite_filter}
 \end{figure}
-
-
 
 
  \begin{algorithm}[!ht]
@@ -422,10 +417,12 @@ The colour terms were then assigned to the vehicles based on the results.
 
 Contrary to the achromatic vehicle class, the chromatic class utilizes a different method of determining colour terms.
 %As previously mention, this work chose to primarily work on the HSV colour space, especially for the chromatic colour extraction process.
-First, the cropped RGB image is converted to the HSV colour space. Then, a 3-Dimensional histogram of the cropped image was generated.
-As colours belongs to a spectrum, the HSV histogram was quantized into 15 Hue, 8 Saturation and 8 Value bins.
-While a finer grained histogram might be able to produce higher accuracy when representing the vehicle's colour, it is not ideal as the generated output would spread across a larger segment.
-The $15-8-8$ configuration is essentially double of the best histogram bin configuration proposed by \cite{kim2008deciding}, the doubling of bins across all 3 channels would produce a sufficiently accurate representation of the vehicle colour.
+First, the cropped RGB image is converted to the HSV colour space. Then, a 3-Dimensional histogram of the cropped image is generated.
+As colours belongs to a spectrum, the HSV histogram is quantized into 15 Hue, 8 Saturation and 8 Value bins.
+While a finer grained histogram might be able to produce higher accuracy when representing the vehicle's colour, the results may not be ideal as the generated output would spread across a larger segment.
+The $15-8-8$ configuration is inspired by the works of \cite{kim2008deciding}. Their experiments shows that the $8-4-4$ configuration showed the best results.
+The chosen configuration doubles up the proposed number of bins used in the histogram, this approach of doubling the bins across all 3 channels would produce a sufficiently accurate representation of the vehicle colour.
+The decision to use 15 bins instead of 16 bins for the Hue channel is due to the fact that hues are often represented using 360$^{\circ}$. In order to divide 360$^{\circ}$ evenly, 15 bins was chosen.
 
 
 % Please add the following required packages to your document preamble:
@@ -540,9 +537,7 @@ The $15-8-8$ configuration is essentially double of the best histogram bin confi
 \\ \hline
 
 
-
 % ----- remove these?
-
 
 \end{tabular}}
 \caption{Samples of Similarity Score(\%) based on Euclidean Distance in HSV Colour Space, Highlighted in Green is the Highest Scoring Colour Term}
@@ -550,19 +545,17 @@ The $15-8-8$ configuration is essentially double of the best histogram bin confi
 \end{table}
 
 
-The $15-8-8$ configuration ends up with a total of 960 histogram bins (See Figure \ref{fig:hsvAllocated}).
-Each of these bins were then assigned a single colour term based on the closest euclidean distance between the bin's colour and the highest scoring ground truth colour term using the HSV colour space.
-Instead of storing the histogram details of each vehicle, only the histogram bin with the highest number of hits was utilized.
-Essentially, these bins would represent the most dominant colour of the vehicle at a particular video frame, $\alpha_T$.
+This $15-8-8$ configuration ends up with a total of 960 histogram bins (See Figure \ref{fig:hsvAllocated}).
+Each of these bins are then assigned a \textit{single colour term} based on the closest euclidean distance between the bin's colour and the highest scoring ground truth colour term using the HSV colour space.
+Instead of storing the histogram details of each vehicle, only the histogram bin with the highest number of hits is utilized.
+Essentially, these bins would represent the most dominant colour of the vehicle.% at a particular video frame, $\alpha_T$.
 %Using the colour terms obtained for that particular histogram bin, the vehicle colour at $V_T$ is stored in the database.
 
-As the vehicles were only tracked when they are moving, the vehicle colour may vary depending on ambient lighting, surrounding and shadows.
-This setup allows a vehicle to be classified with a variety of colours at different frame.
-The colour term obtained at each $\alpha_T$ is then stored in the database.
+As the vehicles' bounding boxes were obtained and tracked when they were moving, the vehicle colour may vary depending on surrounding, ambient lighting, and shadows.
+Hence, the dominant colour of a vehicle at frame $\alpha_T$, is obtained and stored in the database. This setup allow vehicles to be classified with a variety of colours at different time frame.
 Algorithm \ref{algo:colorExtract} summarises the strategy used for colour semantic extraction process for the \versionOneExt,
 while the examples in Table \ref{tab:hsvExample} shows samples of bins and their corresponding similarity score.
 
-%As the entire process was done repeatedly over every single frame in the video, the colour term of a particular vehicle is saved into the database while it is tracked.
 %However, since the vehicles are moving in the outdoor setting, the ambient and directional lighting (from sun and other light sources) contribute to slight variation of colours. To accommodate the varying lighting condition, the dominant colour of each tracked vehicle from each frame was averaged out throughout its trajectory as illustrated in \ref{fig:ADC}.
 \cc{this is for the Phase 2, check again}
 
@@ -572,18 +565,16 @@ while the examples in Table \ref{tab:hsvExample} shows samples of bins and their
 
 In order to extract motion information from the vehicles, the bounding box obtained from the BGS method is used.
 Using the bounding box, the location of each vehicle is obtained using its respective centroids (Equation \ref{eq:centroid}).
-The motions information were extracted using the naive position displacement inference methods where displacement in the X or Y axis indicates movement.
-With the obtained information, the centroid position of each vehicle at each frame ($P_N$) is then stored in a list, \H{L}.
-
-As two subsequent frames are likely to have minimal differences, the algorithm was set to wait until the \H{L} list has at least 10 records (approximating the width of 1 $\alpha_T$) of the previous position before extracting the motion information.
+The motion information is then extracted using a naive inference of the motion displacement obtained from the X and Y axis.
+Futhermore, the centroid obtained from the vehicle at each frame ($P_N$) is stored in a list, \H{L}.
+As two subsequent frames are likely to have minimal differences, the algorithm was set to wait until the \H{L} list has at least 10 records (approximating the width of 1 $\alpha_T$, or 10 frames) of the previous position before extracting the motion information.
 Algorithm \ref{algo:motion} provides details of this semantic extraction process in pseudo-code.
-In this phase, the motion of a vehicle is quantized into 8 directional bins (in the form of four cardinal directional and four intermediate directional bins) along with another bin which denotes minuscule and negligible motion information.
-These quantized directions can be categorised into: UP, DOWN, LEFT, RIGHT, LEFT-UP, LEFT-DOWN, RIGHT-UP, RIGHT-DOWN, MOTIONLESS.
 
-Figure \ref{fig:cardinalbins} illustrates this property.
-Each of these directions were determined using handcrafted parameters which were selected empirically, the displacement values ($X_{displacement}$ \& $Y_{displacement}$) were set to 5 pixels respectively.
-If the difference between the current position of the centroid and the position 10 frames ago is larger than either $X_{displacement}$ or $Y_{displacement}$, the motion of the vehicle is updated accordingly.
-The extracted motion semantic is then saved into the database for each frame.
+During this phase, the motion of a vehicle is quantized into 8 directional bins using four cardinal directional, four intermediate directional bins and another bin which denotes minuscule or negligible motions.
+These quantized directions can then be categorised into one of the 9 motions using: UP, DOWN, LEFT, RIGHT, LEFT-UP, LEFT-DOWN, RIGHT-UP, RIGHT-DOWN, MOTIONLESS.
+Figure \ref{fig:cardinalbins} illustrates the motion bins and the corresponding directions.
+Each of these directions are determined using handcrafted parameters, the displacement values ($X_{displacement}$ \& $Y_{displacement}$) are empirically selected set at 5 pixels respectively.
+In the scenario where the difference between the current position of the centroid and the position 10 frames ago is larger than either $X_{displacement}$ or $Y_{displacement}$, the motion of the vehicle will then be updated and save into the database accordingly for each frame.
 
 \begin{figure}[H]\centering
 \includegraphics[width=.5\textwidth]{image/new/motion.PNG}
