@@ -556,9 +556,6 @@ Hence, the dominant colour of a vehicle at frame $\alpha_T$, is obtained and sto
 Algorithm \ref{algo:colorExtract} summarises the strategy used for colour semantic extraction process for the \versionOneExt,
 while the examples in Table \ref{tab:hsvExample} shows samples of bins and their corresponding similarity score.
 
-%However, since the vehicles are moving in the outdoor setting, the ambient and directional lighting (from sun and other light sources) contribute to slight variation of colours. To accommodate the varying lighting condition, the dominant colour of each tracked vehicle from each frame was averaged out throughout its trajectory as illustrated in \ref{fig:ADC}.
-\cc{this is for the Phase 2, check again}
-
 
 \subsection{Motion Semantic Extraction}
 \label{subsec:motions9binextract}
@@ -645,9 +642,8 @@ The aim of Phase 2: \versionTwoExt is to provide alternative solutions with bett
 
 \subsection{Colour Semantic Extraction}
 \label{section:versiontwoColor}
-As previously discussed in the section \ref{subsec:colorsemantics}, the basic idea of colours is relatively simple for humans, machines on the other hand, have a hard time understanding the concept of colours. In order to extract colour semantics, the initial steps to obtain the Average Dominant colour (ADC) was inherited from the previous method where the bounding box of the detected vehicles from the background subtraction method were cropped.
-
-Next, the dominant colour from each frame was extracted using the maximum bin of the 3-dimension HSV histogram and concatenated. At the end of a vehicle's tracked life cycle, the concatenated dominant colours were averaged out to obtain the ADC. The example in Figure \ref{fig:ADC} illustrates this method while the pseudo-code of the ADC method is described in Algorithm \ref{algo:ADC}.
+As previously discussed in the section \ref{subsec:colorsemantics}, while the basic idea of discerning colours terms is relatively simple for humans, machines have a hard time understanding the concept of colours. In order to extract colour semantics, the framework from Phase 1 was inherited and modified.
+First, the dominant colour from each frame is extracted using the 3D HSV histogram bin observed with the highest number of hits. Next, the dominant colour from each frame is concatenated into an image. At the end of a vehicle's tracked life cycle, the concatenated dominant colours are averaged out to obtain the Average Dominant Colour (ADC). The example in Figure \ref{fig:ADC} illustrates the process taken by this method while the pseudo-code of the ADC method is described in Algorithm \ref{algo:ADC}.
 
 \begin{figure}[hbt!]\centering
 \includegraphics[width=.9\textwidth]{image/general/ADC.png}
@@ -671,7 +667,9 @@ Next, the dominant colour from each frame was extracted using the maximum bin of
   \end{algorithmic}
 \end{algorithm}
 
-In order to reduce the number of parameters and steer clear of handcrafted features such as the one introduced in the previous subsections, instead of assigning one single colour term for each extracted, the similarity score for each colour against all eleven ground truth colours were measured and saved into the database instead. The metrics used to measure the similarity scores between the colours were adopted from the work of Riemersma\cite{riemersma}. This metrics is a low cost estimation of the differences of colours in the LUV linear colour space using RGB values. As the Average Dominant colour was obtained in the HSV colour space, a quick conversion from HSV to RGB colour space was done using Equation \ref{eq:RGBHSVconversion1} to \ref{eq:RGBHSVconversion3}.
+In order to reduce the number of parameters and steer clear of handcrafted features such as the one introduced in Phase 1, the usage of similarity scores were adopted in Phase 2.
+Instead of assigning a single colour term for each of the 960 histogram bins, the similarity score of the ADC against \textbf{all} eleven ground truth colours is calculated and saved into the database. The metrics used to measure the similarity scores between the colours is adopted from the work of Riemersma\cite{riemersma}. The author proposed a low cost estimation of the differences for colours in the LUV linear colour space using RGB values. As the Average Dominant colour was obtained in the HSV colour space, a quick conversion from HSV to RGB colour space was done using Equation \ref{eq:RGBHSVconversion1} to \ref{eq:RGBHSVconversion3}.
+
 
 
 %% ---- RGBHSVconversion metric ------------------------------------------------
@@ -698,20 +696,11 @@ H = \begin{cases}
 \centerline{\\$\textit{if } \hspace{.8em}H< 0 \hspace{.8em}\textit{ then } \hspace{.8em}H = H+360.$}
 
 
-
-
-
 %% ---- RGBHSVconversion metric ------------------------------------------------
 
 
-
-
-
-
-According to Riemersma, the benefit of this metrics is that it is a far more stable algorithm where, as quoted, "it does not have a range of colours where it suddenly gives far from optimal results". First, the mean of both the Average Dominant Colour (ADC) and Ground Truth colour (GTC)'s red channel were obtained. Then, this is followed by obtaining the difference, $\Delta$, of all three R, G, and B channels were obtained as well.
-
+According to Riemersma, the benefit of this metrics is that it is a far more stable algorithm where, as quoted, "it does not have a range of colours where it suddenly gives far from optimal results". First, the mean of both the Average Dominant Colour (ADC) and Ground Truth colour (GTC)'s red channel were obtained. Then, this is followed by obtaining the difference, $\Delta$, of all three R, G, and B channels.
 In Equation \ref{eq:DiffColorLUV}, the mean of the red channel ($\mean{r}$) is used as a weight for both $\Delta{R}$ and $\Delta{B}$. The details of these equations is described in Equation \ref{eq:RedMeanRGBDiff} and \ref{eq:DiffColorLUV} respectively. Table \ref{tab:luvExample} uses the same example colours as used in Table \ref{tab:hsvExample}, however, the similarity score of the colours were calculated using the metric suggested in Equation \ref{eq:DiffColorLUV} instead of the Euclidean Distance measured in HSV colour space.
-
 
 %% ---- First metric ------------------------------------------------
 \begin{equation}
@@ -878,11 +867,11 @@ In Equation \ref{eq:DiffColorLUV}, the mean of the red channel ($\mean{r}$) is u
 \label{tab:luvExample}
 \end{table}
 
-The usage of all eleven colour terms to describe an ADC is essential as some colours bears high similarity against the other. A good example would be between pink and red colour; while they are essentially two different colours, however, both these colours belong to a relatively similar hue family. Hence, the similarity score between both these red and pink colour would rather high. This setup allows colours which are visually similar to be ranked higher when the video shots are retrieved using the retrieval engine.
+The usage of all eleven colour terms to describe an ADC is essential as some colours bears high similarity against the other. A classic example would be the similarity between pink and red colour; while they are essentially two different colours belonging to a relatively similar hue family. Hence, the similarity score between both these red and pink colour should be rather high. This setup allows colours which are visually similar to be ranked higher when the video shots are retrieved using the retrieval engine.
 
-Based on the similarity score (\%) obtained using Riemersma's low cost LUV estimation metrics recorded in Table \ref{tab:luvExample}, the initial analysis of the data shows that distinction between contrasting colour terms are rather clear especially when comparing against the data in Table \ref{tab:hsvExample}.
-
-
+%Based on the similarity score (\%) obtained using Riemersma's low cost LUV estimation metrics recorded in Table \ref{tab:luvExample}, the initial analysis of the data shows that distinction between contrasting colour terms are rather clear especially when comparing against the data in Table \ref{tab:hsvExample}.
+Based on the results observed in Table \ref{tab:luvExample} and Table \ref{tab:hsvExample}, the similarity score obtained using Euclidean Distance in HSV colour space shows poorer performance than the score obtained using Riemersma's method. The similarity score obtained using the HSV colour space shows minimal variation between the colour terms. This inevitably makes it hard to determine the colour terms which best matches the ADC.
+On the other hand, the results obtained using Riemersma's method shows clear distinction between contrasting colour terms which makes its easier for the determination of ADC term.
 
 
 \begin{figure}[hbt!]\centering
