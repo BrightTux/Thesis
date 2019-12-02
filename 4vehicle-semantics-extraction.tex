@@ -5,15 +5,17 @@
 
 \section{Introduction}
 
-In this chapter, the implementation of the vehicle semantic extraction module will be discussed in detail.
-First, an atom-based quantization process for the video data is introduced in Section~\ref{section:atoms}. This quantization technique was implemented for both phases of \versionOneExt and \versionTwoExt frameworks. Next, the process of obtaining the vehicle's bounding box is discussed briefly in Section~\ref{subsection:fundamental}.
+This chapter focuses on the first objective [O1] of identifying and extracting suitable semantics that accurately describes vehicle attributes and events within a car park setting. Hence, the implementation of the vehicle semantic extraction module will be discussed in detail.
+First, an atom-based quantization process for the video data is introduced in Section~\ref{section:atoms}. This quantization technique was adapted and implemented in both \versionOneExt and \versionTwoExt frameworks. Next, the process of obtaining the vehicle's bounding box is discussed briefly in Section~\ref{subsection:fundamental}.
 The following sections thoroughly describes both of the vehicle semantic extraction modules in Section~\ref{section:semantic_lsh} and Section~\ref{section:semantic_chamfer}.
 
 %may be good to add a short paragraph to briefly describe and reinforce what "vehicle semantics extraction" is in relation to the big problem and that two extractions methods are introduced in this research and why two .... along with giving a brief distinction between the two.
 
-As the focus of this work revolves around car park surveillance footage, colour and motion information are key information used to describe vehicle activities. With the goal of designing retrieval techniques suitable for car park surveillance footage, accurate extraction of these information(s) is a crucial component of this work.
-While there are several differences between the two phases of the extraction methods, the predominant difference lies with the flexibility of the outputs produced from the extraction modules.
-The extracted semantics from the \versionOneExt are akin to keywords in a \textit{keyword-based} retrieval system. Hence, the proposed corresponding retrieval technique was placed in a hit-or-miss situation. To enhance the retrieval process, the \versionTwoExt utilises probability scores to describe the extracted semantics. Hence, increasing the overall robustness.
+As the focus of this work revolves around car park surveillance footage, colour and motion data are key information used to describe vehicle activities. With the goal of designing retrieval techniques suitable for car park surveillance footage, accurate extraction of these information is a crucial component of this work.
+%While there are several differences between the two phases of the extraction methods,
+Fundamentally, these two phases has the same objective of extracting semantics from the video data.
+The predominant difference lies with how the extracted semantics were stored. The flexibility of the outputs produced from the extraction modules affects the performance of the retrieval engine drastically.
+The extracted semantics from the \versionOneExt are akin to keywords in a \textit{keyword-based} retrieval system. Hence, the proposed corresponding retrieval technique was placed in a hit-or-miss situation. On the other hand, the \versionTwoExt utilises probability scores to describe the extracted semantics. Hence, increasing the overall robustness of the retrieval engine.
 
 
 
@@ -223,21 +225,21 @@ Traditionally, motion information from videos are converted into text-based desc
 
 However, users who are not familiar with the terminology used in the system may find keyword-based statements unintuitive and difficult to decipher.
 Furthermore, \cite{bhaumik2016hybrid} claims that the use of textual queries has been proven to be ineffective in video retrieval systems because keywords may not be able to capture the type of semantic content required by an end-user.
-While motion information is not as subjective as the concept of colours, graphical representation of motion event is more intuitive when compared to text-based descriptions.
-Hence, to provide a more intuitive and natural representation of a given event, this work aims to extract motion information such that it can be represented using a graphical form.
+While motion information may not be as subjective as the concept of colours, graphical visualization of motion is able to provide clearer info when compared to text-based descriptions.
+With that, to provide a more intuitive and natural representation of a given event, this work aims to extract motion information such that it can be represented using graphical form.
 
-In the case of a car park scene, the trajectory information from each vehicle is essential as it can be used to describe events within the scene.
+Within the scope of a car park scene, the trajectory information from each vehicle is essential as it is used to describe events within the scene.
 Hence, it is paramount to ensure motion information from each vehicle is captured and stored accurately.
-Given that the types of trajectories performed in a car park vary from user to user, these information were broken into smaller motion information blocks and stored into the database. 
+Given that the types of trajectories performed in a car park varies from user to user, instead of storing these trajectories are a whole, the collected information were quantized and broken down into smaller motion sequence blocks and stored into the database.
 As both the proposed motion semantics extraction techniques employ different extraction methods, each phase is discussed separately further down in this chapter.
 
 \subsection{Other Semantic}
 
-In this subsection, the extraction process of the other semantics are briefly described. These extracted semantics includes the datetime information, object type as well as object size. As the extractions of these semantics were simple and played little-to-no roles in both the extraction module and retrieval techniques, the extraction processes are described here.
+In this subsection, the extraction process of the other semantics are briefly described. These extracted semantics includes the date time information, object type as well as object size. As the extractions of these semantics were simple and played little-to-no roles in both the extraction module and retrieval techniques, the extraction processes are described here.
 
 \subsubsection{Date \& Time}
 
-Both date and time data are valuable information in a surveillance setting. In the context of retrieval techniques, these pieces of information can be used to narrow down and filter out irrelevant footage. In this work, the camera was setup to name the recorded files according to the time and date during the dataset collection process. As the filename contains both the time and date information, the date information can be easily obtained via substring extraction. On the other hand, when a vehicle is observed in the car park scene, the time information from frame $\mathbb{T}$ can be deduced as follow:
+Both date and time data are valuable information in a surveillance setting. In the context of retrieval techniques, these pieces of information are crucial as it can be used to narrow down and filter out irrelevant footage. In this work, the camera was setup to name the recorded files according to the time and date during the dataset collection process. As the filename contains both the time and date information, the date information can be easily obtained via substring extraction. Along with that, when a vehicle is observed in the car park scene, the time information from frame $\mathbb{T}$ can be deduced as follow:
 \begin{align}
     \mathbb{T}_{time}  = (\mathbb{VD} \times \frac{\mathbb{T}}{\mathbb{TF}}) + \mathbb{F}_{time}
 \end{align}
@@ -255,9 +257,9 @@ Given that 'vehicles' are the only object of interest in this work, YOLOv2 was u
 \subsection{Overview}
 As introduced in Section~\ref{subsec:lsh-intro}, LSH is a hashing function aimed to maximize hash collisions.
 As the hashes collide, documents with similar hashes are then grouped and clustered into similar neighbourhoods.
-However, LSH was not implemented in this work. Instead, the idea and concept of clustering similar semantic classes were drawn.
+However, LSH techniques were not directly implemented in this work. Instead, the idea and concept of clustering similar semantic classes were drawn.
 The extracted semantics are clustered into 11 colour and 9 motion classes, each represented using an SQL table within the database.
-This setup allowed quick access to semantic groups while easily representing the classes. Along with that, the proposed method also reduces I/O bottlenecks during the retrieval process.
+This setup allowed quick access to semantic groups while easily representing the classes. Along with that, the proposed method also reduces I/O bottlenecks during the retrieval process as irrelevant tables are ignored.
 
 
 \begin{figure}[hbt!]\centering
@@ -985,7 +987,10 @@ As a vehicle in the car park scene generally does not move in an irregular motio
 \section{Summary}
 In this chapter, two different semantic extraction methods are proposed. The extracted semantics includes the time-date information, colour, motion, object type as well as the size of the objects. Both methods employed slightly different methods of extracting the colour and motion information, the performance of these proposed methods will be discussed in Section~\ref{section:retrievalengine}.
 
-In comparison with the existing methods of extracting vehicle colour semantics described in Section~\ref{section:litreview}, the proposed method in this work is able to extract vehicle colour information from videos with relatively low resolution. Next, analysis was done to compare the results obtained using methods proposed in \versionOneExt and \versionTwoExt. The analysis on several colour term mapping methods against the WCS stimulus palette was also studied to better understand the advantage and disadvantages of the proposed method.
-As the mapping of colour terms are subjective to each individual, a user study was performed. The tabulated results show that most users prefer the colour model proposed by \citeA{zaslavsky2018efficient} after compression.
+In comparison with the existing methods of extracting vehicle colour semantics described in Section~\ref{section:litreview}, the proposed method in this work is able to extract vehicle colour information from videos with relatively low resolution.
+Furthermore, analysis was done to compare the results obtained using methods proposed in \versionOneExt and \versionTwoExt. The analysis on several colour term mapping methods against the WCS stimulus palette was also studied to better understand the advantage and disadvantages of the proposed method.
+
+The analysis shows that both proposed methods drastically decrease in performance if the entire vehicle is occluded or when vehicles are in the shadow. Likewise, the extraction of dominant colour fails when dealing with multi-coloured vehicles.
+Furthermore, as the mapping of colour terms are subjective to each individual, a user study was performed. The tabulated results show that most users prefer the colour model proposed by \citeA{zaslavsky2018efficient} after compression.
 In the future, the colour term mapping function can be potentially improved so that the results would resemble the best colour mapping function.
 
