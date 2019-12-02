@@ -499,7 +499,19 @@ As a whole, both \textit{simple} and \textit{complex} queries shows reasonably g
 \caption{Normalised Discounted Cumulative Gain for Simple and Complex Trajectories Queries} \label{fig:versionTwoNDCG}
 \end{figure}
 
-The difference between the simple and complex trajectories are rather distinct. The overall nDCG score for the queries of simple trajectories were rather high in the 91\% region while the nDCG score for queries related to complex trajectories were in the 75\% region. The results here shows that the retrieval engine had an easier time sorting simple trajectories in the best ranking order while having some difficulty when organising the complex trajectories using the $D_{chamfer}$ metrics. Even though the overall results are relatively good, the implementation of Chamfer Distance in the proposed method is not without its faults. Observation of the results shows that chamfer distance performs poorly when (i) a trajectory is compared against a much shorter trajectory that intersects at a particular point or (ii) two trajectories turning into 2 different junctions. In both examples, the obtained $D_{chamfer}$ shows relatively low score that could result in those shots being retrieved, these examples can be found in Figure  \ref{fig:chamferDisadvantage}.
+The difference between the simple and complex trajectories are rather distinct. The overall nDCG score for the queries of simple trajectories were rather high in the 91\% region while the nDCG score for queries related to complex trajectories were in the 75\% region. The results here shows that the retrieval engine had an easier time sorting simple trajectories in the best ranking order while having some difficulty when organising the complex trajectories using the $D_{chamfer}$ metrics. 
+
+Additional comparison between Chamfer Distance and various other distance measures were also computed to further understand the difference, advantages and properties of these methods. Table \ref{table:DistanceCompare} contains a compilation of 7 different test cases which were compared against a sample ground truth data. These test cases were tested using 5 different distance measures: Chamfer Distance, Dynamic Time Warping, Hausdorff Distance, Earth Mover Distance, and Euclidean Distance.
+In all cases, smaller numbers represents higher similarity score while larger numbers represents lower similarity scores.
+
+As a baseline comparison, a simplistic approach using Euclidean Distance was also measured. The results obtained shows minimal difference in the raw results when comparing the best case and worst test case. While the normalised results shows better results, it is not a useful metrics as we are not able to compare the scores of different query results during the actual retrieval process.
+Based on the results in Table \ref{table:DistanceCompare}, it is noticed that Earth Mover Distance favours similar shapes as it is able to effectively deal with scaling of shapes. While useful in other applications, this is not a desirable property in the context of a retrieval engine in a car park setting. Likewise, this distance measure also heavily penalises Test 1, which contains a mirrored shape.
+
+In the case of Hausdorff distance, it is noticed that this distance measure often measures the maximum distance of a set to the nearest point in the other set which is usually used for image matching. It is also observed that this distance measure was not able to handle Test 2 which deals with directional inputs, this shows that this metric was not a suitable candidate in our retrieval engine.
+The results also shows that both Chamfer Distance and Dynamic Time Warping has relatively similar performance in those 7 test cases. Nevertheless, Chamfer Distance was able to return higher difference ratio between the best case and worst case scenario. This attribute is very desired and extremely useful when sorting huge numbers of trajectories from the database.
+
+
+Even though the overall results are relatively good, the implementation of Chamfer Distance in the proposed method is not without its faults. Observation of the results shows that chamfer distance performs poorly when (i) a trajectory is compared against a much shorter trajectory that intersects at a particular point or (ii) two trajectories turning into 2 different junctions. In both examples, the obtained $D_{chamfer}$ shows relatively low score that could result in those shots being retrieved, these examples can be found in Figure  \ref{fig:chamferDisadvantage}.
 
 \begin{figure}[htb!]
   \centering
@@ -513,38 +525,46 @@ The difference between the simple and complex trajectories are rather distinct. 
 \end{figure}
 
 
-\cc{include more analysis of the comparison here!}
-Additional comparison between Chamfer Distance and various other distance measures were also computed to further understand the difference, advantages and properties of these methods. Table \ref{Table:DistanceCompare} contains a compilation of 7 different test cases which were compared against a sample ground truth data. These test cases were tested using 5 different distance measures: Chamfer Distance, Dynamic Time Warping, Hausdorff Distance, Earth Mover Distance, and Euclidean Distance.
-In all cases, smaller numbers represents higher similarity score while larger numbers represents lower similarity scores.
-
-As a baseline comparison, a simplistic approach using Euclidean Distance was also measured. The results obtained shows minimal difference in the raw results when comparing the best case and worst test case. While the normalized results shows better results, it is not a useful metrics as we are not able to compare the scores of different query results during the actual retrieval process.
-Based on the results in Table \ref{Table:DistanceCompare}, it is noticed that Earth Mover Distance favours similar shapes as it is able to effectively deal with scaling of shapes. While useful in other applications, this is not a desireable property in the context of a retrieval engine in a car park setting. Likewise, this distance measure also heavily penalizes Test 1, which contains a mirrored shape.
-
-In the case of Hausdorff distance, it is noticed that this distance measure often measures the maximum distance of a set to the nearest point in the other set which is usually used for image matching. It is also observed that this distance measure was not able to handle Test 2 which deals with directional inputs, this shows that this metric was not a suitable candidate in our retrieval engine.
-The results also shows that both Chamfer Distance and Dynamic Time Warping has relatively similar performance in those 7 test cases. Nevertheless, Chamfer Distance was able to return higher difference ratio between the best case and worst case scenario. This attribute is very desired and extremely useful when sorting huge numbers of trajectories from the database.
 
 
+% Please add the following required packages to your document preamble:
+% \usepackage{graphicx}
+% \usepackage{lscape}
+\begin{landscape}
 
 \begin{table}[]
-\begin{tabular}{llllllll}
- Ground Truth Sample
- & \includegraphics{image/suppResults/q1.PNG}
- & \includegraphics{image/suppResults/q2.PNG}
- & \includegraphics{image/suppResults/q3.PNG}
- & \includegraphics{image/suppResults/q4.PNG}
- & \includegraphics{image/suppResults/q5.PNG}
- & \includegraphics{image/suppResults/q6.PNG}
- & \includegraphics{image/suppResults/q7.PNG} \\
- \includegraphics{image/suppResults/gt.PNG} & \begin{tabular}[c]{@{}l@{}}Test 1:\\ Mirror\end{tabular} & \begin{tabular}[c]{@{}l@{}}Test 2:\\ Opposite Direction\end{tabular} & \begin{tabular}[c]{@{}l@{}}Test 3:\\ Short Trajectory\end{tabular} & \begin{tabular}[c]{@{}l@{}}Test 4:\\ Highly Resemble GT\end{tabular} & \begin{tabular}[c]{@{}l@{}}Test 5:\\ Partially Resemble GT\end{tabular} & \begin{tabular}[c]{@{}l@{}}Test 6:\\ Long Trajectories\end{tabular} & \begin{tabular}[c]{@{}l@{}}Test 7:\\ Similar Shape\end{tabular} \\
-Chamfer Distance & 0.02565 (1503.21) & 0.0169 (987.84) & 0.0246 (1444.00) & 0.0001 (6.25) & 0.0060 (353.89) & 0.9205 (53937.33) & 0.0062 (361.00) \\
-Dynamic Time Warping & 0.0503 (176.97) & 0.0344 (121.08) & 0.0604 (212.31) & 0.0033 (11.62) & 0.0239 (83.99) & 0.8079 (2841.17) & 0.0198 (69.57) \\
-Hausdorff Distance & 0.2042 (7.07) & 0.0647 (2.24) & 0.2021 (7.00) & 0.0407 (1.41) & 0.0866 (3.00) & 0.2974 (10.30) & 0.1042 (3.61) \\
-Earth Mover Distance & 0.4112 (0.96) & 0.0942 (0.22) & 0.0342 (0.08) & 0.0021 (0.01) & 0.3127 (0.73) & 0.1456 (0.34) & 0.0000 (0.00) \\
-Euclidean Distance & 0.1171 (5.00) & 0.1656 (7.07) & 0.1424 (6.08) & 0.0703 (3.00) & 0.0661 (2.82) & 0.3645 (15.56) & 0.0740 (3.16)
-\end{tabular}
-  \caption{Comparison of Difference Distance Measures against 7 Different Test Scenarios Against a Ground Truth Sample Data. The results are represented by Normalized Results Followed by the Actual Distance Measure obtained in Brackets. Smaller Numbers are Represents Closer Similarity.}
+\resizebox{23cm}{!}{%
+\centering
+\begin{tabular}{|l||l|l|l|l|l|l|l|}
+\hline
+\includegraphics[scale=0.25]{image/suppResults/gt.PNG}
+ & \includegraphics[scale=0.25]{image/suppResults/q1.PNG}
+ & \includegraphics[scale=0.25]{image/suppResults/q2.PNG}
+ & \includegraphics[scale=0.25]{image/suppResults/q3.PNG}
+ & \includegraphics[scale=0.25]{image/suppResults/q4.PNG}
+ & \includegraphics[scale=0.25]{image/suppResults/q5.PNG}
+ & \includegraphics[scale=0.25]{image/suppResults/q6.PNG}
+ & \includegraphics[scale=0.25]{image/suppResults/q7.PNG} \\ \hline
+GT Sample & \begin{tabular}[r]{@{}l@{}}Test 1:\\ Mirror\end{tabular} & \begin{tabular}[r]{@{}l@{}}Test 2:\\ Opposite Direction\end{tabular} & \begin{tabular}[r]{@{}l@{}}Test 3:\\ Short Trajectory\end{tabular} & \begin{tabular}[r]{@{}l@{}}Test 4:\\ Highly Resemble GT\end{tabular} & \begin{tabular}[r]{@{}l@{}}Test 5:\\ Partially Resemble GT\end{tabular} & \begin{tabular}[r]{@{}l@{}}Test 6:\\ Long Trajectories\end{tabular} & \begin{tabular}[r]{@{}l@{}}Test 7:\\ Similar Shape\end{tabular} \\ \hline
+\textbf{Chamfer Distance} & 0.02565 (1503.21) & 0.0169 (987.84) & 0.0246 (1444.00) & 0.0001 (6.25) & 0.0060 (353.89) & 0.9205 (53937.33) & 0.0062 (361.00) \\ \hline
+\textbf{Dynamic Time Warping} & 0.0503 (176.97) & 0.0344 (121.08) & 0.0604 (212.31) & 0.0033 (11.62) & 0.0239 (83.99) & 0.8079 (2841.17) & 0.0198 (69.57) \\ \hline
+\textbf{Hausdorff Distance} & 0.2042 (7.07) & 0.0647 (2.24) & 0.2021 (7.00) & 0.0407 (1.41) & 0.0866 (3.00) & 0.2974 (10.30) & 0.1042 (3.61) \\ \hline
+\textbf{Earth Mover Distance} & 0.4112 (0.96) & 0.0942 (0.22) & 0.0342 (0.08) & 0.0021 (0.01) & 0.3127 (0.73) & 0.1456 (0.34) & 0.0000 (0.00) \\ \hline
+\textbf{Euclidean Distance} & 0.1171 (5.00) & 0.1656 (7.07) & 0.1424 (6.08) & 0.0703 (3.00) & 0.0661 (2.82) & 0.3645 (15.56) & 0.0740 (3.16) \\ \hline
+\end{tabular}%
+}
+\caption{Comparison of Difference Distance Measures against 7 Different Test Scenarios Against a Ground Truth Sample Data. The results are represented by Normalised Results Followed by the Actual Distance Measure obtained in Brackets. Smaller Numbers are Represents Closer Similarity.}
 \label{table:DistanceCompare}
+
 \end{table}
+\end{landscape}
+
+
+
+
+
+
+
 
 In a nutshell, despite the flaws of Chamfer Distance, the implementation of $D_{chamfer}$ in the retrieval engine provided relatively good results (Average \textit{Precision@K} = 76\%) that were sorted in an organised and useful manner (\textit{nDCG} score = 83\%). The use of Chamfer Distance can be extended to other datasets of similar properties.
 
