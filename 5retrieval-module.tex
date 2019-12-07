@@ -6,17 +6,17 @@
 \section{Introduction}
 
 As described in Section~\ref{section:introduction}, there's an evident gap between the process of obtaining user described events and the retrieval of the desired video shots. Traditional approach of collecting text-based description of events alone are insufficient for effective retrieval process.
-
-With the vehicle-specific features such as the vehicle trajectory, time-stamp information, and colour information extracted via the extraction module introduced in Chapter~\ref{section:semanticsextraction},
+With vehicle-specific semantics such as vehicle trajectory, time-stamp information, and colour information extracted via the extraction module introduced in Chapter~\ref{section:semanticsextraction},
 this chapter hone in on the second objective [02] of designing video retrieval techniques that takes in intuitive user-described queries to provide fast and accurate results.
-A combination of keyword based and sketch based retrieval was designed to allow users to describe the queries intuitively.
-%Retrieval techniques were designed to retrieve video shots resembling user described queries.
-In this chapter, the topic of semantic retrieval engines are engaged in detail along with the evaluation of their performances and analysis of the end results.
 
-Two retrieval techniques with relatively different concepts and underlying frameworks are discussed in this chapter. The first technique was designed with a classic document retrieval system inspired by Locality Sensitive Hashing (LSH), while the second technique was developed in order to address the shortcomings of the first by introducing similarity scores obtained using Chamfer Distance.
-Next, the methods used to measure the difference between the user-described trajectory, vehicle colour classifying methods, scoring systems along with the results based on multiple users' review of the proposed method is discussed. This chapter also includes the retrieval speed of the second retrieval engine.
+To this end, a combination of keyword and sketch based retrieval engine was designed for end users to describe their queries intuitively.
+First, the design choices of the semantic retrieval engines are engaged in detail. Two retrieval techniques with relatively different concepts and underlying frameworks were designed.
+The first technique was designed with a classic document retrieval system in mind, inspired by Locality Sensitive Hashing (LSH), while the second technique was developed in order to address the shortcomings of the first by introducing similarity scores obtained using Chamfer Distance.
 
+Subsequently, the methods used to measure the difference between the user-described trajectory, vehicle colour classifying methods, scoring systems along with the results based on multiple users' review of the proposed method is discussed.
 As described in the Experimental Methodology (see~\ref{sec:expmethodology}), both the vehicle trajectory and vehicle colour evaluation process were separated in order to better gauge the performance of each technique.
+This chapter also includes the retrieval speed of the second retrieval engine.
+Furthermore, the evaluation and analysis of their performances along with the metrics used are further discussed. This chapter concludes with some suggestions for future improvements.
 
 \section{\versionOneRet}
 \label{section:versionOne}
@@ -24,26 +24,24 @@ This section uncovers the techniques used behind this retrieval engine's framewo
 
 \subsection{Concept}
 \label{versionOneConcept}
-By taking advantage of the spatio-temporal atom cubes structure introduced in Chapter~\ref{section:atoms}, each catalogued event in an atom were treated as an unique document. The underlying atom-based structure allows queries to be formed in a way which emulates the semantics extraction process. Hence, this eliminates the need for query parsing which in turn reduces the need of both pre- and post-processing of the given queries.
+By taking advantage of the spatio-temporal atom cubes structure introduced in Chapter~\ref{section:atoms}, each catalogued event in an atom was treated as a unique document. The underlying atom-based structure allows queries to be formed in a way which emulates the semantics extraction process. Hence, eliminating the need for query parsing which in turn reduces the required computational time.
 
 In this setup, each document containing similar contents were placed in the same SQL table as a mode of clustering documents. An example is given in Table~\ref{table:dbSample} to provide better visualisation of the proposed method. These sequence of events is also visualised in Figure~\ref{fig:motionExample} with the trajectory marked with \textcircled{2}.
-In the example, a red vehicle was detected frame 180 to 184 of a video file on the 19th of March 2016 at 8:51:00am until 8:51:05am, from atom location (3,15) to (5,17) but was detected as a pink vehicle at frame 181.
+In the example, a red vehicle was detected frame 180 to 184 of a video file on the 19th of March 2016 at 8:51:00am until 8:51:05am, from atom location (3, 15) to (5, 17) but was detected as a pink vehicle at frame 181.
 The time information from frame $\mathbb{T}$ can be deduced using $\mathbb{T}_{time}  = (\mathbb{VD} \times \frac{\mathbb{T}}{\mathbb{TF}}) + \mathbb{F}_{time}$ where $\mathbb{VD}$ corresponds to the video duration of each file (6 minutes) and $\mathbb{TF}$ is the total frames of the current video. The $\mathbb{F}_{time}$ is the time information extracted from filename.
 Hence, the current frame time at frame 181 is obtained as such: $(6_{minutes} \times \frac{181}{360}) + 08:48:00am = 8:51:01am$.
 
-As each catalogued event is treated as a unique document (a single record in the database) in this framework, the retrieval process begins by filtering out tables which are irrelevant to the query, $\mathbb{Q}$. Falling back on the example given in Table~\ref{table:dbSample}, the system is able to effectively skip through 9 colour tables and 5 motion tables, hence speeding up the process to locate documents of interest while reducing the overhead cost involved when going through an entire database. Upon filtering out irrelevant tables, the retrieval engine proceeds to extract and group up all the relevant records according to the filenames.
+As each catalogued event is treated as a unique document (a single record in the database) in this framework, the retrieval process begins by filtering out tables which are irrelevant to the query, $\mathbb{Q}$. Falling back on the example given in Table~\ref{table:dbSample}, the system is able to effectively skip through 9 colour tables and 5 motion tables, hence speeding up the process of locating documents of interest while reducing the overhead cost involved when going through an entire database. Upon filtering out irrelevant tables, the retrieval engine proceeds to extract and group up all the relevant records according to the filenames.
 
 Next, the retrieved results are validated to see if they belong to the same vehicle by cross-checking the obj\_id. Along with that, the retrieval engine also validates if the results belong to a similar time-frame by comparing the t-coordinate. This step is essential to ensure that each result belongs to the same vehicle trajectory group as the initial tracker may re-assign a obj\_id to another vehicle during the background subtraction process.
-While the results returned at this point were accurate, one major problem that occurs using the current process is the low recall rate. The recall rate in a retrieval engine can be thought as the percentage of relevant documents which were retrieved over the total amount of relevant documents; while a low recall rate is preferable in an environment where the accuracy of the retrieved result is regarded with high importance and false negatives are welcomed over false positive such as the medical industry, this is not the case in the proposed method.
+Although the results returned at this point are moderately accurate, one major problem that occurs using the current process is the low recall rate. The recall rate in a retrieval engine can be thought as the percentage of relevant documents retrieved over the total amount of relevant documents available in the database. While low recall rates might be preferable in an environment where the accuracy of the retrieved result is of higher importance and false negatives are welcomed over false positive such as the medical industry, this is not the case in the proposed method.
 
-In order to overcome the limitation of the low recall rate, a Confidence Value (CV) score parameter is introduced. The CV parameter was used to adjust the sensitivity level of accepting a video shot as part of the final retrieved results. In the proposed method, a lower CV would return a larger set of results at the expense of an increase of retrieved shots which may or may not improve the overall accuracy of the retrieval engine. Each retrieved shot, $\mathbb{S}_i$, will be accepted as the final retrieved results if it fulfils the condition in Equation \ref{eq:CVscore}. The use of the CV score parameter provides a margin of error when performing the query which acts as a trade-off function.
+To overcome the limitation of low recall rates, a Confidence Value (CV) score parameter is introduced to adjust the sensitivity level of accepting a video shot as part of the final retrieved results. In the proposed method, a lower CV would return larger set of results at the expense of an increase of retrieved shots which may or may not improve the overall accuracy. Each retrieved shot, $\mathbb{S}_i$, will be accepted as the final retrieved results if it fulfils the condition in Equation \ref{eq:CVscore}. The use of the CV score parameter provides a margin of error when performing the query which acts as a trade-off function.
 
 \begin{equation}
 \label{eq:CVscore}
 CV < \frac{\text{length}(\mathbb{S}_i)}{\text{length}(\mathbb{Q})} \times 100\%
 \end{equation}
-
-
 
 Upon validating the sanctity of the results, commands were sent to FFmpeg to extract the video shots based on the given filename along with the start and end frame number. Finally, the users are presented with the output from the retrieval engine where the final results can be viewed.
 
@@ -86,10 +84,7 @@ Upon validating the sanctity of the results, commands were sent to FFmpeg to ext
 
 \subsection{Search Interface}
 
-The proposed retrieval engine was realised in a form of a graphical user search interface written in C++, where users are able to construct queries by drawing the trajectory on the interface and providing complementary query information such as the vehicle colour. With these user-described query information, the user can then perform queries and obtain the results within seconds. Figure \ref{fig:versionOneInterface} shows the proposed interface with the green lines indicating the user-described trajectory as the query. Upon processing the results, FFmpeg will then extract the video shots and populate the results in a folder.
-
-
-
+The proposed retrieval engine was presented in a graphical user search interface written in C++. Here, users are able to construct queries by drawing the trajectory on the search interface while providing complementary query information such as the vehicle colour. With these user-described query information, the retrieval engine would search for the best matches and return the results within seconds. Figure \ref{fig:versionOneInterface} shows the proposed interface with the green lines indicating the user-described trajectory query. Upon processing the results, FFmpeg will then extract the video shots and populate the results in a folder.
 
 
 \begin{figure}[!htb]
@@ -105,12 +100,10 @@ The proposed retrieval engine was realised in a form of a graphical user search 
 \end{figure}
 
 
-
-
 \subsection{Results and Analysis}
 The following subsections describes the evaluation process of the proposed method in Section \ref{section:semantic_lsh} which includes both the vehicle trajectory as well as the vehicle colour. As previously mentioned in Section \ref{sec:expmethodology}, only two days of data were fully annotated with the number of vehicles with their corresponding colour (see Table \ref{table:colorDist}) as well as the total number of vehicles that performed both $TQ1$ and $TQ2$.
 
-With the annotated values, the Precision and Recall (Equation \ref{eq:precisionrecall}) metrics were used to measure the performance of the proposed method. These values can be calculated as the total number of event occurrence were recorded; hence, the $F_1$ score can also be computed (Equation \ref{eq:f1score}). The precision of a retrieval engine can be thought as the ratio between number of accurate results over the total number of retrieved results. The recall, on the hand, indicates the ratio of relevant results which were retrieved over the total retrieved results. Finally, the $F_1$ score is used as a harmonic mean between both Precision and Recall values which are both desirable in a retrieval engine.
+Precision and Recall (Equation \ref{eq:precisionrecall}) metrics were used to measure the performance of the proposed method. These values can be calculated as the total number of event occurrence for 2 days were fully annotated. Likewise, as the $F_1$ score is a harmonic mean between Precision and Recall, this value can also be computed (Equation \ref{eq:f1score}). The precision of a retrieval engine can be thought as the ratio between number of accurate results over the total number of retrieved results. The recall, on the hand, indicates the ratio of relevant results which were retrieved over the total retrieved results. As both Precision and Recall values are desirable in a retrieval engine, the $F_1$ score is used to judge how well the retrieval engine performs in these two aspects.
 
 \begin{align}
 \label{eq:precisionrecall}
@@ -122,12 +115,11 @@ With the annotated values, the Precision and Recall (Equation \ref{eq:precisionr
 \end{align}
 
 
-
 \subsubsection{Vehicle Trajectory}
 
-In order to evaluate the performance of the retrieval engine in regards to vehicle trajectories, the ground truth of the data has to be first obtained. As the manual annotation of these video data is laborious and time consuming, only two specific motion paths were designated as trajectory queries (TQ). The first query, TQ1 refers to vehicles heading southward (see Figure \ref{fig:versionOneInterface} (a)) while TQ2 represents vehicles turning into a junction (see Figure \ref{fig:versionOneInterface} (b)).
+To evaluate the performance of the proposed method in retrieving vehicle trajectories, the ground truth of the data has to be first obtained. As the manual annotation of these video data is laborious and time consuming, only two specific motion paths were designated as trajectory queries (TQ). The first query, TQ1 refers to vehicles heading southward (see Figure \ref{fig:versionOneInterface} (a)) while TQ2 represents vehicles turning into a junction (see Figure \ref{fig:versionOneInterface} (b)).
 
-These predefined trajectory queries (TQ) were selected to represent two types of motion which exist in a car park scene, (i) \textit{simple motion} - motions that are simple in nature, moving straight \& (ii) \textit{complex motion} - motions which contains multiple elements such as turning into a junction. The distribution of these TQ are tabulated in Table \ref{table:motiondist}. In each TQ experiment, the number of atom input query used to represent each TQ were varied to understand the co-relating effects between the number of inputs and the performance of the retrieval engine. In addition to that, the effects of using varying confidence values (CV) in regards to the performance is also evaluated. These experiments were tested on three CV values which were set at 70\%, 80\%, and 90\%.
+These predefined trajectory queries (TQ) were selected to represent two types of motion which are common in a typical car park scene, (i) \textit{simple motion} - motions that are simple in nature, moving straight \& (ii) \textit{complex motion} - motions which contains two or more motion elements such as turning into a junction. The distribution of these TQ are tabulated in Table \ref{table:motiondist}. In each TQ experiment, the number of atom selected in the input queries were varied to understand the relation between the number of inputs and the performance of the retrieval engine. In addition, the effects of using varying confidence values (CV) was also evaluated. These experiments were tested on three CV values which were set at 70\%, 80\%, and 90\%.
 
 
 \begin{table}[bht!]
@@ -144,11 +136,13 @@ TQ2      & Complex Motion       & 40 & 13.7  \\
 \end{tabular}
 \end{table}
 
-Based on the results tabulated in Table \ref{table:motionResults}, the average precision of both TQ1 and TQ2 using CV at 70\% is 67.64\%. The increase of CV to 70\% to 90\% shows an increase in terms of average precision. For TQ1, the average precision increased from 89.50\% to 89.51\% and finally 90.49\% when CV was set at 90\% with a total increase of approximately 1\% for the precision metrics. Likewise, for TQ2, the average precision showed a total increase of 7.44\% when then CV parameter was tweaked. The average precision increased from 45.79\% to 52.61\% and reaching 53.23\% when CV was set to 90\%.
+Based on the results tabulated in Table \ref{table:motionResults}, the average precision of both TQ1 and TQ2 using CV at 70\% is 67.64\%. The increase of CV to 70\% to 90\% shows an increase in terms of average precision. For TQ1, the average precision increased from 89.50\% to 90.49\% when CV was set at 90\% with a total increase of approximately 1\%. However for TQ2, the average precision showed a sizeable improvement of 7.44\% when then CV parameter was tweaked. The average precision increased from 45.79\% to 53.23\% when CV was set to 90\%.
+However, as expected, the recall metrics showed a different side of the story when the average recall rate suffered a drastic drop from 39.67\% to 18.01\% for TQ1 and 68.15\% to 51.85\% for TQ2. The results shows consistency throughout the various experimental settings and true towards the concept which was introduced in \ref{versionOneConcept}.
 
-However, the recall metrics showed a different side of the story when the average recall rate fell from 39.67\% to 18.01\% for TQ1 and 68.15\% to 51.85\% for TQ2. This drastic drop in for recall metrics shows direct co-relation with the requirement of fulfilling Equation \ref{eq:CVscore} for each retrieved shots. The results shows consistency throughout the various experimental settings and true towards the concept which was introduced in \ref{versionOneConcept}.
-
-As a whole, the $F_1$ score metric was used to evaluate the overall performance of the proposed method as it provides a balance between both of the desirable metrics discussed above. Based on the results, queries with the lowest CV and lower number of inputs tend to perform better than the other parameter settings. The proposed method was able to achieve an $F_1$ score of 74.32\% and 68.08\% for both TQ1 and TQ2.
+To judge the overall performance of the retrieval engine as a whole, the $F_1$ score metric was used as it provides a harmonic mean between both of the desirable metrics discussed above. Based on the results, queries with the lowest CV and lower number of inputs tend to perform better than the other parameter settings.
+This is because the additional number of input increases the chance of lowering the CV score; likewise, a lower CV value relaxes the need to match more atom inputs.
+The proposed method was able to achieve an $F_1$ score of 74.32\% and 68.08\% for both TQ1 and TQ2.
+Based on the results obtained from these experiments, the performance of the proposed method was far from optimal. Drastic changes are inevitable if improvements is desired. The changes in the proposed method will be further discussed in Section \ref{section:versionTwo}.
 
 
 \begin{table}[tb!]
@@ -171,8 +165,6 @@ As a whole, the $F_1$ score metric was used to evaluate the overall performance 
 \multicolumn{1}{|c|}{} & \multicolumn{1}{c|}{} & 6 & 55.81 & 53.33 & 54.54 & 55.81 & 53.33 & 54.54 & 57.69 & 33.33 & 42.25    \\ \hline
 \end{tabular}}
 \end{table}
-
-
 
 
 \subsubsection{Vehicle Colour}
@@ -201,13 +193,13 @@ Brown      & 7         & 0.84   \\
 \end{table}
 
 
+The results of the proposed colour term extraction algorithm (\ref{algo:colorExtract}) is tabulated in a form of confusion matrix in Table \ref{table:colorMatrix}. The cells marked with green refers to vehicles correctly predicted with the highest count, while cells in red refers to the highest count of incorrect predictions. Overall, the performance in terms of precision is recorded around 54\% while the recall rate is reported in the region of approximately 36\% with the $F_1$ score at 39\%.
+The tabulated results also shows roughly 11\% of vehicles were wrongly classified as achromatic vehicles which were affected by the proposed $T_{pivot}$ value. However, when setting aside the performance of the algorithm to differentiate between chromatic and achromatic vehicles, the proposed method was able to predict the colour classes for seven out of eleven colour classes. Nevertheless, the results was taken with a grain of salt as the number of test case for each of those colour classes is rather low for a decisive verdict.
 
+Next, the performance of the proposed Algorithm \ref{algo:achromatic} using white and black filters as an approach towards differentiating between all three achromatic colours was analysed. The proposed algorithm performed relatively well with an average accuracy of 68\%. The results shows that the proposed algorithm aced differentiating black and white vehicles, however, the proposed method had difficulty classifying between gray-black and gray-white vehicles as these data are ambiguous, highly depending on the lighting condition in the video data.
+As mentioned above, the $T_{pivot}$'s performance was underwhelming. Pivoting between chromatic and achromatic vehicles proves to be inefficient in harsh lighting condition where shadows and rain would drastically affect the outcome as vehicles may suffer from the lack of chromatic hues which is used to assist in the accurate prediction.
 
-The results of the proposed colour term extraction algorithm (\ref{algo:colorExtract}) is tabulated in Table \ref{table:colorMatrix} in a form of a confusion matrix. The cells which are marked in green refers to vehicles which were correctly predicted with the highest count, while cells which are marked in red refers to the highest count of incorrect predictions. The overall performance in terms of precision is around 54\% while the recall is reported at around 36\% with the $F_1$ score of 39\%. The tabulated results also shows that approximately 12\% of vehicles were wrongly classified as achromatic vehicles which were affected by the proposed $T_{pivot}$ value. However, when setting aside the performance of the algorithm to differentiate between chromatic and achromatic vehicles, the proposed method was able to predict the colour classes for seven out of eleven colour classes. Nevertheless, the results were taken with a grain of salt as the number of test case for each of those colour classes were rather low for a decisive verdict.
-
-Next, the performance of the proposed Algorithm \ref{algo:achromatic} using white and black filters as an approach towards differentiating between all three achromatic colours was analysed. The proposed algorithm performed relatively well with an average accuracy of 68\%. The results shows that the proposed algorithm did not have much trouble differentiating between black and white vehicles, however, the algorithm tend to have trouble classifying between gray-black and gray-white vehicles as they tend to be ambiguous depending on the lighting condition in the video data. As mentioned above, the $T_{pivot}$'s performance was not up to par. The pivoting process between chromatic and achromatic vehicles proves to be inefficient in harsh lighting condition where shadows and rain would drastically affect the outcome as vehicles may suffer from the lack of chromatic hues which is used to assist in the accurate prediction.
-
-While better results could potentially be obtained by carefully and systematically tweaking the $T_{pivot}$ to perform better at distinguishing between chromatic and achromatic vehicles, the hand crafted parameter may not work well in other scenarios belonging to other dataset, hence, making it undesirable as it is not easily extensible. Another disadvantage of the proposed method used in this framework is that each colour had only one final predicted colour term. As an example, the predicted results for Red colour in Table \ref{table:colorMatrix} illustrates this issue where the colour term of three vehicles were assigned Pink instead of Red even though Red and Pink colour both belongs to the similar hues.
+While better results could potentially be obtained by carefully and systematically tweaking $T_{pivot}$, the hand crafted parameter may not work well in other scenarios belonging to other dataset, hence, making it undesirable as it is not easily extensible. Another disadvantage of the proposed method used in this framework is that each colour had only one final predicted colour term. This is another undesirable nature, as an example, the predicted results for Red colour in Table \ref{table:colorMatrix} illustrates this property where the colour term of three vehicles were assigned Pink instead of Red. Even though Red and Pink colour both belongs to the similar hues, the assignment of a single colour term causes the retrieval engine to skip pass these results.
 
 
 \begin{table}[!ht]
@@ -248,24 +240,25 @@ While better results could potentially be obtained by carefully and systematical
 \section{\versionTwoRet}
 \label{section:versionTwo}
 
-This section expounds on the techniques used behind this retrieval engine's framework along with the results. The proposed interface in \versionTwoRet also focuses on extensibility as well as ease of access of the retrieval engine while improving on the overall results. The JavaScript (JS) language was selected as a means to this end as it is commonly used in web browsers. The focus of this work sees a shift from indexing methods to results-sorting optimisation by measuring the difference between the query and the retrieved results. The concept and scoring systems used in this retrieval engine will be discussed further in the following subsections along with the evaluation.
+This section expounds on the techniques used behind the revamped retrieval engine's framework along with the results. The proposed interface in \versionTwoRet focuses on extensibility as well as ease of access of the retrieval engine while improving on the overall results. To enable cross-platform access to the retrieval engine without additional compilation or build commands, the JavaScript (JS) language was selected as it is commonly used in web browsers.
+The focus of this work sees a shift from indexing methods to results-sorting optimisation by measuring the difference between the query and the retrieved results. The concept and scoring systems used in this retrieval engine will be discussed further in the following subsections along with the evaluation.
 
 \subsection{Concept}
 
-Instead of treating each spatio-temporal atom cubes as an unique document, in this framework, the unique identifiers ($atom_x$, $atom_y$, $atom_t$) of each atom was used in the retrieval process. As mentioned above, the focus of this framework veered towards the use of distance measures (see Section \ref{section:distancemeasures}) and its applications in order to retrieve results that are relevant.
+In contrast to the proposed method in \versionOneRet, each spatio-temporal atom cubes were no longer treated as a unique document. Instead, the unique identifiers ($atom_x$, $atom_y$, $atom_t$) of each atom was used to build a set of points in the retrieval process. As mentioned above, the focus of this framework veered towards the use of distance measures (see Section \ref{section:distancemeasures}) and its applications in order to retrieve relevant results.
 
-In the same manner as the semantic extraction process, the graphical input query was designed in such a way that it takes on the properties of the atom cubes' unique identifiers with the exception of the $atom_t$. As a substitute of the identifier, the order of the input, $o_{i}$, was used as a replacement. This was possible as the order was used to mimic the motion of the target vehicle shot. However, to do so, first, the graphical query input needs to be converted into a set, $\mathbb{Q}$, by removing duplicate identifiers which was introduced by the mouse input strokes. This will thus result with unique identifiers remaining in the set.
+Similar to the semantic extraction process, the graphical input query makes use of the atom cubes' unique identifiers with the exception of the $atom_t$. As a replacement to the time identifier, the order of the input, $o_{i}$, was used.The series of orders is able to effectively mimic the motion of the target vehicle. First, the graphical query input was converted into a set $\mathbb{Q}$,of unique identifiers by removing duplicate identifiers which was introduced by the mouse input strokes.
 \begin{equation}
     \mathbb{Q} = \{ (x_i, y_i, o_i), (x_{i+1}, y_{i+1}, o_{i+1}), (x_{i+2}, y_{i+2}, o_{i+2}), \dotsb,(x_{i+n}, y_{i+n}, o_{i+n})\}
 \end{equation}
 As the retrieval engine deals with a huge set of data, the next logical approach was to find ways to optimise and minimise the search area. In this framework, a simplistic approach was taken to further narrow down the search scope.
-The time and date semantics were utilised as these useful metadata which were extracted during the semantic extraction phase were suitable candidates in assisting the filtering process.
+The time and date semantics were utilised as these useful metadata extracted during the semantic extraction phase were suitable candidates in assisting the filtering process.
 Records $\mathbb{R}$ that fulfils the input query's requirements were kept and included into a set $\mathbb{P}$, while records which failed was filtered out from this phase using Equation \ref{eq:timedatefilter}.
 \begin{gather}
 \label{eq:timedatefilter}
      \text{Start Timestamp} \hspace{.5em} \leq \hspace{.5em} \mathbb{R}[i] \hspace{.5em} \leq \hspace{.5em} \text{End Timestamp} \hspace{.5em} \Rightarrow \hspace{.5em} \mathbb{R}[i] \in \mathbb{P}
 \end{gather}
-Now, with the output $\mathbb{P}$ from the filtering process, these records can now be compared against the input query $\mathbb{Q}$. In order to do so, this step begins by first comparing the length of the query ($\mathbb{Q}_{length}$) against the length of the individual records ($\mathbb{R}[i]_{length}$) in $\mathbb{P}$. This comparison is essential for the next phase of measuring the dissimilarity between using Chamfer Distance (see Equation \ref{eq:chamferDistance}).
+Now, the output $\mathbb{P}$ obtained from the filtering process was compared against the input query $\mathbb{Q}$. This step begins by first comparing the length of the query ($\mathbb{Q}_{length}$) against the length of the individual records ($\mathbb{R}[i]_{length}$) in $\mathbb{P}$. This comparison is essential for the next phase of measuring the dissimilarity between using Chamfer Distance (see Equation \ref{eq:chamferDistance}).
 
 Chamfer Distance, $D_{chamfer}$, is one of the many distance measure metrics available. In this framework, this distance metrics was selected to measure the dissimilarity between the input query $\mathbb{Q}$ and each record in $\mathbb{P}$ that fulfils the Equation \ref{eq:timedatefilter}. In order to minimise the dissimilarity between $\mathbb{P}$ \& $\mathbb{Q}$, the number of records (length) within both $\mathbb{P}$ \& $\mathbb{Q}$ are taken into consideration. In the proposed method, $\mathbb{P}$ will be assigned to $P$ if $\mathbb{P}$'s length is greater $\mathbb{Q}$ and vice versa.
 
@@ -499,7 +492,7 @@ As a whole, both \textit{simple} and \textit{complex} queries shows reasonably g
 \caption{Normalised Discounted Cumulative Gain for Simple and Complex Trajectories Queries} \label{fig:versionTwoNDCG}
 \end{figure}
 
-The difference between the simple and complex trajectories are rather distinct. The overall nDCG score for the queries of simple trajectories were rather high in the 91\% region while the nDCG score for queries related to complex trajectories were in the 75\% region. The results here shows that the retrieval engine had an easier time sorting simple trajectories in the best ranking order while having some difficulty when organising the complex trajectories using the $D_{chamfer}$ metrics. 
+The difference between the simple and complex trajectories are rather distinct. The overall nDCG score for the queries of simple trajectories were rather high in the 91\% region while the nDCG score for queries related to complex trajectories were in the 75\% region. The results here shows that the retrieval engine had an easier time sorting simple trajectories in the best ranking order while having some difficulty when organising the complex trajectories using the $D_{chamfer}$ metrics.
 
 Additional comparison between Chamfer Distance and various other distance measures were also computed to further understand the difference, advantages and properties of these methods. Table \ref{table:DistanceCompare} contains a compilation of 7 different test cases which were compared against a sample ground truth data. These test cases were tested using 5 different distance measures: Chamfer Distance, Dynamic Time Warping, Hausdorff Distance, Earth Mover Distance, and Euclidean Distance.
 In all cases, smaller numbers represents higher similarity score while larger numbers represents lower similarity scores.
