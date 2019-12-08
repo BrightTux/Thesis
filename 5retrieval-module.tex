@@ -258,10 +258,8 @@ Records $\mathbb{R}$ that fulfils the input query's requirements were kept and i
 \label{eq:timedatefilter}
      \text{Start Timestamp} \hspace{.5em} \leq \hspace{.5em} \mathbb{R}[i] \hspace{.5em} \leq \hspace{.5em} \text{End Timestamp} \hspace{.5em} \Rightarrow \hspace{.5em} \mathbb{R}[i] \in \mathbb{P}
 \end{gather}
-Now, the output $\mathbb{P}$ obtained from the filtering process was compared against the input query $\mathbb{Q}$. This step begins by first comparing the length of the query ($\mathbb{Q}_{length}$) against the length of the individual records ($\mathbb{R}[i]_{length}$) in $\mathbb{P}$. This comparison is essential for the next phase of measuring the dissimilarity between using Chamfer Distance (see Equation \ref{eq:chamferDistance}).
-
-Chamfer Distance, $D_{chamfer}$, is one of the many distance measure metrics available. In this framework, this distance metrics was selected to measure the dissimilarity between the input query $\mathbb{Q}$ and each record in $\mathbb{P}$ that fulfils the Equation \ref{eq:timedatefilter}. In order to minimise the dissimilarity between $\mathbb{P}$ \& $\mathbb{Q}$, the number of records (length) within both $\mathbb{P}$ \& $\mathbb{Q}$ are taken into consideration. In the proposed method, $\mathbb{P}$ will be assigned to $P$ if $\mathbb{P}$'s length is greater $\mathbb{Q}$ and vice versa.
-
+Now, the output $\mathbb{P}$ obtained from the filtering process can be compared against the input query $\mathbb{Q}$. This step begins by first comparing the length of the query ($\mathbb{Q}_{length}$) against the length of the individual records ($\mathbb{R}[i]_{length}$) in $\mathbb{P}$ that fulfils the date & time criteria.
+Following which, Chamfer Distance can be calculated using Equation \ref{eq:chamferDistance}. As lower dissimilarity score is desired, the length containing higher value is set as the denominator to minimise the dissimilarity. Hence, $\mathbb{P}$ will be assigned to $P$ if $\mathbb{P}$'s length is greater $\mathbb{Q}$ and vice versa.
 
 \begin{align}
 \mathrm{P} =\begin{cases}
@@ -275,7 +273,6 @@ Chamfer Distance, $D_{chamfer}$, is one of the many distance measure metrics ava
 \end{align}
 
 
-
 \begin{align}
 \label{eq:chamferDistance}
 D_{Chamfer} (P,Q) = \frac{1}{\mid P \mid} \sum_{t_p \in P} \min_{t_q \in Q}  \mid t_p - t_q \mid^{2}
@@ -284,8 +281,8 @@ D_{Chamfer} (P,Q) = \frac{1}{\mid P \mid} \sum_{t_p \in P} \min_{t_q \in Q}  \mi
 \subsection{Search Interface}
 The proposed retrieval engine interface was designed using web compliant graphical user interface in JavaScript as illustrated in \ref{fig:versionTwoInterface}.
 Similar to the concept introduced in the \versionOneRet, users are able to construct queries by drawing the trajectory while providing complementary information such as the vehicle colour and timestamp information.
-Once the query is constructed, the retrieval engine goes through the database searching for shots which highly resembles the given query.
-Unlike the previous method, the use of HTML5 video elements in this retrieval engine made it easy to display the obtained results with a suitable thumbnail that represents each retrieved video while speeding up the speed as there was no need of encoding each retrieved shot on the fly.
+Once the query is constructed, the retrieval engine goes through the database searching for shots which highly resembles the given query by computing the distance.
+However, unlike the previous method, the use of HTML5 video elements in this retrieval engine made it easy to display the obtained results with a suitable thumbnail that represents each retrieved video while reducing processing time as there was no need of encoding each retrieved shot on the fly.
 
 \begin{figure}[!hbt]\centering
 \includegraphics[width=.9\textwidth]{image/retrievalTwo/VISERinterface2.png}
@@ -295,14 +292,15 @@ Unlike the previous method, the use of HTML5 video elements in this retrieval en
 
 \subsection{Metrics, Scoring System and Experimental Methodology}
 
-The following subsections describes the scoring system, metrics as well as the evaluation process of the proposed method described in Section \ref{section:versionTwo}. Given that the main objective of the proposed retrieval engine is to provide users with results which closely resemble the given query in a sorted manner such that results which are more relevant should appear higher in the rank. The performance of the proposed method was measured using the \textit{Precision@K} and normalised Discounted Cumulative Gain (\textit{nDCG}) metrics.
+The following subsections describes the scoring system, metrics as well as the evaluation process of the proposed method described in Section \ref{section:versionTwo}. With the main objective of providing users with results that closely resembles the given query, results which are more relevant were sorted such that it would appear higher in the ranked results. In this setting, the performance of the proposed method was measured using the \textit{Precision@K} and normalised Discounted Cumulative Gain (\textit{nDCG}) metrics.
 
-The \textit{Precision@K} metric is used to identify the number of retrieved results which are relevant to the user while the \textit{nDCG} metrics is used to measure how well the retrieval engine's results are ordered for the end users. The idea behind \textit{DCG} is that results that are highly relevant are more useful when it appears higher in rank, users would not need to go through too many results before finding a suitable and relevant result. The other side of the coin is true as well, relevant documents which appears lower in the rank should be penalised, hence the discount in its gain.
+The \textit{Precision@K} metric is used to identify the number of retrieved results which are relevant to the user while the \textit{nDCG} metrics is used to measure how well the retrieval engine's results were sorted for the end users. The idea behind \textit{DCG} metric is that highly relevant results are more useful when it appears higher in rank (hence, higher gain). Users would not need to go through too many results before finding a suitable and relevant result. Likewise, relevant documents which appears lower in the rank should be penalised, hence the discount in its gain.
 
-In order to evaluate the performance of the proposed method, the evaluation of both the trajectory and colour terms were separated. The separation of evaluations allows further understanding on how to improve the retrieval engine as a whole. A group of volunteers were introduced to the retrieval engine along with it's features and a sample use case was demonstrated, then, the volunteers were given full control to draw any query they were interested in. Next with the results from the retrieval engine, the volunteers were tasked to provide feedback by rating each result with a scale of 1 to 5, with 5 being a result that closely resembles the input query.
+In order to evaluate the performance of the proposed method, the evaluation of both the trajectory and colour terms were separated. The separation of evaluations allows further understanding on how to improve the retrieval engine as a whole. The evaluation process took on a user study approach.
+First, a group of volunteers was introduced to the retrieval engine along with it's features and a sample use case was demonstrated. Next, the volunteers were given full control to draw any query they were interested in. They were then tasked to provide feedback by rating each result with a scale of 1 to 5, with 5 being a result that closely resembles the input query.
 
-The volunteers were given full control of the input query $\mathbb{P}$ as it closely resembles real world scenarios. With that in consideration, it is not feasible to obtain the ground truth annotation for each of those queries within the one month data time frame, without which the recall rate can not be measured for this retrieval engine.
-While the \textit{Precision@K} metrics is a commonly used metric for retrieval system, the main disadvantage of this metric is that the evaluation process is done in a coarse manner as it only provides a binary evaluation of whether or not a particular result is relevant to the query. On the other hand, the \textit{DCG} metric is able to provide a more granular evaluation of the proposed method as the results are evaluated based on its ordered rank along with the relevancy of the result. Figure \ref{fig:dcgGain} illustrates the decreasing gain value of each result as the ranking of the result increases.
+The volunteers were given full control of drawing the input query $\mathbb{P}$ to mimic a real world scenario. As there were no limitation on what could be drawn on the search canvas, it was not feasible obtaining the ground truth annotation for each and every possible motion within the one month data time frame. Hence, without these ground truth data, the recall rate could not be measured for this retrieval engine.
+While \textit{Precision@K} metrics is commonly used metric in retrieval systems, the main disadvantage of this metric is that the evaluation process is done in a coarse manner. This is because it only provides a binary evaluation of whether or not a particular result is relevant to the query. On the other hand, the \textit{DCG} metric is able to provide a more granular evaluation of the proposed method as the results are evaluated based on its ordered rank along with the relevancy of the result. Figure \ref{fig:dcgGain} illustrates the decreasing gain value of each result as the ranking of the result increases.
 
 \begin{figure}[!ht]
 \centering
@@ -333,8 +331,7 @@ The following subsections provides in-depth details on the experimental methodol
 \subsubsection{Vehicle Trajectory}
  The volunteers were given full control of the user interface and asked to draw at least 1 trajectory as an input query. Upon performing the query, the volunteers were asked to rate each of the resulting trajectory video shot with a scale from 1 to 5, where 1 signifies the least relevant, and 5 being the most relevant.
 
- Each input query would return at least 25 results which were ordered randomly, this was intentionally done to prevent the volunteers from having any pre-conceived idea of how the results should be ordered which would affect the way each retrieved results is judged. By removing the biasness, the volunteers were able to provide a fair and sound evaluation towards each result, hence increasing the credibility of the overall results.
-
+Each input query would return at least 25 results which were ordered randomly. This was intentionally done to prevent the volunteers from having any pre-conceived idea of how the results should be ordered which would affect the way each retrieved results is judged. By removing the biasness, the volunteers were able to provide a fair and sound evaluation towards each result, hence increasing the credibility of the overall results.
 
 
 \subsubsection{Vehicle colour \& colour Mode}
