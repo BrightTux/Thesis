@@ -465,8 +465,15 @@ common occurance in a regular retrieval engine.
 
 Next, in order to determine the retrieval engine's overall performance in
 regards to how the results were ordered, the average \textit{nDCG} score for
-all eleven trajectory queries were measured and plotted in Figure \ref{fig:ndcgWithError}. As a whole, the average \textit{nDCG} score lies along the 83\% region. This means that the results were 83\% of the time ordered in the best possible manner. As the number of retrieved results were evaluated, the \textit{nDCG} score shows an increase.
-While this is not desirable, this behaviour was expected. A good retrieval engine would strive to provide the best results in the best order if possible.
+all eleven trajectory queries were measured and plotted in Figure
+\ref{fig:ndcgWithError}. As a whole, the average \textit{nDCG} score lies along
+the 83\% region, which means that the results ordered in the best possible
+manner 83\% of the time.
+In an ideal scenario, the scores should remain at 1, signifying that the
+results were ordered perfectly. However, in this experiment, the \textit{nDCG}
+score shows an increase as the number of retrieved results were evaluated.
+While this is not desirable, this behaviour was expected in a non-ideal
+condition.
 
 \begin{figure}[!ht]
   \centering
@@ -475,9 +482,27 @@ While this is not desirable, this behaviour was expected. A good retrieval engin
   \label{fig:ndcgWithError}
 \end{figure}
 
-To further break down the evaluation process of the retrieval engine's performance, as per the previous retrieval model's evaluation, the trajectory queries were also divided into two categories: \textit{simple} and \textit{complex} trajectories. \textit{Simple} trajectories refers to trajectories that moves in a single direction without any turning (such as a straight line) while \textit{complex} trajectories refers to movements which consist of more than one turning. Table \ref{table:versionTwoComplexSimple} shows the category of each query while the \textit{Precision@K} results are plotted in Figure \ref{fig:versionTwoPatKAll}.
+To further break down the evaluation process of the retrieval engine's
+performance, as per the previous retrieval model's evaluation, the trajectory
+queries were also divided into two categories: \textit{simple} and
+\textit{complex} trajectories. \textit{Simple} trajectories refers to
+trajectories that moves in a single direction without any turning (such as a
+straight line) while \textit{complex} trajectories refers to movements which
+consist of more than one simple motion.
+Table \ref{table:versionTwoComplexSimple} shows the category of each query while
+the \textit{Precision@K} results are plotted in Figure
+\ref{fig:versionTwoPatKAll}.
 
-For simple trajectories, the Precision@K scores a high 100\% at the beginning and slowly decrease to around 68\% as the number of retrieved results (K) were reviewed. All the simple queries shows rather consistent results which are as expected. As for complex trajectories, the precision at k=1 started at 67\% and dropped further to 46\% at the end of 30 results. Even though Query 6 and Query 9 belongs in the complex trajectory category, the first 10 results shows rather high precision. However, the results from the other complex trajectory did not perform as well as Query 6 and Query 9. The results of those query started strong in the early K, but dropped significantly when K was 3 and above. The overall Precision@K results shows a rather expected behaviour where the precision would be high in the early K region, and would slowly decrease as K increases.
+For simple trajectories, the Precision@K scores a high 100\% at the beginning
+and slowly decrease to around 68\% as the number of retrieved results (K) were
+reviewed. All the simple queries shows rather consistent results which are as
+expected. As for complex trajectories, the precision at k=1 started at 67\% and
+dropped further to 46\% at the end of 30 results. Even though Query 1 and Query
+6 belongs in the complex trajectory category, the first 10 results shows rather
+high precision. However, the majority of the other complex trajectory did not
+perform as well as Query 1 and Query 6. The overall Precision@K results shows
+an expected behaviour where the precision would be high in the early K region,
+and would slowly decrease as K increases.
 
 % Please add the following required packages to your document preamble:
 % \usepackage{multirow}
@@ -501,7 +526,14 @@ For simple trajectories, the Precision@K scores a high 100\% at the beginning an
 \label{table:versionTwoComplexSimple}
 \end{table}
 
-As a whole, both \textit{simple} and \textit{complex} queries shows reasonably good performance in terms of its precision, however, when evaluated individually, the \textit{complex} queries shows poorer results. Next, the \textit{nDCG} score of both the \textit{simple} and \textit{complex} trajectory queries were evaluated and plotted in Figure \ref{fig:versionTwoNDCG}(a) and Figure \ref{fig:versionTwoNDCG}(b) respectively.
+As a whole, both \textit{simple} and \textit{complex} queries shows reasonably
+good performance in terms of its precision, however, when evaluated
+individually, the \textit{complex} queries shows poorer results. Next, the
+\textit{nDCG} score of both the \textit{simple} and \textit{complex} trajectory
+queries were evaluated and plotted in Figure \ref{fig:versionTwoNDCG}(a) and
+Figure \ref{fig:versionTwoNDCG}(b) respectively. Contrary to coarse results
+obtained using \textit{Precision@K}, the \textit{nDCG} score is able to provide
+an indepth evaluation as it takes the relevancy into consideration.
 
 
 \begin{figure}[htb!]
@@ -512,34 +544,76 @@ As a whole, both \textit{simple} and \textit{complex} queries shows reasonably g
  \includegraphics[width=0.9\linewidth]{image/retrievalTwo/p@k_complex.png} \\
  (b) \textit{Precision@K} for Complex Trajectories
 \end{tabular}
-\caption{\textit{Precision@K} for Simple and Complex Trajectories Queries} \label{fig:versionTwoPatKAll}
+\caption{\textit{Precision@K} for Simple and Complex Trajectories Queries}
+\label{fig:versionTwoPatKAll}
 \end{figure}
 
 
 \begin{figure}[htb!]
   \centering
-\begin{tabular}{c}
- \includegraphics[width=0.9\linewidth]{image/retrievalTwo/ndcgSimple.png}\\
- (a) \textit{nDCG} for Simple Trajectories \\
- \includegraphics[width=0.9\linewidth]{image/retrievalTwo/ndcgComplex.png} \\
- (b) \textit{nDCG} for Complex Trajectories
-\end{tabular}
-\caption{Normalised Discounted Cumulative Gain for Simple and Complex Trajectories Queries} \label{fig:versionTwoNDCG}
+  \begin{tabular}{c}
+   \includegraphics[width=0.9\linewidth]{image/retrievalTwo/ndcgSimple.png}\\
+   (a) \textit{nDCG} for Simple Trajectories \\
+   \includegraphics[width=0.9\linewidth]{image/retrievalTwo/ndcgComplex.png} \\
+   (b) \textit{nDCG} for Complex Trajectories
+  \end{tabular}
+  \caption{Normalised Discounted Cumulative Gain for Simple and Complex
+  Trajectories Queries}
+  \label{fig:versionTwoNDCG}
 \end{figure}
 
-The difference between the simple and complex trajectories are rather distinct. The overall nDCG score for the queries of simple trajectories were rather high in the 91\% region while the nDCG score for queries related to complex trajectories were in the 75\% region. The results here shows that the retrieval engine had an easier time sorting simple trajectories in the best ranking order while having some difficulty when organising the complex trajectories using the $D_{chamfer}$ metrics.
+Based on the graph, the difference between the simple and complex trajectories
+are rather distinct. The overall nDCG score for the queries of simple
+trajectories howers high around the 91\% region while the nDCG score for complex
+trajectories were in the neighbourhood of 75\%. The results here shows that the
+retrieval engine had an easier time sorting simple trajectories in the best
+ranking order while having some difficulty organising the complex trajectories
+using the $D_{chamfer}$ metrics.
 
-Additional comparison between Chamfer Distance and various other distance measures were also computed to further understand the difference, advantages and properties of these methods. Table \ref{table:DistanceCompare} contains a compilation of 7 different test cases which were compared against a sample ground truth data. These test cases were tested using 5 different distance measures: Chamfer Distance, Dynamic Time Warping, Hausdorff Distance, Earth Mover Distance, and Euclidean Distance.
-In all cases, smaller numbers represents higher similarity score while larger numbers represents lower similarity scores.
+Additional comparison between Chamfer Distance and various other distance
+measures were also computed to further understand the difference, advantages
+and properties of these methods. Table \ref{table:DistanceCompare} contains a
+compilation of 7 different test cases compared against a single sample ground
+truth data. These test cases were then tested using 5 different distance
+measures: Chamfer Distance, Dynamic Time Warping, Hausdorff Distance, Earth
+Mover Distance, and Euclidean Distance. In all cases, smaller numbers
+represents lower distance (higher similarity) while larger numbers represents
+larger distance (lower similarity).
 
-As a baseline comparison, a simplistic approach using Euclidean Distance was also measured. The results obtained shows minimal difference in the raw results when comparing the best case and worst test case. While the normalised results shows better results, it is not a useful metrics as we are not able to compare the scores of different query results during the actual retrieval process.
-Based on the results in Table \ref{table:DistanceCompare}, it is noticed that Earth Mover Distance favours similar shapes as it is able to effectively deal with scaling of shapes. While useful in other applications, this is not a desirable property in the context of a retrieval engine in a car park setting. Likewise, this distance measure also heavily penalises Test 1, which contains a mirrored shape.
+As a baseline comparison, a simplistic approach using Euclidean Distance was
+also measured. The results obtained from Euclidean Distance shows minimal
+difference in the raw results when comparing the best case and worst test case.
+While the normalised results shows better results, the normalised result is not
+a useful metrics as it only represents the distribution in the 7 test cases. In
+an actual retrieval process, we are not able to obtain these score during
+runtime. Based on the results in Table \ref{table:DistanceCompare}, it is
+noticed that Earth Mover Distance favours similar shapes as it is able to
+effectively deal with scaling of shapes. While useful in other applications,
+this is not a desirable property in the context of a retrieval engine in a car
+park setting. As expected, this distance measure heavily penalises Test 1, which
+contains a mirrored shape.
 
-In the case of Hausdorff distance, it is noticed that this distance measure often measures the maximum distance of a set to the nearest point in the other set which is usually used for image matching. It is also observed that this distance measure was not able to handle Test 2 which deals with directional inputs, this shows that this metric was not a suitable candidate in our retrieval engine.
-The results also shows that both Chamfer Distance and Dynamic Time Warping has relatively similar performance in those 7 test cases. Nevertheless, Chamfer Distance was able to return higher difference ratio between the best case and worst case scenario. This attribute is very desired and extremely useful when sorting huge numbers of trajectories from the database.
+In the case of Hausdorff distance, it is noticed that this distance measure
+often measures the maximum distance of a set to the nearest point in the other
+set which is usually used for image matching. It is also observed that this
+distance measure was not able to handle Test 2 which deals with directional
+inputs, this shows that this metric was not a suitable candidate in our
+retrieval engine. The overall results shows that both Chamfer Distance and
+Dynamic Time Warping were candidate methods  as they have relatively good and
+similar performance in those 7 test cases. However, Chamfer Distance was able
+to return higher difference ratio between the best case and worst case test
+case. This attribute is extremely desireable and very useful when sorting huge
+numbers of trajectories from the database.
 
-
-Even though the overall results are relatively good, the implementation of Chamfer Distance in the proposed method is not without its faults. Observation of the results shows that chamfer distance performs poorly when (i) a trajectory is compared against a much shorter trajectory that intersects at a particular point or (ii) two trajectories turning into 2 different junctions. In both examples, the obtained $D_{chamfer}$ shows relatively low score that could result in those shots being retrieved, these examples can be found in Figure  \ref{fig:chamferDisadvantage}.
+Even though the overall results using Chamfer Distance were relatively good,
+the implementation of this distance metrics in the proposed method is not
+without its faults. Observation of the results shows that Chamfer Distance
+performs poorly when (i) a trajectory is compared against a much shorter
+trajectory that intersects at a particular point or (ii) two trajectories
+of similar shape turning into 2 different junctions. In both examples,
+the obtained $D_{chamfer}$ were relatively low, hence these results could
+potentially be retrieved, these examples can be found in Figure
+\ref{fig:chamferDisadvantage}.
 
 \begin{figure}[htb!]
   \centering
@@ -551,8 +625,6 @@ Even though the overall results are relatively good, the implementation of Chamf
 \end{tabular}
 \caption{Disadvantages of Chamfer Distance} \label{fig:chamferDisadvantage}
 \end{figure}
-
-
 
 
 % Please add the following required packages to your document preamble:
@@ -581,26 +653,45 @@ GT Sample & \begin{tabular}[r]{@{}l@{}}Test 1:\\ Mirror\end{tabular} & \begin{ta
 \textbf{Euclidean Distance} & 0.1171 (5.00) & 0.1656 (7.07) & 0.1424 (6.08) & 0.0703 (3.00) & 0.0661 (2.82) & 0.3645 (15.56) & 0.0740 (3.16) \\ \hline
 \end{tabular}%
 }
-\caption{Comparison of Difference Distance Measures against 7 Different Test Scenarios Against a Ground Truth Sample Data. The results are represented by Normalised Results Followed by the Actual Distance Measure obtained in Brackets. Smaller Numbers are Represents Closer Similarity.}
+\caption{Comparison of Difference Distance Measures against 7 Different Test
+  Scenarios Against a Ground Truth Sample Data. The results are represented by
+  Normalised Results Followed by the Actual Distance Measure obtained in
+  Brackets. Smaller Numbers are Represents Closer Similarity. Euclidean Distance
+  acted as a simplistic approach towards this problem, and was used as a
+  baseline comparison. The results shows that Earth Mover Distance favoured
+  cases where the shapes were similar (Test 7) and penalised a mirrored shape
+  (Test 1). Hausdorff distance failed to provide good dissimilarity score for
+  Test 2 which was used to test the ability to differentiate directions.
+  Overall, Chamfer Distance and Dynamic Time Warping method was able to provide
+  comparable results, however, Chamfer Distance came up top as it is able to
+  provide a larger margin between the best and worst test cases. This property
+  is desireable when comparing huge numbers of trajectories.}
 \label{table:DistanceCompare}
 
 \end{table}
 \end{landscape}
 
 
-
-
-
-
-
-
-In a nutshell, despite the flaws of Chamfer Distance, the implementation of $D_{chamfer}$ in the retrieval engine provided relatively good results (Average \textit{Precision@K} = 76\%) that were sorted in an organised and useful manner (\textit{nDCG} score = 83\%). The use of Chamfer Distance can be extended to other datasets of similar properties.
+However, as a whole, despite the flaws of Chamfer Distance, the implementation
+of $D_{chamfer}$ in the retrieval engine provided relatively good results
+(Average \textit{Precision@K} = 76\%) that were sorted in an organised and
+useful manner (\textit{nDCG} score = 83\%). In my opinion, the use of Chamfer
+Distance can be extended to other datasets of similar properties for the
+retrieval purposes.
 
 \subsubsection{Vehicle Colour \& Colour Mode}
 \label{subsec:vehiclecolourchamferdistanceexperiment}
 
-As mentioned in Section \ref{subsec:vehColor}, a total of 330 video snippets were extracted from the top 30 results of each colour modes were extracted. As four colour modes were tested, the six volunteer were split into groups of three and they were given two sets of data to evaluate.
-The results of the average \textit{Precision@K} metric for each of the colour modes were tabulated in Figure \ref{fig:colorspace_score} while Table \ref{tab:avg@k} shows a high level overview of the results across K = 1 to 30. Similar to the evaluation process of the vehicle trajectories, this time, the volunteers were asked to determine the relevance of the colour term to that particular vehicle for each of the video snippets with a scale of 1 to 5.
+As mentioned in Section \ref{subsec:vehColor}, a total of 330 video snippets
+were extracted from the top 30 results of each colour modes.  As four colour
+modes were tested, the six volunteer were split into groups of three and were
+given two sets of data to evaluate. The results of the average
+\textit{Precision@K} metric for each of the colour modes were tabulated in
+Figure \ref{fig:colorspace_score} while Table \ref{tab:avg@k} provides a high
+level overview of the results across K = 1 to 30. Similar to the evaluation
+process of the vehicle trajectories, this time, the volunteers were asked to
+determine the relevance of the colour term to that particular vehicle for each
+of the video snippets with a scale of 1 to 5.
 
 \begin{table}[!t]
 	\centering
@@ -631,43 +722,102 @@ Avg & 0.09 & 0.18 & 0.15 & 0.16 & 0.16 & 0.18 & 0.18 & 0.20 & 0.23 & 0.23 \\
 \caption{\textit{Precision@K} for Each colour Mode} \label{fig:colorspace_score}
 \end{figure}
 
-The \textit{Precision@K} results of the LUV colour mode showed the best results among the other colour modes used to extract the colour term. The average precision at K=1 is at an amazing 91\%, however, by the time K=10, the precision has dropped to an average precision of 69\% and gradually drops to 60\% when K reached 30. The colours Yellow, Red, Black, and White showed rather consistent results throughout the experiment while colours like Purple, Green and Brown fared rather poorly. This was likely because there were not many cars which were highly saturated in those colours.
+The \textit{Precision@K} results of the LUV colour mode showed the best results
+among the other colour modes used to extract the colour term. The average
+precision at K=1 is recorded at 91\%, however, by the time K=10, the precision
+has dropped to an average precision of 69\% and gradually drops to 60\% when K
+reached 30. The colours Yellow, Red, Black, and White showed consistent results
+throughout the experiment while colours like Purple, Green and Brown fared
+poorly. This was likely because there were not many cars which were highly
+saturated in those shades of colours.
 
-When comparing with the other colour modes, Black colour tend to provide consistent results throughout the entire experiment. The average precision for the HSV and Lab colour modes was staggering around the 25\% region. It is also observed that the retrieval of Red and Black colour vehicles perform significantly well in the Lab colour space when compared to the other colours, the average precision of these two colours are in the 90\% vicinity.
+When comparing with the other colour modes, Black colour provided relatively
+consistent results throughout the entire experiment. The average precision for
+the HSV and Lab colour modes staggered around the 25\% region. It is also
+observed that the retrieval of Red and Black colour vehicles perform
+significantly better in the Lab colour space when compared to the other colours,
+the average precision of these two colours are in the 90\% vicinity.
 
-During the phase of preparing the experimental methodology, the average colour mode was designed with the goal of maximising the strength of each colour modes while averaging out the weaknesses. However, based on the conducted experiment, it was surprising to see the underwhelming performance of the HSV and Lab colour mode. Hence, the average colour mode also took a dive in terms of the precision. However, this colour mode did live up to its expectation in maximising the strengths of each colour modes. Based on the results tabulated, the precision when retrieving Black colour vehicles was rather well except for the initial precision during the early K region which were unexpected.
+During the preparation phase of the experimental methodology, the average
+colour mode was designed with the goal of maximising the strength of each
+colour modes while averaging out the weaknesses. However, based on the
+conducted experiment, it was surprising to see the underwhelming performance of
+the HSV and Lab colour mode. Hence, the average colour mode also took a dive in
+terms of the precision. However, this colour mode did live up to its expectation
+in maximising the strengths of each colour modes. Based on the results
+tabulated, the precision when retrieving Black colour vehicles was well except
+for the initial precision during the early K region which were unexpected.
 
-To further analyse the performance of the colour modes used, the confusion matrix of each colour mode used is plotted in Figure \ref{fig:colorspace_Confuscore} using 30 results for each colour term (with a total of 330 results for each colour space). The X-axis represents the Actual Colour, while the Y-axis represents the Predicted Colour. The colours in the confusion matrix were arranged in the following order: Black, Purple, Brown, Red, Pink, Orange, Yellow, Green, Blue, White, Gray. This colours were ordered based on its perceived similarity in terms of saturation and brightness. In the figure, the X-axis also contains an additional row which indicates numbers of results which were due to tracking error in the initial tracking  phase.
+To further analyse the performance of the colour modes used, the confusion
+matrix of each colour mode used is plotted in Figure
+\ref{fig:colorspace_Confuscore} using 30 results for each colour term (with a
+total of 330 results for each colour space). The X-axis represents the Actual
+Colour, while the Y-axis represents the Predicted Colour. The colours in the
+confusion matrix were arranged in the following order: Black, Purple, Brown,
+Red, Pink, Orange, Yellow, Green, Blue, White, Gray. This colours were ordered
+based on its perceived similarity in terms of saturation and brightness.
+In the figure, the X-axis also contains an additional row which indicates
+numbers of results which were due to tracking error in the initial tracking
+phase.
 
 \begin{figure}[htb!]
   \centering
-\begin{tabular}{cc}
- \includegraphics[width=0.4\linewidth]{image/retrievalTwo/luvCM.png} &
-  \includegraphics[width=0.4\linewidth]{image/retrievalTwo/hsvCM.png} \\
- (a) LUV colour Mode & (b) HSV colour Mode \\
- \includegraphics[width=0.4\linewidth]{image/retrievalTwo/labCM.png} &
- \includegraphics[width=0.4\linewidth]{image/retrievalTwo/avgCM.png} \\
-(c) Lab colour Mode & (d) Average colour Mode \\
-\end{tabular}
-\caption{Comparison Between the colour Modes Using Confusion Matrix} \label{fig:colorspace_Confuscore}
+  \begin{tabular}{cc}
+    \includegraphics[width=0.4\linewidth]{image/retrievalTwo/luvCM.png} &
+    \includegraphics[width=0.4\linewidth]{image/retrievalTwo/hsvCM.png} \\
+    (a) LUV colour Mode & (b) HSV colour Mode \\
+    \includegraphics[width=0.4\linewidth]{image/retrievalTwo/labCM.png} &
+    \includegraphics[width=0.4\linewidth]{image/retrievalTwo/avgCM.png} \\
+    (c) Lab colour Mode & (d) Average colour Mode \\
+  \end{tabular}
+  \caption{Comparison Between the colour Modes Using Confusion Matrix}
+  \label{fig:colorspace_Confuscore}
 \end{figure}
 
-Upon further inspection of the tabulated confusion matrices, the results shows similar output when compared with the \textit{Precision@K} results recorded from the volunteers via the scoring method. Both the results tallies in their finding that the low cost LUV colour mode proposed by Riemersma\cite{riemersma} outperforms the other colour modes. The Euclidean distance metrics used in the HSV colour mode to extract the colour terms performed the worst with not much variation in the results for each colour. On the other hand, the Lab colour mode's results showed a considered amount of accuracy for strongly distinct colours such as Red and Black but fails to differentiate the rest as visualised in Figure \ref{fig:colorspace_Confuscore}(C).
+Upon further inspection of the tabulated confusion matrices, the results shows
+similar output when compared with the \textit{Precision@K} results recorded
+from the volunteers via the scoring method. Both the results tallies in their
+finding that the low cost LUV colour mode proposed by Riemersma\cite{riemersma}
+outperforms the other colour modes. The Euclidean distance metrics used in the
+HSV colour mode to extract the colour terms performed the worst with not much
+variation in the results for each colour. On the other hand, the Lab colour
+mode's results showed a considered amount of accuracy for strongly distinct
+colours such as Red and Black but fails to differentiate the rest as visualised
+in Figure \ref{fig:colorspace_Confuscore}(C).
 
-Since the LUV colour mode's \textit{Precision@K} metrics outperformed the rest with a precision of 85\% at k=5, while the other colour modes barely reached the 30\% mark, only the normalised Discounted Cumulative Gain (\textit{nDCG}) for the LUV colour mode results were measured and plotted to understand the performance of the retrieval engine in terms of how well the results were sorted. Since the HSV, Lab and Average colour space metrics did not perform well, the nDCG metric was not measured as the order of the results does not represent the actual performance of the retrieval engine. The Discounted Cumulative Gain result was also visualised using Figure \ref{fig:colorndcg}.
+Given that the LUV colour mode's \textit{Precision@K} metrics outperformed the
+rest with a precision of 85\% at k=5, while the other colour modes barely
+reached the 30\% mark, only the normalised Discounted Cumulative Gain
+(\textit{nDCG}) for the LUV colour mode results were measured and plotted to
+understand the performance of the retrieval engine in terms of how well the
+results were sorted. The \textit{nDCG} metrics was not measure for the HSV, Lab
+and Average colour space metrics as they did not perform well, hence, the order
+of the results does not represent the actual performance of the retrieval
+engine. The Discounted Cumulative Gain result was also visualised in
+Figure \ref{fig:colorndcg}.
 
-The Bar chart is used to represent the number of results the user has to view in order to find a relevant document, hence a chart where the results consistently stays at the high 80-100\% area shows that the ranking of the results were done in one of the best ways possible. The Radar chart on the other hand, represents the overall performance of a particular colour over the number of results the user has to view in order to find a relevant document. Both of the charts clearly visualise that most colours were retrieved accurately and sorted in the a relatively good order with an astounding performance of high 80-90\% except for Brown and Green colour where the retrieval engine's performance only reach the best at the end of 30 results.
+The Bar chart is used to represent the number of results the user has to view
+in order to find a relevant document, hence a chart where the results
+consistently stays at the high 80-100\% area shows that the ranking of the
+results were done in one of the best ways possible. The Radar chart on the
+other hand, represents the overall performance of a particular colour over the
+number of results the user has to view in order to find a relevant document.
+Both of the charts clearly visualise that most colours were retrieved
+accurately and sorted in the a relatively good order with an astounding
+performance of high 80-90\% except for Brown and Green colour where the
+performance only reach the best at the end of 30 results.
 
 
 \begin{figure}[htb!]
   \centering
-\begin{tabular}{c}
- \includegraphics[width=0.9\linewidth]{image/retrievalTwo/radar_ndcg_luv.png}\\
- (a) \textit{nDCG} visualised in Radar Chart \\
-  \includegraphics[width=0.9\linewidth]{image/retrievalTwo/bar_ndcg_luv.png}\\
- (b) \textit{nDCG} visualised in Bar Chart \\
-\end{tabular}
-\caption{\textit{nDCG} of the LUV Colour Mode using Radar and Bar Chart} \label{fig:colorndcg}
+  \begin{tabular}{c}
+    \includegraphics[width=0.9\linewidth]{image/retrievalTwo/radar_ndcg_luv.png}\\
+    (a) \textit{nDCG} visualised in Radar Chart \\
+    \includegraphics[width=0.9\linewidth]{image/retrievalTwo/bar_ndcg_luv.png}\\
+    (b) \textit{nDCG} visualised in Bar Chart \\
+  \end{tabular}
+  \caption{\textit{nDCG} of the LUV Colour Mode using Radar and Bar Chart}
+  \label{fig:colorndcg}
 \end{figure}
 
 
@@ -714,22 +864,54 @@ The Bar chart is used to represent the number of results the user has to view in
 
 \subsubsection{Retrieval Speed}
 
-As with any retrieval engine, the speed in which the retrieval engine returns results to the end users plays an important role in determining the feasibility of the proposed method. In this experiment, the relevance of each result was not taken into consideration. Instead, the time taken to perform the queries were measured. A baseline (BL) measurement of the proposed method was performed with the default values of: (i) Retrieval of 30 results, (ii) Trajectory length of 10 atoms, (iii) Includes all colours and (iv) Sorting of first 200 Colour Matches (SortColourSize).
-Using the BL setting, the proposed method ignores all colour information during the retrieval process as only the trajectory information along with the time and date input affects the final results.
+As with any retrieval engine, the speed of the retrieval engine plays an
+important role in determining the feasibility of the proposed method. In this
+experiment, the relevance of each result was not taken into consideration.
+Instead, the time taken to perform the queries were measured. A baseline (BL)
+measurement of the proposed method was performed with the default values of:
+(i) Retrieval of 30 results, (ii) Trajectory length of 10 atoms, (iii) Includes
+all colours and (iv) Sorting of first 200 Colour Matches (SortColourSize).
+Using the BL setting, the proposed method ignores all colour information during
+the retrieval process as only the trajectory information along with the time
+and date input affects the final results.
 
-Table \ref{tab:retrievalspeed} summarises the retrieval speed of the proposed method using various settings.
-The collection of results were done by repeating and averaging out 20 executions of queries.
-The results of the BL is highlighted in the table.
-It is observed from the results that the BL settings achieved an average of 1.24seconds when retrieving 30 results given an input trajectory of 10. The increase of size for the displayed results does not heavily affect the processing time. It is noticed that the length of input trajectory affects the processing speed more than the number of displayed results. This is consistent with the nature of Chamfer Distance (see Eq. \ref{eq:chamferDistance}). As the length of the queries increase, the proposed method would have to spend more time running through each item within the set.
+Table \ref{tab:retrievalspeed} summarises the retrieval speed of the proposed
+method using various settings. The collection of results were done by repeating
+and averaging out 20 executions of queries. The results of the BL is highlighted
+in the table. From the results, it is observed that the BL settings achieved an
+average of 1.24 seconds when retrieving 30 results given an input trajectory of
+10 atoms. The results also shows that increasing the number of displayed
+results does not heavily affect the processing time. However, it is noticed
+that the length of input trajectory affects the processing speed more than the
+number of displayed results. This is consistent with the formula used to obtain
+Chamfer Distance (see Eq. \ref{eq:chamferDistance}). As the length of the
+queries increase, the proposed method would have to spend more time running
+through each item within the set.
 
-When the colour information was given as an input, the proposed method took considerably more time than the BL measurement. This is because the proposed method had to compare more data and sort the returned results in accordance to both the colour accuracy as well as the similarity between the input trajectory and the database records. In the same manner, when the number of colours increased from 1 to 5, the retrieval engine took an extra 0.3 seconds to process the results.
+To further test the retrieval speed, colour information was given as an input.
+With that, the proposed method took considerably more time than the BL
+measurement. This is because the proposed method had to compare more data and
+sort the returned results in accordance to both the colour accuracy as well as
+the similarity between the input trajectory and the database records. In the
+same manner, when the number of desired colours increased from 1 to 5, the
+retrieval engine took an extra 0.3 seconds to process the results.
 
-In order to further validate the performance of the proposed method, synthetic data was generated to simulate 6 months of valid data within the database. When the BL settings were applied, the proposed method took 7.7 seconds to generate the results. The additional colour queries only took an extra 0.6 seconds for the generation of results. Furthermore, the combination of input trajectory length of 30 along with 5 colour queries only took 9.4 seconds for the proposed method to produce the final results.
-When comparing against the traditional method of manually filtering the data, the proposed method shows significant improvement. Without a doubt, the proposed solution is able to outperform any human. The comparison between the proposed method against the method proposed by \citeA{castanon2016retrieval} is listed in Table \ref{tab:compareresult}.
-
-
-
-
+Next, to further validate the performance of the proposed method, synthetic
+data was generated to simulate 6 months of valid data within the database.
+When the BL settings were applied, the proposed method took 7.7 seconds to
+retrieve the results. The additional colour queries only took an extra 0.6
+seconds for the retrieval of results. Furthermore, the combination of input
+trajectory length of 30 along with 5 colour queries only took 9.4 seconds for
+the proposed method to produce the final results. When comparing against the
+traditional method of manually filtering the data, the proposed method shows
+significant improvement. Without a doubt, the proposed solution is able to
+outperform any human. The comparison between the proposed method against the
+method proposed by \citeA{castanon2016retrieval} is listed in
+Table \ref{tab:compareresult}. Given the difference in the dataset used, it is
+difficult to compare the methods used. Even though the proposed method was not
+able to obtain high compression rates, it was able to search through 200 hours
+of data within 1.2 seconds. This kind of efficiency is essential when dealing
+with huge datasets.
 
 
 % Please add the following required packages to your document preamble:
@@ -743,7 +925,6 @@ When comparing against the traditional method of manually filtering the data, th
 \begin{tabular}{|c|c|c|c|c|c|}
 \hline
 \textbf{Data Size} & \textbf{Result Size} & \textbf{Traj. Length} & \textbf{No. of Colours} & \textbf{SortColourSize} & \textbf{Avg Retrieval Speed } \\ \hline
-
 \multicolumn{1}{|c|}{}            & \cellcolor{yellow}30                           & \cellcolor{yellow}10                         & \cellcolor{yellow}11                         & \cellcolor{yellow}200                     & \cellcolor{yellow}1246.7720 ms (BL)                        \\ \cline{2-6}
 \multicolumn{1}{|c|}{}            & 30                           & 10                         & 1                         & 200                     & 1382.6237 ms                             \\ \cline{2-6}
 \multicolumn{1}{|c|}{}            & 30                           & 30                         & 11                         & 200                     & 1301.3777  ms                           \\ \cline{2-6}
@@ -783,8 +964,18 @@ Proposed method                      & 200 hours                       & 33.4 GB
 
 \section{Summary}
 
-In this chapter, two different semantic retrieval engines were proposed to retrieve semantics extracted in Chapter \ref{section:semanticsextraction}.
-Both the proposed methods implements distinctly different algorithm for the retrieval process. The \versionOneRet retrieved relevant documents based on the locality in which the data was saved while the \versionTwoRet retrieved and sorted relevant documents based on the similarity with the given input.
+In this chapter, two different semantic retrieval engines were proposed to
+retrieve semantics extracted in Chapter \ref{section:semanticsextraction}.
+Both the proposed methods implements distinctly different algorithm for the
+retrieval process. The \versionOneRet retrieved relevant documents based on the
+locality in which the data was saved while the \versionTwoRet retrieved and
+sorted relevant documents based on the similarity with the given input.
 
-Both of the retrieval engine reported respectable precision when retrieving both motion and colour information. The proposed \versionTwoRet also demonstrates its ability to retrieve relevant results accurately within 1.2 seconds while organising the results in the best possible manner. Along with that, as the colour semantics were not hard coded into one final category, the colour retrieval process shows significant improvement over the method proposed in \versionOneRet.
+Both of the retrieval engine reported respectable precision when retrieving
+both motion and colour information. The proposed \versionTwoRet also
+demonstrates its ability to retrieve relevant results accurately within 1.2
+seconds while organising the results in the best possible manner. Along with
+that, as the colour semantics were not hard coded into one final category,
+the colour retrieval process shows significant improvement over the method
+proposed in \versionOneRet.
 
