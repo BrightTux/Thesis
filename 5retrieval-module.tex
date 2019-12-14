@@ -258,7 +258,7 @@ Records $\mathbb{R}$ that fulfils the input query's requirements were kept and i
 \label{eq:timedatefilter}
      \text{Start Timestamp} \hspace{.5em} \leq \hspace{.5em} \mathbb{R}[i] \hspace{.5em} \leq \hspace{.5em} \text{End Timestamp} \hspace{.5em} \Rightarrow \hspace{.5em} \mathbb{R}[i] \in \mathbb{P}
 \end{gather}
-Now, the output $\mathbb{P}$ obtained from the filtering process can be compared against the input query $\mathbb{Q}$. This step begins by first comparing the length of the query ($\mathbb{Q}_{length}$) against the length of the individual records ($\mathbb{R}[i]_{length}$) in $\mathbb{P}$ that fulfils the date & time criteria.
+Now, the output $\mathbb{P}$ obtained from the filtering process can be compared against the input query $\mathbb{Q}$. This step begins by first comparing the length of the query ($\mathbb{Q}_{length}$) against the length of the individual records ($\mathbb{R}[i]_{length}$) in $\mathbb{P}$ that fulfils the date \& time criteria.
 Following which, Chamfer Distance can be calculated using Equation \ref{eq:chamferDistance}. As lower dissimilarity score is desired, the length containing higher value is set as the denominator to minimise the dissimilarity. Hence, $\mathbb{P}$ will be assigned to $P$ if $\mathbb{P}$'s length is greater $\mathbb{Q}$ and vice versa.
 
 \begin{align}
