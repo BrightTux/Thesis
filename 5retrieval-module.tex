@@ -329,16 +329,31 @@ The following subsections provides in-depth details on the experimental methodol
 
 
 \subsubsection{Vehicle Trajectory}
- The volunteers were given full control of the user interface and asked to draw at least 1 trajectory as an input query. Upon performing the query, the volunteers were asked to rate each of the resulting trajectory video shot with a scale from 1 to 5, where 1 signifies the least relevant, and 5 being the most relevant.
+The volunteers were given full control of the user interface and tasked to draw
+at least 1 trajectory as an input query. Upon obtaining results from the query,
+they were asked to rate each of the resulting trajectory video shot with a scale from 1 to 5, where 1 signifies the least relevant and 5 being the most relevant.
 
-Each input query would return at least 25 results which were ordered randomly. This was intentionally done to prevent the volunteers from having any pre-conceived idea of how the results should be ordered which would affect the way each retrieved results is judged. By removing the biasness, the volunteers were able to provide a fair and sound evaluation towards each result, hence increasing the credibility of the overall results.
+Each query would return at least 25 randomly ordered results. This was done
+intentionally to remove any pre-conceived idea of how the results should be
+ordered which would affect the way each retrieved results is judged. By removing
+the biasness, the volunteers were able to provide a fair and sound evaluation
+towards each result, hence, increasing the credibility of the overall results.
 
 
 \subsubsection{Vehicle colour \& colour Mode}
 \label{subsec:vehColor}
-A list with a total of 330 video snippets (30 video snippets for each of the 11 common colours) were presented to the volunteers. These 30 video snippets from each colours were selected using the top 30 results in the database which contained the highest probability for each of the colours. The volunteers were then asked to determine the relevance of the colour term to that particular vehicle for each of the 330 video snippets with the same scale from 1 to 5.
+As for the evaluation of the vehicle colours, a list of 330 video snippets (30
+video snippets for each of the 11 common colours) were presented to the
+volunteers. These video snippets were selected using the top 30 results in the
+database which contained the highest probability score for each of the 11
+colours. The volunteers were then asked to determine the relevance of the colour
+term to that particular vehicle for each of the 330 video snippets with the same
+scale of 1 to 5.
 
-In order to thoroughly evaluate the performance of the colour semantic extraction process which was introduced in Section \ref{section:versiontwoColor}, three other colour modes were included in the evaluation process. These colour modes are variations on how the colour terms are extracted using different colour space and distance metrics. These variations are listed in Table \ref{table:ColorVariation}.
+To further evaluate the performance of the colour semantic extraction process
+which was introduced in Section \ref{section:versiontwoColor}, three other
+colour modes were included in the evaluation process. These colour modes
+represents variations on how the colour terms were extracted using different colour space and distance metrics. These variations are listed in Table \ref{table:ColorVariation}.
 
 \begin{table}[!ht]\centering
 \begin{tabular}{|c|l|}
@@ -394,22 +409,34 @@ $\Delta{Colour_{Average}}$ & $=$ & $\frac{\Delta{Colour_{LUV}} + \Delta{Colour_{
 \end{tabular}\\
 \hline
 \end{tabular}
-\caption{Variation of colour Distance Metrics Used}
+\caption{Variation of Colour Distance Metrics Used}
 \label{table:ColorVariation}
 \end{table}
 
 
 \subsection{Results and Analysis}
 
-The results of both components (Vehicle Trajectory \& Vehicle Colour) are recorded in this section. As the results were evaluated using a scale from 1 to 5, these results were converted using a binary evaluation (True(1) / False(0)). This is done to enable to evaluation using the \textit{Precision@K} metrics. Here, results scoring with an average of 3 and above are considered relevant to the query. Each relevant (True(1)) result \textit{(n)} will then contribute to the \textit{Precision@K} score (see Equation \ref{eq:p@k}).
+The results for both components (Vehicle Trajectory \& Vehicle Colour) are
+recorded in this section. As the results were evaluated using a scale from 1 to
+5, these results were first converted into a binary evaluation (True(1) /
+False(0)) for the \textit{Precision@K} evaluation metrics. Here, results scoring with an average of 3 and above are considered relevant to the query. Each relevant (True(1)) result \textit{(n)} will then contribute to the \textit{Precision@K} score (see Equation \ref{eq:p@k}).
  \begin{equation}
 \label{eq:p@k}
 Precision@K =  \frac{\sum_{n=1}^K \begin{cases}1 \rightarrow True, & AvgScore(Result_n)\geq 3\\0 \rightarrow False, & AvgScore(Result_n)< 3 \end{cases}} {K}
 \end{equation}
 
 \subsubsection{Vehicle Trajectory}
-A total of eleven trajectories were drawn by six volunteers who were given full liberty on how each was drawn. Figure \ref{fig:versionTwoTrajquery} shows a compilation of these trajectories overlaid over the car park scene, these trajectories covered a majority of the scene while showing a good mixture of different queries.
-While some of the queries exceeded the tracking area of the tracker, the retrieval engine managed to retrieved results which has the closest resemblance to the given queries. As mentioned, the performance of the retrieval engine was measured using \textit{Precision@K} along with the \textit{normalised Discounted Cumulative Gain} (\textit{nDCG}) metrics.
+A total of eleven restriction-free trajectories were drawn by six volunteers.
+The volunteers were allowed to draw any kind of desired trajectory on the input
+canvas.
+Figure \ref{fig:versionTwoTrajquery} shows a compilation of these trajectories
+overlaid over the car park scene, these trajectories covered a majority of the
+scene while showing a good mixture of different queries.
+Even though some of the queries exceeded the tracking area of the tracker,
+the retrieval engine still managed to retrieved results which has the closest
+resemblance to the given queries. As previously mentioned, the performance of
+the retrieval engine was measured using \textit{Precision@K} along with the
+\textit{normalised Discounted Cumulative Gain} (\textit{nDCG}) metrics.
 
 \begin{figure}[!t]
   \centering
@@ -418,7 +445,16 @@ While some of the queries exceeded the tracking area of the tracker, the retriev
   \label{fig:versionTwoTrajquery}
 \end{figure}
 
-Even though the errors from the tracker\cite{lim2017} cascaded into database, results due to tracker error was not removed to provide a general idea of the retrieval engine's performance when working with trackers which are currently available. First, the \textit{Precision@K} of the retrieval engine was measured and recorded, Figure \ref{fig:versionTwoPreAtK} contains the plot of the average \textit{Precision@K} result. The result shows that the retrieval engine managed to retrieve video shots which were relatively relevant to the user's query with an average precision of 76\%. The \textit{Precision@K} results shows a steady decline in its precision as the K (number of results) increases, this was an expected outcome as it is common in a regular retrieval engine.
+Even though the errors from the tracker\cite{lim2017} cascaded into database,
+results due to tracker error was not removed to provide a broad idea of the
+retrieval engine's performance when working with trackers which are currently
+available. First, the \textit{Precision@K} of the retrieval engine was measured
+and recorded, Figure \ref{fig:versionTwoPreAtK} contains the plot of the
+average \textit{Precision@K} result. The result shows that the retrieval engine
+managed to retrieve video shots which were relatively relevant to the user's
+query with an average precision of 76\% with a steady decline in its precision
+as the K (number of results) increases. This was an expected outcome as it is
+common occurance in a regular retrieval engine.
 
 \begin{figure}[!ht]
   \centering
@@ -427,7 +463,9 @@ Even though the errors from the tracker\cite{lim2017} cascaded into database, re
   \label{fig:versionTwoPreAtK}
 \end{figure}
 
-Next, in order to determine the retrieval engine's overall performance in regards to how the results were ordered, the average \textit{nDCG} score for all eleven trajectory queries were measured and plotted in Figure \ref{fig:ndcgWithError}. As a whole, the average \textit{nDCG} score lies along the 83\% region. This means that the results were 83\% of the time ordered in the best possible manner. As the number of retrieved results were evaluated, the \textit{nDCG} score shows an increase.
+Next, in order to determine the retrieval engine's overall performance in
+regards to how the results were ordered, the average \textit{nDCG} score for
+all eleven trajectory queries were measured and plotted in Figure \ref{fig:ndcgWithError}. As a whole, the average \textit{nDCG} score lies along the 83\% region. This means that the results were 83\% of the time ordered in the best possible manner. As the number of retrieved results were evaluated, the \textit{nDCG} score shows an increase.
 While this is not desirable, this behaviour was expected. A good retrieval engine would strive to provide the best results in the best order if possible.
 
 \begin{figure}[!ht]
