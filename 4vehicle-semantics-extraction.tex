@@ -51,15 +51,13 @@ Moreover, real-world applications queries typically combines both ROI and time-s
 
 \begin{figure}[htb!]
   \centering
-
-
-\begin{tabular}{cc}
- \includegraphics[width=0.3\linewidth]{image/general/atom_ROI.PNG} &  \includegraphics[width=0.3\linewidth]{image/general/atom_time_slicing.PNG}\\
-(a) Region of Interest & (b) Time Slicing
-\end{tabular}
-
-
-\caption{Types of Queries} \label{fig:typesofQuery}
+  \begin{tabular}{cc}
+  \includegraphics[width=0.3\linewidth]{image/general/atom_ROI.PNG} &
+  \includegraphics[width=0.3\linewidth]{image/general/atom_time_slicing.PNG}\\
+  (a) Region of Interest & (b) Time Slicing
+  \end{tabular}
+  \caption{Types of Queries: (a) Region of Interest \& (b) Time Slicing}
+  \label{fig:typesofQuery}
 \end{figure}
 
 
@@ -71,12 +69,13 @@ As described in Section~\ref{subsec:scope}, the preliminary task of detecting, t
 
 \begin{figure}[htb!]
   \centering
-\begin{tabular}{cc}
- \includegraphics[width=0.4\linewidth]{image/general/bgs1.png} &  \includegraphics[width=0.4\linewidth]{image/general/bgs2.png}  \\
-(a) 123th frame of a video & (b) Result of background subtraction \\
-\end{tabular}
-\caption{Background Subtraction}
-\label{fig:bgs}
+  \begin{tabular}{cc}
+  \includegraphics[width=0.4\linewidth]{image/general/bgs1.png} &
+  \includegraphics[width=0.4\linewidth]{image/general/bgs2.png}  \\
+  (a) 123th frame of a video & (b) Result of background subtraction \\
+  \end{tabular}
+  \caption{Background Subtraction}
+  \label{fig:bgs}
 \end{figure}
 
 As the vanilla application of background subtraction (BGS) often results with noisy output, the proposed algorithm used in \cite{lim2017} implemented a combination of adaptive learning and frame differencing method. The BGS method detects and extracts moving objects (henceforth, referred to as foreground blobs).
@@ -264,7 +263,7 @@ This setup allowed quick access to semantic groups while easily representing the
 
 \begin{figure}[hbt!]\centering
 \includegraphics[width=.7\textwidth]{image/new/lsh.png}
-\caption{Locality Sensitive Hashing - Documents with similar properties within the dataset are clustered into similar neighbourhood using LSH via the hashing function, h(x). In this example, shapes and colours are used to illustrate documents with similar properties.}
+\caption{Locality Sensitive Hashing - Documents with Similar Properties Within The Dataset Are Clustered Into Similar Neighbourhood Using LSH Via The Hashing Function, h(x). In This Example, Shapes and Colours are Used to Illustrate Documents With Similar Properties}
 \label{fig:lshexample}
 \end{figure}
 

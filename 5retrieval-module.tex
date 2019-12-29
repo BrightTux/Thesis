@@ -237,7 +237,8 @@ were tested on three CV values which were set at 70\%, 80\%, and 90\%.
 
 \begin{table}[bht!]
 \centering
-\caption{Ground Truth Distribution of Trajectory Queries}
+  \caption{Ground Truth Distribution of Trajectory Queries. TQ1 (Simple Motion)
+  252 Occurance, 86.3\%, TQ2 (Complex Motion) 40 Occurance, 13.7\%}
 \label{table:motiondist}
 \begin{tabular}{cccc}
 \toprule
@@ -281,8 +282,8 @@ discussed in Section \ref{section:versionTwo}.
 
 \begin{table}[tb!]
 \centering
-\caption{Results of Motion Retrieval Task with Varying CV and Number of Atom
-  Inputs}
+\caption{Results of Motion Retrieval Task with Varying Confidence Value and
+  Number of Atom Inputs}
 \label{table:motionResults}
 \vspace{0.5em}
 \resizebox{\textwidth}{!}{
@@ -666,7 +667,7 @@ $\Delta{Colour_{Average}}$ & $=$ & $\frac{\Delta{Colour_{LUV}} + \Delta{Colour_{
 \end{tabular}\\
 \hline
 \end{tabular}
-\caption{Variation of Colour Distance Metrics Used}
+  \caption{Variation of Colour Distance Modes Used (LUV, HSV, Lab and Average)}
 \label{table:ColorVariation}
 \end{table}
 
@@ -783,7 +784,7 @@ and would slowly decrease as K increases.
  & Query 9 & \includegraphics{image/minimaps/query_09.png} \\ \cline{2-3}
  & Query 11 & \includegraphics{image/minimaps/query_11.png} \\ \hline
 \end{tabular}
-\caption{Queries and the Corresponding Trajectory Type}
+\caption{Queries, Minimaps and the Corresponding Trajectory Type}
 \label{table:versionTwoComplexSimple}
 \end{table}
 
@@ -980,7 +981,8 @@ Avg & 0.09 & 0.18 & 0.15 & 0.16 & 0.16 & 0.18 & 0.18 & 0.20 & 0.23 & 0.23 \\
  (c) Lab colour Mode&
  (d) Average colour Mode \\
 \end{tabular}
-\caption{\textit{Precision@K} for Each colour Mode} \label{fig:colorspace_score}
+\caption{\textit{Precision@K} for Each Colour Mode}
+  \label{fig:colorspace_score}
 \end{figure}
 
 The \textit{Precision@K} results of the LUV colour mode showed the best results
