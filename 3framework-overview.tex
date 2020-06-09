@@ -2,42 +2,40 @@
 \chapter{Framework Overview}
 \label{chapter:framework}
 \section{Introduction}
-To tackle the issues identified through the research questions and literature review, a theoretical framework is first laid to provide a conceptual schema to break the intricate challenge into multiple bite-sized puzzles. First, the overview of the proposed framework used in this work is described in Section \ref{section:framework}. Next, the description of the dataset used is given in Section \ref{section:dataset_used} and finally, this chapter concludes with the experimental methodology applied to obtain the results (see Section \ref{sec:expmethodology}).
+To tackle the issues identified through the research questions and literature review, a theoretical framework is first laid out to provide a conceptual schema to break the intricate problem into multiple sub-tasks. Firstly, the overview of the proposed framework used in this work is described in Section \ref{section:framework}. Next, the description of the dataset used is given in Section \ref{section:dataset_used} and finally, this chapter concludes with the experimental methodology applied to obtain the results (presented in Section \ref{sec:expmethodology}).
 
 
 \section{Framework Overview}
 \label{section:framework}
 In this section, a high-level overview of the fundamental processes along with two suggested core components for vehicle semantic extraction and retrieval is provided.
-The groundwork described in this work abides by the typical top-down approach used in Intelligent Transportation System (ITS) where the video data is subjected to background subtraction, followed by blob filtering, vehicle detection as well as vehicle tracking is as described in \cite{lim2017}.
-The semantic information from the vehicle blobs are then extracted and stored in the database.
+The groundwork described in this work abides by the typical top-down approach used in Intelligent Transportation System (ITS) where the video data is subjected to background subtraction, followed by blob filtering, vehicle detection as well as vehicle tracking, as thoroughly described in \cite{lim2017}.
+The semantic information of the vehicle blobs are then extracted and stored in the database.
 
-Now, with the vehicle-specific semantics stored in the database, retrieval engines were designed to enabled users to easily retrieve the stored information. Both retrieval engines feature a graphical user interface (GUI) that allows users to enter the queries by drawing the desired trajectory on the search interface as well as providing other crucial information which would assist in identifying the targeted video shot.
+Now, with the vehicle-specific semantics stored in the database, retrieval engines are designed to enable users to easily retrieve the stored information. Both retrieval engines feature a graphical user interface (GUI) that allows users to enter the queries by drawing the desired trajectory on the search interface as well as providing other crucial information which would assist in identifying the targeted video sub-sequence or \emph{shot}.
 
-However, as mentioned in Section \ref{subsec:scope}, the bounding box of the vehicles are assumed to be obtained prior to the semantic extraction task. Hence, the semantic extraction and video retrieval processes are the central emphasis of this work.
+However, as mentioned in the scope of work (Section \ref{subsec:scope}), the bounding box of the vehicles are assumed to have been obtained prior to the semantic extraction task. Hence, the semantic extraction and video retrieval processes are the central emphasis of this work.
 
 \begin{figure}[hbt!]\centering
 \includegraphics[width=.9\textwidth]{image/new/framework_new.PNG}
-\caption{Framework Diagram, Contribution in Highlighted Border}
+\caption{Framework Diagram. Contribution Highlighted in Area Marked with Yellow Dashed Borders.}
 \label{fig:framework}
 \end{figure}
 
-
-In this work, a framework was suggested and used for the vehicle semantic extraction and retrieval process.
-As mentioned in the first chapter, the proposed methods were developed in two cascading phase with the same objective.
-The formulation of the idea, steps and process involved in each phase is described in this chapter.
-As a whole, the end-to-end framework can be visualised using Figure \ref{fig:framework} where the main contribution of this work is highlighted with a yellow border.
+In this thesis, a framework is suggested and used for the vehicle semantic extraction and vehicle semantic retrieval tasks.
+The proposed methods are developed in two cascading phases (see~\ref{fig:proposedmethodoverview}) with the same corresponding objective for each task.
+The formulation of the idea, steps and processes involved in each phase is described in this chapter.
+On a whole, the end-to-end framework can be visualised using Figure \ref{fig:framework} where the main contribution of this work is highlighted with a yellow dashed border.
 
 \subsection{Phase 1: LSH-Inspired Semantic Extraction and Retrieval Technique}
 \label{subsec:lsh-intro}
-The first of the two techniques suggested in this work is the \textit{LSH-Inspired Semantic Extraction and Retrieval Technique}. Locality-Sensitive Hashing (LSH) is a technique used for dimensionality reduction.
-Unlike conventional hashing techniques that aims to avoid hash collisions, LSH tries to maximize hash collisions.
-When performed on a set of documents, documents with similar properties are mapped and clustered to similar locality or neighbourhood. This technique excels especially when working with high dimensional data such as video data.
-
-However, the exact implementation of LSH was not done in this work. Instead, inspirations to cluster similar documents were drawn and implemented in this phase. The extracted semantics from each vehicle blobs were clustered into semantic groups of 11 colours and 9 motion clusters. This concept was adopted in the proposed method with the following considerations in mind:
-
+The first of the two techniques suggested in this work is the \textit{LSH-Inspired Semantic Extraction and Retrieval Technique}. Locality-Sensitive Hashing (LSH) introduced by ~\citeA{indyk1998approximate}; was originally used for devising main memory algorithms for nearest neighbor search. This technique was later used by ~\citeA{kulis2009kernelized} to embed high-dimensional features from images into low-dimensional Hamming space (dimensionality reduction) where items can be efficiently search. 
+Unlike conventional hashing techniques that aims to avoid hash collisions, LSH tries to maximise these hash collisions. When performed on a set of documents, documents with similar properties are mapped and clustered to similar locality or neighbourhood. This technique excels especially when working with high dimensional data such as video data.
+%However, the exact implementation of LSH is not employed in this work. Instead, 
+We draw inspiration from LSH on how similar ``documents'' can be clustered. %and implemented in this phase. 
+The extracted semantics from each vehicle blobs were clustered into semantic groups consisting of 11 colours and 9 motion clusters. This concept is adopted in the proposed method with the following considerations in mind:
 \begin{enumerate}
-    \item Ease of Interpretation \& Access: As the extracted semantics are stored in clusters of similar properties, these semantics can be easily interpreted and retrieved.
-    \item Reduction of Input/Output (I/O) Bottleneck: As the proposed method stores the extracted semantics in a database, I/O bottlenecks are bound to occur when reading and retrieving large quantity of data. Given that semantics of similar properties were clustered together, the retrieval technique only has to search through the matching tables instead of the entire database for matching records.
+    \item Easing Interpretation \& Access: As the extracted semantics are stored in clusters of similar properties, these semantics can be easily interpreted and retrieved when required.
+    \item Easing Input/Output (I/O) Bottleneck: As the proposed method stores the extracted semantics in a database, I/O bottlenecks are bound to occur when reading and retrieving large quantities of data. Given that semantics of similar properties were clustered together, the retrieval technique only has to search through these identified semantic clusters in an efficient manner instead of the entire database for matching records.
 \end{enumerate}
 
 

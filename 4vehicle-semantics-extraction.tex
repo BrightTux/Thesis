@@ -84,37 +84,37 @@ To further improve the accuracy of the extracted blobs, several handcrafted para
 Furthermore, a deep learning model, was deployed to increase the probability of filtering non-vehicle blobs.
 
 
-\begin{comment}
-\begin{figure}[htb!]
-  \centering
-\begin{tabular}{ccc}
- \includegraphics[width=0.2\linewidth]{image/general/morph_ori.png} &  \includegraphics[width=0.2\linewidth]{image/general/morph_erode.png} &
- \includegraphics[width=0.2\linewidth]{image/general/morph_dilate.png}\\
-(a) Original Image & (b) Eroded Image & (c) Dilated Image \\
-\end{tabular}
-\caption{Morphology Operations: Erosion \& Dilation}
-\label{fig:morph}
-\end{figure}
+% \begin{comment}
+% \begin{figure}[htb!]
+%   \centering
+% \begin{tabular}{ccc}
+%  \includegraphics[width=0.2\linewidth]{image/general/morph_ori.png} &  \includegraphics[width=0.2\linewidth]{image/general/morph_erode.png} &
+%  \includegraphics[width=0.2\linewidth]{image/general/morph_dilate.png}\\
+% (a) Original Image & (b) Eroded Image & (c) Dilated Image \\
+% \end{tabular}
+% \caption{Morphology Operations: Erosion \& Dilation}
+% \label{fig:morph}
+% \end{figure}
 
-The process is known as \textit{Opening} occurs when the morphology operations are done in the following sequence - 1) Erosion, \& 2) Dilation, noisy data from the background subtraction method can be eliminated as the erosion operation will be able to remove noise while maintaining the important subjects. In contrast, the operation known as \textit{closing} occurs when the dilation step is first performed, followed by the erosion step. This process is useful to fill up the gaps within the foreground objects. These processes are illustrated in Figure~\ref{fig:morph2}
+% The process is known as \textit{Opening} occurs when the morphology operations are done in the following sequence - 1) Erosion, \& 2) Dilation, noisy data from the background subtraction method can be eliminated as the erosion operation will be able to remove noise while maintaining the important subjects. In contrast, the operation known as \textit{closing} occurs when the dilation step is first performed, followed by the erosion step. This process is useful to fill up the gaps within the foreground objects. These processes are illustrated in Figure~\ref{fig:morph2}
 
-\begin{figure}[htb!]
-  \centering
-\begin{tabular}{cc}
- \includegraphics[width=0.4\linewidth]{image/general/opening.png} &  \includegraphics[width=0.4\linewidth]{image/general/closing.png}  \\
-(a) Opening & (b) Closing \\
-\end{tabular}
-\caption{Morphology Operations: Opening \& Closing}
-\label{fig:morph2}
-\end{figure}
-
-
-\cc{do i need to cite these images? \\}
-%https://docs.opencv.org/3.0-beta/doc/py_tutorials/py_imgproc/py_morphological_ops/py_morphological_ops.html
-\end{comment}
+% \begin{figure}[htb!]
+%   \centering
+% \begin{tabular}{cc}
+%  \includegraphics[width=0.4\linewidth]{image/general/opening.png} &  \includegraphics[width=0.4\linewidth]{image/general/closing.png}  \\
+% (a) Opening & (b) Closing \\
+% \end{tabular}
+% \caption{Morphology Operations: Opening \& Closing}
+% \label{fig:morph2}
+% \end{figure}
 
 
-The work of \citeA{redmon2016you} namely YOLOv2 (You Only Look Once) - a \textbf{real-time} object detection deep learning model was deployed as a complementary module used to classify vehicles and non-vehicle blobs.
+% \cc{do i need to cite these images? \\}
+% %https://docs.opencv.org/3.0-beta/doc/py_tutorials/py_imgproc/py_morphological_ops/py_morphological_ops.html
+% \end{comment}
+
+
+The work of ~\citeA{redmon2016you} namely YOLOv2 (You Only Look Once) - a \textbf{real-time} object detection deep learning model was deployed as a complementary module used to classify vehicles and non-vehicle blobs.
 As this model focuses on speed, the detection process incurred very little overhead to the overall computational time and cost.
 From the foreground blobs, the corresponding bounding boxes were channelled in as inputs for the YOLOv2 network.
 %The network will then divide the input into multiple smaller regions and perform prediction of the bounding box along with the class probability.
@@ -151,7 +151,7 @@ Emphasis is placed on both the colour and motion semantics extraction process an
 
 In a surveillance setting, colour semantics undoubtedly plays a significant role as it is one of the most common information provided by users when tasked to describe objects from a given event in a particular scene.
 Yet, the process of accurately extracting vehicle colour information is extremely challenging, especially in an outdoor setting. Often, the overall scene is affected by various factors such as the ambient illumination during the different hours of the day along with weather conditions.
-Examples of several commercially available colour detection products such as the 'Nix colour sensor' \cite{nixsensorltd} and 'Adafruit RGB sensor' \cite{adafruit} relies on independent calibrated light sources in a controlled environment to extract colour semantics.
+Examples of several commercially available colour detection products such as the `Nix colour sensor' \cite{nixsensorltd} and `Adafruit RGB sensor' \cite{adafruit} relies on independent calibrated light sources in a controlled environment to extract colour semantics.
 
 While colour terms are commonly derived from the Munsell colour system, there are myriads of available colour terms used in different standards as described in Section~\ref{section:colourterm}.
 This creates a new set of challenges as colour terms are often described with differing definitions and tuple values.
@@ -170,7 +170,7 @@ As an added benefit, given that HSV colour space is commonly used, the conversio
 \label{fig:hsvcylinder}
 \end{figure}
 
-Table~\ref{table:allcolourterms} lists several famous web colour dictionary along with the number of colour categories available in each of those colour standards. With so many different colour categories, this ultimately leads to the question of "\textit{How many colour categories should be extracted for the colour semantic? And why?}".
+Table~\ref{table:allcolourterms} lists several famous web colour dictionary along with the number of colour categories available in each of those colour standards. With so many different colour categories, this ultimately leads to the question of ``\textit{How many colour categories should be extracted for the colour semantic? And why?}''.
 To answer the question, the eleven basic colour terms in English proposed by \cite{berlinandkay} was adopted in this work.
 \citeA{berlinandkay}'s linguistic approach towards the colour terms assures us that these 11 terms sufficiently describes colours which are often used.
 However, the definition of colour terms in itself is insufficient as it invokes another set of challenges - that is, the representation of these colours in \textit{numerical tuples}, such as RGB values which are typically used in computers.
@@ -220,7 +220,7 @@ Without a doubt, video data are used for surveillance purposes due to its abilit
 Typically, when tasked to describe an event, end-user tends to use a combination of several information such as time of occurrence, description of the objects involved, location and the motion occurred.
 Given its importance, this work aims to extract motion semantics from a car park scenario.
 In this work, the collective motion performed by a vehicle in the scene is defined as a vehicle's trajectory.
-Traditionally, motion information from videos are converted into text-based descriptions using handcrafted methods. For instance, an event such as "\textit{A yellow vehicle was turning into the intersection between Road Alpha and Road Beta at 3:30 pm when a black vehicle came rushing over and hitting a pedestrian in the process during commotion}" could be converted into a keyword-based statements such as "yellow car turn left Road Alpha and Road Beta".
+Traditionally, motion information from videos are converted into text-based descriptions using handcrafted methods. For instance, an event such as ``\textit{A yellow vehicle was turning into the intersection between Road Alpha and Road Beta at 3:30 pm when a black vehicle came rushing over and hitting a pedestrian in the process during commotion}'' could be converted into a keyword-based statements such as ``yellow car turn left Road Alpha and Road Beta''.
 
 However, users who are not familiar with the terminology used in the system may find keyword-based statements unintuitive and difficult to decipher.
 Furthermore, \cite{bhaumik2016hybrid} claims that the use of textual queries has been proven to be ineffective in video retrieval systems because keywords may not be able to capture the type of semantic content required by an end-user.
@@ -247,7 +247,7 @@ where $\mathbb{VD}$ corresponds to the video duration of each file (6 minutes) a
 
 \subsubsection{Object Type \& Size}
 \label{objecttype}
-Given that 'vehicles' are the only object of interest in this work, YOLOv2 was used to assist the validation of the foreground object detected by the BGS method described in Section~\ref{subsection:fundamental}. Objects which were returned under the "vehicle" class were tracked are written into the database. As for the object size, the size of the foreground objects' bounding boxes were saved in the database as the object size.
+Given that ``vehicles'' are the only object of interest in this work, YOLOv2 was used to assist the validation of the foreground object detected by the BGS method described in Section~\ref{subsection:fundamental}. Objects which were returned under the ``vehicle'' class were tracked are written into the database. As for the object size, the size of the foreground objects' bounding boxes were saved in the database as the object size.
 
 
 \section{\versionOneExt }
@@ -290,7 +290,7 @@ The step to differentiate between chromatic and achromatic vehicles was implemen
 One of the main drawbacks of the proposed method lies with the number of bins used to represent achromatic colours.
 Figure~\ref{fig:hsvAllocated} illustrates the colour bins generated. From the figure, it is clear that there are plenty of bins representing the chromatic tones.
 While there are quite many bins representing the black/darker tonnes, only a fraction of bins are used to represent the lighter shades of achromatic colours.
-This imbalance, compounded with the achromatic noise captured (ie: road and shadow) during the colour extraction process made it extremely difficult for vehicles to be matched with "White" or "Gray" colour terms. Hence, this step was introduced as a measure to counterbalance the weakness of the proposed method.
+This imbalance, compounded with the achromatic noise captured (ie: road and shadow) during the colour extraction process made it extremely difficult for vehicles to be matched with ``White'' or ``Gray'' colour terms. Hence, this step was introduced as a measure to counterbalance the weakness of the proposed method.
 The details on how these colour bins were allocated is discussed later in the chapter.
 
 This process of differentiating chromatic against achromatic vehicles starts by comparing the cropped image, $I_{crop}$, against a grayscale version, $I_{gray}$.
@@ -700,7 +700,7 @@ H = \begin{cases}
 %% ---- RGBHSVconversion metric ------------------------------------------------
 
 
-According to Riemersma, the benefit of this metrics is that it is a far more stable algorithm where, as quoted, "it does not have a range of colours where it suddenly gives far from optimal results". First, the mean of both the Average Dominant Colour (ADC) and Ground Truth colour (GTC)'s red channel is obtained. Then, this is followed by obtaining the difference, $\Delta$, of all three R, G, and B channels.
+According to Riemersma, the benefit of this metrics is that it is a far more stable algorithm where, as quoted, ``it does not have a range of colours where it suddenly gives far from optimal results''. First, the mean of both the Average Dominant Colour (ADC) and Ground Truth colour (GTC)'s red channel is obtained. Then, this is followed by obtaining the difference, $\Delta$, of all three R, G, and B channels.
 In Equation~\ref{eq:DiffColorLUV}, the mean of the red channel ($\mean{r}$) is used as a weight for both $\Delta{R}$ and $\Delta{B}$. The details of these equations is described in Equation~\ref{eq:RedMeanRGBDiff} and~\ref{eq:DiffColorLUV} respectively. Table~\ref{tab:luvExample} uses the same example colours as used in Table~\ref{tab:hsvExample}, however, the similarity score of the colours are calculated using the metric suggested in Equation~\ref{eq:DiffColorLUV} instead of the Euclidean Distance measured in HSV colour space.
 
 %% ---- First metric ------------------------------------------------
