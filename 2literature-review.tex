@@ -104,7 +104,7 @@ vital to obtain an acceptable range of values for each distance measure, as acco
 \begin{figure}[hbt!]
  \centering
  \includegraphics[width=.7\textwidth]{image/general/distance.png}
- \caption{Example of Distance Measure}
+ \caption{Example of Distance Measure.}
  \label{fig:distanceMeasure}
 \end{figure}
 
@@ -114,7 +114,7 @@ illustrated in Figure \ref{fig:distanceMeasure} with two plotted lines.
 In our research problem, these lines can be regarded as vehicle
 trajectories captured over time, visually flatten unto a 2D plot. Using such spatio-temporal data and assuming time is taken at a fixed interval, the distance between two trajectories can be measured to signify
 the dissimilarity between them. This distance measure, or similarity score (if inverted), can also be used to
-identify trajectories with high resemblance.
+identify trajectories with high resemblance. For example, the distance between these two lines can be measured using $D_{Euclidean} = \sum^n\sqrt{{(A_n[x] - B_n[x])}^{2} +{(A_n[y] - B_n[y])}^{2}}$ which results to 2.828427 units. As Euclidean Distance requires the length of both lines or vectors to be equal, a common approach is to apply the zero-padding technique to extend the shorter vector.
 
 \begin{figure}[hbt!]
  \centering
@@ -713,6 +713,20 @@ illustrates their proposed GUI and the input queries.
 \end{figure}
 
 \subsection{Summary of Background Study}
+
+This chapter started off with some  fundamental background study on some key concepts such as the quantisation process and distance measures which is repeatedly found in this work. Furthermore, some background on the human visual system and the various colour models and terms were also explored to understand the relation between them. 
+Next, literature in the various Intelligent Transportation Systems (ITS) was reviewed. Being a huge domain, there has been a substantial increase of research done on the various sub-domains. This is 
+%partly motivated by the bloom of available datasets, but 
+primarily motivated by security concerns on how video data can be used for surveillance purposes effectively.
+
+The reviews were presented in various categories to provide a broad perspective on the diverse aspects related to this work. 
+\citeA{liu2016deep} mentioned that appearance features such as colours, shapes, and types very effective at filtering out dissimilar vehicles in real-world scenes. 
+While true, a majority of the presented literature worked on high resolution data which is atypical toward real-world surveillance footages.
+The reviewed literature also shows disparity on how vehicle colours were determined.
+Hence, this thesis aims to explore how vehicle colours can be extracted correctly with colour terms that are agreeable with end users while utilising lower resolution data which is more readily found in surveillance data.
+
+In terms of vehicle motion and representation, we notice a gap on how these motions are represented. Majority of these literature describes these motion in the cardinal directions or even in angles. These descriptions lacks intuitive notion without proper context of location, this thesis aims to introduce an intuitive representation of the vehicle motions.
+As suggested by \cite{bhaumik2016hybrid}, the use of textual queries has been proven ineffective in video retrieval systems, this work aims to present a retrieval engine using sketch matching algorithms against the intuitive vehicle motion representation. It is also noted that several approach takes an average of 2.9 seconds to process simple trajectory and up to 4.32 seconds for complicated trajectories against 13.8 minutes of video data. This calls for a better approach in retrieving video footages especially over long term surveillance footage.
 
 
 %\begin{figure}[hbt!]

@@ -41,56 +41,50 @@ The extracted semantics from each vehicle blobs were clustered into semantic gro
 
 \subsection{Phase 2: CD-Inspired Semantic Extraction and Retrieval Technique}
 The second technique suggested in this work is the \textit{Chamfer Distance-Inspired Semantic Extraction and Retrieval Technique}.
-Chamfer Distance (CD) is one of the many distance measures (see Section \ref{section:distancemeasures}) introduced by mathematicians and researchers. Chamfer Distance, as introduced by \cite{barrow1977parametric}, was originally designed to match images by comparing the shapes of two collections of shape fragments.
-However, in this work, the use of chamfer distance was modified to suit the research problem of comparing vehicle trajectories' shapes. While the implementation of chamfer distance measure in this framework has its advantages, it also comes with some drawbacks. The considerations taken when designing this technique is as such:
-
+Chamfer Distance (CD) is one of the many distance measures %(see Section \ref{section:distancemeasures})
+introduced by mathematicians and researchers. Chamfer Distance, as introduced by \cite{barrow1977parametric}, was originally designed to match images by comparing the shapes of two collections of shape fragments.
+However, in this work, the use of CD was adapted to suit the research problem of comparing vehicle trajectories' shapes. While the implementation of CD measure in this framework has its advantages, it also comes with certain drawbacks. The considerations taken when designing this technique is as follows:
 \begin{enumerate}
-    \item The use of Chamfer Distance to compare trajectories allows the retrieval technique to search from a wider range. While this comes with additional computational costs which are undesirable, the increased robustness outweighs the drawback. Along with that, the use of time and date filtering could potentially reduce the number of records, hence, further reducing the computational cost.
-    \item The ranking of results is a desirable feature in a retrieval engine. As Chamfer Distance produces a distance score for every pair of trajectories compared, this score can be used to sort the results in an intuitive manner where results of higher resemblance would appear higher in the ranking.
+    \item The use of Chamfer Distance to compare trajectories allows the retrieval technique to search from a wider range. While this comes with additional computational costs which are undesirable, the increased in robustness outweighs the drawbacks. Along with that, effective time and date filtering could potentially reduce the number of records, hence, further reducing the computational cost.
+    \item Effective ranking of results is a desirable characteristic in any retrieval engine. As Chamfer Distance produces a distance score for every pair of trajectories compared, this score can be used to sort the results in an intuitive manner where results of higher similarity or resemblance would appear higher in the ranked retrieval results.
 \end{enumerate}
 
 
 \section{Dataset}
 \label{section:dataset_used}
 
-In view of testing the proposed framework, a new video dataset was gathered as there is limited public long-term car park dataset. A stationary cloud-enabled web camera was set up in a room on the fourth floor of a building facing a piece of private car park area. Figure \ref{fig:camerasetup} depicts the camera setup overcasting the car park area.
-
+In view of testing the proposed framework, a new video dataset was gathered as there are limited long-term outdoor car park datasets that are publicly available for research. A stationary cloud-enabled web camera was set up in a room (with a glass window) on the fourth floor of a building facing a relatively large outdoor car park area. Figure \ref{fig:camerasetup} illustrates the location of the camera that was set up to overlook the adjacent car park area.
 %The aforementioned setup was done to mimic a typical camera setup which towers over a piece of outdoor car park lot that is found in the wild.
-
-
 \begin{figure}[hbt!]\centering
 \includegraphics[width=.8\textwidth]{image/new/fcicarpark2.png}
 \caption{Camera Setup to Capture the Car Park From the Fourth Floor}
 \label{fig:camerasetup}
 \end{figure}
-
-
 \begin{figure}[!hbt]\centering
 \includegraphics[width=.7\textwidth]{image/general/grids.png}
 \caption{View From Camera Setup; 20$\times$20 Grids}
 \label{fig:viewfromcamera}
 \end{figure}
 
-
-Through the camera's web interface, the device was set to record on weekdays from Monday through Friday, starting from 08:30 up until 18:30 in the evening, with a total of 10 hours of video recorded each day. As each recorded video clip was set to have a maximum length of 6 minutes, a total of 100 videos were obtained at the end of each day. The recorded video clips were saved unto a microSD memory card.
-At the end of each day, the data was copied over to a server via a script. However, due to glitches that occurred during the recording process, some of the video clips were cut off abruptly. Hence, some of the days do not contain the full 10 hours of video clips.
+Through the camera's web interface, the device was set to record on weekdays from Monday through Friday, starting from 08:30 up until 18:30 in the evening, totaling 10 hours of video recorded each day. To obtain smaller file sizes, each recorded video clip was set to have a maximum length of 6 minutes, hence a total of 100 videos were obtained at the end of each day. The recorded video clips were then stored in a microSD memory card.
+At the end of each day, the data was copied over to a server via a script. However, due to a few sporadic glitches that occurred during the recording process, some of the video clips had missing portions. Hence, some of the days did not contain the full 10 hours of video clips.
 
 \begin{table}[!ht]\centering
-\begin{tabular}{ll}
-Camera Model: & Dlink DSC-942L        \\
-Resolution:   & 640$\times$480 pixels \\
-Frame rate:   & 10 $fps$             \\
-Format:       & H.264 / MPEG-4 AVC    \\
-Naming Convention: & $CCYYMMDD\_HHMMSS.mp4$
+\begin{tabular}{|l|l|}
+\hline
+Camera Model & Dlink DSC-942L        \\
+Resolution   & 640$\times$480 pixels \\
+Frame rate   & 10 $fps$             \\
+Format       & H.264 / MPEG-4 AVC    \\
+Naming Convention & $CCYYMMDD\_HHMMSS.mp4$ \\
+\hline
 \end{tabular}
-\vspace{1em}
 \caption{Details of the Camera Setup used for Data Collection}
 \end{table}
 
 \begin{figure}[!htb]
   \centering
-
-\begin{tabular}{cc}
+  \begin{tabular}{cc}
  \includegraphics[width=0.4\linewidth]{image/general/rain.PNG} &  \includegraphics[width=0.4\linewidth]{image/general/reflection.PNG}\\
 \begin{tabular}{c}(a) Rainy day with \\ reflective surface\end{tabular} & \begin{tabular}{c}(b) Reflection on the \\car park from the window\end{tabular} \\
 \includegraphics[width=0.4\linewidth]{image/general/shadow.png} &  \includegraphics[width=0.4\linewidth]{image/general/shadow2.png}\\
@@ -101,8 +95,7 @@ Naming Convention: & $CCYYMMDD\_HHMMSS.mp4$
 \caption{Noisy Data Within the Collected Dataset} \label{fig:weather}
 \end{figure}
 
-
-This setup was left to record data over the course of several months with various weather and lighting conditions. This also includes a diverse set of car park scenes such as peak hours with plenty of vehicles along with the off days. Along with that, this setup covers a total of over 45 parking lots excluding parking lots that are too small or occluded. Figure \ref{fig:weather} illustrates the various weather conditions and noise which were recorded sporadically throughout the dataset.
+This data acquisition setup was left to record data over the course of several months under various natural weather and lighting conditions. This also includes a diverse set of car park scenes such as peak hours with plenty of vehicles along with the off days. Along with that, this setup covers a total of over 45 parking lots excluding parking lots that are too small or occluded. Figure \ref{fig:weather} illustrates the various weather conditions and noise which were recorded sporadically throughout the dataset.
 
 
 \section{Experimental Methodology}
