@@ -34,9 +34,15 @@ This reactive-approach towards surveillance systems makes it slow and difficult 
 Looking from the entertainment sector, multimedia contents are dished out at a remarkable rate. These digital contents are being pushed into data warehouses and consumed by the users on a daily basis. The general public as a whole has also benefited from the rise of various video search engines and tools such as Google, YouTube, Dailymotion, and Bing. However, it is unlikely for these existing technologies to be directly applied towards surveillance video footage or to excel in finding the desired footages.
 % Clearly, the idea of using search engines to retrieve video footage is nothing new. Hence, inspirations are drawn from these technologies and applied to the research problem at hand. %which will be discussed in this work.
 
+\begin{figure}[!hbt]\centering
+\includegraphics[width=\textwidth]{image/general/simpleframe3.png}
+\caption{Example of Semantics Extraction Process}
+\label{fig:exampleframework2}
+\end{figure}
+
 All of the aforementioned retrieval engine technologies are similar 
 %have one thing in common, which is 
-in their underlying process. First, the process begins with the extraction of video metadata such as title, description, filename, dates, subtitles and various other details that could assist in identifying these footage(s). Next, these videos are typically stored in a database (either entirely or in manually defined segments) along with its corresponding extracted metadata which can be used during the retrieval process. Finally, a text-based query is usually issued, thus resulting in video shots being retrieved and sorted in a way that best 
+in their underlying process (See Figure \ref{fig:exampleframework2}). First, the process begins with the extraction of video metadata such as title, description, filename, dates, subtitles and various other details that could assist in identifying these footage(s). Next, these videos are typically stored in a database (either entirely or in manually defined segments) along with its corresponding extracted metadata which can be used during the retrieval process. Finally, a text-based query is usually issued, thus resulting in video shots being retrieved and sorted in a way that best 
 %represents 
 reflects the similarity to
 the query inputted by the end-users.
@@ -49,11 +55,11 @@ Drilling further down to the scope of this research, which is based on a car par
 Thirdly, the typical process is likely not efficiently scaled. The end user would have to sift through hours and hours of video data to locate potential video segments that matches the queried information. This %\textit{'reactive-approach'}  
 process is undeniably time-consuming and laborious, especially when the data in-store grows potentially to a few orders of magnitude larger. While the task is potentially straightforward when there is only one intended video shot with clear-cut definitive time and date given; this process takes enormous effort when details such as the time and date is not given, or even in cases when all the video shots with similar properties are desired within a given time range. Evidently, there exist a gap that can be addressed 
 %using a \textit{proactive} approach 
-via a well designed semantic extraction strategy and new query and retrieval techniques which this thesis attempts to address.
+via a well designed semantic extraction strategy and new query and retrieval techniques which this thesis attempts to address. Figure \ref{fig:observerdatacenter} shows an example of a surveillance control centre where security personnel keep an eye on various scenes. 
 
 \begin{figure}[!hbt]\centering
 \includegraphics[width=\textwidth]{image/screenshots/observer.jpg}
-\caption{Example of End Users Filtering Video Data from Various Sources}
+\caption{Example of Surveillance Control Centre.}
 \label{fig:observerdatacenter}
 \end{figure}
 
@@ -94,7 +100,8 @@ To tackle this research problem, the following are some research questions which
 
 
 \subsection{Research Objectives}
-The objectives of this thesis can be divided into two main interdependent parts. As a whole, the entire work aims to adopt and leverage on existing frameworks to design a feasible object-level \textbf{semantic extraction} and \textbf{retrieval} framework and techniques for \textbf{car park videos}. In order to answer the aforementioned research questions, the following are the two objectives of this research:
+The objectives of this thesis can be divided into two main interdependent parts. As a whole, the entire work aims to adopt and leverage on existing frameworks to design a feasible object-level \textbf{semantic extraction} and \textbf{retrieval} framework and techniques for \textbf{car park videos}. 
+With the goal of answering the aforementioned research questions, the following are the two objectives of this research:
 
 \begin{enumerate}
 %\item To adopt and leverage existing video data representation, semantics extraction and retrieval methods to design a surveillance video semantics extraction and retrieval framework.
@@ -109,8 +116,8 @@ These objectives are properly validated through both quantitative measures and u
 The work in this thesis primarily encompasses the tasks 
 %found in a generic computer vision 
 of vehicle semantic extraction and retrieval framework, as illustrated in Figure \ref{fig:framework}. The preliminary lower level task of detecting and tracking each vehicle, \emph{i.e.} the \textit{bounding box} of each vehicle in each frame is assumed to be \textbf{obtained} prior to the semantic extraction task.
-Hence, the task of \textit{extracting semantics} from the vehicles in-scene and the task of \textit{retrieving video shots or snippets} are the \textbf{central emphasis} in this work.
-As most of the existing works only contain a few hours or days in their dataset (254 video sequences of 4 to 5 minutes video ~\cite{liu2016highway}, Twelve 30 minutes long videos ~\cite{marmol2016quickspot}, 153 Hours ~\cite{ren2018learning}), the context of the phrase \textbf{'long-term'} that is used in this thesis, refers to the relatively longer duration of videos, \emph{i.e.} one month, in which the vehicle semantics were extracted and retrieved. To the best of our knowledge, the largest dataset reported in literature used up to 500 hours for the purpose of trajectory counting~\cite{lessard2016countingapp}.
+Hence, the task of \textit{extracting object-level semantics} from the vehicles in-scene and the task of \textit{retrieving video shots or snippets} are the \textbf{central emphasis} in this work.
+As most of the existing works only contain a few hours or days in their dataset [254 video sequences of 4 to 5 minutes video~\cite{liu2016highway}, Twelve 30 minutes long videos~\cite{marmol2016quickspot}, 153 Hours~\cite{ren2018learning}], the context of the phrase \textbf{`long-term'} used in this thesis refers to the relatively longer duration of videos, \emph{i.e.} one month, in which the vehicle semantics were extracted and retrieved. To the best of our knowledge, the largest dataset reported in literature used up to 500 hours for the purpose of trajectory counting~\cite{lessard2016countingapp}.
 
 
 The domain scope of this work is further constrained to surveillance videos taken from a \textit{single dataset}. This dataset contains videos captured from a single camera with a \textit{stationary viewpoint} (see Section \ref{section:dataset_used}). To further clarify the intent of this work, the word `semantics' refer to an assortment of object-level information, \emph{i.e.} vehicle-specific attributes such as vehicle colour, trajectory, the time and date of the spotted vehicle, and the location (position) of the vehicle in the scene. However, other information 
