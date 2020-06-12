@@ -11,7 +11,7 @@ The following sections thoroughly describes both of the vehicle semantic extract
 
 %may be good to add a short paragraph to briefly describe and reinforce what "vehicle semantics extraction" is in relation to the big problem and that two extractions methods are introduced in this research and why two .... along with giving a brief distinction between the two.
 
-As the focus of this work revolves around car park surveillance footage, colour and motion data are key information used to describe vehicle activities. With the goal of designing retrieval techniques suitable for car park surveillance footage, accurate extraction of these information is a crucial component of this work.
+As the focus of this thesis revolves around car park surveillance footage, colour and motion data are key information used to describe vehicle activities. With the goal of designing retrieval techniques suitable for car park surveillance footage, accurate extraction of these information is a crucial component.
 %While there are several differences between the two phases of the extraction methods,
 Fundamentally, these two phases has the same objective of extracting semantics from the video data.
 The predominant difference lies with how the extracted semantics were stored. The flexibility of the outputs produced from the extraction modules affects the performance of the retrieval engine drastically.
@@ -22,7 +22,7 @@ The extracted semantics from the \versionOneExt are akin to keywords in a \texti
 \section{Atom-based Quantization}
 \label{section:atoms}
 
-As the utilisation of video data is central to this work, there's an urgent need to come up with a way to easily manipulate and represent the video information. Given that video data can be represented using the 3-dimensional space through \textit{X-axis, Y-axis, \& time-axis}, quantization techniques were applied to convert the continuous data into discrete data blocks.
+As the utilisation of video data is central to this thesis, there's an urgent need to come up with a way to easily manipulate and represent the video information. Given that video data can be represented using the 3-dimensional space through \textit{X-axis, Y-axis, \& time-axis}, quantization techniques were applied to convert the continuous data into discrete data blocks.
 
 
 \begin{figure}[H]\centering
@@ -35,7 +35,7 @@ Inspired by the works of \citeA{castanon2016retrieval}.}
 
 
 %In order to design a framework for long-term vehicle semantics extraction from video data,
-This work adopted the concept of \textbf{``atoms''} as coined by \cite{castanon2016retrieval} which enables quantization of the video input into individual 3D spatial-temporal cuboids. In this work, an atom is defined as a group of pixels at a similar spatial location spanning across a fixed number of frames; hence forming a spatio-temporal `cuboid'.
+This thesis adopted the concept of \textbf{``atoms''} as coined by \cite{castanon2016retrieval} which enables quantization of the video input into individual 3D spatial-temporal cuboids. In this thesis, an atom is defined as a group of pixels at a similar spatial location spanning across a fixed number of frames; hence forming a spatio-temporal `cuboid'.
 As described in Section~\ref{section:dataset_used}, the video dataset uses a resolution of 640$\times$480 pixels with a frame rate of 10$fps$.
 The dimensions of each atom ($\alpha$) is set to $\alpha_{width}=32$ pixels, $\alpha_{height}=24$ pixels and $\alpha_{time}=10$ frames - which represents the temporal duration of 1 second.
 The dimensions of the atom ($\alpha_{width},\alpha_{height}$) were set such that the input video data can be uniformly divided by 20 across its width and height as illustrated in Figure~\ref{fig:viewfromcamera}. Using this setup, each atom could be uniquely identified using the $X, Y$ and $T$ identifiers.
@@ -43,7 +43,7 @@ The dimensions of the atom ($\alpha_{width},\alpha_{height}$) were set such that
 Given that the accuracy of data representation relies heavily upon the number of spatio-temporal cuboids used, $\alpha_{width}$ and $\alpha_{height}$ is selected such that one and only one vehicle can occupy a single atom block at any given time. Hence, the colour and trajectory semantics of the vehicles can be adequately represented.
 While smaller atoms could be used to accurately capture the exact location of the vehicle, the additional atoms would add towards extra computational power needed to process the queries. This property will be discussed in Chapter~\ref{section:retrievalengine}.
 
-The use of these spatial-temporal cuboids is paramount in this work.
+The use of these spatial-temporal cuboids is paramount in this thesis.
 By applying the quantization on all axis, the atom-based structure simplifies the filtering process of two major types of queries.
 Figure~\ref{fig:typesofQuery} illustrates the types of queries which are regularly desired when working with video data: \textit{Region of Interest (ROI) query} \& \textit{Time-slicing query}.
 Moreover, real-world applications queries typically combines both ROI and time-slicing queries where specific activities which occurred in a particular location within a time frame is desired.
@@ -65,7 +65,7 @@ Moreover, real-world applications queries typically combines both ROI and time-s
 \section{Vehicle Blobs Extraction}
 \label{subsection:fundamental}
 
-As described in Section~\ref{subsec:scope}, the preliminary task of detecting, tracking and identifying bounding box of vehicles is out of the scope for this work. However, since this task is essential before the semantic extraction task, this section briefly describes the steps taken by \citeA{lim2017} to detect and extract moving objects from video footage. The usage of background subtraction techniques enables the differentiation between static background and moving objects as depicted in Figure~\ref{fig:bgs}.
+As described in Section~\ref{subsec:scope}, the preliminary task of detecting, tracking and identifying bounding box of vehicles is out of the scope for this thesis. However, since this task is essential before the semantic extraction task, this section briefly describes the steps taken by \citeA{lim2017} to detect and extract moving objects from video footage. The usage of background subtraction techniques enables the differentiation between static background and moving objects as depicted in Figure~\ref{fig:bgs}.
 
 \begin{figure}[htb!]
   \centering
@@ -126,7 +126,7 @@ As the YOLOv2 model is pre-trained with vehicles as one of the many classes, no 
 
 The ability to extract vehicle-specific semantics from the scene can present deeper insights valuable for surveillance purposes.
 As describe in Section~\ref{subsec:scope}, the two major semantics extracted in the proposed algorithm are (i) \textbf{Vehicle Colour} and (ii) \textbf{Vehicle Trajectory}. Other semantic information such as the time and date which were extracted is briefly discussed as these are simple extraction based on the input file names.
-Table~\ref{table:semantics} provides a list of all the extracted semantics in this work.
+Table~\ref{table:semantics} provides a list of all the extracted semantics in this thesis.
 Emphasis is placed on both the colour and motion semantics extraction process and framework in the following subsections.
 
 
@@ -156,10 +156,10 @@ Examples of several commercially available colour detection products such as the
 While colour terms are commonly derived from the Munsell colour system, there are myriads of available colour terms used in different standards as described in Section~\ref{section:colourterm}.
 This creates a new set of challenges as colour terms are often described with differing definitions and tuple values.
 Consequently, there is a dire need to address this challenge of extracting and representing colour tuples along with its corresponding colour terms.
-Inspirations and ideologies were drawn from the Munsell colour system and applied in this work.
+Inspirations and ideologies were drawn from the Munsell colour system and applied in this thesis.
 Although the Munsell colour system provided significant research contribution toward colour terms naming, the irregularity along the chroma and value axis does not translate well in a modern colour space as the modern colour spaces are often uniformly distributed along chroma axis (see Figure~\ref{fig:munsell}(b)).
 
-To better represent the colour space, this work utilizes the Hue-Saturation-Value (HSV) colour space for the colour extraction framework.
+To better represent the colour space, this thesis utilizes the Hue-Saturation-Value (HSV) colour space for the colour extraction framework.
 The use of the HSV colour space is twofold: Firstly, as the HSV colour space closely resembles the Munsell Colour System, it eases the colour representation.
 Secondly, the distance between two colours is now intuitive and linear as the values are evenly distributed.
 As an added benefit, given that HSV colour space is commonly used, the conversion between the RGB and HSV colour space is seamless and can be easily introduced into the colour semantic framework. Figure~\ref{fig:hsvcylinder} provides a visual representation of the HSV colour space.
@@ -171,16 +171,16 @@ As an added benefit, given that HSV colour space is commonly used, the conversio
 \end{figure}
 
 Table~\ref{table:allcolourterms} lists several famous web colour dictionary along with the number of colour categories available in each of those colour standards. With so many different colour categories, this ultimately leads to the question of ``\textit{How many colour categories should be extracted for the colour semantic? And why?}''.
-To answer the question, the eleven basic colour terms in English proposed by \cite{berlinandkay} was adopted in this work.
+To answer the question, the eleven basic colour terms in English proposed by \cite{berlinandkay} was adopted in this thesis.
 \citeA{berlinandkay}'s linguistic approach towards the colour terms assures us that these 11 terms sufficiently describes colours which are often used.
 However, the definition of colour terms in itself is insufficient as it invokes another set of challenges - that is, the representation of these colours in \textit{numerical tuples}, such as RGB values which are typically used in computers.
 %Bringing it back to the discussion in Section~\ref{section:eyes}, the perception of colour for everyone is relatively different due to the number of cones cells in the retina.
-Given that colour perception varies for everyone, compounded with the fact that most monitor screens are not colour calibrated professionally provided an opportunity for Munroe \cite{munroe2010color} to perform an internet crowd-sourcing survey on colour terms and their corresponding numeral representation according to how colours are displayed on typical monitors.
+Given that colour perception varies for everyone, compounded with the fact that most monitor screens are not colour calibrated professionally provided an opportunity for~\citeA{munroe2010color} to perform an internet crowd-sourcing survey on colour terms and their corresponding numeral representation according to how colours are displayed on typical monitors.
 
 In \citeA{munroe2010color}'s experiment, 222,500 user sessions consisting of 40,000 women and 100,000 men, provided over five million colours their respective terms. With the collected results, Munroe mapped RGB tuples to specific colour terms according to the response frequency.
 The mapping of these terms was done by averaging results of several stochastic hill climbing algorithms. At the end of the experiment, 954 colour terms along with its respective RGB tuples were assigned.
 Figure~\ref{fig:xkcd} shows the mapping of dominant colour terms over three fully saturated faces of the RGB cube.
-By combining the works of \citeA{berlinandkay} and \citeA{munroe2010color}, the eleven basic colour terms can now be mapped to its colour tuples using the information collected. These colour terms and the corresponding HEX values are listed in Table~\ref{table:colorshex}; in this work, these values are treated as \textit{ground truth} values for each colour term.
+By combining the works of \citeA{berlinandkay} and \citeA{munroe2010color}, the eleven basic colour terms can now be mapped to its colour tuples using the information collected. These colour terms and the corresponding HEX values are listed in Table~\ref{table:colorshex}; in this thesis, these values are treated as \textit{ground truth} values for each colour term.
 The details of the techniques used in the semantics extraction process in Phase 1 and Phase 2 will be discussed further in the subsequent sections.
 
 \begin{figure}[!hbt]\centering
@@ -218,14 +218,14 @@ The details of the techniques used in the semantics extraction process in Phase 
 
 Without a doubt, video data are used for surveillance purposes due to its ability to capture motion information.
 Typically, when tasked to describe an event, end-user tends to use a combination of several information such as time of occurrence, description of the objects involved, location and the motion occurred.
-Given its importance, this work aims to extract motion semantics from a car park scenario.
-In this work, the collective motion performed by a vehicle in the scene is defined as a vehicle's trajectory.
+Given its importance, this thesis aims to extract motion semantics from a car park scenario.
+In this thesis, the collective motion performed by a vehicle in the scene is defined as a vehicle's trajectory.
 Traditionally, motion information from videos are converted into text-based descriptions using handcrafted methods. For instance, an event such as ``\textit{A yellow vehicle was turning into the intersection between Road Alpha and Road Beta at 3:30 pm when a black vehicle came rushing over and hitting a pedestrian in the process during commotion}'' could be converted into a keyword-based statements such as ``yellow car turn left Road Alpha and Road Beta''.
 
 However, users who are not familiar with the terminology used in the system may find keyword-based statements unintuitive and difficult to decipher.
-Furthermore, \cite{bhaumik2016hybrid} claims that the use of textual queries has been proven to be ineffective in video retrieval systems because keywords may not be able to capture the type of semantic content required by an end-user.
+Furthermore, \citeA{bhaumik2016hybrid} claims that the use of textual queries has been proven to be ineffective in video retrieval systems because keywords may not be able to capture the type of semantic content required by an end-user.
 While motion information may not be as subjective as the concept of colours, graphical visualization of motion is able to provide clearer info when compared to text-based descriptions.
-With that, to provide a more intuitive and natural representation of a given event, this work aims to extract motion information such that it can be represented using graphical form.
+With that, to provide a more intuitive and natural representation of a given event, this thesis aims to extract motion information such that it can be represented using graphical form.
 
 Within the scope of a car park scene, the trajectory information from each vehicle is essential as it is used to describe events within the scene.
 Hence, it is paramount to ensure motion information from each vehicle is captured and stored accurately.
@@ -238,7 +238,7 @@ In this subsection, the extraction process of the other semantics are briefly de
 
 \subsubsection{Date \& Time}
 
-Both date and time data are valuable information in a surveillance setting. In the context of retrieval techniques, these pieces of information are crucial as it can be used to narrow down and filter out irrelevant footage. In this work, the camera was setup to name the recorded files according to the time and date during the dataset collection process. As the filename contains both the time and date information, the date information can be easily obtained via substring extraction. Along with that, when a vehicle is observed in the car park scene, the time information from frame $\mathbb{T}$ can be deduced as follow:
+Both date and time data are valuable information in a surveillance setting. In the context of retrieval techniques, these information are crucial as it can be used to narrow down and filter out irrelevant footage. In this thesis, the camera was setup to name the recorded files according to the time and date during the dataset collection process. As the filename contains both the time and date information, the date information can be easily obtained via substring extraction. Along with that, when a vehicle is observed in the car park scene, the time information from frame $\mathbb{T}$ can be deduced as follow:
 \begin{align}
     \mathbb{T}_{time}  = (\mathbb{VD} \times \frac{\mathbb{T}}{\mathbb{TF}}) + \mathbb{F}_{time}
 \end{align}
@@ -247,7 +247,7 @@ where $\mathbb{VD}$ corresponds to the video duration of each file (6 minutes) a
 
 \subsubsection{Object Type \& Size}
 \label{objecttype}
-Given that ``vehicles'' are the only object of interest in this work, YOLOv2 was used to assist the validation of the foreground object detected by the BGS method described in Section~\ref{subsection:fundamental}. Objects which were returned under the ``vehicle'' class were tracked are written into the database. As for the object size, the size of the foreground objects' bounding boxes were saved in the database as the object size.
+Given that ``vehicles'' are the only object of interest in this thesis, YOLOv2 was used to assist the validation of the foreground object detected by the BGS method described in Section~\ref{subsection:fundamental}. Objects which were returned under the ``vehicle'' class were tracked are written into the database. As for the object size, the size of the foreground objects' bounding boxes were saved in the database as the object size.
 
 
 \section{\versionOneExt }
@@ -256,7 +256,7 @@ Given that ``vehicles'' are the only object of interest in this work, YOLOv2 was
 \subsection{Overview}
 As introduced in Section~\ref{subsec:lsh-intro}, LSH is a hashing function aimed to maximize hash collisions.
 As the hashes collide, documents with similar hashes are then grouped and clustered into similar neighbourhoods.
-However, LSH techniques were not directly implemented in this work. Instead, the idea and concept of clustering similar semantic classes were drawn.
+However, LSH techniques were not directly implemented in this thesis. Instead, the idea and concept of clustering similar semantic classes were drawn.
 The extracted semantics are clustered into 11 colour and 9 motion classes, each represented using an SQL table within the database.
 This setup allowed quick access to semantic groups while easily representing the classes. Along with that, the proposed method also reduces I/O bottlenecks during the retrieval process as irrelevant tables are ignored.
 
@@ -273,10 +273,10 @@ This setup allowed quick access to semantic groups while easily representing the
 With the bounding box of the vehicles obtained from the BGS module, the extraction of colour semantics can begin.
 However, as the obtained bounding box is larger than the actual vehicle, a cropping function of 30\% towards the centre of the bounding box was introduced to remove unwanted regions.
 The cropping function minimizes noise such as surrounding vehicles, roads, and trees from the bounding box, resulting in a closer estimation of the vehicle's footprint.
-As the bounding box of each vehicle in this work has very low resolution (approximately around 145$\times$75px), the methods proposed by the other authors in the related work section is neither suitable nor applicable.
+As the bounding box of each vehicle in this thesis has very low resolution (approximately 145$\times$75px), the methods proposed by the other authors in the related work section is neither suitable nor applicable.
 %Instead of segmenting portions of the vehicle to extract colour information, the dominant colour of each vehicle is extracted.
 To obtain the colour of each vehicle, the first step taken was to distinguish between chromatic and achromatic vehicles.
-In this work, the definitions of achromatic colour by Munsell was adopted: Achromatic colours are defined as neutral colours which are characterised by the lack of strong hue or chroma values such as black, white and gray colour.
+In this thesis, the definitions of achromatic colour by Munsell was adopted: Achromatic colours are defined as neutral colours which are characterised by the lack of strong hue or chroma values such as black, white and gray colour.
 
 \begin{figure}[htb!]
   \centering
@@ -638,7 +638,7 @@ Along with that, there were several other key issues identified that could be im
 The experimental results show that the process of determining between achromatic and chromatic vehicles were particularly problematic.
 The experimental dataset highlighted positive bias towards achromatic vehicles as there were a lot more achromatic vehicle as compared to chromatic vehicle.
 Given the bias scale, it is a trivial task to manipulate the overall retrieval results by adjusting the parameters to favour the achromatic scale.
-Hence, the aim of Phase 2: \versionTwoExt is to implement alternative solutions with better performance when compared with Phase 1: \versionOneExt. In the next subsections, the colour semantic extraction and motion semantic extraction is discussed in detail.
+Hence, the aim of \versionTwoExt is to implement alternative solutions with better performance when compared with \versionOneExt. In the next subsections, the colour semantic extraction and motion semantic extraction is discussed in detail.
 
 
 \subsection{Colour Semantic Extraction}
@@ -669,7 +669,7 @@ First, the dominant colour from each frame is extracted using the 3D HSV histogr
 \end{algorithm}
 
 To reduce the number of parameters and steer clear of handcrafted features such as the one introduced in Phase 1, the usage of similarity scores were adopted in Phase 2.
-Instead of assigning a single colour term for each of the 960 histogram bins, the similarity score of the ADC against \textbf{all} eleven ground truth colours is calculated and saved into the database. The metrics used to measure the similarity scores between the colours is adopted from the work of Riemersma\cite{riemersma}. The author proposed a low-cost estimation of the differences for colours in the LUV linear colour space using RGB values. As the Average Dominant colour was obtained in the HSV colour space, a quick conversion from HSV to RGB colour space was done using Equation~\ref{eq:RGBHSVconversion1} to~\ref{eq:RGBHSVconversion3}.
+Instead of assigning a single colour term for each of the 960 histogram bins, the similarity score of the ADC against \textbf{all} eleven ground truth colours is calculated and saved into the database. The metrics used to measure the similarity scores between the colours is adopted from the work of \citeA{riemersma}. The author proposed a low-cost estimation of the differences for colours in the LUV linear colour space using RGB values. As the Average Dominant colour was obtained in the HSV colour space, a quick conversion from HSV to RGB colour space was done using Equation~\ref{eq:RGBHSVconversion1} to~\ref{eq:RGBHSVconversion3}.
 
 
 
@@ -876,7 +876,7 @@ On the other hand, the results obtained using Riemersma's method shows a clearer
 To further understand the performance of the results attained using Riemersma's method, the colour term with the highest similarity score is plotted on the Munsell 330 Colour chips and is compared against several other methods.
 Figure~\ref{fig:munsell_ori330} shows the original Munsell 330 Colour chips which contain 10 achromatic colour chips and 320 chromatic colour chips.
 These chips are also known as the World Colour Survey (WCS) stimulus palette.
-The 320 chromatic chips are 40 hues (at full saturation) which are evenly spaced out with 8 different levels of lightness (value) for each hue-value pair (\cite{kay2009world}).
+The 320 chromatic chips are 40 hues (at full saturation) which are evenly spaced out with 8 different levels of lightness (value) for each hue-value pair \cite{kay2009world}.
 Figure~\ref{fig:munsell_compare} shows the comparison on how the WCS stimulus palette were assigned colour terms using several methods; (a) Parametric model by \citeA{benavente2008parametric}; (b) Probabilistic Latent Semantic Analysis (PLSA)- individual by \citeA{van2009learning}; (c, d) Linguistic and Data Compression approach by \citeA{zaslavsky2018efficient}; (e) Proposed method using Riemersma's low cost LUV estimation metrics.
 
 As the assigning of colour terms are subjective to individuals, is it remarkably difficult to measure the performance of each method against the other. Hence, a user study of 77 individuals was conducted to determine the best way of classifying colours from the WCS stimulus into colour terms (Figure~\ref{fig:munsell_compare}). The results from the user study are tabulated in Table~\ref{tab:munsell_result}.
@@ -895,7 +895,7 @@ In the case of the proposed retrieval techniques, the results obtained using Gro
 
 
 \begin{comment}
-\begin{figure}[htb!]
+\begin{figure}[!htb]
   \centering
 \begin{tabular}{cc}
  \includegraphics[width=0.45\linewidth]{image/analysis/munsell_a.png}   &
@@ -986,7 +986,7 @@ As a vehicle in the car park scene generally does not move in an irregular motio
 \section{Summary}
 In this chapter, two different semantic extraction methods are proposed. The extracted semantics includes the time-date information, colour, motion, object type as well as the size of the objects. Both methods employed slightly different methods of extracting the colour and motion information, the performance of these proposed methods will be discussed in Section~\ref{section:retrievalengine}.
 
-In comparison with the existing methods of extracting vehicle colour semantics described in Section~\ref{section:litreview}, the proposed method in this work is able to extract vehicle colour information from videos with relatively low resolution.
+In comparison with the existing methods of extracting vehicle colour semantics described in Section~\ref{section:litreview}, the proposed method in this thesis is able to extract vehicle colour information from videos with relatively low resolution.
 Furthermore, analysis was done to compare the results obtained using methods proposed in \versionOneExt and \versionTwoExt. The analysis on several colour term mapping methods against the WCS stimulus palette was also studied to better understand the advantage and disadvantages of the proposed method.
 
 The analysis shows that both proposed methods drastically decrease in performance if the entire vehicle is occluded or when vehicles are in the shadow. Likewise, the extraction of dominant colour fails when dealing with multi-coloured vehicles.
