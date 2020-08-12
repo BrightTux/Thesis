@@ -53,23 +53,23 @@ However, in this thesis, the use of CD was adapted to suit the research problem 
 \section{Dataset}
 \label{section:dataset_used}
 
-In view of testing the proposed framework, a new video dataset was gathered as there are limited long-term outdoor car park datasets that are publicly available for research. A stationary cloud-enabled web camera was set up in a room (with a glass window) on the fourth floor of a building facing a relatively large outdoor car park area. Figure \ref{fig:camerasetup} illustrates the location of the camera that was set up to overlook the adjacent car park area.
+In view of testing the proposed framework, a new video dataset was gathered as there are limited long-term outdoor car park datasets that are publicly available for research. A stationary cloud-enabled web camera was set up in a room (with a glass window) on the fourth floor of a building facing a relatively large outdoor car park area. Figure \ref{fig:camerasetup} illustrates the location of the camera that was set up to overlook the adjacent car park area. The camera viewpoint is shown in Figure \ref{fig:viewfromcamera}.
 %The aforementioned setup was done to mimic a typical camera setup which towers over a piece of outdoor car park lot that is found in the wild.
 \begin{figure}[hbt!]\centering
 \includegraphics[width=.8\textwidth]{image/new/fcicarpark2.png}
-\caption{Camera Setup to Capture the Car Park From the Fourth Floor}
+\caption{Camera Setup to Capture the Monitored Outdoor Car Park}
 \label{fig:camerasetup}
 \end{figure}
 \begin{figure}[!hbt]\centering
 \includegraphics[width=.7\textwidth]{image/general/grids.png}
-\caption{View From Camera Setup; 20$\times$20 Grids}
+\caption{View From the Camera, Overlaid with a 20$\times$20 Grid (in yellow)}
 \label{fig:viewfromcamera}
 \end{figure}
 
 Through the camera's web interface, the device was set to record on weekdays from Monday through Friday, starting from 08:30 up until 18:30 in the evening, totaling 10 hours of video recorded each day. To obtain smaller file sizes, each recorded video clip was set to have a maximum length of 6 minutes, hence a total of 100 videos were obtained at the end of each day. The recorded video clips were then stored in a microSD memory card.
 At the end of each day, the data was copied over to a server via a script. However, due to a few sporadic glitches that occurred during the recording process, some of the video clips had missing portions. Hence, some of the days did not contain the full 10 hours of video clips.
 
-\begin{table}[!ht]\centering
+\begin{table}[!bt]\centering
 \begin{tabular}{|l|l|}
 \hline
 Camera Model & Dlink DSC-942L        \\
@@ -82,7 +82,7 @@ Naming Convention & $CCYYMMDD\_HHMMSS.mp4$ \\
 \caption{Details of the Camera Setup used for Data Collection}
 \end{table}
 
-\begin{figure}[!htb]
+\begin{figure}[!tb]
   \centering
   \begin{tabular}{cc}
  \includegraphics[width=0.4\linewidth]{image/general/rain.PNG} &  \includegraphics[width=0.4\linewidth]{image/general/reflection.PNG}\\
@@ -90,45 +90,55 @@ Naming Convention & $CCYYMMDD\_HHMMSS.mp4$ \\
 \includegraphics[width=0.4\linewidth]{image/general/shadow.png} &  \includegraphics[width=0.4\linewidth]{image/general/shadow2.png}\\
 \begin{tabular}{c}(c) Severe shadow over \\ the car park (08:48AM)\end{tabular} & \begin{tabular}{c}(d)  Severe shadow over \\ the car park (04:06PM)\end{tabular}
 \end{tabular}
-
-
-\caption{Noisy Data Within the Collected Dataset} \label{fig:weather}
+\caption{Challenging Scenarios in the Collected Dataset} \label{fig:weather}
 \end{figure}
 
-This data acquisition setup was left to record data over the course of several months under various natural weather and lighting conditions. This also includes a diverse set of car park scenes such as peak hours with plenty of vehicles along with the off days. Along with that, this setup covers a total of over 45 parking lots excluding parking lots that are too small or occluded. Figure \ref{fig:weather} illustrates the various weather conditions and noise which were recorded sporadically throughout the dataset.
+This data acquisition setup was left unmanned to record data over the course of several months under various natural weather and environmental lighting conditions. The acquisition process captured a diverse set of car park scenes ranging from peak hours with almost a full car park with plenty of vehicles to the less crowded hours of the day. 
+%along with the off days. 
+% comment: "off days" is colloquial
+The setup covers a total of over 45 parking lots excluding parking lots that are too small or occluded (\emph{e.g.} in the last two rows farthest from the camera). Figure \ref{fig:weather} depicts the various challenging weather conditions (rain, glaring sunlight casting shadows) and reflection from the window in front of camera. 
+%which were recorded sporadically throughout the dataset.
 
 
 \section{Experimental Methodology}
 \label{sec:expmethodology}
 
-In the subsequent chapters, the detailed descriptions of the proposed vehicle semantic extraction algorithm as well as the retrieval techniques will be provided. This section briefly describes the methodology and the experimental setup to provide an overview of how the experiments were performed in this thesis.
+In the subsequent chapters, the detailed description of the proposed vehicle semantic extraction algorithm as well as the retrieval techniques will be provided. This section briefly presents the methodology and the experimental setup to describe how the experiments were performed in this thesis.
 
-As the performance of the proposed methods is essential towards end-users, each of the proposed algorithm in the framework was evaluated with the help of volunteers.
-The bounding box obtained using the Vehicle Detection and Vehicle Tracking framework proposed by \cite{lim2017} included errors. While these errors were propagated to the Vehicle Semantics Extraction and Retrieval modules, they were not overlooked nor discarded during the evaluation process. This was done intentionally to provide an end-to-end assessment of the framework.
+As the performance of the proposed methods is essential towards end-users, each of the proposed algorithms in the framework is evaluated with the help of volunteers assuming the role as end-users.
+It is worth noting that the bounding boxes obtained using the vehicle detection and tracking framework proposed by \cite{lim2017} included minor errors. These errors may be propagated to the vehicle semantics extraction and retrieval modules, but they are not overlooked nor discarded during the evaluation process. This is done with the intention to provide an end-to-end assessment of the framework.
 
-The proposed methods were implemented and evaluated on an Intel i7 machine with 16GB RAM, equipped with a GeForce GTX 1060 GPU. As the main focus of the proposed method revolves around the semantic extraction and retrieval of \textbf{vehicle colour} along with the \textbf{vehicle trajectory}, both of these components were assessed and evaluated individually.
-This was done to better understand the performance, effectiveness as well as the weakness of the proposed methods.
+The proposed methods were implemented and evaluated on an Intel i7 machine with 16GB RAM, equipped with a GeForce GTX 1060 GPU. As the main focus of the proposed method revolves around the semantic extraction and retrieval of \textbf{vehicle colour} and \textbf{vehicle trajectory}. Both of these components were assessed and evaluated individually to better understand the performance, effectiveness and to analyse the weaknesses of the proposed methods.
 
-As a result, two different phases were introduced to enhance the performance based on the obtained intel and gaps which were identified via experimental results. This also allowed us to gain a deeper understanding of the proposed method along with the opportunities for future improvements.
-Likewise, the experimental methodology can be divided into two phases.
+As a result, two different phases were introduced to enhance the performance based on the 
+% comment: what is "intel" ?
+%obtained intel and 
+gaps which were identified via experimental results. This also allows us to gain a deeper understanding of the proposed method along with opportunities for future improvements.
+Likewise, the experimental methodology can be divided into two phases, as discussed in the following sections.
 %Two retrieval techniques were designed and implemented in this work, the objective of the first retrieval engine was to build a prototype for the evaluation of its current performance and to identify gaps to be improved. This process allowed the author to return to the drawing board and reevaluate the algorithms, metrics and evaluation process performed.
 
 
 \subsection{Phase 1: LSH-Inspired Semantic Extraction and Retrieval Technique (Prototyping)}
-While the collected dataset comprised of several months of data, only two days of data (20 hours) were used for the evaluation of \versionOneRet. Several annotators were deployed to manually label and fully annotate these data. Upon completing the annotation process, the annotators would cross-check to verify the sanctity of the annotation.
-Along with that, the cross-checking allows the annotators to arrive at consensus on annotations that did not tally. The annotators were asked to take note of the following events:
-1) Number of vehicle of each colour category (11 categories, see Table~\ref{table:colorshex}), and 2) Number of vehicles performing motion $TQ1$ \& $TQ2$ (See Figure \ref{fig:versionOneInterface}).
-Having fully annotated data allowed us to evaluate the performance of the proposed method using the Accuracy, Recall and $F_1$ Score metrics.
+While the collected dataset comprised of several months of data, only two days of data (20 hours) were used for the evaluation of \versionOneRet. Several annotators were tasked to manually annotate the data. Upon completing the annotation process, the annotators would then cross-check annotations from other annotators to verify the consistency of the annotations.
+In the process, the annotators were asked to arrive at a consensus for specific annotations that did not tally. The annotators were also asked to record the following events:
+1) Number of vehicle of each colour category (11 categories, see Table~\ref{table:colorshex}), and 2) Number of vehicles performing designated motion test cases (denoted as $TQ1$ \& $TQ2$, see Figure \ref{fig:versionOneInterface}).
+The availability of fully annotated data allows the performance of the proposed method to be evaluated using the metrics such as Accuracy, Recall and $F_1$-Score.
 
 \subsection{Phase 2: CD-Inspired Semantic Extraction and Retrieval Technique (Full Experiment)}
 
-During the \textbf{Phase 1} experiment, it was noted that the entire annotation process took a significant amount of work despite only using two days of data. As one month of data was set aside for the evaluation of the \versionTwoRet, an alternative experimental methodology was applied.
-Typical with any large-scale retrieval engine of all intents and purposes, it is not feasible to annotate a huge amount of ground truth manually as it takes an enormous effort which is time-consuming.
-Hence in \textbf{Phase 2}, semantics from one month of data was extracted, retrieved and evaluated without the manual annotations of any events.
+During \textbf{Phase 1}, the entire annotation process took a significant amount of work despite only performing on two days of data. Since one month of data was set aside for the evaluation of the \versionTwoRet, an alternative experimental methodology was applied.
+Typical with the evaluation of most large-scale retrieval engines~\cite{jermsurawong2012car, zhang2013mining, castanon2016retrieval, ren2018learning}, 
+% comment: removed. confusing.
+%of all intents and purposes, 
+it is not feasible to annotate a huge amount of ground truth labels manually as it is both %takes an enormous effort which is 
+time-consuming and costly. 
+Hence in \textbf{Phase 2}, the semantics from one month of data were extracted, retrieved and evaluated without the manual annotations of any events.
 
-As the final output of this proposed method is an end-user facing retrieval system, the evaluation process took on an empirical user study approach. This unbiased approach provided the volunteers with full control and freedom to perform any kinds of query over the search interface.
-Using this setup, a group of six volunteers were performed a total of 11 queries on the retrieval engine for both the vehicle colour and trajectory semantics.
+As the final output of this proposed method is an end-user facing retrieval system, the evaluation process took on an empirical user study approach. This is an unbiased approach which provides the volunteers with full control and freedom to perform any kinds of query over the search interface.
+Using this setup, a group of six volunteers were tasked to perform a total of 11 queries on the retrieval engine for both the vehicle colour and trajectory semantics.
 %of the vehicles and provide relevance score for each retrieved results.
-Based on each query, the volunteers were tasked to provide relevance score($REL$) and evaluation for each of the randomly ordered retrieved results.
-As the data in this phase was not fully annotated, it is impossible to compute the Recall and $F_1$ score. Instead, the Precision@K along with the normalised Discounted Cumulative Gain (nDCG) metrics were used.
+Based on each query, the volunteers were tasked to provide a rating for each query result on a pre-determined scale, also known as the relevance score ($REL$).
+% comment: is the retrieval results randomly ordered, or ordered based on relevance?
+%evaluation for each of the randomly ordered retrieved results.
+Since the data in this phase is not fully annotated, it is not possible to compute Recall and $F_1$-Score. Instead, the Precision@K along with the normalised Discounted Cumulative Gain (nDCG) metrics were employed. These metrics will be further elaborated in Section~\ref{sec:retrieval-metrics}.
 

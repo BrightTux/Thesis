@@ -19,6 +19,7 @@
 \usepackage[x11names,dvipsnames,svgnames]{xcolor}
 \usepackage[os=win]{menukeys}
 \usepackage{listings}
+\usepackage{xspace}
 
 
 % -------------------------------------------------------------------
@@ -57,11 +58,11 @@ breaklines=true,breakatwhitespace=true}
 
 
 \newcommand*\mean[1]{\bar{#1}}
-\newcommand{\versionOneExt}{Phase 1: LSH-Inspired Semantic Extraction }
-\newcommand{\versionTwoExt}{Phase 2: Chamfer Distance-Inspired Semantic Extraction }
+\newcommand{\versionOneExt}{\textit{Phase 1: LSH-Inspired Semantic Extraction}\xspace}
+\newcommand{\versionTwoExt}{\textit{Phase 2: Chamfer Distance-Inspired Semantic Extraction}\xspace}
 
-\newcommand{\versionOneRet}{Phase 1: LSH-Inspired Retrieval Technique }
-\newcommand{\versionTwoRet}{Phase 2: Chamfer Distance based Retrieval Technique  }
+\newcommand{\versionOneRet}{\textit{Phase 1: LSH-Inspired Retrieval Technique}\xspace}
+\newcommand{\versionTwoRet}{\textit{Phase 2: Chamfer Distance based Retrieval Technique}\xspace}
 
 
 
@@ -155,7 +156,7 @@ Thank you everyone! Much blessings.
 \tableofcontents\clearpage
 \listoftables\clearpage
 \listoffigures\clearpage}
-
+% \printglossary[type=\acronymtype,title={Abbreviations}]
 % \prefacefromfile{preface}
 
 \mainmatter
