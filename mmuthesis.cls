@@ -1,4 +1,4 @@
-%% mmuthesis.cls 2016/10/05 version V1.4
+%% mmuthesis.cls 2017/12/29 version V1.41
 %% 
 %% This is the unofficial MMU thesis LaTeX class for postgraduate research
 %% students of Multimedia University, Cyberjaya/Malacca, Malaysia, formatted
@@ -19,6 +19,9 @@
 %
 %  BRIEF CHANGELOG
 %  ===============
+% v1.41 December 29 2017
+%     - Removed "submission" from declaration page.
+%
 % v1.4 October 5 2016
 %     - Updated copyright declaration page.
 %
@@ -135,8 +138,10 @@
 \DeclareCaptionFormat{algorithm}{\vspace{0ex}{%
    \parbox[c][1.75em][c]{\textwidth}{#1#2\hspace{1em}#3}}\par}%\rule{\linewidth}{0.5pt}}
 \captionsetup[algorithm]{format=algorithm}
-\captionsetup[figure]{font=bf}
-\captionsetup[table]{font=bf,position=top}
+% \captionsetup[figure]{font=bf}
+\captionsetup[figure]{}
+% \captionsetup[table]{font=bf,position=top}
+\captionsetup[table]{position=top}
 
 \AtBeginEnvironment{algorithmic}{\setstretch{1.5}}
 
@@ -212,7 +217,7 @@ MALAYSIA}\\[1em]%
 \ifpdf\pdfbookmark{Copyright Page}{copyright}\fi%
 \cftaddtitleline{toc}{chapter}{COPYRIGHT PAGE}{\thepage}%
 \begin{vplace}[1]
-\fontsize{12pt}{12pt}\selectfont %The copyright of this thesis belongs to the author under the terms of the Copyright Act 1987 as qualified by Regulation 4(1) of the Multimedia University Intellectual Property Regulations. Due acknowledgement shall always be made of the use of any material contained in, or derived from, this thesis.\par\vskip\onelineskip%
+\fontsize{14pt}{16pt}\selectfont %The copyright of this thesis belongs to the author under the terms of the Copyright Act 1987 as qualified by Regulation 4(1) of the Multimedia University Intellectual Property Regulations. Due acknowledgement shall always be made of the use of any material contained in, or derived from, this thesis.\par\vskip\onelineskip%
 %{\raggedleft%
 %\begin{tabular}{@{}r@{ }l@{}}
 %\textcopyright & \theauthor, \@mtsubmissionyear\\
@@ -279,7 +284,7 @@ I hereby declare that the work has been done by myself and no portion of the wor
 %%%%%%%%%%%%
 \renewcommand\chapterheadstart{\normalsize\vskip\beforechapskip}
 \setlength\beforechapskip{0pt}
-\setlength\midchapskip{3\onelineskip}
+\setlength\midchapskip{2\onelineskip}
 \setlength\afterchapskip{2\onelineskip minus \onelineskip}
 \renewcommand*\chapnamefont{\normalsize\bfseries}
 \renewcommand*\chapnumfont{\normalsize\bfseries\centering}
