@@ -25,6 +25,7 @@ some fundamentals of the following concepts: i) Quantisation, ii) Distance
 Measure, iii) Human Visual System, \& iv) Colour Model and Colour Terms.
 
 
+\vspace{1em}
 \subsection{Quantisation}
 
 The use of quantisation in the mathematical and digital signal processing fields
@@ -86,6 +87,7 @@ with the assignment of colour terms (See Section \ref{section:colourterm}).
 
 
 
+\vspace{1em}
 \subsection{Distance Measure}
 \label{section:distancemeasures}
 
@@ -140,6 +142,8 @@ measure for each of the proposed methods.
 % chapter 5
 
 \begin{table}[!ht]
+\caption{List of Several Popular Distance Measures %and Their Pros and Cons
+}
 \resizebox{
 \textwidth}{!}{
 \begin{tabular}{|l|l|l|} \hline
@@ -160,12 +164,11 @@ Hamming Distance & \begin{tabular}[c]{@{}l@{}}Ensure similarity between vectors,
 on n-Dimension data\end{tabular} & \begin{tabular}[c]{@{}l@{}}Vector order
 dependent,\\ Requires same length vectors\end{tabular} \\ \hline
 \end{tabular}}
-\caption{List of Several Popular Distance Measures %and Their Pros and Cons
-}
 \label{table:distance}
 \end{table}
  
 
+\vspace{1em}
 \subsection{Human Visual System}
 An interesting excerpt by \citeA{albers2006interaction} states that ``In order to use colour effectively it is necessary to recognise that colour deceives continually. To this end, the beginning is not a study of colour systems.
 First, it should be learned that one and the same colour evokes innumerable readings. Instead of mechanically applying or merely implying laws and rules of colour harmony, distinct colour effects are produced-through recognition of the interaction of colour-by making, for instance, two very different colours look alike, or nearly alike''. Hence, the human visual system is first explored to understand how to use colours effectively.
@@ -211,6 +214,7 @@ in the retina varies for each person, the colour perception of every person may 
 \end{figure}
 
 
+\vspace{1em}
 \subsection{Colour Model, System and Terms}
 \label{section:colourterm}
 
@@ -224,6 +228,7 @@ finite tuples of numbers within a colour model. This quantisation process enable
 colour information to be stored digitally for further processing.
 
 
+\vspace{1em}
 \subsubsection{RGB Colour Model}
 In the previous section, the humans visual system is briefly described to contain 
 %was explored. From there, we learn that the 
@@ -247,6 +252,7 @@ represented using $(0, 0, 0)$ (no colours present), while 'White' is represented
 % \end{figure}
 
 
+\vspace{1em}
 \subsubsection{Munsell Colour System}
 \label{section:munsellcs}
 Colour terms - such as ``Red'', ``Green'' or ``Blue'', are commonly derived from
@@ -277,6 +283,7 @@ along the value axis.
 \end{figure}
 
 
+\vspace{1em}
 \subsubsection{Colour Terms}
 
 While the idea of colours seems to be a relatively simple idea for humans,
@@ -295,6 +302,9 @@ notable property of these colour terms is the use of compound terms such as
 Also, in certain colour dictionaries, colour terms are somewhat duplicated for several tuple of values. An interesting note by \citeA{de1971color} puts the difficult plainly: ``The explanation of the nature and essence of colour gives such difficulty that the opinions of nearly all physicians are divided''. Given the variety of colour dictionaries and the broad range of different colour terms, this work also indirectly investigates into the number of colour terms that should be allocated to describe the wide range of vehicle colours.
 
 \begin{table}[hbt!]
+ \caption[Web Colour Dictionary and the Corresponding Number of Colour Terms]
+ {Various Common Web Colour Dictionaries. Compiled from Various Source ~\cite{jaffer_2017, raveling, crayolacolor} %and the Corresponding Number of Colour Terms
+ }
  \centering
  \begin{tabular}{|c|c|c|} \hline
  \multicolumn{1}{|c|}{\textbf{Web Colour Dictionary}} &
@@ -309,9 +319,6 @@ Also, in certain colour dictionaries, colour terms are somewhat duplicated for s
  & 954                         & 2010
  \\ \hline
  \end{tabular}
- \caption[Web Colour Dictionary and the Corresponding Number of Colour Terms]
- {Various Common Web Colour Dictionaries. Compiled from Various Source ~\cite{jaffer_2017, raveling, crayolacolor} %and the Corresponding Number of Colour Terms
- }
 \label{table:allcolourterms}
 \end{table}
 %https://people.csail.mit.edu/jaffer/colour/Dictionaries x11 colours:
@@ -373,10 +380,12 @@ vehicles is omitted from discussion. Instead, the rest of this section covers tw
 \end{figure}
 
 
+\vspace{1em}
 \subsection{Object Semantics Extraction}
 
 Three relevant sub-topics are presented in this section: Vehicle colour extraction, colour to colour term mapping, and vehicle motion extraction and representation.
 
+\vspace{1em}
 \subsubsection{Vehicle Colour Extraction}
 The extraction of vehicle colours is essential for a wide variety of
 applications in ITS, such as crime prevention, vehicle re-identification and video shot retrieval purposes.
@@ -504,6 +513,7 @@ Reproduced from \citeA{zhang2017vehicle}.}
 
 In other related research areas such as vehicle re-identification, several works -- \cite{liu2016deep}, \cite{liu2016deep2} and \cite{shen2017learning}), made use of extracted colour features to assist in the re-identification process. \citeA{liu2016deep} adopted the Probabilistic Latent Semantic Analysis (PLSA) introduced by \citeA{van2009learning}, to extract the colour features (to be discussed in Section~\ref{sec:color2colorterm}). A PLSA model is used to learn the relation between words (colour terms) and images by providing a conditional probability score. Similar to \cite{kim2008deciding}, the images in this work were segmented and represented using L*a*b colour histogram of $10 \times 20 \times 20$ grids. \citeA{liu2016deep2} applied deep learning techniques inspired by a triplet loss network proposed by \citeA{ding2015deep}. The employed network utilised a new loss function to accelerate the training convergence. Eventually, the colour features were extracted using the proposed network. In quite similar fashion, \citeA{shen2017learning} applied a deep learning network to extract the colour features using a Siamese Network with a shared ResNet-50 configuration. The visual features, including colours, were obtained using the features from the global pooling layers.
 
+\vspace{1em}
 \subsubsection{Colour to Colour Term Mapping}
 \label{sec:color2colorterm}
 
@@ -573,6 +583,7 @@ colour tuples mapping. The authors aimed to study efficient compression in colou
  http://www.munsellcolourscienceforpainters.com/ConversionsBetweenMunsellAndsRGBsystems.pdf
 \end{comment}
 
+\vspace{1em}
 \subsubsection{Vehicle Motion Extraction \& Representation}
 \label{subsec:vehiclemotionextraction}
 
@@ -644,6 +655,7 @@ number of spatio-temporal cubes used.
 
 
 
+\vspace{1em}
 \subsection{Object Semantics Retrieval}
 
 According to the survey by \cite{chandran2017review}, object retrieval
@@ -712,6 +724,7 @@ illustrates their proposed GUI and the input queries.
 \label{fig:drawquery2}
 \end{figure}
 
+\vspace{1em}
 \subsection{Summary of Background Study}
 
 This chapter started off with some  fundamental background study on some key concepts such as the quantisation process and distance measures which is repeatedly found in this work. Furthermore, some background on the human visual system and the various colour models and terms were also explored to understand the relation between them. 

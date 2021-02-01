@@ -91,6 +91,11 @@
 %
 % TODO: TeX Gyre fonts + Math Times Pro with "altfonts" option
 %%%%%%%%%%%%
+% CLARENCE: Use times new romans
+\usepackage{fontspec}
+\usepackage{newtxtext,newtxmath}
+\usepackage{mathptmx}
+
 \RequirePackage[T1]{fontenc}
 \RequirePackage{helvet}
 \RequirePackage{mathptmx}
@@ -209,6 +214,10 @@ MALAYSIA}\\[1em]%
 }
 
 
+%\setmainfont{Times New Roman}
+%\setsansfont{Helvetica}
+%\setromanfont{Times New Roman}
+
 %%%%%%%%%%%%
 % The Copyright page
 %%%%%%%%%%%%
@@ -217,13 +226,15 @@ MALAYSIA}\\[1em]%
 \ifpdf\pdfbookmark{Copyright Page}{copyright}\fi%
 \cftaddtitleline{toc}{chapter}{COPYRIGHT PAGE}{\thepage}%
 \begin{vplace}[1]
-\fontsize{14pt}{16pt}\selectfont %The copyright of this thesis belongs to the author under the terms of the Copyright Act 1987 as qualified by Regulation 4(1) of the Multimedia University Intellectual Property Regulations. Due acknowledgement shall always be made of the use of any material contained in, or derived from, this thesis.\par\vskip\onelineskip%
+\setromanfont{Times New Roman}
+\fontsize{12pt}{12pt}\selectfont %The copyright of this thesis belongs to the author under the terms of the Copyright Act 1987 as qualified by Regulation 4(1) of the Multimedia University Intellectual Property Regulations. Due acknowledgement shall always be made of the use of any material contained in, or derived from, this thesis.\par\vskip\onelineskip%
 %{\raggedleft%
 %\begin{tabular}{@{}r@{ }l@{}}
 %\textcopyright & \theauthor, \@mtsubmissionyear\\
 %& All rights reserved
 %\end{tabular}%
 %\par}
+
 \setlength{\parindent}{0pt}
 \textcopyright \@mtsubmissionyear{} Universiti Telekom Sdn.\ Bhd. ALL RIGHTS RESERVED.\par
 Copyright of this thesis belongs to Universiti Telekom Sdn.\ Bhd. as qualified by Regulation 7.2 (c) of the Multimedia University Intellectual Property and Commercialisation Policy. No part of this publication may be reproduced, stored in or introduced into a retrieval system, or transmitted in any form or by any means (electronic, mechanical, photocopying, recording, or otherwise), or for any purpose, without the express written permission of Universiti Telekom Sdn.\ Bhd. Due acknowledgement shall always be made of the use of any material contained in, or derived from, this thesis.
@@ -326,13 +337,14 @@ I hereby declare that the work has been done by myself and no portion of the wor
 \setsubsubsecheadstyle{\normalsize\itshape}
 %\setbeforesubsubsecskip{1.5ex plus 1ex minus .2ex}
 \setbeforesubsubsecskip{\onelineskip}
-\renewcommand\thesubsubsection{\thesubsection\space(\alph{subsubsection})}
+% \renewcommand\thesubsubsection{\thesubsection\space(\alph{subsubsection})}
 \setsubsubsecheadstyle{\normalsize\itshape}
 %\setbeforesubsubsecskip{2.5ex plus .2ex minus .2ex}
 \setbeforesubsubsecskip{\onelineskip}
 %\setaftersubsubsecskip{0.1ex plus .2ex}
 %\setaftersubsubsecskip{1em plus .1ex minus .2ex}
 \setaftersubsubsecskip{\onelineskip}
+
 
 
 %%%%%%%%%%%

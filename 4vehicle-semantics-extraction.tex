@@ -141,6 +141,7 @@ Emphasis is placed on both the colour and motion semantics extraction process an
 
 \end{table}
 
+\vspace{1em}
 \subsection{Colour Semantic}
 \label{subsec:colorsemantics}
 
@@ -189,6 +190,7 @@ The details of the techniques used in the semantics extraction process in Phase 
 % \usepackage[table,xcdraw]{xcolor}
 % If you use beamer only pass "xcolor=table" option, i.e. \documentclass[xcolor=table]{beamer}
 \begin{table}[!ht]\centering
+\caption{Colour Terms and the Corresponding HEX value}
 \begin{tabular}{lcccc}
 \cline{2-4}
 \multicolumn{1}{l|}{}                     & \multicolumn{1}{l|}{\cellcolor[HTML]{000000}} & \multicolumn{1}{l|}{\cellcolor[HTML]{FFFFFF}} & \multicolumn{1}{l|}{\cellcolor[HTML]{929591}} &                                               \\ \cline{1-4}
@@ -203,12 +205,12 @@ The details of the techniques used in the semantics extraction process in Phase 
 \multicolumn{1}{|l|}{\textbf{HEX}}        & \multicolumn{1}{c|}{\#7e1e9c}                 & \multicolumn{1}{c|}{\#15b01a}                 & \multicolumn{1}{c|}{\#0343df}                 & \multicolumn{1}{c|}{\#ff81c0}                 \\ \hline
 \multicolumn{1}{|l|}{\textbf{Colour Term}}  & \multicolumn{1}{c|}{Purple}                   & \multicolumn{1}{c|}{Green}                    & \multicolumn{1}{c|}{Blue}                     & \multicolumn{1}{c|}{Pink}                     \\ \hline
 \end{tabular}
-\caption{Colour Terms and the Corresponding HEX value}
 \label{table:colorshex}
 \end{table}
 
 
 
+\vspace{1em}
 \subsection{Motion Semantic}
 
 Video data provides an abundance of information for surveillance purposes due to its inherent properties of both space and time; the latter being essential for describing motion which is characterised by the changes in space across time.
@@ -228,10 +230,12 @@ Given that the types of trajectories performed in a car park varies from user to
 it is more efficient to allow the collected information to be quantized and broken down into smaller motion sequence blocks for storage.
 %As both the proposed motion semantics extraction techniques employ different extraction methods, each phase is discussed separately further down in this chapter.
 
+\vspace{1em}
 \subsection{Other Semantics}
 
 In this subsection, the extraction process of the other semantics are briefly described. These extracted semantics include the date time information, object type as well as object size. As the extraction of these semantics are trivial and play little role in both the extraction module and retrieval techniques, these processes are also briefly described for the sake of completeness.
 
+\vspace{1em}
 \subsubsection{Date \& Time}
 
 Both date and time data are valuable information in a surveillance setting. In the context of retrieval techniques, these information are crucial as it can be used to filter out irrelevant footage, thus reducing the search space. In this thesis, the camera was set up to name the recorded files according to the time and date during the dataset collection process. As the filenames contain both the time and date information, the date information can be easily obtained via sub-string parsing. Along with that, when a vehicle is observed in the car park scene, the time information from frame $\mathbb{T}$ can be deduced as follows:
@@ -242,6 +246,7 @@ Both date and time data are valuable information in a surveillance setting. In t
 where $\mathbb{VD}$ corresponds to the video duration of each file (\emph{i.e.} 6 minutes in our experiments) and $\mathbb{TF}$ is the total frames of the current video. The $\mathbb{F}_{time}$ is the time information obtained from the last six digits of filename, excluding the file extension (see Section~\ref{section:dataset_used} for more details). Upon extracting these information, simple formatting is done to ensure that these information conform to the typical SQL database requirements.
 
 
+\vspace{1em}
 \subsubsection{Object Type \& Size}
 \label{objecttype}
 Given that vehicles are the only objects of interest in this research, YOLOv2 was used to assist the validation of the foreground object detected by the BGS method described in Section~\ref{subsection:fundamental}. Objects which were returned with the ``vehicle'' label (based on Pascal VOC categories) were tracked and written to the database. As for the object size, the size of the foreground objects' bounding boxes were saved in the database as the object size.
@@ -264,6 +269,7 @@ This setup allows for quick access to semantic groups while easily representing 
 \label{fig:lshexample}
 \end{figure}
 
+\vspace{1em}
 \subsection{Colour Semantic Extraction }
 \label{section:versionOneColorExtract}
 
@@ -475,6 +481,7 @@ Hence, only the dominant colour of a vehicle at frame $t$, is obtained and store
 Algorithm~\ref{algo:colorExtract} summarises the strategy used for colour semantic extraction process for the \versionOneExt,
 while the examples in Table~\ref{tab:hsvExample} show samples of bins and their corresponding similarity scores.
 
+\vspace{1em}
 \subsection{Motion Semantic Extraction}
 \label{subsec:motions9binextract}
 
@@ -548,6 +555,7 @@ In the scenario where the difference between the current position of the boundin
 \section{\versionTwoExt}
 \label{section:semantic_chamfer}
 
+\vspace{1em}
 \subsection{Overview}
 
 Upon experimenting with the methods proposed in Phase 1, one of the main shortcomings identified was that the extracted semantics was too handcrafted in nature.
@@ -562,6 +570,7 @@ Given the state of imbalance, it could be a trivial task to resort to adjusting 
 Nevertheless, the aim of \versionTwoExt is to implement alternative solutions with better performance when compared to \versionOneExt. In the next subsections, the colour semantic extraction and motion semantic extraction in this improved phase are discussed in detail.
 
 
+\vspace{1em}
 \subsection{Colour Semantic Extraction}
 \label{section:versiontwoColor}
 As previously discussed in Section~\ref{subsec:colorsemantics}, while the fundamental idea of discerning colour terms is relatively simple for humans, the concept of colours is a non-trivial problem for machines. To extract colour semantics, the framework from Phase 1 is to be further improved
@@ -683,6 +692,7 @@ In the case of the proposed retrieval techniques, the results obtained using Gro
 
 
 \begin{table}[H]\centering
+\caption{User study: Understanding Users' Preference on How Colour Terms Should Be Allocated}
 \begin{tabular}{|l|c|c|}
 \hline
 \textbf{Method}                             & \textbf{\# of votes} & \textbf{Percentage (\%)} \\ \hline
@@ -692,12 +702,12 @@ In the case of the proposed retrieval techniques, the results obtained using Gro
 (d) Linguistic Approach, After Compression  & 24                   & 31.17              \\ \hline
 (e) Proposed method                         & 12                   & 15.58              \\ \hline
 \end{tabular}
-\caption{User study: Understanding Users' Preference on How Colour Terms Should Be Allocated}
 \label{tab:munsell_result}
 \end{table}
 \vspace{-2em}
 
 
+\vspace{1em}
 \subsection{Motion Semantic Extraction}
 \label{subsec:chamferdistancemotionextraction}
 
@@ -733,6 +743,7 @@ In future work, the colour term mapping function can be potentially improved so 
 % \usepackage[table,xcdraw]{xcolor}
 % If you use beamer only pass "xcolor=table" option, i.e. \documentclass[xcolor=table]{beamer}
 \begin{table}[t]\centering
+\caption{Samples of Similarity Score(\%) based on Euclidean Distance in HSV Colour Space, Highlighted in Green is the Highest Scoring Colour Term}
 \resizebox{\textwidth}{!}{
 \begin{tabular}{c|c|c|c|c|c|c|c|c|c|c|c|}
 \cline{2-12}
@@ -844,7 +855,6 @@ In future work, the colour term mapping function can be potentially improved so 
 % ----- remove these?
 
 \end{tabular}}
-\caption{Samples of Similarity Score(\%) based on Euclidean Distance in HSV Colour Space, Highlighted in Green is the Highest Scoring Colour Term}
 \label{tab:hsvExample}
 \end{table}
 
@@ -852,6 +862,7 @@ In future work, the colour term mapping function can be potentially improved so 
 % \usepackage[table,xcdraw]{xcolor}
 % If you use beamer only pass "xcolor=table" option, i.e. \documentclass[xcolor=table]{beamer}
 \begin{table}[!hbt]\centering
+\caption{Samples of Similarity Score(\%) based on Riemersma's low cost LUV estimation metrics, Highlighted in Green is the Highest Scoring colour Term}
 \resizebox{\textwidth}{!}{
 \begin{tabular}{c|c|c|c|c|c|c|c|c|c|c|c|}
 \cline{2-12}
@@ -976,6 +987,5 @@ In future work, the colour term mapping function can be potentially improved so 
 \\ \hline
 % ----- remove these?
 \end{tabular}}
-\caption{Samples of Similarity Score(\%) based on Riemersma's low cost LUV estimation metrics, Highlighted in Green is the Highest Scoring colour Term}
 \label{tab:luvExample}
 \end{table}

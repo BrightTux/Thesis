@@ -35,7 +35,7 @@ Looking from the entertainment sector, multimedia contents are dished out at a r
 % Clearly, the idea of using search engines to retrieve video footage is nothing new. Hence, inspirations are drawn from these technologies and applied to the research problem at hand. %which will be discussed in this work.
 
 \begin{figure}[!hbt]\centering
-\includegraphics[width=\textwidth]{image/general/simpleframe3.png}
+\includegraphics[width=0.9\textwidth]{image/general/simpleframe3.png}
 \caption{Example of Semantics Extraction Process}
 \label{fig:exampleframework2}
 \end{figure}
@@ -58,7 +58,7 @@ process is undeniably time-consuming and laborious, especially when the data in-
 via a well designed semantic extraction strategy and new query and retrieval techniques which this thesis attempts to address. Figure \ref{fig:observerdatacenter} shows an example of a surveillance control centre where security personnel keep an eye on various scenes. 
 
 \begin{figure}[!hbt]\centering
-\includegraphics[width=\textwidth]{image/screenshots/observer.jpg}
+\includegraphics[width=0.8\textwidth]{image/screenshots/observer.jpg}
 \caption{Example of Surveillance Control Centre.}
 \label{fig:observerdatacenter}
 \end{figure}
@@ -89,7 +89,6 @@ Several authors attempted to solve this challenge,
 albeit for generic scenarios,
 by proposing the use of example-based queries \cite{zhang2017car, liu2016large, castanon2016retrieval} to facilitate the retrieval process.
 These queries typically require end-users to provide inputs in the form of an image or sample of the desired output. While it is possible to provide a thumbnail query image for different scenes (e.g., beach, mountain, waterfall) and objects (e.g., bicycle, pen, lipstick), this is difficult with surveillance video footages as instances are often similar in appearance throughout the recorded duration. Additionally, it would be highly unlikely for end-users to have a copy of the sample footage in order to perform matching against all recorded events.
-
 To tackle this research problem, the following are some research questions which will be addressed in this thesis:
 \begin{enumerate}
 \item What feasible concepts from existing techniques can we glean and exploit for the purpose of solving the problem?
@@ -98,7 +97,7 @@ To tackle this research problem, the following are some research questions which
 \end{enumerate}
 
 
-
+\vspace{1em}
 \subsection{Research Objectives}
 The objectives of this thesis can be divided into two main interdependent parts. As a whole, the entire work aims to adopt and leverage on existing frameworks to design a feasible object-level \textbf{semantic extraction} and \textbf{retrieval} framework and techniques for \textbf{car park videos}. 
 With the goal of answering the aforementioned research questions, the following are the two objectives of this research:
@@ -110,6 +109,7 @@ With the goal of answering the aforementioned research questions, the following 
 \end{enumerate}
 \noindent These objectives are properly validated through both quantitative measures and user studies.  
 
+\vspace{1em}
 \subsection{Scope and Definition}
 \label{subsec:scope}
 The work in this thesis primarily encompasses the tasks 
@@ -128,6 +128,7 @@ The extraction of scene-level information such as weather information %lighting 
 and overall car park occupancy rate are also beyond the scope of this work.
 
 
+\vspace{1em}
 \subsection{Contribution}
 As this thesis proposes several new ideas collectively within a framework, 
 %the formulation of concepts and algorithms, 
@@ -145,7 +146,14 @@ keyword-based queries, this thesis proposes an unconventional yet intuitive traj
 Therefore, the performance of the proposed methods were measured and using Precision@K and normalised Discounted Cumulative Gain (nDCG) metrics using semantics extracted from about one-month long of data from a monitored outdoor car park.  
 \end{enumerate}
 
+\vspace{1em}
 \subsection{Organisation of Thesis}
+
+\begin{figure}[!ht]\centering
+\includegraphics[width=\textwidth]{image/general/phases.PNG}
+\caption{Proposed Method Overview}
+\label{fig:proposedmethodoverview}
+\end{figure}
 
 The roadmap of this thesis is laid out as follows: Firstly, the introduction on the subject matter is discussed in this chapter.
 In Chapter \ref{section:litreview}, a brief overview of related theoretical background concepts is first discussed in Section \ref{subsec:relatedConcepts}. Then, in Section \ref{section:relatedworks}, related works in this field are reviewed thoroughly to provide an understanding on has been attempted before, their disadvantages along with potential areas for improvements.
@@ -154,10 +162,3 @@ Chapter \ref{section:semanticsextraction} and Chapter \ref{section:retrievalengi
 Figure \ref{fig:proposedmethodoverview} illustrates these two phases: Chapter \ref{section:semanticsextraction} focuses on the video semantics extraction methods for both the vehicle colour and vehicle motion, while Chapter \ref{section:retrievalengine} discusses the proposed retrieval techniques along with the results and analysis.
 Finally, the conclusion of this work along with potential future works is presented in Chapter \ref{section:conclusion}.
 
-
-
-\begin{figure}[!hbt]\centering
-\includegraphics[width=\textwidth]{image/general/phases.PNG}
-\caption{Proposed Method Overview}
-\label{fig:proposedmethodoverview}
-\end{figure}

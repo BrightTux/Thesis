@@ -26,6 +26,7 @@ The proposed methods were developed in two cascading phases (see Figure ~\ref{fi
 The formulation of the idea, steps and processes involved in each phase is described in this chapter.
 On a whole, the end-to-end framework can be visualised using Figure ~\ref{fig:framework} where the main contribution of this thesis is highlighted with a yellow dashed border.
 
+\vspace{1em}
 \subsection{Phase 1: LSH-Inspired Semantic Extraction and Retrieval Technique}
 \label{subsec:lsh-intro}
 The first of the two techniques suggested in this thesis is the \textit{LSH-Inspired Semantic Extraction and Retrieval Technique}. Locality-Sensitive Hashing (LSH) as introduced by~\citeA{indyk1998approximate} was originally used for devising main memory algorithms for nearest neighbor search. This technique was later used by~\citeA{kulis2009kernelized} to embed high-dimensional features from images into low-dimensional Hamming space (dimensionality reduction) where items can be efficiently search. 
@@ -39,6 +40,7 @@ The extracted semantics from each vehicle blobs were clustered into semantic gro
 \end{enumerate}
 
 
+\vspace{1em}
 \subsection{Phase 2: CD-Inspired Semantic Extraction and Retrieval Technique}
 The second technique suggested in this thesis is the \textit{Chamfer Distance-Inspired Semantic Extraction and Retrieval Technique}.
 Chamfer Distance (CD) is one of the many distance measures %(see Section \ref{section:distancemeasures})
@@ -60,16 +62,17 @@ In view of testing the proposed framework, a new video dataset was gathered as t
 \caption{Camera Setup to Capture the Monitored Outdoor Car Park}
 \label{fig:camerasetup}
 \end{figure}
+Through the camera's web interface, the device was set to record on weekdays from Monday through Friday, starting from 08:30 up until 18:30 in the evening, totaling 10 hours of video recorded each day. To obtain smaller file sizes, each recorded video clip was set to have a maximum length of 6 minutes, hence a total of 100 videos were obtained at the end of each day. The recorded video clips were then stored in a microSD memory card.
 \begin{figure}[!hbt]\centering
 \includegraphics[width=.7\textwidth]{image/general/grids.png}
 \caption{View From the Camera, Overlaid with a 20$\times$20 Grid (in yellow)}
 \label{fig:viewfromcamera}
 \end{figure}
 
-Through the camera's web interface, the device was set to record on weekdays from Monday through Friday, starting from 08:30 up until 18:30 in the evening, totaling 10 hours of video recorded each day. To obtain smaller file sizes, each recorded video clip was set to have a maximum length of 6 minutes, hence a total of 100 videos were obtained at the end of each day. The recorded video clips were then stored in a microSD memory card.
 At the end of each day, the data was copied over to a server via a script. However, due to a few sporadic glitches that occurred during the recording process, some of the video clips had missing portions. Hence, some of the days did not contain the full 10 hours of video clips.
 
 \begin{table}[!bt]\centering
+\caption{Details of the Camera Setup used for Data Collection}
 \begin{tabular}{|l|l|}
 \hline
 Camera Model & Dlink DSC-942L        \\
@@ -79,7 +82,6 @@ Format       & H.264 / MPEG-4 AVC    \\
 Naming Convention & $CCYYMMDD\_HHMMSS.mp4$ \\
 \hline
 \end{tabular}
-\caption{Details of the Camera Setup used for Data Collection}
 \end{table}
 
 \begin{figure}[!tb]
@@ -118,12 +120,14 @@ Likewise, the experimental methodology can be divided into two phases, as discus
 %Two retrieval techniques were designed and implemented in this work, the objective of the first retrieval engine was to build a prototype for the evaluation of its current performance and to identify gaps to be improved. This process allowed the author to return to the drawing board and reevaluate the algorithms, metrics and evaluation process performed.
 
 
+\vspace{1em}
 \subsection{Phase 1: LSH-Inspired Semantic Extraction and Retrieval Technique (Prototyping)}
 While the collected dataset comprised of several months of data, only two days of data (20 hours) were used for the evaluation of \versionOneRet. Several annotators were tasked to manually annotate the data. Upon completing the annotation process, the annotators would then cross-check annotations from other annotators to verify the consistency of the annotations.
 In the process, the annotators were asked to arrive at a consensus for specific annotations that did not tally. The annotators were also asked to record the following events:
 1) Number of vehicle of each colour category (11 categories, see Table~\ref{table:colorshex}), and 2) Number of vehicles performing designated motion test cases (denoted as $TQ1$ \& $TQ2$, see Figure \ref{fig:versionOneInterface}).
 The availability of fully annotated data allows the performance of the proposed method to be evaluated using the metrics such as Accuracy, Recall and $F_1$-Score.
 
+\vspace{1em}
 \subsection{Phase 2: CD-Inspired Semantic Extraction and Retrieval Technique (Full Experiment)}
 
 During \textbf{Phase 1}, the entire annotation process took a significant amount of work despite only performing on two days of data. Since one month of data was set aside for the evaluation of the \versionTwoRet, an alternative experimental methodology was applied.

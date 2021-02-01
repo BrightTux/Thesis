@@ -25,6 +25,7 @@ This section covers the techniques used in this retrieval engine
 framework together with corresponding results. As previously introduced, this retrieval engine is inspired by Locality Sensitive Hashing (LSH), a technique where documents are hashed into similar locations depending on their similarity with one another. 
 %With that, the concept of this retrieval engine is first discussed. Next, the scoring system is introduced followed by the evaluation of the system in the following subsections.
 
+\vspace{1em}
 \subsection{Concept}
 \label{versionOneConcept}
 By taking advantage of the spatio-temporal atom cubes structure introduced in
@@ -105,6 +106,7 @@ the matching video shots are extracted based on the given filename along with th
   \end{tabular}
 \end{table}
 
+\vspace{1em}
 \subsection{Search Interface}
 
 The proposed retrieval engine was presented in a graphical user interface (GUI) written in C++. This way, users are able to construct queries by drawing the trajectory on the search interface while providing complementary query information such as vehicle colour and time period. Given a user-described query, the retrieval engine would search for the best matches and return the results within seconds. Figure \ref{fig:versionOneInterface} shows the proposed search interface with the green lines indicating the user-described trajectory query. Upon processing the results, video shots are extracted and the results are populated in a folder.
@@ -120,6 +122,7 @@ The proposed retrieval engine was presented in a graphical user interface (GUI) 
 	\label{fig:versionOneInterface}
 \end{figure}
 
+\vspace{1em}
 \subsection{Results and Analysis}
 The following subsections describe the evaluation process of the proposed method in Section \ref{section:semantic_lsh} which includes both the vehicle trajectory as well as the vehicle colour. As previously mentioned in Section \ref{sec:expmethodology}, in this initial experiment, only two days of data were fully annotated with vehicles and their corresponding colours (see Table
 \ref{table:colorDist}) as well as the total number of vehicles that performed two pre-determined test queries (TQ1 and TQ2).
@@ -136,6 +139,7 @@ engine, the $F_1$-Score is used to judge how well the retrieval engine performs 
 F_{1}-\text{score}  = 2\cdot\frac{\text{Precision} \cdot \text{Recall}}{\text{Precision} + \text{Recall}}
 \end{align}
 
+\vspace{1em}
 \subsubsection{Vehicle Trajectory}
 
 To evaluate the performance of the proposed method in retrieving vehicle trajectories, the ground truth data has to be first obtained. As the manual annotation of these video data is laborious and time consuming, only two specific motion paths were designated as trajectory queries (TQ). The first query, TQ1 refers to vehicles heading southwards (see Figure
@@ -248,6 +252,7 @@ Brown      & 7         & 0.84   \\
 }
 \end{table}
 
+\vspace{1em}
 \subsubsection{Vehicle Colour}
 
 The results of the proposed colour term extraction algorithm in Algorithm \ref{algo:colorExtract} is tabulated in a form of a confusion matrix shown in Table \ref{table:colorMatrix}. The cells marked in green refer to vehicles correctly predicted with the highest count, while cells in red refer to the highest count of incorrect predictions. Overall, the performance in terms of average precision is recorded at around 54\% while the average recall rate is reported in the region of approximately 36\% with the average $F_1$-Score at about 39\%.
@@ -286,6 +291,7 @@ This section expounds on the techniques used in the second refined retrieval fra
 The focus of this section sees a shift from indexing methods to result-ranking optimisation by measuring the difference between the query and the retrieved
 results. The concept and scoring techniques used in this retrieval framework will be discussed further in the following sub-sections along with relevant experimental results.
 
+\vspace{1em}
 \subsection{Concept}
 
 In contrast to the proposed method in \versionOneRet, each spatio-temporal atom cube is no longer treated as a unique document. Instead, the unique identifiers ($atom_x$, $atom_y$, $atom_t$) of each atom are now used to build a set of points in the retrieval process, similar to what is known as a \emph{point process}~\cite{diggle2013statistical}. As mentioned above, the focus of this
@@ -331,6 +337,7 @@ D_{Chamfer} (P,Q) = \frac{1}{\mid R \mid} \sum_{t_p \in P} \min_{t_q \in Q}  \mi
 \end{align}
 where $\mathbb{P}$ will be assigned to $R$ if $\mathbb{P}$'s length is greater than that of $\mathbb{Q}$ or vice versa. This characteristic in the Chamfer Distance allows for two trajectories of dissimilar length to be compared, on the basis that the length of the longer trajectory is set as the denominator to minimise the dissimilarity. 
 
+\vspace{1em}
 \subsection{Search Interface}
 The proposed retrieval engine interface was designed using web compliant graphical user interface (GUI) in JavaScript as illustrated in Figure~\ref{fig:versionTwoInterface}. Similar to the concept introduced in the \versionOneRet, users are able to construct queries by drawing the trajectory while providing complementary information such as the vehicle colour and timestamp information. Once the query is constructed, the retrieval engine goes through the database searching for shots that highly resemble the given query by computing the
 distance. However, in this improved implementation, the use of HTML5 video elements allows for easy display of the retrieved video shot results. A suitable thumbnail that represents each retrieved video shot is shown to reduce the processing time needed to show the results. %as there was no need of encoding each retrieved shot on the fly.
@@ -341,6 +348,7 @@ distance. However, in this improved implementation, the use of HTML5 video eleme
 \label{fig:versionTwoInterface}
 \end{figure}
 
+\vspace{1em}
 \subsection{Metrics, Scoring System and Experimental Methodology}
 \label{sec:retrieval-metrics}
 The following sub-sections describe the scoring system, metrics as well as the evaluation process of the proposed method described in Section \ref{section:versionTwo}. With the main objective of providing users with results that closely resemble the given query, results which have a higher relevancy are ranked higher in the retrieved result list. In this setting, the performance of the proposed method is measured using two feasible metrics: \textit{Precision@K} and normalised Discounted Cumulative Gain (\textit{nDCG}).
@@ -374,11 +382,13 @@ $IDCG_P$ is the ideal $DCG$ score at Rank $k$ in the ideal ranking order.
 
 The following subsections provides in-depth details of the experimental methodology that is designed for the evaluation of the retrieval engine's ability to retrieve both the vehicle trajectory and colours.
 
+\vspace{1em}
 \subsubsection{Vehicle Trajectory}
 The volunteers are given full control of the user interface and are tasked to draw at least 1 trajectory as input query. Upon obtaining results from the query, they were then asked to rate each of the resulting trajectory video shot on a discrete scale from 1 to 5, where 1 signifies the least relevant and 5 being the most relevant.
 
 Each query would return a maximum of 25 randomly ordered results. This was done intentionally to remove any preconceived idea of how the results may have been ordered, which would affect the way the retrieved results are judged. By removing the bias, the volunteers are more likely to provide a fair and sound evaluation for each result set, hence increasing the credibility of the overall results.
 
+\vspace{1em}
 \subsubsection{Vehicle colour \& colour mode}
 \label{subsec:vehColor}
 For the evaluation of the vehicle colours, a list of 330 video snippets (30 video snippets for each of the 11 common colours) were presented to the volunteers. These video snippets were selected using the top 30 results in the database which contained the highest probability score for each of the 11
@@ -386,6 +396,7 @@ colours. The volunteers were then asked to determine the relevance of the colour
 
 To comprehensively evaluate the performance of the colour semantic extraction process which was introduced in Section \ref{section:versiontwoColor}, three other colour modes were included in the evaluation process. These colour modes represent variations of how the colour terms were extracted based on different colour spaces and distance metrics. These variations are listed in Table \ref{table:ColorVariation}.
 \begin{table}[tb!]\centering
+\caption{Formulation of Different Colour Distance Modes Used}
 \begin{tabular}{|c|l|}
 \hline
 Colour & Distance Metrics \\
@@ -441,10 +452,10 @@ $\Delta{Colour_{Average}}$ & $=$ & $\frac{\Delta{Colour_{LUV}} + \Delta{Colour_{
 \end{tabular}\\
 \hline
 \end{tabular}
-  \caption{Formulation of Different COlour Distance Modes Used}
 \label{table:ColorVariation}
 \end{table}
 
+\vspace{1em}
 \subsection{Results and Analysis}
 
 The results for both evaluations (Vehicle Trajectory \& Vehicle Colour) are reported in this section. As the results were evaluated on a discrete scale from 1 to 5, the results are first converted into a binary evaluation (True (1) /
@@ -460,6 +471,7 @@ where
 \end{equation}
 The overall score for the $n$-th result is averaged over the score decisions $S_{n,\psi}$ made by $\Psi$ number of volunteers.
 
+\vspace{1em}
 \subsubsection{Vehicle Trajectory}
 A total of eleven restriction-free trajectories were drawn by six volunteers. The volunteers were allowed to draw any kind of desired trajectory on the input canvas. Figure \ref{fig:versionTwoTrajquery} shows a compilation of these trajectories overlaid over the car park scene, these trajectories covered a majority of those typically found in the recorded scene while showing a good mixture of different query variations and lengths. Even though some of the queries exceeded the tracking area of the tracker, the retrieval engine still managed to retrieved results with the closest resemblance to the given queries. As previously mentioned, the performance of the retrieval engine was measured using \textit{Precision@K} along with the \textit{normalised Discounted Cumulative Gain} (\textit{nDCG}) metric.
 \begin{figure}[!t]
@@ -492,6 +504,7 @@ For simple trajectories, the Precision@K scores a high 100\% at the beginning an
 % Please add the following required packages to your document preamble:
 % \usepackage{multirow}
 \begin{table}[!tb] \centering
+\caption{Queries, Minimaps and the Corresponding Trajectory Type}
 \begin{tabular}{|c|c|c|}
 \hline
 \multicolumn{1}{|c|}{\textbf{Trajectory Category}} & \textbf{Query Number} & \textbf{Minimap}\\ \hline
@@ -507,7 +520,6 @@ For simple trajectories, the Precision@K scores a high 100\% at the beginning an
  & Query 9 & \includegraphics{image/minimaps/query_09.png} \\ \cline{2-3}
  & Query 11 & \includegraphics{image/minimaps/query_11.png} \\ \hline
 \end{tabular}
-\caption{Queries, Minimaps and the Corresponding Trajectory Type}
 \label{table:versionTwoComplexSimple}
 \end{table}
 On a whole, when taken together, all queries showed reasonably good performances in terms of the precision score. However, when evaluated individually, the \textit{complex} queries showed significantly poorer results. 
@@ -564,6 +576,8 @@ Even though the overall results using Chamfer Distance were relatively good, the
 \begin{landscape}
 
 \begin{table}[]
+\caption{Comparison of 5 distance measures (Chamfer Distance, Dynamic Time Warping, Hausdorff Distance, Earth Mover Distance, Euclidean Distance) in 7 specific test scenarios -- (1) Mirror, (2) Opposite Direction, (3) Short Trajectory, (4) Highly Resemble GT, (5) Partially Resemble GT, (6) Long Trajectories, (7) Similar Shape, against ground truth sample data. Overall results showed the superiority of Chamfer Distance in normalised distances. The actual distance measures are shown in parentheses. Smaller numbers represent higher similarity and vice versa. %Euclidean distance acts as a simplistic approach towards this problem, and was used as a baseline comparison. The results shows that Earth Mover Distance favoured cases where the shapes were similar (Test 7) and penalised a mirrored shape (Test 1). Hausdorff distance failed to provide good dissimilarity score for test 2 which was used to test the ability to differentiate directions. Overall, Chamfer Distance and Dynamic Time Warping method was able to provide comparable results. However, Chamfer Distance came up top as it is able to provide a larger margin between the best and worst test cases. This property is desirable when comparing huge numbers of trajectories.%
+}
 \resizebox{23cm}{!}{%
 \centering
 \begin{tabular}{|l||l|l|l|l|l|l|l|}
@@ -584,14 +598,13 @@ GT Sample & \begin{tabular}[r]{@{}l@{}}Test 1:\\ Mirror\end{tabular} & \begin{ta
 \textbf{Euclidean Distance} & 0.1171 (5.00) & 0.1656 (7.07) & 0.1424 (6.08) & 0.0703 (3.00) & 0.0661 (2.82) & 0.3645 (15.56) & 0.0740 (3.16) \\ \hline
 \end{tabular}%
 }
-\caption{Comparison of 5 distance measures (Chamfer Distance, Dynamic Time Warping, Hausdorff Distance, Earth Mover Distance, Euclidean Distance) in 7 specific test scenarios -- (1) Mirror, (2) Opposite Direction, (3) Short Trajectory, (4) Highly Resemble GT, (5) Partially Resemble GT, (6) Long Trajectories, (7) Similar Shape, against ground truth sample data. Overall results showed the superiority of Chamfer Distance in normalised distances. The actual distance measures are shown in parentheses. Smaller numbers represent higher similarity and vice versa. %Euclidean distance acts as a simplistic approach towards this problem, and was used as a baseline comparison. The results shows that Earth Mover Distance favoured cases where the shapes were similar (Test 7) and penalised a mirrored shape (Test 1). Hausdorff distance failed to provide good dissimilarity score for test 2 which was used to test the ability to differentiate directions. Overall, Chamfer Distance and Dynamic Time Warping method was able to provide comparable results. However, Chamfer Distance came up top as it is able to provide a larger margin between the best and worst test cases. This property is desirable when comparing huge numbers of trajectories.%
-}
 \label{table:DistanceCompare}
 \end{table}
 \end{landscape}
 
 However, despite the little flaws observed of the Chamfer Distance, the implementation of $D_{chamfer}$ in the retrieval engine provided relatively good results (Average \textit{Precision@K} = 76\%) that were ranked in an organised and useful manner (\textit{nDCG} score = 83\%). In my opinion, the use of Chamfer Distance can be extended to other datasets of similar properties.
 
+\vspace{1em}
 \subsubsection{Vehicle Colour \& Colour Mode}
 \label{subsec:vehiclecolourchamferdistanceexperiment}
 
@@ -704,6 +717,7 @@ The \textit{nDCG} result is visualised in Figure \ref{fig:colorndcg} in the form
 \end{tabular}}
 \end{table}
 
+\vspace{1em}
 \subsubsection{Retrieval Speed}
 
 The speed in which a retrieval engine returns the results plays an important role in determining the feasibility and practicality of the proposed method in real-world applications. In this experiment, the relevance of each result is not taken into consideration. Instead, the computation time taken to perform the queries were measured. The proposed method was rigorously tested with with the following criterion set: (i) Retrieval result size (recall quantity), (ii) Trajectory length, (iii) Number of colours used in the retrieval process, and (iv) Size of the top sorted color matches (to be known from hereon as `SortColourSize'). The baseline (BL) measurement takes in an input trajectory of 10 atoms, retrieving 30 results with all (11) colours considered and a SortColourSize of 200.
