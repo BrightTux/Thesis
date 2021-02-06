@@ -1,29 +1,29 @@
 
-The use of video data as a means of surveillance is no longer a new idea. It is widely known that video data could potentially provide invaluable information for the purpose of analytics, surveillance or security applications. At this very moment, massive amounts of video footages are being recorded over the world. While there has been various works on the extraction of human behaviour in a general surveillance setting especially in recent years, not much work are focused on the car park surveillance scenario. The abundance of video data calls for an efficient and effective way of dissecting these raw data while extracting useful information which are easily interpretable. Also, an equally important characteristic for systems is the ease and efficiency of fetching these information when required.
+The use of video data as a means of surveillance is no longer a new idea. It is widely known that video data could potentially provide invaluable information for the purpose of analytics, surveillance or security applications. At this very moment, massive amounts of video footages are being recorded over the world. While there has been various works on the extraction of human behaviour in a general surveillance setting especially in recent years, not much work are focused on the car park surveillance scenario. The abundance of video data calls for an efficient and effective way of dissecting these raw data while extracting useful information which are easily interpretable. Also, an equally important characteristic for systems is the ease and efficiency of fetching these information when required. 
 
-The contribution of this work is twofold. First, a framework for the extraction of colour, motion, timestamp, and size information from the video is proposed.
-%In order to extract the color information from the vehicles,
-The proposed method employs an algorithm that averages out the dominant colour over the course of tracking it and then proceeds to rank it against different hues.
-%This is a challenging task as outdoor scenarios are often non-ideal due to its ever-changing illumination and weather conditions which would directly affect the accuracy of the colors of the vehicles.
-As for the motion of the vehicles, the proposed method compiles the relative position/location of each vehicle into trajectory sets. The timestamp information, the object size along with its type are also extracted. A spatio-temporal cube design is adopted to uniquely identify each video footage in an efficient manner such that the stored extracted information can be easily retrieved. %stored while maintaining the ability to identify them.
+The contribution of this work is twofold. First, a framework for the extraction of colour, motion, timestamp, and size information from the video is proposed. 
+%In order to extract the color information from the vehicles, 
+The proposed method employs an algorithm that averages out the dominant colour over the course of tracking it and then proceeds to rank it against different hues. 
+%This is a challenging task as outdoor scenarios are often non-ideal due to its ever-changing illumination and weather conditions which would directly affect the accuracy of the colors of the vehicles. 
+As for the motion of the vehicles, the proposed method compiles the relative position/location of each vehicle into trajectory sets. The timestamp information, the object size along with its type are also extracted. A spatio-temporal cube design is adopted to uniquely identify each video footage in an efficient manner such that the stored extracted information can be easily retrieved. %stored while maintaining the ability to identify them.  
 
-Next, the second contribution of this thesis is the construction of a retrieval engine which is able to retrieve video shots based on the given semantics which were extracted. This work proposed an unconventional yet intuitive trajectory input query in the form of a user-described trajectory drawn on the search canvas.
-The other semantics \emph{i.e.} colour and timestamp information, are used in the form of keyword-based inputs for the proposed method to locate and rank video shots based on its similarity.
-%As with any large scale retrieval engine, collecting all the ground truth data is not a viable option. Therefore,
-The proposed method is then tested using semantics extracted from a month's worth of data from the surveyed car park
-%under various lighting and weather conditions
-using the average Precision@K and the normalised Discounted Cumulative Gain (nDCG) metrics. The proposed method achieved the best precision score of 86\% for trajectory retrieval and 91\% for vehicle colour retrieval. %the best precision achieved was recorded at 91\%.
-The average nDCG results scored around the region of $\sim$83\% for both trajectory and colour results.
+Next, the second contribution of this thesis is the construction of a retrieval engine which is able to retrieve video shots based on the given semantics which were extracted. This work proposed an unconventional yet intuitive trajectory input query in the form of a user-described trajectory drawn on the search canvas. 
+The other semantics \emph{i.e.} colour and timestamp information, are used in the form of keyword-based inputs for the proposed method to locate and rank video shots based on its similarity. 
+%As with any large scale retrieval engine, collecting all the ground truth data is not a viable option. Therefore, 
+The proposed method is then tested using semantics extracted from a month's worth of data from the surveyed car park 
+%under various lighting and weather conditions 
+using the average Precision@K and the normalised Discounted Cumulative Gain (nDCG) metrics. The proposed method achieved the best precision score of 86\% for trajectory retrieval and 91\% for vehicle colour retrieval. %the best precision achieved was recorded at 91\%. 
+The average nDCG results scored around the region of $\sim$83\% for both trajectory and colour results. 
 %As a whole, the proposed method shows promising results as it is fairly accurate, fast, and robust under various test scenarios.
 
-This thesis highlights an overall framework for extracting semantics and translating existing raw video data into %sets of
-intuitive representations for
+This thesis highlights an overall framework for extracting semantics and translating existing raw video data into %sets of 
+intuitive representations for 
 %where useful semantics can be efficiently queried and retrieval.
 efficient querying and retrieval.
-Contrary to traditional approaches which are labour-intensive and time-consuming, the proposed method effectively saves time, reduces the cost of manual extraction and video shot retrieval,
-%when retrieving desired video shots accurately,
-and is robust under various test scenarios.
-%As the proposed retrieval method utilises point-based data, this algorithms used in this work
+Contrary to traditional approaches which are labour-intensive and time-consuming, the proposed method effectively saves time, reduces the cost of manual extraction and video shot retrieval, 
+%when retrieving desired video shots accurately, 
+and is robust under various test scenarios. 
+%As the proposed retrieval method utilises point-based data, this algorithms used in this work  
 Various concepts and propositions in this thesis can also be can also be extended to datasets of similar nature.
 
 
