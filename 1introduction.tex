@@ -69,7 +69,9 @@ for each of those keywords.
 
 Secondly, from the surveillance video footage standpoint, the traditional approach of finding a particular video from a huge collection is typically performed manually. This process would involved an inquirer/user who is required to search for a particular segment of a long spanning footage. Without the help of automatic event extraction procedures or some form of video-based semantics, this may be a tedious process for the user.
 %and one or more person-in-charge who manages the video collection.
-Drilling further down to the scope of this research, which is based on a car park surveillance setting, the inquirer would typically need to provide vehicle-specific \textit{semantics} such as the time, date, colour of the vehicle, vehicle registration number, and location-in-scene for which an incident had occurred. This necessitates a more contextualised methodology. %In this work, these information are examples of what would be referred to as semantics.
+Drilling further down to the scope of this research, which is based on a car
+park surveillance setting, the inquirer would typically need to provide
+vehicle-specific \textit{semantics attributes} such as the time, date, colour of the vehicle, vehicle registration number, and location-in-scene for which an incident had occurred. This necessitates a more contextualised methodology. %In this work, these information are examples of what would be referred to as semantics.
 
 Thirdly, the typical process is likely not efficiently scaled. The end user would have to sift through hours and hours of video data to locate potential video segments that matches the queried information. This %\textit{'reactive-approach'}
 process is undeniably time-consuming and laborious, especially when the data in-store grows potentially to a few orders of magnitude larger. While the task is potentially straightforward when there is only one intended video shot with clear-cut definitive time and date given; this process takes enormous effort when details such as the time and date is not given, or even in cases when all the video shots with similar properties are desired within a given time range. Evidently, there exist a gap that can be addressed
@@ -122,7 +124,9 @@ to vehicle manufacturers when organising targeted marketing.
 %\label{fig:genericCV}
 %\end{figure}
 
-The rise of technology has benefited researchers in the computer vision area greatly due to higher computational power at lower costs. The ability to churn out interpretable and meaningful semantics from raw video footage in a rapid manner has great commercial potential. Even so, there are still plenty of challenges and opportunities which are yet to be solved to improve on existing techniques. As mentioned in Section \ref{section:introduction}, existing popular video retrieval engines such as YouTube generally rely on keyword-based queries. Queries such as 'Selecting all vehicles entering from Entrance (A) and turning into Junction (B)' are less effective as it may require additional labelling or rule creation while it also does not capture the semantic content required by the end-user.
+The rise of technology has benefited researchers in the computer vision area
+greatly due to higher computational power at lower costs. The ability to churn
+out interpretable and meaningful semantics from raw video footage in a rapid manner has great commercial potential. Even so, there are still plenty of challenges and opportunities which are yet to be solved to improve on existing techniques. As mentioned in Section \ref{section:introduction}, existing popular video retrieval engines such as YouTube generally rely on keyword-based queries. Queries such as 'Selecting all vehicles entering from Entrance (A) and turning into Junction (B)' are less effective as it may require additional labelling or rule creation while it also does not capture the semantic content required by the end-user.
 
 Several authors attempted to solve this challenge,
 albeit for generic scenarios,
@@ -131,7 +135,9 @@ These queries typically require end-users to provide inputs in the form of an im
 To tackle this research problem, the following are some research questions which will be addressed in this thesis:
 \begin{enumerate}
 \item What feasible concepts from existing techniques can we glean and exploit for the purpose of solving the problem?
-\item How can we best represent surveillance video footage in the form of higher level semantics? What types of semantics can be extracted specifically from a car park scenario? How can these semantics be translated into something which is easily interpretable for the onward retrieval process?
+\item How can we best represent surveillance video footage in the form of higher
+  level semantics? Can vehicle colours and trajectories semantics attibutes
+    extraction be translated into something which is easily interpretable for the onward retrieval process?
 \item How can we develop retrieval techniques that take in intuitive, flexible and user-friendly query inputs while providing accurate search results that are ordered according to their relevancy to query?
 \end{enumerate}
 
