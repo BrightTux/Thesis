@@ -6,9 +6,10 @@
 \chapter{Background Study} 
 \label{section:litreview}
 
-In this chapter, related theoretical background concepts are first introduced.
-Then, the related works in literature are discussed at length in two main sub-sections:
+In this chapter, related theoretical background concepts are first introduced. 
+Following that, the related works in literature are discussed at length in three main sub-sections:
 \begin{enumerate}
+ \item Car Park Surveillance Systems
  \item Existing methodology and techniques used for semantic extraction.
  \item Recent methodology and techniques used for semantic retrieval.
 \end{enumerate}
@@ -94,7 +95,7 @@ with the assignment of colour terms (See Section \ref{section:colourterm}).
 
 The use of distance measure is another recurring key concept in the proposed
 methods. Distance measures are simply a numerical measurement between
-two or more points or objects. According to \cite{mccune2002distance},
+two or more points or objects. According to ~\cite{mccune2002distance},
 distance measures are flexible and can be measured as either a distance (or a dissimilarity)
 or a similarity, both respectively being concepts inverse to each other. As such, most distance measures can be readily converted into
 similarities and vice versa. 
@@ -117,7 +118,7 @@ illustrated in Figure \ref{fig:distanceMeasure} with two plotted lines.
 In our research problem, these lines can be regarded as vehicle
 trajectories captured over time, visually flatten unto a 2D plot. Using such spatio-temporal data and assuming time is taken at a fixed interval, the distance between two trajectories can be measured to signify
 the dissimilarity between them. This distance measure, or similarity score (if inverted), can also be used to
-identify trajectories with high resemblance. For example, the distance between these two lines can be measured using $D_{Euclidean} = \sum^n\sqrt{{(A_n[x] - B_n[x])}^{2} +{(A_n[y] - B_n[y])}^{2}}$ which results to 2.828427 units. As Euclidean Distance requires the length of both lines or vectors to be equal, a common approach is to apply the zero-padding technique to extend the shorter vector.
+identify trajectories with high resemblance. For example, the distance between these two lines can be measured using $D_{Euclidean} = \sum^n\sqrt{{(A_n[x] - B_n[x])}^{2} + {(A_n[y] - B_n[y])}^{2}}$ which results to 2.828427 units. As Euclidean Distance requires the length of both lines or vectors to be equal, a common approach is to apply the zero-padding technique to extend the shorter vector.
 
 \begin{figure}[hbt!]
  \centering
@@ -134,7 +135,7 @@ two or more colours can be similarly measured using different distance metrics.
 %to evaluate the performance of each metric. 
 Table \ref{table:distance} lists several
 distance measures which are commonly used along with their respective pros and cons while Figure \ref{fig:manhattan} contrasts the two popular distance metrics -- the Euclidean ($\ell 2$-norm) distance and the Manhattan ($\ell 1$-norm) distance. 
-With the assumption that each block has a equal distance of 1. Using Manhattan Distance, regardless of the path taken, the distance for the red, green and  blue lines has the length of $14$. These 3 paths, while different, still takes on the shortest distance from one end to the other. However, when computing using Euclidean Distance, the distance is measured to be $\sqrt{8^2+6^2} = 10$. Euclidean Distance only produces $1$ unique solution while Manhattan Distance may produce more than one solution.
+With the assumption that each block has a equal distance of 1. Using Manhattan Distance, regardless of the path taken, the distance for the red, green and  blue lines has the length of $14$. These 3 paths, while different, still takes on the shortest distance from one end to the other. However, when computing using Euclidean Distance, the distance is measured to be $\sqrt{8^2 + 6^2} = 10$. Euclidean Distance only produces $1$ unique solution while Manhattan Distance may produce more than one solution.
 Further comparison between several distance measures is
 also discussed in Chapter 4 to understand and validate the chosen distance
 measure for each of the proposed methods.
@@ -171,7 +172,7 @@ dependent,\\ Requires same length vectors\end{tabular} \\ \hline
 
 \vspace{1em}
 \subsection{Human Visual System}
-An interesting excerpt by \citeA{albers2006interaction} states that ``In order to use colour effectively it is necessary to recognise that colour deceives continually. To this end, the beginning is not a study of colour systems.
+An interesting excerpt by ~\citeA{albers2006interaction} states that ``In order to use colour effectively it is necessary to recognise that colour deceives continually. To this end, the beginning is not a study of colour systems.
 First, it should be learned that one and the same colour evokes innumerable readings. Instead of mechanically applying or merely implying laws and rules of colour harmony, distinct colour effects are produced-through recognition of the interaction of colour-by making, for instance, two very different colours look alike, or nearly alike''. Hence, the human visual system is first explored to understand how to use colours effectively.
 
 \label{section:eyes}
@@ -198,7 +199,7 @@ vision.
 Anatomically, there are three types of cones in the human retina, each of which
 are responsible over the receptiveness of colours in a particular set of
 wavelengths. These wavelengths can be classified into three main categories:
-Short wavelength light, Medium wavelength light and Long wavelength light, as shown in Figure \ref{fig:visibleSpectrum} \cite{eyespectrum}. Overall, colours are perceived from the combination of stimuli to these rods, cones cells and responses from
+Short wavelength light, Medium wavelength light and Long wavelength light, as shown in Figure \ref{fig:visibleSpectrum} ~\cite{eyespectrum}. Overall, colours are perceived from the combination of stimuli to these rods, cones cells and responses from
 brain. When stimulated, these cells trigger electrical signals to the optic nerve
 fibres which then communicates it to the brain. However, as the number of cone cells
 in the retina varies for each person, the colour perception of every person may differ from one another.
@@ -209,7 +210,7 @@ in the retina varies for each person, the colour perception of every person may 
  \includegraphics[width=.7\textwidth]{image/lit/ColorSensitivity.jpg}
  \caption[Normalised Human Photo-Receptor Absorbency Rate for Different
  Wavelength Lights]{Normalised Human Photo-Receptor (Cones \& Rods) Absorbency
- Rate for Different Wavelengths of Light. %'Blue' Cones, Approximately 420-440 nm, are Short Wavelengths Light; 'Green' Cones, Approximately 534-545 nm, are Medium Wavelengths Light; and, 'Red' Cones, Approximately 564-580 nm, are Long Wavelength Lights. 
+ Rate for Different Wavelengths of Light. Figure reproduced from {~\citeA{college_2013}.}%'Blue' Cones, Approximately 420-440 nm, are Short Wavelengths Light; 'Green' Cones, Approximately 534-545 nm, are Medium Wavelengths Light; and, 'Red' Cones, Approximately 564-580 nm, are Long Wavelength Lights. 
  }
 \label{fig:visibleSpectrum}
 \end{figure}
@@ -235,7 +236,7 @@ In the previous section, the humans visual system is briefly described to contai
 %was explored. From there, we learn that the 
 cones cells in the retina that are strongly receptive towards visual stimuli containing 'Red', 'Green' and 'Blue' wavelengths.
 The RGB colour model is designed based on the theory behind human perception
-of three distinct colour wavelengths in mind ~\cite{travis1991effective, young1802ii}. This colour model is commonly used to represent and display images in digital devices and systems.
+of three distinct colour wavelengths in mind ~\cite{young1802ii, travis1991effective}. This colour model is commonly used to represent and display images in digital devices and systems.
 
 % comment: No other colour spaces are described here. So it is just RGB
 %As an example, the 
@@ -264,12 +265,12 @@ and the brightness values in a perceptually uniform manner. In the words of
 Munsell, ``It may sound strange to say that colour has three dimensions, but it
 is easily proved by the fact that each of them can be measured separately.''
 % note: added further elaboration on why other colour spaces (HSV, LAB) are not used
-The classic RGB colour space is not known to possess perceptually uniform components as the Euclidean distance between its colour components does not correspond to the colour differences perceived by humans~\cite{paschos2001perceptually}. Although there exists perceptually uniform colour spaces such as L*a*b*, as well as approximately-uniform colour spaces such as HSV, these colour spaces are not intuitively descriptive for mapping to specific color terms.
+The classic RGB colour space is not known to possess perceptually uniform components as the Euclidean distance between its colour components does not correspond to the colour differences perceived by humans~\cite{paschos2001perceptually}. However, there exists perceptually uniform colour spaces such as L*a*b* and approximately-uniform colour spaces such as HSV.
 
 Figure \ref{fig:munsell} depicts the Munsell Colour System. In the horizontally lying circle on the Munsell Colour System, the segments can be divided into 5 principle hues which are Red, Yellow, Green, Blue, and Purple. This setup
 allows another 5 intermediate hues in between each principle hues, \emph{e.g.} Green-Blue hue, Purple-Red hue. Figure \ref{fig:munsell}(b) illustrates the property of the chroma and value scale available on the Munsell colour system, for
 instance, a hue at 2.5 Yellow-Red (YR) has a maximum chroma value which differs
-along the value axis.
+along the value axis. 
 
 \begin{figure}[!htb]
  \centering
@@ -300,7 +301,7 @@ Table \ref{table:allcolourterms} lists several popular web colour dictionaries
 along with the number of colour terms and the publishing year. One
 notable property of these colour terms is the use of compound terms such as
 `baby blue', `dark red', `light purple' and `very deep brown', all of which indicates a fine disambiguation between shades of the same hue.
-Also, in certain colour dictionaries, colour terms are somewhat duplicated for several tuple of values. An interesting note by \citeA{de1971color} puts the difficult plainly: ``The explanation of the nature and essence of colour gives such difficulty that the opinions of nearly all physicians are divided''. Given the variety of colour dictionaries and the broad range of different colour terms, this work also indirectly investigates into the number of colour terms that should be allocated to describe the wide range of vehicle colours.
+Also, in certain colour dictionaries, colour terms are somewhat duplicated for several tuple of values. An interesting note by~\citeA{de1971color} puts the difficult plainly: ``The explanation of the nature and essence of colour gives such difficulty that the opinions of nearly all physicians are divided''. Given the variety of colour dictionaries and the broad range of different colour terms, this work also indirectly investigates into the number of colour terms that should be allocated to describe the wide range of vehicle colours.
 
 \begin{table}[hbt!]
  \caption[Web Colour Dictionary and the Corresponding Number of Colour Terms]
@@ -313,10 +314,10 @@ Also, in certain colour dictionaries, colour terms are somewhat duplicated for s
  \multicolumn{1}{c|}{\textbf{Publishing Year}} \\ \hline x11 (R3)
  & 631                         & 1988
  \\ \hline HTML                        & 140
- & Current              \\ \hline CSS
- & 148                         & Current
+ & 2020              \\ \hline CSS
+ & 148                         & 2020
  \\ \hline Crayola                       & 250
- & Current              \\ \hline xkcd
+ & 2020              \\ \hline xkcd
  & 954                         & 2010
  \\ \hline
  \end{tabular}
@@ -327,12 +328,12 @@ Also, in certain colour dictionaries, colour terms are somewhat duplicated for s
  %https://www.crayola.com/explore-colours.aspx
  %http://markkness.net/colourpy/colourPy.html
 
-Historically speaking, in a classic study on worldwide colour naming, \citeA{berlinandkay} commented
+Historically speaking, in a classic study on worldwide colour naming,~\citeA{berlinandkay} commented
 that the naming of colours terms may differ due to different cultures. Based on their findings, native English language speakers generally used eleven basic colour terms. These terms had to have three common properties which are: 1) Highly used, 2) Monolexemic -- meaning a single (mono) word, and not compounded colour terms such as `baby blue', and 3) agreed upon by native speakers of the language. With those definitions, the common colour terms proposed for the English language are black, white, gray, brown, red, orange, yellow, purple, green, blue, and pink. These 11 common colour terms were also adopted by
-several other authors (\citeA{van2009learning}, \citeA{zaslavsky2018efficient},
-and \citeA{yu2018beyond}) in their work to understand how these colour
+several other authors (~\citeA{van2009learning},~\citeA{zaslavsky2018efficient},
+and~\citeA{yu2018beyond}) in their work to understand how these colour
 terms can be used for real-world image applications.
-However, \citeA{yu2018beyond} also remarked that most existing work on colour names focuses only on the 11 aforementioned basic colour terms of the English language.
+However,~\citeA{yu2018beyond} also remarked that most existing work on colour names focuses only on the 11 aforementioned basic colour terms of the English language.
 However, this could potentially either limit or incorrectly represent the actual range of colours in an outdoor car park scenario; this warrants further investigation in this research. %the discriminative power of these representations.
 
 
@@ -342,8 +343,8 @@ However, this could potentially either limit or incorrectly represent the actual
 The advancement of computer vision technologies enabled the development and
 integration of various solutions to tackle challenges in Intelligent
 Transportation Systems (ITS). As ITS is a large topic by itself, there has been a substantial increase of research done on the various sub-domains.
-To avoid re-inventing the wheel, existing frameworks are thoroughly reviewed in this section to find potential adoption if relevant and to uncover potential gaps in literature. Recent survey done by \citeA{tian2017hierarchical} and
-\citeA{chandran2017review} provide a general overview of the state of related works. The authors summarised the challenges that are
+To avoid re-inventing the wheel, existing frameworks are thoroughly reviewed in this section to find potential adoption if relevant and to uncover potential gaps in literature. Recent survey done by ~\citeA{tian2017hierarchical} and
+~\citeA{chandran2017review} provide a general overview of the state of related works. The authors summarised the challenges that are
 often found in an ITS setting that is implemented on a one-camera setup:
 \begin{enumerate}[label=(\alph*)]
  \item \textbf{Camera placement} affects the overall performance.
@@ -353,14 +354,14 @@ often found in an ITS setting that is implemented on a one-camera setup:
  \item Vehicles comes in a \textbf{variety of shapes, sizes, and colour.}
  \item \textbf{Vehicles' size changes} as they pass through the camera's field of view. This variation in visual information affects the robustness of some detection models.
 \end{enumerate}
-Along with that, \citeA{tian2017hierarchical} presented an overview of the
+Along with that,~\citeA{tian2017hierarchical} presented an overview of the
 general frameworks for ITSs with the aim of vehicle attribute extraction and
 behaviour understanding, as shown in Figure \ref{fig:ITSoverview} where `Layer 1' describes the process of obtaining data via vision sensors, `Layer 2' -- Attribute
 Extraction from data; this includes motion, trajectories, colours, shapes
 and etc. `Layer 3' -- Analysis on vehicle behaviours from the extracted
 attributes to decide traffic status. Lastly, `Layer 4' describes how information from `Layer 3' can be utilises to optimise various ITS services. 
 According to
-\citeA{liu2016deep}, in a real-world scenario, appearance features such as
+~\citeA{liu2016deep}, in a real-world scenario, appearance features such as
 colours, shapes, and types are very effective at filtering out dissimilar
 vehicles. In addition, they are efficient to be extracted and searched in a 
 large-scale dataset. 
@@ -368,8 +369,7 @@ large-scale dataset.
 As mentioned in Section \ref{subsec:scope}, the scope of work in this thesis assumes that the
 bounding box of each vehicle have been obtained prior to the semantic
 extraction task. As such, related literature regarding the detection and tracking of
-vehicles is omitted from discussion. Instead, the rest of this section covers two main tasks: Objects Semantic Extraction and Object Semantic Retrieval.
-
+vehicles is omitted from discussion. Instead, some literature regarding car park surveillance is done, then, the rest of this section covers two main tasks: Objects Semantic Extraction and Object Semantic Retrieval.
 
 \begin{figure}[hbt!]\centering
  \includegraphics[width=1\textwidth]{image/lit/ITS.png}
@@ -379,6 +379,73 @@ vehicles is omitted from discussion. Instead, the rest of this section covers tw
  from~\citeA{tian2017hierarchical}}
  \label{fig:ITSoverview}
 \end{figure}
+
+\subsection{Car Park Surveillance System}
+As this thesis revolves around the use of car park surveillance videos, this subsection explores what has been done in related literature. In one of the earliest literature,~\citeA{hampapur2004s3} developed a smart surveillance system that detects, tracks and classifies objects using handcrafted features within a car park scene using a static camera. Using the collected information, the authors were able to provide real time video based alerts along with a retrieval system to retrieve queried activities within the scene. The retrieval system utilises a combination of text based input along with context based input such as a picture of a blue car. Another feature that was implemented includes the ability to retrieve event statistics such as the arrival and departure distribution of people at the scene on a given day. In this work, the authors attributed the phrase `long term' as a period of 24 hours. Figure~\ref{fig:ibmsurveillance} illustrates the results obtained from the retrieval system.
+
+\begin{figure}[hbt!]
+  \centering
+  \includegraphics[width=.6\textwidth]{image/lit/ibm.png}
+  \caption[Top left: Tracks of Pedestrian and Vehicles in 24 hours. Top right: Filtered tracks for Pedestrian. Bottom left: Tracks for Vehicles. Bottom right: Speeding Vehicles (Velocity > 10  pixels/frame).] {Top left: Tracks of Pedestrian and Vehicles in 24 hours. Top right: Filtered tracks for Pedestrian. Bottom left: Tracks for Vehicles. Bottom right: Speeding Vehicles (Velocity > 10 pixels/frame). Reproduced from~\cite{hampapur2004s3}.}
+\label{fig:ibmsurveillance}
+\end{figure}
+
+In another work,~\citeA{chen2010vision} used multiple static cameras within a car park scene due to the limited Field of View (FOV) of each device. In this work, the authors tracked colour, position and motion information. The vehicle blobs were extracted using Background Subs traction Methods. As the goal of the literature was to identify parking space, each parking lot were manually marked before hand. A combination of edge detection technique and floor colour matching was used to determine if a parking lot is vacant. When a vehicle is present at a parking lot, the number of edges detected tends to be higher, hence, signifying the presence of a vehicle. 
+Figure~\ref{fig:chenmerge} illustrates the affine transformation used to merge four images along with the results of parking space detection. 
+Similarly,~\citeA{yusnita2012intelligent} attempted to detect available parking space using an image processing methods. In their work, the authors manually marked the parking lots captured using a stationary camera. Using a combination of several handcrafted segmentation and image enhancement methods, the authors managed to identify empty parking lots. However, the results were not reported.
+
+
+\begin{figure}[hbt!]
+  \centering
+  \includegraphics[width=.7\textwidth]{image/lit/chenmerge.png}
+  \caption[Top: Images from Four Cameras. Bottom: Merge FOV and the Results of Parking Space Detection.] {Top: Images from Four Cameras. Bottom: Merge FOV and the Results of Parking Space Detection. Reproduced from~\cite{chen2010vision}.}
+\label{fig:chenmerge}
+\end{figure}
+% \begin{figure}[hbt!]
+%   \centering
+%   \includegraphics[width=.6\textwidth]{image/lit/yusnita.png}
+%   \caption[Left: Images from Cameras. Right: Resulting Image after Segmentation, Enhancement and Object Tracing.] {Left: Images from Cameras. Right: Resulting Image after Segmentation, Enhancement and Object Tracing. Reproduced from~\cite{yusnita2012intelligent}.}
+% \label{fig:yusnita}
+% \end{figure}
+
+Another literature that worked on the detection of vacant car park spots using video analytics was done by~\cite{marmol2016quickspot}. Asides from detecting vacant lots, the authors also tracked and classified objects into two categories: pedestrian and vehicles. The authors collected various street side asphalt parking images under various lighting condition and manually annotated them to guide the visual feature extraction process. To perform object recognition, the Features from Accelerated Segment Test (FAST) corner detection and Speeded Up Robust Feature (SUFT) descriptors were utilised to extract suitable features. Using these extracted features in tandem with K-nearest neighbour algorithm, the authors were able to classify vacant and occupied lots. Background subtraction method was also employed in this work to detect motion of vehicles. This work was tested using 43 video sequence with a total length of 66 minutes.
+
+The authors in \cite{ling2017identifying} also worked on a similar task of identifying vacant parking lots with the help of Internet of Things (IoT) devices. Instead of manually marking the parking lots, the author built a system to automatically recognise vacant parking lots by tracking different shapes and sizes of occupying vehicles over time. This allowed the system to learn and determine available spaces in an area after being placed for a time. Using a Raspberry Pi 3B, the authors trained their model using 105 images of cars as positive samples and 364 images without vehicles as negative samples. Upon training, the Topology Learning function ran for 4.5 hours to identify locations where vehicle parked. Figure~\ref{fig:ling2017} illustrates the detection of vehicles and clustering over the training period. 
+
+\begin{figure}[hbt!]
+  \centering
+  \includegraphics[width=\textwidth]{image/lit/ling2017.png}
+  \caption[Vehicle Sensing and Clustering in Training Phase over 4.5 hours.] {Vehicle Sensing and Clustering in Training Phase over 4.5 hours. Reproduced from~\cite{ling2017identifying}.}
+\label{fig:ling2017}
+\end{figure}
+
+% jermsurawong2012car
+% hampapur2004s3 # done
+% shi2017study
+% marmol2016quickspot # done
+% ling2017identifying # done
+% yusnita2012intelligent #done
+% yang2012smart # not doing
+% chen2010vision # done
+
+\begin{table}[tb!]
+\centering
+\caption{Summary of Related Works in Car Park Setting}
+\label{table:litsum}
+\vspace{0.5em}
+\resizebox{\textwidth}{!}{
+\begin{tabular}{|l|c|c|c|c|c|c|c|}
+\hline
+                                                & \textbf{\begin{tabular}[c]{@{}c@{}}Vehicle \\ Detection\end{tabular}} & \textbf{\begin{tabular}[c]{@{}c@{}}Motion \\ Tracking\end{tabular}} & \textbf{\begin{tabular}[c]{@{}c@{}}Parking \\ Lot \\ Detection\end{tabular}} & \textbf{\begin{tabular}[c]{@{}c@{}}Parking \\ Lot \\ Availability\end{tabular}} & \textbf{\begin{tabular}[c]{@{}c@{}}Colour \\ Extraction\end{tabular}} & \textbf{\begin{tabular}[c]{@{}c@{}}Event \\ Retrieval\end{tabular}} & \textbf{Duration} \\ \hline
+\citeA{hampapur2004s3}         & Undisclosed                                                                    & Undisclosed                                                                  & -                                                                            & -                                                                               & Vehicle                                                               & Text Based                                                          & 24 Hours          \\ \hline
+\citeA{chen2010vision}         & \begin{tabular}[c]{@{}c@{}}Edge \\ detection\end{tabular}             & -                                                                   & \begin{tabular}[c]{@{}c@{}}Manually \\ marked\end{tabular}                   & \begin{tabular}[c]{@{}c@{}}Edge \\ Detection\end{tabular}                       & Floor                                                                 & -                                                                   & -                 \\ \hline
+\citeA{yusnita2012intelligent} & -                                                                     & -                                                                   & \begin{tabular}[c]{@{}c@{}}Manually \\ marked\end{tabular}                   & Handcrafted                                                                     & -                                                                     & -                                                                   & -                 \\ \hline
+\citeA{marmol2016quickspot}    & \begin{tabular}[c]{@{}c@{}}FAST, \\ SURF\end{tabular}                 & -                                                                   & \begin{tabular}[c]{@{}c@{}}Manually \\ marked\end{tabular}                   & KNN                                                                             & -                                                                     & -                                                                   & 5 Hours           \\ \hline
+\citeA{ling2017identifying}    & Haar Features                                                         & -                                                                   & \begin{tabular}[c]{@{}c@{}}Topology \\ Learning\end{tabular}                 & Automated                                                                       & -                                                                     & -                                                                   & -                 \\ \hline
+\textbf{Proposed Method}                        & BGS                                                                   & Centroid                                                            & -                                                                            & -                                                                               & Vehicle                                                               & \begin{tabular}[c]{@{}c@{}}\textbf{Sketch,} \\ \textbf{Text based}\end{tabular}       & \textbf{1 Month}           \\ \hline
+\end{tabular}}
+\end{table}
+
 
 
 \vspace{1em}
@@ -390,11 +457,11 @@ Three relevant sub-topics are presented in this section: Vehicle colour extracti
 \subsubsection{Vehicle Colour Extraction}
 The extraction of vehicle colours is essential for a wide variety of
 applications in ITS, such as crime prevention, vehicle re-identification and video shot retrieval purposes.
-According to \citeA{zhang2017vehicle}, colour is one of the
+According to~\citeA{zhang2017vehicle}, colour is one of the
 most stable attributes of vehicles and is often used as a valuable cue in some
-important applications. Works by \citeA{hsieh2015vehicle}, \citeA{chen2014vehicle} and
-\citeA{zhang2017vehicle} noted that in a surveillance scenario, the varying
-illumination, coupled with complex environment factors (weather, noise) as well as the camera viewpoint in an outdoor scene affects the classification of colours drastically. 
+important applications. Works by~\citeA{hsieh2015vehicle},~\citeA{chen2014vehicle} and
+~\citeA{zhang2017vehicle} noted that in a surveillance scenario, the varying
+illumination, coupled with complex environment factors (i.e: weather, noise) as well as the camera viewpoint in an outdoor scene affects the classification of colours drastically. 
 
 
 Various vehicle colour extraction methods has been proposed in the recent
@@ -406,23 +473,10 @@ i) hand-crafted features, and ii) machine-learned features.
  \includegraphics[width=.8\textwidth]{image/lit/carscolors.png}
  \caption[Colour Appearance Categories of Vehicle Used for Colour
  Classification]{Vehicles Classified as (a) Achromatic, and 
- (b) Chromatic. Reproduced from \citeA{hsieh2015vehicle}.}
+ (b) Chromatic. Reproduced from~\citeA{hsieh2015vehicle}.}
 \label{fig:sevenclasses}
 \end{figure}
 
-\begin{figure}[!htb]
- \centering \resizebox{\textwidth}{!}{ \begin{tabular}{ccc}
- \includegraphics[width=0.4\linewidth]{image/lit/windowremove1.png} &
- \includegraphics[width=0.4\linewidth]{image/lit/windowremove2.png} &
- \includegraphics[width=0.4\linewidth]{image/lit/windowremove3.png} \\ (a)
-Input Vehicle & (b) Proposed Cutting Line for Window Removal & (c) Result of
-Window Removal\\ \end{tabular} }
- \caption[Window Removal Task. From left: Input
-Vehicle, Proposed Cutting Line, Results of Window Removal]{Window Removal Task.
-From left: Input Vehicle, Proposed Cutting Line, Results of Window Removal.
-Image reproduced from \citeA{hsieh2015vehicle}
- \label{fig:windowremoval}}
-\end{figure}
 
 \begin{figure}[!htb]
  \centering \resizebox{\textwidth}{!}{ \begin{tabular}{cccc}
@@ -437,19 +491,33 @@ Correction\\
  Distortion, Background of (b), Results of Colour Correction]{Colour
  Correction. From left: Reference Image, Image with Colour Distortion,
  Background of (b), Results of Colour Correction. Image reproduced from
-\citeA{hsieh2015vehicle}
+~\citeA{hsieh2015vehicle}
 \label{fig:colorcorrection}}
 \end{figure}
 
-In the work by
-\citeA{hsieh2015vehicle}, the vehicles are grouped into seven categories (Figure \ref{fig:sevenclasses}). With the source video clips captured in an outdoor setting with varying illumination conditions, a global colour correction method (Figure \ref{fig:colorcorrection}) was employed to suit different lighting needs. Along with that, occasionally the vehicle windows appear white due to the effects of specular highlights. To combat this, the authors also proposed a window-removal task to further increase the accuracy of vehicle colour classification (see Figure \ref{fig:windowremoval} for the illustration). This work also proposed the classification of vehicles into chromatic and achromatic classes, with the final colour category being decided by Support Vector Machine (SVM) classifier. The 2-class accuracy of differentiating between chromatic and achromatic classes for over 10,000 vehicles was reported to be approximately 88\%.
+\begin{figure}[!htb]
+ \centering \resizebox{\textwidth}{!}{ \begin{tabular}{ccc}
+ \includegraphics[width=0.4\linewidth]{image/lit/windowremove1.png} &
+ \includegraphics[width=0.4\linewidth]{image/lit/windowremove2.png} &
+ \includegraphics[width=0.4\linewidth]{image/lit/windowremove3.png} \\ (a)
+Input Vehicle & (b) Proposed Cutting Line for Window Removal & (c) Result of
+Window Removal\\ \end{tabular} }
+ \caption[Window Removal Task. From left: Input
+Vehicle, Proposed Cutting Line, Results of Window Removal]{Window Removal Task.
+From left: Input Vehicle, Proposed Cutting Line, Results of Window Removal.
+Image reproduced from~\citeA{hsieh2015vehicle}
+ \label{fig:windowremoval}}
+\end{figure}
 
-Meanwhile, \citeA{chen2014vehicle} also
+In the work by
+~\citeA{hsieh2015vehicle}, the vehicles are grouped into seven categories (Figure \ref{fig:sevenclasses}). With the source video clips captured in an outdoor setting with varying illumination conditions, a global colour correction method (Figure \ref{fig:colorcorrection}) was employed to suit different lighting needs. Along with that, occasionally the vehicle windows appear white due to the effects of specular highlights. To combat this, the authors also proposed a window-removal task to further increase the accuracy of vehicle colour classification (see Figure \ref{fig:windowremoval} for the illustration). This work also proposed the classification of vehicles into chromatic and achromatic classes, with the final colour category being decided by Support Vector Machine (SVM) classifier. The 2-class accuracy of differentiating between chromatic and achromatic classes for over 10,000 vehicles was reported to be approximately 88\%.
+
+Meanwhile,~\citeA{chen2014vehicle} also
 suggested a similar approach by implicitly selecting a Region-of-Interest (ROI) to improve the classification performance for both images and video data. These collected data were captured using high-definition cameras with resolution of $1920 \times 1080$ pixels. In this work, the ROI in the image was selected by assigning different weights which are learnt by a classifier for each of the proposed sub-regions.
 
-\citeA{jeong2017homogeneity} took on a different approach in order to extract
-the vehicle colours by implementing a Homogeneity Patch Search method. In their work, a voting system was implemented to vote on the dominant colour based on the HSV histograms which were extracted from each patch using Adaboost classifier. First, the edges from the input image are detected using Sobel edge operators. Next, distance transformation was performed using Felzenszwalb algorithm to obtain the minimal distance to the edges of each pixel. As edges often introduce distortion of colour, this step allows the proposed method to select patches further from the edges. Figure \ref{fig:colorpatches} illustrates this
-process. While \citeA{jeong2017homogeneity}'s proposed method obtained an
+~\citeA{jeong2017homogeneity} took on a different approach in order to extract
+the vehicle colours by implementing a Homogeneity Patch Search method. In their work, a voting system was implemented to vote on the dominant colour based on the HSV histograms which were extracted from each patch using Adaboost classifier. First, the edges from the input image are detected using Sobel edge operator. Next, distance transformation was performed using Felzenszwalb algorithm to obtain the minimal distance to the edges of each pixel. As edges often introduce distortion of colour, this step allows the proposed method to select patches further from the edges. Figure \ref{fig:colorpatches} illustrates this
+process. While~\citeA{jeong2017homogeneity}'s proposed method obtained an
 accuracy of 92\% over 7 classes, it was only tested against 208 images that have
 a relatively high resolution of $1624 \times 1224$ pixels.
 
@@ -469,19 +537,27 @@ a relatively high resolution of $1624 \times 1224$ pixels.
 Inverse of Edge Image Using Sobel Operators, (c) Distance Transformation
 Calculated using Felzen-szwlb algorithm, (d) Selected Patches Based on Obtained
 Distance.]{Homogeneity Patch Search from Input. (a) Region of Interest, (b)
-Inverse of Edge Image Using Sobel Operators, (c) Distance Transformation
+Inverse of Edge Image Using Sobel Operator, (c) Distance Transformation
 Calculated using Felzenszawlb algorithm, (d) Selected Patches Based on Obtained
-Distance. Image reproduced from \citeA{jeong2017homogeneity}
+Distance. Image reproduced from~\citeA{jeong2017homogeneity}
  \label{fig:colorpatches}}
 \end{figure}
 
 As colour histogram is one of the most common mid-level feature used for colour
-classification task, \citeA{kim2008deciding} aimed to understand the impact of the number of colour histogram bins used and how different configurations
+classification task,~\citeA{kim2008deciding} aimed to understand the impact of the number of colour histogram bins used and how different configurations
 would affect the performance of matching the histogram bins to colour terms
-using distance measures. \citeA{zhang2017vehicle} concluded that the use of histogram bins can effectively reduces the processing time needed while promoting reliable recognition accuracy. The Hue-Saturation-Intensity (HSI) colour space was used in their experiments, with a total of 17 different configurations of combining histogram bins from the three channels (\emph{i.e.} 16 bins for Hue (H), 4 bins for Saturation (S) and 4 bins for Intensity (I)). The results from the experiment shows an average score of 84\%; the best
+using distance measures.~\citeA{zhang2017vehicle} concluded that the use of histogram bins can effectively reduces the processing time needed while promoting reliable recognition accuracy. The Hue-Saturation-Intensity (HSI) colour space was used in their experiments, with a total of 17 different configurations of combining histogram bins from the three channels (\emph{i.e.} 16 bins for Hue (H), 4 bins for Saturation (S) and 4 bins for Intensity (I)). The results from the experiment shows an average score of 84\%; the best
 configuration of (H:8, S:4, I:4) achieving an accuracy of 87.83\% over seven colour classes with 100 images per class.
 
-\citeA{zhang2017vehicle} and \citeA{hu2015vehicle} approached the task of extracting colour categories by implementing a convolutional neural network (CNN) to extract deep features which are then fed into a linear SVM for the classification task. \citeA{zhang2017vehicle} mentioned that state-of-the-art methods typically take the whole image for colour recognition, however many parts of the images such as car windows, wheels, and background contribute negatively to the recognition accuracy. A noise reduction method via saliency detection was proposed in order to boost the performance. While this method achieved a good accuracy of 94\%, the proposed pipeline with saliency detection, deep feature extraction, dual-orientational dimensionality reduction and classifier training incur a high computational cost and is not suitable for real-time applications.
+\begin{figure}[hbt!]
+ \centering
+ \includegraphics[width=1\textwidth]{image/lit/salient1.png}
+ \caption[Vehicle-Colour Saliency Detection]{Vehicle-Colour Saliency Detection.
+Reproduced from~\citeA{zhang2017vehicle}.}
+ \label{fig:Colorsaliency}
+\end{figure}
+
+~\citeA{zhang2017vehicle} and~\citeA{hu2015vehicle} approached the task of extracting colour categories by implementing a convolutional neural network (CNN) to extract deep features which are then fed into a linear SVM for the classification task.~\citeA{zhang2017vehicle} mentioned that state-of-the-art methods typically take the whole image for colour recognition, however many parts of the images such as car windows, wheels, and background contribute negatively to the recognition accuracy. A noise reduction method via saliency detection was proposed in order to boost the performance (see Figure \ref{fig:Colorsaliency}). While this method achieved a good accuracy of 94\%, the proposed pipeline with saliency detection, deep feature extraction, dual-orientational dimensionality reduction and classifier training incur a high computational cost and is not suitable for real-time applications.
 
 \begin{figure}[!htb] \centering
  %\resizebox{\textwidth}{!}{
@@ -491,34 +567,28 @@ configuration of (H:8, S:4, I:4) achieving an accuracy of 87.83\% over seven col
  (a) Input Image & (b) Response Map of the First Convolutional Layer \\
 \end{tabular}
 %}
-\caption[(a) Sample input image and (b) the response from first convolutional layer]{Visualization of first convolutional layer response maps from the deep feature learning method of \citeA{hu2015vehicle}. Images reproduced from
-\citeA{hu2015vehicle}.
+\caption[(a) Sample input image and (b) the response from first convolutional layer]{Visualization of first convolutional layer response maps from the deep feature learning method of~\citeA{hu2015vehicle}. Images reproduced from
+~\citeA{hu2015vehicle}.
 \label{fig:responseFCL}}
 \end{figure}
 
-According to \citeA{hu2015vehicle}, there are two reasons for choosing a SVM classifier over fully-connected (FC) layers (with a softmax classifier) of deep neural network methods. The first reason is the ability of SVMs to perform
+According to~\citeA{hu2015vehicle}, there are two reasons for choosing a SVM classifier over fully-connected (FC) layers (with a softmax classifier) of deep neural network methods. The first reason is the ability of SVMs to perform
 better due to regularisation constraints that help overcome over-fitting training data. Regularisation techniques such as dropout can be implemented on FC layers, but its weights will be randomly discarded in an unprincipled manner. Another reason why SVM was chosen as classifier was due to the fact that SVMs have lesser parameters, which makes them less prone to over-fitting. 
 % [comment] "easier" may not be the right thing to say
 %this makes the fine tuning process easier.
 Figure
 \ref{fig:responseFCL} illustrates the input image and the response produced by
-the first convolutional layer produced in the work of \citeA{hu2015vehicle}. The authors claimed that features derived from the proposed method have advantages over that of hand-crafted methods that perform manual segmentation of sub-regions. This is because the response map from the first convolutional layer contains meaningful ROIs which are effective at distinguishing vehicle colours. Their work achieved an average precision of 93\% with input data of $1920 \times 1080$ pixels resolution. On a whole, while both hand-crafted features and machine-learned features were able to yield accuracies of over 84\%, their proposed solution seemed to have worked well on high resolution data.
+the first convolutional layer produced in the work of~\citeA{hu2015vehicle}. The authors claimed that features derived from the proposed method have advantages over that of hand-crafted methods that perform manual segmentation of sub-regions. This is because the response map from the first convolutional layer contains meaningful ROIs which are effective at distinguishing vehicle colours. Their work achieved an average precision of 93\% with input data of $1920 \times 1080$ pixels resolution. On a whole, while both hand-crafted features and machine-learned features were able to yield accuracies of over 84\%, their proposed solution seemed to have worked well on high resolution data.
 
-\begin{figure}[hbt!]
- \centering
- \includegraphics[width=1\textwidth]{image/lit/salient1.png}
- \caption[Vehicle-Colour Saliency Detection]{Vehicle-Colour Saliency Detection.
-Reproduced from \citeA{zhang2017vehicle}.}
- \label{fig:Colorsaliency}
-\end{figure}
 
-In other related research areas such as vehicle re-identification, several works -- \cite{liu2016deep}, \cite{liu2016deep2} and \cite{shen2017learning}), made use of extracted colour features to assist in the re-identification process. \citeA{liu2016deep} adopted the Probabilistic Latent Semantic Analysis (PLSA) introduced by \citeA{van2009learning}, to extract the colour features (to be discussed in Section~\ref{sec:color2colorterm}). A PLSA model is used to learn the relation between words (colour terms) and images by providing a conditional probability score. Similar to \cite{kim2008deciding}, the images in this work were segmented and represented using L*a*b colour histogram of $10 \times 20 \times 20$ grids. \citeA{liu2016deep2} applied deep learning techniques inspired by a triplet loss network proposed by \citeA{ding2015deep}. The employed network utilised a new loss function to accelerate the training convergence. Eventually, the colour features were extracted using the proposed network. In quite similar fashion, \citeA{shen2017learning} applied a deep learning network to extract the colour features using a Siamese Network with a shared ResNet-50 configuration. The visual features, including colours, were obtained using the features from the global pooling layers.
+
+In other related research areas such as vehicle re-identification, several works --~\citeA{liu2016deep}, ~\citeA{liu2016deep2} and~\citeA{shen2017learning}, made use of extracted colour features to assist in the re-identification process.~\citeA{liu2016deep} adopted the Probabilistic Latent Semantic Analysis (PLSA) introduced by~\citeA{van2009learning}, to extract the colour features (to be discussed in Section~\ref{sec:color2colorterm}). A PLSA model is used to learn the relation between words (colour terms) and images by providing a conditional probability score. Similar to~\citeA{kim2008deciding}, the images in this work were segmented and represented using L*a*b colour histogram of $10 \times 20 \times 20$ grids. ~\citeA{liu2016deep2} applied deep learning techniques inspired by a triplet loss network proposed by ~\citeA{ding2015deep}. The employed network utilised a new loss function to accelerate the training convergence. Eventually, the colour features were extracted using the proposed network. In quite similar fashion,~\citeA{shen2017learning} applied a deep learning network to extract the colour features using a Siamese Network with a shared ResNet-50 configuration. The visual features, including colours, were obtained using the features from the global pooling layers.
 
 \vspace{1em}
 \subsubsection{Colour to Colour Term Mapping}
 \label{sec:color2colorterm}
 
-Colour terms or names, are very useful in real-world applications as compared to colour tuples. According to \cite{van2009learning}, colour names are typically required for image retrieval and image annotation applications due to its affinity to human-level language. Several authors has looked into mapping colour tuples to their respective colour terms. \citeA{van2009learning} proposed several variants of the PLSA model to learn colour names from data obtained Google Images. This was done in order to avoid hand-labelling real-world images with colour names, Figure \ref{fig:van20091} illustrates the types of images retrieved using Google Images. The authors approached this challenge by comparing their methods against 3 chip-based methods. In their work, chip-based methods were described as a colour naming procedure that is performed in a controlled environment where the labels of colour chips are placed on a neutral background under a white light source. Similar to the work of \citeA{van2009learning}, \citeA{yu2018beyond} applied PLSA inversely to estimate the probability of colour values when given a colour term.
+Colour terms or names, are very useful in real-world applications as compared to colour tuples. According to ~\cite{van2009learning}, colour names are typically required for image retrieval and image annotation applications due to its affinity to human-level language. Several authors has looked into mapping colour tuples to their respective colour terms.~\citeA{van2009learning} proposed several variants of the PLSA model to learn colour names from data obtained Google Images. This was done in order to avoid hand-labelling real-world images with colour names, Figure \ref{fig:van20091} illustrates the types of images retrieved using Google Images. The authors approached this challenge by comparing their methods against 3 chip-based methods. In their work, chip-based methods were described as a colour naming procedure that is performed in a controlled environment where the labels of colour chips are placed on a neutral background under a white light source. Similar to the work of~\citeA{van2009learning},~\citeA{yu2018beyond} applied PLSA inversely to estimate the probability of colour values when given a colour term.
 
 \begin{figure}[hbt!]
  \centering
@@ -529,7 +599,7 @@ Colour terms or names, are very useful in real-world applications as compared to
  set]{Google-retrieved examples for colour names. The red bounding boxes
  indicate false positives. An image can be retrieved with various colour names,
  such as the flower image which appears in both red and yellow colour sets.
- Reproduced from \citeA{van2009learning}.}
+ Reproduced from~\citeA{van2009learning}.}
  \label{fig:van20091}
 \end{figure}
 
@@ -539,7 +609,7 @@ The PLSA model (as the one proposed in~\cite{van2009learning}) allows multiple c
 \end{align} 
 The aim of $p(w|d)$ is to find latent topics that best explains the observed data, and in this case, finding the colour terms that best describes an image. In their approach, the authors claimed that their proposed method is flexible when new colour terms are introduced to any given system as the model can be trained with a small amount of data as compared to traditional methods that rely on chip based studies.
 
-In the works by \citeA{khan2013discriminative} and \citeA{yu2018beyond}, the authors suggested that extending colour representations to more than the eleven known terms could be beneficial. The authors in \cite{yu2018beyond} proposed a dataset of 28 additional colour terms (a total of 39 terms) which was used in their experiments on several tasks such as visual tracking, person re-identification as well as image classification. One of their experiments shows improvement in classification accuracy by 4\% when increasing from 11 to 25 colour terms.
+In the works by~\citeA{khan2013discriminative} and~\citeA{yu2018beyond}, the authors suggested that extending colour representations to more than the eleven known terms could be beneficial. The authors in ~\cite{yu2018beyond} proposed a dataset of 28 additional colour terms (a total of 39 terms) which was used in their experiments on several tasks such as visual tracking, person re-identification as well as image classification. One of their experiments shows improvement in classification accuracy by 4\% when increasing from 11 to 25 colour terms.
 
 \begin{figure}[hbt!]
  \centering
@@ -555,8 +625,9 @@ In the works by \citeA{khan2013discriminative} and \citeA{yu2018beyond}, the aut
  $W$. (B) Colour Communication Example, where $U$ is a set of colours, shown
  for simplicity along a single dimension. A specific meaning $m$ is drawn from
  $p(m)$. The speaker communicates $m$ by uttering the word “blue”, and the
- listener interprets blue as meaning $\hat{m}$] {(A)
- \citeA{shannon1948mathematical}'s communication model. In this model, the
+ listener interprets blue as meaning $\hat{m}$] 
+ {(A)
+ ~\citeA{shannon1948mathematical}'s communication model. In this model, the
  source message $M$ and its reconstruction $\hat{M}$ are distributions over
  objects in the universe $U$. We refer to these messages as meanings. $M$ is
  compressed into a code, or word, W. We assume that $W$ is transmitted over an
@@ -567,13 +638,24 @@ In the works by \citeA{khan2013discriminative} and \citeA{yu2018beyond}, the aut
  is a set of colours, shown for simplicity along a single dimension. A specific
  meaning $m$ is drawn from $p(m)$. The speaker communicates $m$ by uttering the
  word 'blue”, and the listener interprets blue as meaning $\hat{m}$.
- Reproduced from \citeA{zaslavsky2018efficient}.}
+ Reproduced from~\citeA{zaslavsky2018efficient}.}
  \label{fig:datacompression1}
 \end{figure}
 
-Meanwhile, the work of \cite{zaslavsky2018efficient} took on another approach towards
-colour tuples mapping. The authors aimed to study efficient compression in colour naming and its evolution. They suggested that colour categories cannot be hard-partitioned in the colour space, whereby instead, a soft-partition approach should be taken. However, the drawback is that with a soft-partition approach, there are transition regions in the colour space that are often inconsistently named. In their work, they approached the challenge of understanding how colours are named from the perspective of data compression. Figure~\ref{fig:datacompression1} illustrates the idea in~\cite{zaslavsky2018efficient}. Succinctly, the goal of this work is to design a Information Bottleneck (IB) compression model that can effectively represent colours terms in different languages.
+Meanwhile, the work of~\cite{zaslavsky2018efficient} took on another approach towards
+colour tuples mapping. The authors aimed to study efficient compression in colour naming and its evolution. They suggested that colour categories cannot be hard-partitioned in the colour space, whereby instead, a soft-partition approach should be taken. However, the drawback is that with a soft-partition approach, there are transition regions in the colour space that are often inconsistently named. In their work, they approached the challenge of understanding how colours are named from the perspective of data compression. Figure~\ref{fig:datacompression1} illustrates the idea in~\cite{zaslavsky2018efficient}. Succinctly, the goal of this work is to design a Information Bottleneck (IB) compression model that can effectively represent colour terms in different languages.
 
+Owning to that fact that colour perception varies from each user's perspective, compounded by the fact that most monitor screens are not colour calibrated professionally provided an opportunity for~\citeA{munroe2010color} to perform an internet crowd-sourcing survey on colour terms and their corresponding numeral representation according to how colours are displayed on typical monitors.
+In \citeA{munroe2010color}'s experiment, 222,500 user sessions consisting of 40,000 women and 100,000 men, provided over five million colours their respective terms. With the collected results, RGB tuples are mapped to specific colour terms according to the response frequency.
+
+The mapping of these terms was done by averaging results of several stochastic hill climbing algorithms. At the end of the experiment, 954 colour terms along with its respective RGB tuples were assigned.
+Figure~\ref{fig:xkcd} shows the mapping of dominant colour terms over three fully saturated faces of the RGB cube.
+
+\begin{figure}[!hbt]\centering
+\includegraphics[width=.6\textwidth]{image/general/xkcd.png}
+\caption[Dominant Colour Terms over Three Fully Saturated Faces of the RGB cube.]{Dominant Colour Terms over Three Fully Saturated Faces of the RGB cube. Reproduced from~\citeA{munroe2010color}.}
+\label{fig:xkcd}
+\end{figure}
 
 \begin{comment}
  https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=4982667&tag=1
@@ -593,7 +675,7 @@ i) Background subtraction (BGS) methods combined with vehicle centroid position 
 Since the scope of this thesis (Section \ref{subsec:scope}) assumes the vehicles have been detected and localized, hence, only a brief overview of the vehicle motion extraction process will be explored while trajectory representation methods are afforded a more detailed discussion.
 
 BGS methods are often used as there is no necessity for prior training on a machine to recognise vehicles. Instead, this method relies entirely on the captured motions and the scene. Several
-authors (\citeA{wang2016research, luvizon2017video, apeltauer2015automatic})
+authors (~\citeA{wang2016research, luvizon2017video, apeltauer2015automatic})
 extracted vehicle motion information via BGS method. Generally, a clean model of
 background information is first obtained. When a new object is introduced on the
 scene in the current frame, the differences between the background information and the current frame is extracted to indicate changes in the scene. When the objects (also known as blobs) are moving in the scene, the regions obtained from the subtraction
@@ -606,31 +688,31 @@ illustrates the process of extracting vehicle motion using BGS. BGS methods are 
   \caption[Vehicle Motion Extraction using Background Subtraction. From left:
   Input, Background Model, Sparse Outlier, Noise, Foreground, Tracking Result]
   {Vehicle Motion Extraction using Background Subtraction. %From left: Input, Background Model, Sparse Outlier, Noise, Foreground, Tracking Result.
-  Reproduced from \citeA{yang2017real}.}
+  Reproduced from~\citeA{yang2017real}.}
 \label{fig:bgs2}
 \end{figure}
 
 Contrary to BGS methods, feature extraction methods rely on the visual information of vehicles such as colours, texture and shapes. In the case of vehicles, the combination of different components such as the windscreen, the chassis, wheels, doors and windows does add up to constitute a vehicle. These visual information are learned to model and identify vehicles. In an attempt to count vehicles from 500 hours of
-videos, \citeA{lessard2016countingapp} applied the methods of~\citeA{saunier2006feature} to extract motion information using the KLT tracker. These extracted features were grouped into unique trajectories that varies
+videos,~\citeA{lessard2016countingapp} applied the methods of~\citeA{saunier2006feature} to extract motion information using the KLT tracker. These extracted features were grouped into unique trajectories that varies
 depending on the targeted scene. In their work, scenes were allocated up to
-16 different possible types of trajectories (for the case of a four-legged intersection or `crossroad'). Using this method, the authors was
+16 different possible types of trajectories (for the case of a four-legged intersection or `crossroad'). Using this method, the authors were
 able to uniquely identify the different types of motion. However, this method limits the types of trajectories captured, and is not feasible when dealing with more complex scenarios such as a large car park as there are too many possible trajectories types to account for. Furthermore, the process of annotating data in this work is too laborious 
 % comment: added from the paper
 that the authors chose to use the results from a commercial provider of traffic counts (guaranteed 95\% accuracy rate) as the ground-truth with additional random checks made to ensure reliability.
 
-Instead of manually allocating unique trajectories, \citeA{momin2015vehicle}
+Instead of manually allocating unique trajectories,~\citeA{momin2015vehicle}
 took a different approach towards categorising motions. The authors combined
 Haar-like features along with BGS methods to extract motion information. The
 extracted vehicle motions at each point in time is then split into one of the
 four directions (LEFT, RIGHT, UP, DOWN). Similarly, the work of
-\citeA{feris2012large} splits the motion of vehicles into 12 motion directions
+~\citeA{feris2012large} splits the motion of vehicles into 12 motion directions
 depending on the orientation of the vehicles. These motion directions were
 assigned for every $\ang{30}$ (\emph{e.g.}: $\ang{0}-\ang{30}, \ang{30}-\ang{60}, \ldots,
 \ang{330}-\ang{360}$). A motion direction histogram is built such that the bin
-which receives the highest number of votes are assigned as the main motion direction. Likewise, \citeA{castanon2016retrieval} categorised motions into 9 histogram of motion bins using the aggregate motion which was computed using pixel-level optical flow (Horn and Schunck method). These 9 bins correspond to the eight cardinal directions along with one idle bin to denote the absence of significant motion.
+which receives the highest number of votes are assigned as the main motion direction. Likewise, ~\citeA{castanon2016retrieval} categorised motions into 9 histogram of motion bins using the aggregate motion which was computed using pixel-level optical flow (Horn and Schunck method). These 9 bins correspond to the eight cardinal directions along with one idle bin to denote the absence of significant motion.
 
-With the goal of designing huge repositories of moving vehicle trajectories, \citeA{d2015designing} represent trajectories using spatio temporal cubes (See
-Figure~\ref{fig:spatiocube}). Similarly, \citeA{lai2015video} represented human trajectories in the same manner. In addition to that, the authors used B-spline curve fitting methods to further reduce noisy information. Since different degrees of curve fitting lead to different results (see Figure~\ref{fig:spatiocube2}), the authors proposed to merge multiple curves of different degrees to strike a balance between noise removal and accuracy. These works demonstrated that this method of trajectory representation using spatio temporal cubes is intuitive as it is able to capture and relay information accurately. However, the downside of this method is that the accuracy of data representation heavily relies on the
+With the goal of designing huge repositories of moving vehicle trajectories,~\citeA{d2015designing} represent trajectories using spatio temporal cubes (See
+Figure~\ref{fig:spatiocube}). Similarly,~\citeA{lai2015video} represented human trajectories in the same manner. In addition to that, the authors used B-spline curve fitting methods to further reduce noisy information. Since different degrees of curve fitting lead to different results (see Figure~\ref{fig:spatiocube2}), the authors proposed to merge multiple curves of different degrees to strike a balance between noise removal and accuracy. These works demonstrated that this method of trajectory representation using spatio temporal cubes is intuitive as it is able to capture and relay information accurately. However, the downside of this method is that the accuracy of data representation heavily relies on the
 number of spatio-temporal cubes used.
 
 \begin{figure}[hbt!]
@@ -638,7 +720,7 @@ number of spatio-temporal cubes used.
   \includegraphics[width=.5\textwidth]{image/lit/spatiotemporal.PNG}
   \caption[Representation of Trajectories in a Spatio-temporal Cube]
  {Representation of Trajectories in a Spatio-temporal Cube. Reproduced from
- \citeA{d2015designing}.}
+ ~\citeA{d2015designing}.}
   \label{fig:spatiocube}
 \end{figure}
 
@@ -650,7 +732,7 @@ number of spatio-temporal cubes used.
   (c) Curve fitting results using low degrees] {Representation of Human
   Trajectories in a Spatio-temporal Cube. (a) Original Object Trajectories; (b)
   Curve fitting results using high degrees; (c) Curve fitting results using low
-  degrees. Reproduced from \citeA{lai2015video}.}
+  degrees. Reproduced from~\citeA{lai2015video}.}
   \label{fig:spatiocube2}
 \end{figure}
 
@@ -659,11 +741,11 @@ number of spatio-temporal cubes used.
 \vspace{1em}
 \subsection{Object Semantics Retrieval}
 
-According to the survey by \cite{chandran2017review}, object retrieval
+According to the survey by~\cite{chandran2017review}, object retrieval
 algorithms can be broadly divided into two categories: i) String Matching
 Algorithm, and ii) Sketch Matching Algorithm. String matching algorithms
-typically converts subjects into a set of known keywords and match them using
-its semantic meanings. However, \citeA{bhaumik2016hybrid} suggests that
+typically convert subjects into a set of known keywords and match them using
+its semantic meanings. However,~\citeA{bhaumik2016hybrid} suggests that
 Content-based Video Retrieval (CVBR) can be classified into three categories: i)
 Classical Approach, ii) Soft Computing and iii) Hybrid Soft Computing. Figure
 \ref{fig:cvbr} shows the classification of various approaches used in CVBR
@@ -674,7 +756,7 @@ systems.
   \includegraphics[width=.9\textwidth]{image/lit/cvbr.PNG}
   \caption[Classification of Approaches Used in Content-based Video Retrieval
   Systems] {Classification of Approaches Used in Content-based Video Retrieval
-  Systems. Reproduced from \citeA{bhaumik2016hybrid}.}
+  Systems. Reproduced from~\citeA{bhaumik2016hybrid}.}
   \label{fig:cvbr}
 \end{figure}
 
@@ -685,7 +767,7 @@ required by a end user.
 
 Within the scope of exemplar-based retrieval, the use of sketches is
 another classical method applied by retrieval engines. The classic work of~\citeA{flickner1995qbic} proposed a retrieval engine which takes in queries in the form of features such as object motion, colours, shapes and texture. Similarly,
-\citeA{Cheng_2013_ICCV} also took on the challenge of retrieving contents based
+~\citeA{Cheng_2013_ICCV} also took on the challenge of retrieving contents based
 on the detected salient regions. However, the author only focused on the retrieval of still images instead of videos. In terms of retrieval of trajectories,~\citeA{lai2015video} allowed end users to draw trajectories that
 matches the desired results. These drawn trajectories are then fitted using
 B-spline curves which will then be use to match against trajectory records stored in
@@ -702,12 +784,12 @@ into query inputs.
   \textit{Right}: Resulting Simplified B-spline Curve for Easier Manipulation of
   Trajectory] {\textit{Left}: Hand-drawn Trajectory for Retrieval Purposes.
   \textit{Right}: Resulting Simplified B-spline Curve for Easier Manipulation of
-  Trajectory. Reproduced from \citeA{lai2015video}.}
+  Trajectory. Reproduced from~\citeA{lai2015video}.}
   \label{fig:drawquery1}
 \end{figure}
 
-Similar to the approach taken by \cite{lai2015video}, in an airborne video
-setting, \citeA{castanon2016retrieval} also allowed end users to draw the
+Similar to the approach taken by~\cite{lai2015video}, in an airborne video
+setting,~\citeA{castanon2016retrieval} also allowed end users to draw the
 trajectories which are then segmented and used for retrieval purposes. The
 authors applied dynamic programming techniques to search for the best match.
 Along with that, the authors also reported that their approach takes an average
@@ -721,9 +803,10 @@ illustrates their proposed GUI and the input queries.
   \includegraphics[width=.6\textwidth]{image/lit/trajdraw2.PNG}
   \caption[Graphical User Interface and the Input Trajectory] {Graphical User
   Interface and the Input Trajectory. Reproduced from
-  \citeA{castanon2016retrieval}.}
+ ~\citeA{castanon2016retrieval}.}
 \label{fig:drawquery2}
 \end{figure}
+
 
 \vspace{1em}
 \subsection{Summary of Background Study}
@@ -734,13 +817,15 @@ Next, literature in the various Intelligent Transportation Systems (ITS) was rev
 primarily motivated by security concerns on how video data can be used for surveillance purposes effectively.
 
 The reviews were presented in various categories to provide a broad perspective on the diverse aspects related to this work. 
-\citeA{liu2016deep} mentioned that appearance features such as colours, shapes, and types very effective at filtering out dissimilar vehicles in real-world scenes. 
+Most of the literature that was working on Car Park data tend to focus on the availability of vacant lots, one notable work by \citeA{hampapur2004s3} worked on the retrieval of car park events. However, the literature only reported using 24 hours data and the events were retrieved using text based query. Instead of focusing on the availability of vacant lots, this thesis aims to explore how we can effectively retrieve events in a car park scenario over a long-term surveillance footage.
+
+~\citeA{liu2016deep} mentioned that appearance features such as colours, shapes, and types very effective at filtering out dissimilar vehicles in real-world scenes. 
 While true, a majority of the presented literature worked on high resolution data which is atypical toward real-world surveillance footages.
 The reviewed literature also shows disparity on how vehicle colours were determined.
 Hence, this thesis aims to explore how vehicle colours can be extracted correctly with colour terms that are agreeable with end users while utilising lower resolution data which is more readily found in surveillance data.
 
 In terms of vehicle motion and representation, we notice a gap on how these motions are represented. Majority of these literature describes these motion in the cardinal directions or even in angles. These descriptions lacks intuitive notion without proper context of location, this thesis aims to introduce an intuitive representation of the vehicle motions.
-As suggested by \cite{bhaumik2016hybrid}, the use of textual queries has been proven ineffective in video retrieval systems, this work aims to present a retrieval engine using sketch matching algorithms against the intuitive vehicle motion representation. It is also noted that several approach takes an average of 2.9 seconds to process simple trajectory and up to 4.32 seconds for complicated trajectories against 13.8 minutes of video data. This calls for a better approach in retrieving video footages especially over long term surveillance footage.
+As suggested by~\cite{bhaumik2016hybrid}, the use of textual queries has been proven ineffective in video retrieval systems, this work aims to present a retrieval engine using sketch matching algorithms against the intuitive vehicle motion representation. It is also noted that several approach takes an average of 2.9 seconds to process simple trajectory and up to 4.32 seconds for complicated trajectories against 13.8 minutes of video data. This calls for a better approach in retrieving video footages especially over long term surveillance footage.
 
 
 %\begin{figure}[hbt!]

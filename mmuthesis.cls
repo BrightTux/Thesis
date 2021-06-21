@@ -93,7 +93,7 @@
 %%%%%%%%%%%%
 % CLARENCE: Use times new romans
 \usepackage{fontspec}
-\usepackage{newtxtext,newtxmath}
+% \usepackage{newtxtext,newtxmath}
 \usepackage{mathptmx}
 
 \RequirePackage[T1]{fontenc}
