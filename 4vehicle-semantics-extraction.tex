@@ -4,18 +4,18 @@
 
 \section{Introduction}
 
-This chapter focuses on the first objective [O1] of improving and extracting suitable object-level semantics attributes that is easily interpretable and reasonably accurate in describing vehicle attributes and events in a car park scenario. 
-The implementation of the vehicle semantic attributes extraction module will be discussed in this chapter in detail.
+This chapter focuses on the first objective [O1] of extracting suitable object-level semantics that is easily interpretable and reasonably accurate in describing vehicle attributes and events in a car park scenario. 
+The implementation of the vehicle semantic extraction module will be discussed in this chapter in detail.
 First, an atom-based quantization process for the video data is introduced in Section~\ref{section:atoms}.
 This quantization technique was adapted for in this proposed framework.
 Next, the process of obtaining the vehicle bounding boxes is discussed briefly in Section~\ref{subsection:fundamental}. 
-Finally, Section~\ref{section:semanticsExtraction} thoroughly describe the vehicle semantic attributes extraction module.
+Finally, Section~\ref{section:semanticsExtraction} thoroughly describe the vehicle semantics extraction module.
 
 %may be good to add a short paragraph to briefly describe and reinforce what "vehicle semantics extraction" is in relation to the big problem and that two extractions methods are introduced in this research and why two .... along with giving a brief distinction between the two.
 
-As the focus of this thesis revolves around car park surveillance footage, colour and motion semantic attribute data were selected as key semantic attributes to describe vehicle activities. 
+As the focus of this thesis revolves around car park surveillance footage, colour and motion semantic data were selected as key semantics to describe vehicle activities. 
 With the goal of designing retrieval techniques suitable for car park surveillance footage, accurate extraction of these information is crucial.
-The extracted semantic attributes were deliberately described using distance measures in the form of \textit{probability scores} as a design choice using Chamfer Distance (CD) for vehicle trajectory and \citeA{riemersma}'s Low Cost LUV estimation for vehicle colour matching.
+The extracted semantics were deliberately described using distance measures in the form of \textit{probability scores} as a design choice using Chamfer Distance (CD) for vehicle trajectory and \citeA{riemersma}'s Low Cost LUV estimation for vehicle colour matching.
 Chamfer Distance as introduced by~\citeA{barrow1977parametric}, was originally designed to match images by comparing the shapes of two collections of shape fragments.
 However, in this thesis, the use of CD was adapted to suit the research problem of comparing vehicle trajectories' shapes. While the implementation of CD measure in this framework has its advantages, it also comes with certain drawbacks. The considerations taken when designing this technique is as follows:
 \begin{enumerate}
@@ -136,11 +136,11 @@ From the foreground blobs, their corresponding bounding boxes were channelled in
 As the YOLOv2 model pre-trained on PASCAL VOC~\cite{everingham2010pascal} can be directly utilised for inference with a number of vehicle classes available, no further re-training was necessary. Subsequently, tracking of the blobs only took place if they were identified as vehicles. Finally, the extracted bounding boxes are then fed into the proposed semantic extraction framework for the next stage of processing.
 
 
-\section{Semantic Attributes Extraction}
+\section{Semantics Extraction}
 \label{section:semanticsExtraction}
 
 The ability to extract vehicle-specific semantics from the scene can present deeper insights that are valuable for surveillance purposes.
-Two major semantics attributes extracted in the proposed method are: (i) Vehicle Colour and (ii) Vehicle Trajectory. The extraction of other metadata such as time and date which are only briefly discussed as these are simple metadata determined directly from the stored input file names.
+Two major semantics extracted in the proposed method are: (i) Vehicle Colour and (ii) Vehicle Trajectory. The extraction of other metadata such as time and date which are only briefly discussed as these are simple metadata determined directly from the stored input file names.
 Table~\ref{table:semantics} provides a list of all the extracted semantics in this thesis.
 Emphasis is placed on both the colour and motion semantics extraction process and framework in the following subsections.
 
@@ -171,7 +171,7 @@ Collection of Centroid
 \end{table}
 
 \vspace{1em}
-\subsection{Colour Semantic Attribute Extraction}
+\subsection{Colour Semantic Extraction}
 \label{subsec:colorsemantics}
 
 In a surveillance setting, colour undoubtedly plays a significant role as it is one of the most intuitive, descriptive and stable information~\cite{zhang2017vehicle} when describing vehicles from a given event in a particular scene.
@@ -227,7 +227,7 @@ By combining the works of \citeA{berlinandkay} and \citeA{munroe2010color}, the 
 \label{table:colorshex}
 \end{table}
 
-With the bounding box of the vehicles obtained from the BGS module, we first discuss the colour semantic attribute extraction process. 
+With the bounding box of the vehicles obtained from the BGS module, we first discuss the colour semantic extraction process. 
 As the obtained bounding box is larger than the actual vehicle, a cropping heuristic of 30\% towards the centre of the bounding box was introduced to remove unwanted regions that may not be part of the vehicle.
 This cropping function minimises noise arising from surrounding vehicles, roads, and trees from the bounding box, resulting in a more precise estimation of the vehicle's footprint.
 As the bounding box of each vehicle in our experiments has very low resolution (approximately 145$\times$75px for an average case), most methods proposed by the other related works are neither suitable nor applicable in real-world scenarios.
@@ -632,12 +632,12 @@ In the case of the proposed retrieval techniques, the results obtained using Gro
 \end{table}
 
 \vspace{1em}
-\subsection{Motion Semantic Attribute Extraction}
+\subsection{Motion Semantic Extraction}
 \label{section:motionextraction}
 
 Video data provides an abundance of information for surveillance purposes due to its inherent properties of both space and time; the latter being essential for describing motion which is characterised by the changes in space across time.
 Typically, when users are tasked to describe an event, they tend to use a combination of several types of information (besides colour), such as time of occurrence, description of the objects involved, and also the location (or the vicinity of) where the motion had occurred.
-Given its importance, this thesis aims to extract motion semantics attribute specifically from a car park scenario.
+Given its importance, this thesis aims to extract motion semantics specifically from a car park scenario.
 
 In this thesis, the collective motion performed by a vehicle in the scene is defined as the vehicle's \emph{trajectory}.
 Generally speaking, motion information from videos can also be represented using human-level text-based descriptions. For instance, an event such as ``\textit{A yellow vehicle was turning into the intersection between Road Alpha and Road Beta at 3:30 pm when a black vehicle came rushing over and hitting a pedestrian in the process during commotion}'' could be converted into more succinct keyword-based statements such as ``yellow car turn left Road Alpha and Road Beta'' using certain techniques as described in~\cite{feris2012large,momin2015vehicle,yang2015semantic}.
@@ -714,7 +714,7 @@ Given that vehicles are the only objects of interest in this research, YOLOv2 wa
 % CLARENCE: continue from here
 
 \section{Summary}
-In this chapter, the two main semantic attributes (vehicle colour and motion) extraction methods were described in detail. The colour semantic attribute also included some analysis which solidifies the benefit of adopting~\citeA{riemersma}'s low cost LUV estimation method in computing colour similarity scores.
+In this chapter, the two main semantics (vehicle colour and motion) extraction methods were described in detail. The colour semantic also included some analysis which solidifies the benefit of adopting~\citeA{riemersma}'s low cost LUV estimation method in computing colour similarity scores.
 In comparison with the existing methods of extracting vehicle colour semantics described in Chapter~\ref{section:litreview}, the proposed methods in this thesis is able to extract vehicle colour information from videos of relatively low resolution.
 The analysis shows that the proposed colour extraction method drastically decrease in performance if the vehicle is partially occluded or when vehicles contained the presence of shadows. Likewise, the extraction of dominant colour fails when dealing with multi-coloured vehicles.
 Furthermore, a user study was also performed to understand the preferred way of classifying colours from the WCS stimulus. The results from the study proves that colour term assignments are subjected to individuals' discretion.

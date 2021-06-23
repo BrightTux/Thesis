@@ -8,7 +8,8 @@ Given that the use of video data as a means of surveillance is a common solution
 
 While there has been plenty of works done in the video surveillance domain, only a handful of these works revolve around a car park scenario. Among the existing literature that focused on car park scenarios, a majority of them tend to only focus on detecting the availability of parking spots.
 Chapter \ref{section:litreview} provides an overview and critique of recent approaches to extract object semantics such as vehicle colour and motion together with relevant works involving retrieval engines. On a whole, the chapter suggests a considerable room for improvement and research in the field of computer vision and video retrieval for car park surveillance data.
-Specifically, this thesis addresses two main objectives: (O1) to identify and extract suitable object semantics that can be easily interpretable while accurately describing scenarios in the car park, and (O2) to retrieve video footages using a video retrieval engine that is capable of taking in intuitive user-described queries. 
+Specifically, this thesis addresses two main objectives: (O1) to extract suitable object semantics that can be easily interpretable while accurately describing scenarios in the car park, and (O2) to retrieve highly relevant (ranked) video footages quickly using a video retrieval engine that is capable of taking in intuitive user-described queries.
+
 
 %In view of the advantages offered by segmentation of video data, 
 The framework used in this work proposed the idea of segmenting input video data into a spatio-temporal cube (\textit{atoms}) structure, similar to that inspired by \cite{castanon2016retrieval}. Different from \cite{castanon2016retrieval}, these \textit{atoms} are used to describe specific locations in a 3D (XYT) space where the extracted vehicle colours and motions are represented. %occurred in both the \versionOneExt and \versionTwoExt modules. 
@@ -20,7 +21,7 @@ Overall, the proposed framework and algorithms have been reasonably successful i
 
 %\section*{Semantic Extraction, Representation and Retrieval}
 \vspace{1em}
-\subsection*{Colour Semantic Attribute Extraction}
+\subsection*{Colour Semantic Extraction}
 The proposed vehicle colour extraction methods described in Section \ref{section:colourretrieval}  demonstrated robustness over existing handcrafted vehicle colour extraction methods in a low resolution scenario.
 By leveraging on the extracted dominant colour of each vehicle over its entire tracked life cycle, the proposed method averaged out the extracted dominant colours to obtain a good estimate of the vehicle's colour.
 As such, discoloration due to occlusion and shadows was averaged out as well in the proposed method. Experiments recorded in Chapter \ref{subsec:vehiclecolourchamferdistanceexperiment} showed that the proposed method was able to retrieve vehicle colours accurately: 91\% of the time within the top 3 results.   %While the proposed method might not be able to outperform techniques that apply CNN and SVMs such as those of \cite{hu2015vehicle} (94\%), the proposed method was able to put up a good fight. 
@@ -30,7 +31,7 @@ along with the tuples provided by~\citeA{munroe2010color} proved to be fairly ac
 In the future, the mapping of colour terms can be further improved by clustering the compressed data provided by~\citeA{zaslavsky2018efficient}. Besides, the segmented ROI from the response map of a CNN can also be applied for the extraction of colour information. The experiments in this thesis showed that the use of distance measures to differentiate colours may not be as efficient and accurate when compared to certain deep learning methods. Hence, deep learning models can be explored in the future to improve the classification of these colour terms.
 
 \vspace{1em}
-\subsection*{Motion Semantic Attribute Representation and Retrieval}
+\subsection*{Motion Semantic Representation and Retrieval}
 %As dictated in the scope of this work, the bounding box of the vehicles were assumed to be provided. Using the positions of the bounding boxes, the centroid of each box was used to mark the location of the vehicles. 
 % In Chapter \ref{subsec:motions9binextract}, the motion information was derived using the previous and current positions of the vehicle. These motion information are then segmented into 9 bins representing various directional categories. While this method provided adequate representation of motion, the hard-coded motion information that was stored beforehand made the retrieval process challenging. Users had to provide the queries accurately to retrieve the desired video footage. At best, the \versionOneRet engine can achieve an accuracy of 95\%, however, at the cost of having to craft input queries very carefully. Also, this proposed method did not show promising recall rates. 
 

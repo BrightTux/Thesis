@@ -118,12 +118,12 @@ To tackle this research problem, the following are some research questions which
 
 \vspace{1em}
 \subsection{Research Objectives}
-The objectives of this thesis can be divided into two main interdependent parts. As a whole, the entire work aims to adopt and leverage on existing frameworks to design a feasible object-level \textbf{semantic attributes extraction} and \textbf{retrieval} framework and technique for \textbf{car park videos}.
+The objectives of this thesis can be divided into two main interdependent parts. As a whole, the entire work aims to adopt and leverage on existing frameworks to design a feasible object-level \textbf{semantic attributes extraction} and \textbf{retrieval} techniques for \textbf{car park videos}.
 With the goal of answering the aforementioned research questions, the following are the two objectives of this research:
 
 \begin{enumerate}[start=1,label={(\bfseries O\arabic*):}]
 %\item To adopt and leverage existing video data representation, semantics extraction and retrieval methods to design a surveillance video semantics extraction and retrieval framework.
-  \item To improve and extract \textit{suitable object-level semantics attributes} which are easily interpretable and reasonably accurate in describing car park surveillance events.
+  \item To extract \textit{suitable object-level semantics attributes} which are easily interpretable and reasonably accurate in describing car park surveillance events.
   \item To design and improve \textit{video retrieval technique} by providing faster and highly relevant (ranked) retrieval results using a combination of keywords and intuitive user-described queries.
 \end{enumerate}
 \noindent These objectives are properly validated through both quantitative measures and user studies.
@@ -155,7 +155,7 @@ the contribution of this work can be summarised as follow:
 
 
 \begin{enumerate}
-\item A framework for the \textbf{extraction of vehicle-specific semantic attributes} is designed. This framework performs extraction of colour information and relative position of a vehicle throughout its trajectory, the time and date when the vehicle was observed in the scene.
+\item A technique for the \textbf{extraction of object-level (vehicle-specific) semantic attributes} is designed. This technique performs extraction of colour information and relative position of a vehicle throughout its trajectory, the time and date when the vehicle was observed in the scene.
 The proposed method employs an algorithm that averages out the dominant \textbf{colour} over the course of the trajectory by tracking and ranking it against a set of eleven different hues. This is a challenging task as outdoor scenarios are often non-ideal due to its ever-changing illumination and weather conditions which directly affects the classification accuracy of vehicle colours. The relative position of each vehicle was compiled into trajectory sets that represent the \textbf{motion} throughout the car park. The time and date information for each vehicle are also extracted as these %pieces of information
 are important for the purpose of retrieval. To take advantage of the inherent property of video data, a spatio-temporal cube representation is adopted to uniquely identify the spatio-temporal location of a vehicle motion in video.
 \item A \textbf{video retrieval technique} that takes in a user-described trajectory input along with the colour, time and date input queries is proposed. Unlike traditional retrieval engines that take in %known-
@@ -170,6 +170,6 @@ Therefore, the performance of the proposed methods were measured and using Preci
 The roadmap of this thesis is laid out as follows: Firstly, the introduction on the subject matter was discussed in this chapter.
 In Chapter \ref{section:litreview}, a brief overview of related theoretical background concepts is first discussed in Section \ref{subsec:relatedConcepts}. Then, in Section \ref{section:relatedworks}, related works in this field are reviewed thoroughly to provide an understanding on what has been attempted before, their disadvantages along with potential areas for improvements.
 In Chapter \ref{chapter:framework}, an overview of the proposed framework, the established dataset, as well as the experimental methodologies are described.
-Chapter \ref{section:semanticsextraction} and Chapter \ref{section:retrievalengine} describes the two main components: i) \textbf{Semantic Attributes Extraction} and ii) \textbf{Semantic Attributes Retrieval}. 
+Chapter \ref{section:semanticsextraction} and Chapter \ref{section:retrievalengine} describes the two main components: i) \textbf{Semantic Attributes Extraction} and ii) \textbf{Video Retrieval}. 
 The prior focuses on the video semantics extraction methods for both the vehicle colour and vehicle motion, while the latter discusses the proposed retrieval technique along with the results and analysis.
 Finally, the conclusion of this work along with potential future works is presented in Chapter \ref{section:conclusion}.

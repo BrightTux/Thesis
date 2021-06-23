@@ -19,11 +19,11 @@ The evaluation and analysis of their performances along with the metrics used ar
 suggestions for future improvements.
 
 
-\section{Semantic Attributes Retrieval}
+\section{Semantic Retrieval}
 \label{sec:semanticattributeretrieval}
 
 In Section~\ref{section:semanticsExtraction}, 
-we expounded on the methods employed in this thesis to extract two major semantic attributes: 
+we expounded on the methods employed in this thesis to extract two major semantics: 
 (i). Vehicle Colour and (ii). Vehicle Trajectory from a car park scene. 
 The ability to retrieve shots that are highly relevant to the queries provided by users is useful as it allows users to quickly access and investigate the desired footage. 
 Furthermore, car park operators and management teams can extract statistics from the results to see how users interact and move around the car park. 
@@ -39,7 +39,7 @@ The subsequent subsections explores user interface design choices as well as the
 \subsection{User Search Interface}
 In order to focus on extensibility and practical ease of access, the proposed retrieval engine interface was designed using web compliant graphical user interface (GUI) in JavaScript as illustrated in Figure~\ref{fig:versionTwoInterface}. 
 This allows the retrieval engine to be used on various platforms without the need of additional compilation or build commands.
-On the left panel of the GUI, users are given the choice of selecting the colour semantic attribute of the intended vehicles, start and end date and time of the event. Users can also opt to use different colour modes for the retrieval of vehicles. 
+On the left panel of the GUI, users are given the choice of selecting the colour semantic of the intended vehicles, start and end date and time of the event. Users can also opt to use different colour modes for the retrieval of vehicles. 
 On the right side of the interface, users are able to construct queries by drawing the trajectory. 
 The sequence of how the trajectory was drawn reflects the motion of the target vehicle.
 
@@ -52,7 +52,7 @@ The queried trajectory would also be overlaid on the footage as reference.
 The use of HTML5 video elements allows for easy display of the retrieved video shot results.
 
 
-\subsection{Motion Semantic Attribute Retrieval}
+\subsection{Motion Semantic Retrieval}
 \label{section:motionretrieval}
 
 Utilising the spatio-temporal atom cube, the unique identifiers ($atom_x$, $atom_y$, $atom_t$) of each atom can be used to build a set of points during the retrieval process, similar to what is known as a \emph{point process}~\cite{diggle2013statistical}. As aforementioned, the proposed method relies heavily on the use of distance measures tailored for this task in order to retrieve relevant results.
@@ -93,13 +93,13 @@ D_{Chamfer} (P,Q) = \frac{1}{\mid R \mid} \sum_{t_p \in P} \min_{t_q \in Q}  \mi
 \end{align}
 where $\mathbb{P}$ will be assigned to $R$ if $\mathbb{P}$'s length is greater than that of $\mathbb{Q}$ or vice versa. This characteristic in the Chamfer Distance allows for two trajectories of dissimilar length to be compared, on the basis that the length of the longer trajectory is set as the denominator to minimise the dissimilarity. 
 
-\subsection{Colour Semantic Attribute Retrieval}
+\subsection{Colour Semantic Retrieval}
 \label{section:colourretrieval}
 
-The colour semantic attribute retrieval process in the proposed method is reduced to a simplistic yet quick sorting algorithm because of how the extracted colour semantics were stored. 
+The colour semantic retrieval process in the proposed method is reduced to a simplistic yet quick sorting algorithm because of how the extracted colour semantics were stored. 
 Multiple deliberate and calculated design choices were made to facilitate and improve the user experience and usefulness of the proposed method.
 Since most of the crucial steps of obtaining the similarity scores were obtained in the aforementioned colour semantics extraction module, the retrieval process was reduced to a trivial process of sorting colour similarity scores. 
-The entire colour semantic attribute retrieval process can be described using the following.
+The entire colour semantic retrieval process can be described using the following.
 
 First, as described in Section~\ref{subsec:colorsemantics}, the similarity score of the Average Dominant Colour (ADC) against all eleven Ground Truth Colours (GTC) is calculated and stored in the database for each tracked vehicle to produce a robust and flexible retrieval engine.
 As previously expounded, a good example for such use case would be the retrieval of vehicles which has similar colour hue family. 
@@ -455,10 +455,10 @@ Table \ref{tab:retrievalspeed} summarises the retrieval speed of the proposed me
 To further test the retrieval speed, more precise colour information was selected as additional input query. The proposed method took considerably more time than the BL measurement which accepted vehicles of any colour. This is because the proposed method had to compare more data and sort the results in accordance to both the colour semantic as well as the similarity between the input trajectory and the database of trajectories. Similarly, when the number of desired colours increased from 1 to 5, the retrieval engine took an additional 0.3 seconds on average to process the results.
 
 Next, to further validate the performance of the proposed method, synthetic data was generated to simulate 6 months of valid data within the database. When the BL settings were applied, the proposed method took 7.7 seconds to retrieve the results. The scalability of our semantics is significant: additional colour queries only took an extra 0.6 seconds for the retrieval of results. Furthermore, the combination of input trajectory length of 30 with 5 colour queries only took about 9.4 seconds on average using the proposed method, which is reasonably practical. When compared against traditional manual filtering and procuring of relevant results from the data, the proposed method showed significant ability to perform this to human level without compromising on the quality of results. %Without a doubt, the proposed solution is able to outperform any human. 
-In terms of compression ratio, the comparison between the proposed method against the method proposed by \citeA{castanon2016retrieval} is shown in Table \ref{tab:compareresult}. 
-Given the difference in the dataset used and how the index is utilized in the final output, it is very difficult to directly compare the results. 
-While the proposed method was not able to obtain compression rates as high as those reported in \citeA{castanon2016retrieval}, I believe the additional 16.3 MB of indexed metadata is acceptable. 
-Furthermore, the index in \citeA{castanon2016retrieval}'s work only contains tracklets features along with object type and size while the index generated in this thesis also includes colour which is useful in a surveillance setting.
+% In terms of compression ratio, the comparison between the proposed method against the method proposed by \citeA{castanon2016retrieval} is shown in Table \ref{tab:compareresult}. 
+% Given the difference in the dataset used and how the index is utilized in the final output, it is very difficult to directly compare the results. 
+% While the proposed method was not able to obtain compression rates as high as those reported in \citeA{castanon2016retrieval}, I believe the additional 16.3 MB of indexed metadata is acceptable. 
+% Furthermore, the index in \citeA{castanon2016retrieval}'s work only contains tracklets features along with object type and size while the index generated in this thesis also includes colour which is useful in a surveillance setting.
 % it was able to search through 200 hours of semantic data within just 1.2 seconds. This level of efficiency is essential for real-world applications especially when dealing with large scale datasets.
 % Please add the following required packages to your document preamble:
 % \usepackage[table,xcdraw]{xcolor}
@@ -511,23 +511,23 @@ Furthermore, the index in \citeA{castanon2016retrieval}'s work only contains tra
 
 
 % removing the retrieval speed col
-\begin{table}[tb!]
-	\centering
-	\caption{Comparison between Methods: Compression Ratio Using Trajectory/Tracklet Features}
-	\label{tab:compareresult}
-	\resizebox{\textwidth}{!}{
-\begin{tabular}{|l|l|l|l|l|}
-\hline
-\textbf{Method}                 & \textbf{Video Duration} & \textbf{Video Size} & \textbf{DB/Index Size} & \textbf{Compression Ratio}        \\ \hline
-DP + LSH
-%\citeyear{castanon2016retrieval}
-& 13.8 minutes                    & 1.16 GB             & 153 KB                       & 7581\%                          \\ \hline
-%\citeA{castanon2016retrieval}
-DP + LSH & 13.8 minutes                    & 529 MB              & 65 KB                        & 8138.46\%\\ \hline
-Proposed method                      & 200 hours                       & 33.4 GB             & 16.3 MB                      & 2049.07\%  \\ \hline
-\end{tabular}}
-\vspace{-0.6em}
-\end{table}
+% \begin{table}[tb!]
+% 	\centering
+% 	\caption{Comparison between Methods: Compression Ratio Using Trajectory/Tracklet Features}
+% 	\label{tab:compareresult}
+% 	\resizebox{\textwidth}{!}{
+% \begin{tabular}{|l|l|l|l|l|}
+% \hline
+% \textbf{Method}                 & \textbf{Video Duration} & \textbf{Video Size} & \textbf{DB/Index Size} & \textbf{Compression Ratio}        \\ \hline
+% DP + LSH
+% %\citeyear{castanon2016retrieval}
+% & 13.8 minutes                    & 1.16 GB             & 153 KB                       & 7581\%                          \\ \hline
+% %\citeA{castanon2016retrieval}
+% DP + LSH & 13.8 minutes                    & 529 MB              & 65 KB                        & 8138.46\%\\ \hline
+% Proposed method                      & 200 hours                       & 33.4 GB             & 16.3 MB                      & 2049.07\%  \\ \hline
+% \end{tabular}}
+% \vspace{-0.6em}
+% \end{table}
 
 
 \section{Summary}
