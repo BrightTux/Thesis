@@ -94,6 +94,7 @@
 % CLARENCE: Use times new romans
 \usepackage{fontspec}
 % \usepackage{newtxtext,newtxmath}
+\setmainfont{Times New Roman}
 \usepackage{mathptmx}
 
 \RequirePackage[T1]{fontenc}
